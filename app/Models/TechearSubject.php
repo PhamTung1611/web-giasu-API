@@ -9,4 +9,10 @@ class TechearSubject extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $table = 'teacher_subject';
+    protected $fillable = [
+        'TeacherID',
+        'SubjectID'
+    ];
 }

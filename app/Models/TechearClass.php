@@ -9,4 +9,10 @@ class TechearClass extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
+    protected $table = 'teacher_class';
+    protected $fillable = [
+        'TeacherID',
+        'ClassID'
+    ];
 }
