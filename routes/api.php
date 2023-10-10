@@ -45,3 +45,18 @@ Route::prefix('TeacherClass')->group(function () {
     //xóa
     Route::delete('/{id}', [TeacherClassController::class, 'destroy']);
 });
+
+Route::prefix('subject')->group( function () {
+    Route::get('/', [ApiSubjectController::class, 'index']);
+    Route::get('/{id}', [ApiSubjectController::class, 'show']);
+    Route::post('/', [ApiSubjectController::class, 'store']);
+    Route::put('/{id}', [ApiSubjectController::class, 'update']);
+    Route::delete('/{id}', [ApiSubjectController::class, 'destroy']);
+});
+Route::prefix('class_levels')->group( function () {
+    Route::get('/', [ApiClassLevelController::class, 'index']);
+    Route::get('/{id}', [ApiClassLevelController::class, 'show']);
+    Route::post('/', [ApiClassLevelController::class, 'store']);
+    Route::put('/{id}', [ApiClassLevelController::class, 'update']);
+    Route::delete('/{id}', [ApiClassLevelController::class, 'destroy']);
+});
