@@ -35,8 +35,8 @@ class ClassLevelController extends Controller
     }
     public function edit(ClassLevelRequest $request, $id){
         $title = 'Sửa lop hoc';
-        $subject = Subject::all();
-        $class_levels = ClassLevel::find($id);
+        $subjects = Subject::all();
+        $class_levels = ClassLevel::findOrFail($id);
         if($request->isMethod('post')){
             $update = ClassLevel::where('id', $id)->update($request->except('_token'));
             if($update){
@@ -46,7 +46,7 @@ class ClassLevelController extends Controller
                 Session::flash('error', 'Edit class error');
             }
         }
-            return view('class.edit', compact('title','class_levels','subject'));
+            return view('class.edit', compact('title','class_levels','subjects'));
         }
     public function delete($id){
         if($id){

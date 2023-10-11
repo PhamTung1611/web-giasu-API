@@ -16,10 +16,10 @@
     <span class="text-danger">{{$message}}</span>
     @enderror
     <select class="form-select w-100 mb-0" id="state" name="subject" aria-label="State select example">
-        @foreach ($subject as $subjects)
-            <option value="{{ $subjects->name }}">{{ $subjects->name }}</option>
-        @endforeach
-    </select>
+      @foreach ($subjects as $subject)
+          <option value="{{ $subject->name }}" {{($class_levels->subject === $subject->id) ? 'selected' : ''}}>{{ $subject->name }}</option>
+      @endforeach
+  </select>
     </div>
     <button type="submit" class="btn btn-success">Cập nhật</button>
 </form>

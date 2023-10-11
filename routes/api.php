@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ApiClassLevelController;
+use App\Http\Controllers\ApiSubjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherClassController;
