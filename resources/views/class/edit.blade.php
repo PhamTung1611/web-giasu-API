@@ -17,8 +17,9 @@
     @enderror
     <select class="form-select w-100 mb-0" id="state" name="subject" aria-label="State select example">
       @foreach ($subjects as $subject)
-          <option value="{{ $subject->name }}" {{($class_levels->subject === $subject->id) ? 'selected' : ''}}>{{ $subject->name }}</option>
+          <option value="{{ $subject->name }}" {{$class_levels->subject === $class_levels->subject ? 'selected' : ''}}> {{ $subject->name }} </option>
       @endforeach
+
   </select>
     </div>
     <button type="submit" class="btn btn-success">Cập nhật</button>
