@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\ApiJobController;
+use App\Http\Controllers\ApiRankSalaryController;
+use App\Http\Controllers\ApiTimeSlotController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherClassController;
@@ -44,4 +47,40 @@ Route::prefix('TeacherClass')->group(function () {
     Route::put('/{id}', [TeacherClassController::class, 'update']);
     //xóa
     Route::delete('/{id}', [TeacherClassController::class, 'destroy']);
+});
+Route::prefix('ranksalary')->group(function () {
+    // lấy ra danh sách
+    Route::get('/', [ApiRankSalaryController::class, 'index']);
+    //thêm 
+    Route::post('/', [ApiRankSalaryController::class, 'store']);
+    //chi tiết
+    Route::get('/{id}', [ApiRankSalaryController::class, 'show']);
+    //chỉnh sửa
+    Route::put('/{id}', [ApiRankSalaryController::class, 'update']);
+    //xóa
+    Route::delete('/{id}', [ApiRankSalaryController::class, 'destroy']);
+});
+Route::prefix('timeslot')->group(function () {
+    // lấy ra danh sách
+    Route::get('/', [ApiTimeSlotController::class, 'index']);
+    //thêm 
+    Route::post('/', [ApiTimeSlotController::class, 'store']);
+    //chi tiết
+    Route::get('/{id}', [ApiTimeSlotController::class, 'show']);
+    //chỉnh sửa
+    Route::put('/{id}', [ApiTimeSlotController::class, 'update']);
+    //xóa
+    Route::delete('/{id}', [ApiTimeSlotController::class, 'destroy']);
+});
+Route::prefix('job')->group(function () {
+    // lấy ra danh sách
+    Route::get('/', [ApiJobController::class, 'index']);
+    //thêm 
+    Route::post('/', [ApiJobController::class, 'store']);
+    //chi tiết
+    Route::get('/{id}', [ApiJobController::class, 'show']);
+    //chỉnh sửa
+    Route::put('/{id}', [ApiJobController::class, 'update']);
+    //xóa
+    Route::delete('/{id}', [ApiJobController::class, 'destroy']);
 });

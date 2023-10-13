@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\RankSalary;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,7 +23,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DistrictSeeder::class,
             TeacherClassSeeder::class,
-            TeacherSubjectSeeder::class
+            TeacherSubjectSeeder::class,
+            JobSeeder::class,
+            TimeSlotSeeder::class,
+            RankSalarySeeder::class
         ]);
     }
 }
