@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ApiClassLevelController;
+use App\Http\Controllers\ApiSubjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherClassController;
@@ -44,4 +46,19 @@ Route::prefix('TeacherClass')->group(function () {
     Route::put('/{id}', [TeacherClassController::class, 'update']);
     //xóa
     Route::delete('/{id}', [TeacherClassController::class, 'destroy']);
+});
+
+Route::prefix('subject')->group( function () {
+    Route::get('/', [ApiSubjectController::class, 'index']);
+    Route::get('/{id}', [ApiSubjectController::class, 'show']);
+    Route::post('/', [ApiSubjectController::class, 'store']);
+    Route::put('/{id}', [ApiSubjectController::class, 'update']);
+    Route::delete('/{id}', [ApiSubjectController::class, 'destroy']);
+});
+Route::prefix('class_levels')->group( function () {
+    Route::get('/', [ApiClassLevelController::class, 'index']);
+    Route::get('/{id}', [ApiClassLevelController::class, 'show']);
+    Route::post('/', [ApiClassLevelController::class, 'store']);
+    Route::put('/{id}', [ApiClassLevelController::class, 'update']);
+    Route::delete('/{id}', [ApiClassLevelController::class, 'destroy']);
 });
