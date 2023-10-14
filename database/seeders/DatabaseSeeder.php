@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
             TeacherSubjectSeeder::class,
             JobSeeder::class,
             TimeSlotSeeder::class,
-            RankSalarySeeder::class
+            RankSalarySeeder::class,
+            UserSeeder::class
         ]);
     }
 }
