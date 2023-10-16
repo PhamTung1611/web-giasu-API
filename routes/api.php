@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\schoolsController;
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,24 +39,23 @@ Route::prefix('TeacherSubject')->group(function () {
     Route::delete('/{id}', [TeacherSubjectController::class, 'destroy']);
 });
 //user route
-Route::get('/users', [UsersController::class, 'index']);
-Route::get('/users/{id}', [UsersController::class, 'show']);
-Route::post('/users', [UsersController::class, 'store']);
-Route::put('/users/{id}', [UsersController::class, 'update']);
-Route::delete('/users/{id}', [UsersController::class, 'destroy']);
+Route::prefix('users')->group(function(){
+    Route::get('/', [UsersController::class, 'index']);
+    Route::get('/{id}', [UsersController::class, 'show']);
+    Route::post('/', [UsersController::class, 'store']);
+    Route::put('/{id}', [UsersController::class, 'update']);
+    Route::delete('/{id}', [UsersController::class, 'destroy']);
+});
 //route teacher
-Route::get('/teachers', [TeachersController::class, 'index']);
-Route::get('/teachersClass/{id}', [TeachersController::class, 'getTeacherByClass']);
-Route::get('/teachers/{id}', [TeachersController::class, 'getDetailTeacher']);
-Route::post('/teachers', [TeachersController::class, 'store']);
-Route::put('/teachers/{id}', [TeachersController::class, 'update']);
-Route::delete('/teachers/{id}', [TeachersController::class, 'destroy']);
+
 // route schools
-Route::get('/schools', [schoolsController::class, 'index']);
-Route::get('/schools/{id}', [schoolsController::class, 'show']);
-Route::post('/schools', [schoolsController::class, 'store']);
-Route::put('/schools/{id}', [schoolsController::class, 'update']);
-Route::delete('/schools/{id}', [schoolsController::class, 'destroy']);
+Route::prefix('schools')->group(function(){
+    Route::get('/', [schoolsController::class, 'index']);
+    Route::get('/{id}', [schoolsController::class, 'show']);
+    Route::post('/', [schoolsController::class, 'store']);
+    Route::put('/{id}', [schoolsController::class, 'update']);
+    Route::delete('/{id}', [schoolsController::class, 'destroy']);
+});
 
 Route::prefix('TeacherClass')->group(function () {
     // lấy ra danh sách
@@ -120,4 +120,7 @@ Route::prefix('job')->group(function () {
     Route::put('/{id}', [ApiJobController::class, 'update']);
     //xóa
     Route::delete('/{id}', [ApiJobController::class, 'destroy']);
+});
+Route::prefix('auth')->group(function(){
+    Route::post('/login',[AuthController::class,'login']);
 });
