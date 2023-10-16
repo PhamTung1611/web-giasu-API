@@ -19,11 +19,15 @@ class UsersController extends Controller
     public function index()
     {
         try {
-            $users = User::all();
+            $users = User::where('role', 'user')->get();
             return response()->json($users, 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Internal Server Error'], 500);
+            return response()->json(['error' => $e], 500);
         }
+    }
+
+    public function getDetailTeacher($id){
+        
     }
 
     public function store(UserRequest $request)
@@ -47,11 +51,11 @@ class UsersController extends Controller
      */
     public function show(string $id)
     {
-        try {
-            $user = User::findOrFail($id);
-            return response()->json($user, 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => "User không tồn tại"], 404);
+        $user = User::where('role', 'user')->find($id);
+        if($user){
+            return response()->json($user,200);
+        }else{
+            return false;
         }
     }
 
