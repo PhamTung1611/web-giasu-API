@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Teachers;
 use App\Http\Requests\TeacherRequest;
+use App\Models\User;
+
 class TeachersController extends Controller
 {
     /**
@@ -13,13 +15,25 @@ class TeachersController extends Controller
     public function index()
     {
         try {
-            $teacher = Teachers::all();
-            return response()->json($teacher, 200);
+            $teachers = User::where('role', 'teacher')->get();
+            return response()->json($teachers, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e], 500);
         }
     }
 
+    public function getTeacherByClass($class)
+    {
+        $teachers = User::where('role', 'teacher')
+        ->where('class', $class)
+        ->get();
+        return response()->json($teachers,200);
+    }
+
+    public function getDetailTeacher($id){
+        $teacher = User::where('role', 'teacher')->find($id);
+        return response()->json($teacher,200);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -86,4 +100,5 @@ class TeachersController extends Controller
             return response()->json(['error' => "Xóa không thành công "], 400);
         }
     }
+   
 }

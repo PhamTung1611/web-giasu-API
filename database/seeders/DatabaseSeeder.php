@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\RankSalary;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,7 +26,7 @@ class DatabaseSeeder extends Seeder
             JobSeeder::class,
             TimeSlotSeeder::class,
             RankSalarySeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
         ]);
     }
 }

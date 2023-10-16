@@ -45,7 +45,8 @@ Route::put('/users/{id}', [UsersController::class, 'update']);
 Route::delete('/users/{id}', [UsersController::class, 'destroy']);
 //route teacher
 Route::get('/teachers', [TeachersController::class, 'index']);
-Route::get('/teachers/{id}', [TeachersController::class, 'show']);
+Route::get('/teachersClass/{id}', [TeachersController::class, 'getTeacherByClass']);
+Route::get('/teachers/{id}', [TeachersController::class, 'getDetailTeacher']);
 Route::post('/teachers', [TeachersController::class, 'store']);
 Route::put('/teachers/{id}', [TeachersController::class, 'update']);
 Route::delete('/teachers/{id}', [TeachersController::class, 'destroy']);
