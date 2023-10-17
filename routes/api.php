@@ -55,6 +55,7 @@ Route::prefix('teachers')->group(function(){
     Route::get('/Class/{id}', [TeachersController::class, 'getTeacherByClass']);
     Route::get('/Subject/{id}', [ApiSubjectController::class, 'getTeacherBySubject']);
     Route::get('/District/{id}', [DistrictController::class, 'getTeacherByDistrict']);
+    Route::get('/timeSlot/{id}', [ApiTimeSlotController::class, 'getTeacherByTimeSlot']);
     Route::post('/', [TeachersController::class, 'store']);
     Route::put('/{id}', [TeachersController::class, 'update']);
     Route::delete('/{id}', [TeachersController::class, 'destroy']);
