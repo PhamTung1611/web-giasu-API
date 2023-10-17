@@ -26,10 +26,12 @@ class UserSeeder extends Seeder
             'Citizen_card'=>'00012364',
             'education_level'=>'Đại học',
             'class'=>'1',
+            'subject'=>'1',
+            'salary'=>'1',
             'description'=>'Yêu nghề',
             'time_tutor'=>'1',
             'status'=>'active',
-            'DistrictID'=>'001',
+            'DistrictID'=>'1',
             'Certificate'=>'none'
         ]);
         DB::table('users')->insert([
@@ -44,10 +46,12 @@ class UserSeeder extends Seeder
             'Citizen_card'=>'00012914',
             'education_level'=>'Đại học',
             'class'=>'3',
+            'subject'=>'1',
+            'salary'=>'1',
             'description'=>'Yêu nghề',
             'time_tutor'=>'1',
             'status'=>'active',
-            'DistrictID'=>'001',
+            'DistrictID'=>'1',
             'Certificate'=>'none'
         ]);
         DB::table('users')->insert([
@@ -62,10 +66,12 @@ class UserSeeder extends Seeder
             'Citizen_card'=>'00012314',
             'education_level'=>'Đại học',
             'class'=>'2',
+            'subject'=>'1',
+            'salary'=>'1',
             'description'=>'Yêu nghề',
             'time_tutor'=>'1',
             'status'=>'active',
-            'DistrictID'=>'001',
+            'DistrictID'=>'1',
             'Certificate'=>'none'
         ]);
         DB::table('users')->insert([
@@ -80,6 +86,8 @@ class UserSeeder extends Seeder
             'Citizen_card'=>'00012314',
             'education_level'=>'Đại học',
             'class'=>'6',
+            'subject'=>'1',
+            'salary'=>'1',
             'description'=>'Yêu nghề',
             'time_tutor'=>'1',
             'status'=>'active',

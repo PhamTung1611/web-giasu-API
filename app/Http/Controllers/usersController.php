@@ -20,14 +20,10 @@ class UsersController extends Controller
     {
         try {
             $users = User::where('role', 'user')->get();
-            return response()->json($users, 200);
+            return response()->json($users->district, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e], 500);
         }
-    }
-
-    public function getDetailTeacher($id){
-        
     }
 
     public function store(UserRequest $request)

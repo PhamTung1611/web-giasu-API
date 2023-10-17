@@ -16,12 +16,20 @@ class DistrictSeeder extends Seeder
         //
         DB::table('district')->insert(
             [
+                'user_id'=>'1',
                 'name' => 'Đống Đa'
             ]
         );
         DB::table('district')->insert(
             [
+                'user_id'=>'2',
                 'name' => 'Nam Từ Liêm'
+            ]
+        );
+        DB::table('district')->insert(
+            [
+                'user_id'=>'3',
+                'name' => 'Hoàn Kiếm'
             ]
         );
     }
