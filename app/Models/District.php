@@ -10,14 +10,9 @@ class District extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    protected $table = 'district';
 
     protected $fillable = [
-        'user_id',
         'name', 
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class,'user_id','id');
-    }
 }

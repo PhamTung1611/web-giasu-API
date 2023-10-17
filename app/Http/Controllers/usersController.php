@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -20,12 +21,19 @@ class UsersController extends Controller
     {
         try {
             $users = User::where('role', 'user')->get();
-            return response()->json($users->district, 200);
+            return response()->json($users, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e], 500);
         }
-    }
 
+        // $users = User::select('users.*', 'district.name as district_name', 'class_levels.class as class_name')
+        //     ->leftJoin('district', 'users.districtID', '=', 'district.id')
+        //     ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
+        //     ->where('users.role', 'user')
+        //     ->get();
+
+        // return  response()->json($users, 200);
+    }
     public function store(UserRequest $request)
     {
         try {
@@ -48,25 +56,25 @@ class UsersController extends Controller
     public function show(string $id)
     {
         $user = User::where('role', 'user')->find($id);
-        if($user){
-            return response()->json($user,200);
-        }else{
+        if ($user) {
+            return response()->json($user, 200);
+        } else {
             return false;
         }
     }
 
-    public function update(UserRequest $request,String $id)
+    public function update(UserRequest $request, String $id)
     {
         try {
             $user = User::findOrFail($id);
-                $data = $request->all();
-                $update = $user->update($data);
-                if ($update) {
-                    return response()->json($user, 200);
-                } else {
-                    return response()->json(['error' => 'Update không thành công'], 400);
-                }
-        }catch (ModelNotFoundException $e) {
+            $data = $request->all();
+            $update = $user->update($data);
+            if ($update) {
+                return response()->json($user, 200);
+            } else {
+                return response()->json(['error' => 'Update không thành công'], 400);
+            }
+        } catch (ModelNotFoundException $e) {
             // Xử lý ngoại lệ nếu không tìm thấy user
             return response()->json(['error' => 'User not found'], 404);
         } catch (QueryException $e) {

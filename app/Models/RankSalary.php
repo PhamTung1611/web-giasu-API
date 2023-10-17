@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class RankSalary extends Model
 {
     use HasFactory, SoftDeletes;
+    protected $table = 'rank_salaries';
+
     protected $fillable = [
         'value'
     ];

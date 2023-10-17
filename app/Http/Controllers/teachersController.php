@@ -15,7 +15,15 @@ class TeachersController extends Controller
     public function index()
     {
         try {
-            $teachers = User::where('role', 'teacher')->get();
+            $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class','subjects.name as subject','rank_salaries.value as salary','time_slots.value as time_tutor','schools.name as school_id')
+            ->leftJoin('district', 'users.districtID', '=', 'district.id')
+            ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
+            ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
+            ->leftJoin('rank_salaries', 'users.salary', '=', 'rank_salaries.id')
+            ->leftJoin('time_slots', 'users.time_tutor', '=', 'time_slots.id')
+            ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
+            ->where('users.role', 'teacher')
+            ->get();
             return response()->json($teachers, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e], 500);

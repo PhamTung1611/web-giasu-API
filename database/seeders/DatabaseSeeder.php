@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
             RankSalarySeeder::class,
             UserSeeder::class,
             ClassLevelSeeder::class,
-            SubjectSeeder::class
+            SubjectSeeder::class,
+            SchoolSeeder::class
         ]);
     }
 }
