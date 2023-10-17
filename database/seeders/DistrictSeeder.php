@@ -16,17 +16,27 @@ class DistrictSeeder extends Seeder
         //
         DB::table('district')->insert(
             [
-                'name' => 'Đống Đa'
-            ]
-        );
-        DB::table('district')->insert(
-            [
-                'name' => 'Nam Từ Liêm'
-            ]
-        );
-        DB::table('district')->insert(
-            [
-                'name' => 'Hoàn Kiếm'
+                [
+                    'name' => 'Đống Đa'
+                ],
+                [
+                    'name' => 'Nam Từ Liêm'
+                ],
+                [
+                    'name' => 'Hoàn Kiếm'
+                ],
+                [
+                    'name' => 'Long Biên'
+                ],
+                [
+                    'name' => 'Thanh Xuân'
+                ],
+                [
+                    'name' => 'Ba Đình'
+                ],
+                [
+                    'name'=>'Hà Đông'
+                ]
             ]
         );
     }

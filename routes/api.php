@@ -11,6 +11,8 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\schoolsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DistrictController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -47,7 +49,16 @@ Route::prefix('users')->group(function(){
     Route::delete('/{id}', [UsersController::class, 'destroy']);
 });
 //route teacher
-
+Route::prefix('teachers')->group(function(){
+    Route::get('/', [TeachersController::class, 'index']);
+    Route::get('/{id}', [TeachersController::class, 'getDetailTeacher']);
+    Route::get('/Class/{id}', [TeachersController::class, 'getTeacherByClass']);
+    Route::get('/Subject/{id}', [ApiSubjectController::class, 'getTeacherBySubject']);
+    Route::get('/District/{id}', [DistrictController::class, 'getTeacherByDistrict']);
+    Route::post('/', [TeachersController::class, 'store']);
+    Route::put('/{id}', [TeachersController::class, 'update']);
+    Route::delete('/{id}', [TeachersController::class, 'destroy']);
+});
 // route schools
 Route::prefix('schools')->group(function(){
     Route::get('/', [schoolsController::class, 'index']);
@@ -120,6 +131,19 @@ Route::prefix('job')->group(function () {
     Route::put('/{id}', [ApiJobController::class, 'update']);
     //xóa
     Route::delete('/{id}', [ApiJobController::class, 'destroy']);
+});
+Route::prefix('district')->group(function () {
+    // lấy ra danh sách
+    Route::get('/', [DistrictController::class, 'index']);
+
+    // //thêm
+    // Route::post('/', [DistrictController::class, 'store']);
+    // //chi tiết
+    // Route::get('/{id}', [DistrictController::class, 'show']);
+    // //chỉnh sửa
+    // Route::put('/{id}', [DistrictController::class, 'update']);
+    // //xóa
+    // Route::delete('/{id}', [DistrictController::class, 'destroy']);
 });
 Route::prefix('auth')->group(function(){
     Route::post('/login',[AuthController::class,'login']);

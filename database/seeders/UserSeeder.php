@@ -46,12 +46,12 @@ class UserSeeder extends Seeder
             'Citizen_card'=>'00012914',
             'education_level'=>'Đại học',
             'class'=>'3',
-            'subject'=>'1',
+            'subject'=>'2',
             'salary'=>'1',
             'description'=>'Yêu nghề',
             'time_tutor'=>'1',
             'status'=>'active',
-            'DistrictID'=>'1',
+            'DistrictID'=>'2',
             'Certificate'=>'none'
         ]);
         DB::table('users')->insert([
@@ -66,12 +66,12 @@ class UserSeeder extends Seeder
             'Citizen_card'=>'00012314',
             'education_level'=>'Đại học',
             'class'=>'2',
-            'subject'=>'1',
+            'subject'=>'4',
             'salary'=>'1',
             'description'=>'Yêu nghề',
             'time_tutor'=>'1',
             'status'=>'active',
-            'DistrictID'=>'1',
+            'DistrictID'=>'3',
             'Certificate'=>'none'
         ]);
         DB::table('users')->insert([
@@ -86,12 +86,12 @@ class UserSeeder extends Seeder
             'Citizen_card'=>'00012314',
             'education_level'=>'Đại học',
             'class'=>'6',
-            'subject'=>'1',
+            'subject'=>'2',
             'salary'=>'1',
             'description'=>'Yêu nghề',
             'time_tutor'=>'1',
             'status'=>'active',
-            'DistrictID'=>'001',
+            'DistrictID'=>'4',
             'Certificate'=>'none'
         ]);
         DB::table('users')->insert([
@@ -102,6 +102,7 @@ class UserSeeder extends Seeder
             'phone'=>'0342757452',
             'password'=>'123',
             'address'=>'hanoi',
+            'DistrictID'=>'5',
         ]);
     }
 }

@@ -14,7 +14,26 @@ class SubjectSeeder extends Seeder
     public function run(): void
     {
         DB::table('subjects')->insert([
-            'name' => 'Mon Toan'
+            [
+                'name' => 'Môn Toán'
+            ],
+            [
+                'name' => 'Môn Văn'
+            ],
+            [
+                'name' => 'Môn Hóa'
+            ],
+            [
+                'name' => 'Môn Vật Lý'
+            ],
+
+            [
+                'name' => 'Môn Sinh'
+            ],
+            [
+                'name' => 'Môn Địa'
+            ],
+
         ]);
     }
 }

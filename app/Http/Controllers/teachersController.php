@@ -32,14 +32,30 @@ class TeachersController extends Controller
 
     public function getTeacherByClass($class)
     {
-        $teachers = User::where('role', 'teacher')
-        ->where('class', $class)
+        $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class','subjects.name as subject','rank_salaries.value as salary','time_slots.value as time_tutor','schools.name as school_id')
+        ->leftJoin('district', 'users.districtID', '=', 'district.id')
+        ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
+        ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
+        ->leftJoin('rank_salaries', 'users.salary', '=', 'rank_salaries.id')
+        ->leftJoin('time_slots', 'users.time_tutor', '=', 'time_slots.id')
+        ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
+        ->where('users.role', 'teacher')
+        ->where('users.class', $class)
         ->get();
         return response()->json($teachers,200);
     }
 
     public function getDetailTeacher($id){
-        $teacher = User::where('role', 'teacher')->find($id);
+        $teacher = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class','subjects.name as subject','rank_salaries.value as salary','time_slots.value as time_tutor','schools.name as school_id')
+        ->leftJoin('district', 'users.districtID', '=', 'district.id')
+        ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
+        ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
+        ->leftJoin('rank_salaries', 'users.salary', '=', 'rank_salaries.id')
+        ->leftJoin('time_slots', 'users.time_tutor', '=', 'time_slots.id')
+        ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
+        ->where('users.role', 'teacher')
+        ->where('users.id', $id)
+        ->get();
         return response()->json($teacher,200);
     }
     /**
