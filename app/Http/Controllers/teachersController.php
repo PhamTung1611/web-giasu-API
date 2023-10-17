@@ -15,7 +15,7 @@ class TeachersController extends Controller
     public function index()
     {
         try {
-            $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class','subjects.name as subject','rank_salaries.value as salary','time_slots.value as time_tutor','schools.name as school_id')
+            $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class','subjects.name as subject','rank_salaries.name as salary','time_slots.name as time_tutor','schools.name as school_id')
             ->leftJoin('district', 'users.districtID', '=', 'district.id')
             ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
             ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
@@ -32,7 +32,7 @@ class TeachersController extends Controller
 
     public function getTeacherByClass($class)
     {
-        $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class','subjects.name as subject','rank_salaries.value as salary','time_slots.value as time_tutor','schools.name as school_id')
+        $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class','subjects.name as subject','rank_salaries.name as salary','time_slots.name as time_tutor','schools.name as school_id')
         ->leftJoin('district', 'users.districtID', '=', 'district.id')
         ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
         ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
@@ -46,7 +46,7 @@ class TeachersController extends Controller
     }
 
     public function getDetailTeacher($id){
-        $teacher = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class','subjects.name as subject','rank_salaries.value as salary','time_slots.value as time_tutor','schools.name as school_id')
+        $teacher = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class','subjects.name as subject','rank_salaries.name as salary','time_slots.name as time_tutor','schools.name as school_id')
         ->leftJoin('district', 'users.districtID', '=', 'district.id')
         ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
         ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
