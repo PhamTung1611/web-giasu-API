@@ -15,16 +15,16 @@ class RankSalarySeeder extends Seeder
     {
         DB::table('rank_salaries')->insert([
             [
-                'value' => 'Dưới 100k',
+                'name' => 'Dưới 100k',
             ],
             [
-                'value' => 'Từ 100k - 300k',
+                'name' => 'Từ 100k - 300k',
             ],
             [
-                'value' => 'Từ 300k - 500k',
+                'name' => 'Từ 300k - 500k',
             ],
             [
-                'value' => 'Trên 500k',
+                'name' => 'Trên 500k',
             ]
         ]);
     }

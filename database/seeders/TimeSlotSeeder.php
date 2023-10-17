@@ -15,16 +15,16 @@ class TimeSlotSeeder extends Seeder
     {
         DB::table('time_slots')->insert([
             [
-                'value' => '6h - 10h'
+                'name' => '6h - 10h'
             ],
             [
-                'value' => '10h - 14h'
+                'name' => '10h - 14h'
             ],
             [
-                'value' => '14h - 18h'
+                'name' => '14h - 18h'
             ],
             [
-                'value' => '18h - 22h'
+                'name' => '18h - 22h'
             ]
         ]);
     }

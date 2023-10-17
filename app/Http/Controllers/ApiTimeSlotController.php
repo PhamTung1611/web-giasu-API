@@ -15,7 +15,7 @@ class ApiTimeSlotController extends Controller
     public function index()
     {
         $time_slot = TimeSlot::all();
-        return TimeSlotResource::collection($time_slot);
+        return response()->json($time_slot, 200);
     }
 
     public function getTeacherByTimeSlot($id){

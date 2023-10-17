@@ -43,8 +43,6 @@ class ClassLevelSeeder extends Seeder
                 'class' => 'Lop 7',
                 'subject' => 1
             ],
-
-            
         ]);
     }
 }

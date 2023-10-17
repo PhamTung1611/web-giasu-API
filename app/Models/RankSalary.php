@@ -13,6 +13,6 @@ class RankSalary extends Model
     protected $table = 'rank_salaries';
 
     protected $fillable = [
-        'value'
+        'name'
     ];
 }

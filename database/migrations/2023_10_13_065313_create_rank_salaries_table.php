@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('rank_salaries', function (Blueprint $table) {
             $table->id();
-            $table->string('value');
+            $table->string('name');
             $table->softDeletes();
             $table->timestamps();
         });

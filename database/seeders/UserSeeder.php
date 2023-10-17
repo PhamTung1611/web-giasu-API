@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
         
         DB::table('users')->insert([
             'role'=>'teacher',
-            'name' => 'tung',
+            'name' => 'Phạm Huy Tùng',
             'email'=>'tung@gmail.com',
             'avatar' => 'https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg',
             'phone'=>'0342757452',

@@ -11,6 +11,6 @@ class TimeSlot extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
-        'value'
+        'name'
     ];
 }

@@ -21,7 +21,7 @@ class DistrictController extends Controller
 
     public function getTeacherByDistrict($id){
         try {
-            $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class','subjects.name as subject','rank_salaries.value as salary','time_slots.value as time_tutor','schools.name as school_id')
+            $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class','subjects.name as subject','rank_salaries.name as salary','time_slots.name as time_tutor','schools.name as school_id')
             ->leftJoin('district', 'users.districtID', '=', 'district.id')
             ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
             ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
