@@ -12,7 +12,7 @@ class ClassLevelController extends Controller
 {
     public function index(Request $request){
         $class_levels = ClassLevel::all();
-        return view('class.index', compact('class_levels'));
+        return view('backend.class.index', compact('class_levels'));
     }
     public function add(ClassLevelRequest $request){
         $title = 'Thêm mới lớp học';
@@ -31,7 +31,7 @@ class ClassLevelController extends Controller
                 Session::flash('error', 'Thêm không thành công!');
             }
         }
-        return view('class.add', compact('title','subject'));
+        return view('backend.class.add', compact('title','subject'));
     }
     public function edit(ClassLevelRequest $request, $id){
         $title = 'Sửa lop hoc';
@@ -46,14 +46,14 @@ class ClassLevelController extends Controller
                 Session::flash('error', 'Edit class error');
             }
         }
-            return view('class.edit', compact('title','class_levels','subjects'));
+            return view('backend.class.edit', compact('title','class_levels','subjects'));
         }
     public function delete($id){
         if($id){
             $class_levels = ClassLevel::find($id);
             $deleted = $class_levels->delete();
             if($deleted){
-                Session::flash('success','Xoa thanh cong');
+                Session::flash('success','Xóa thành công');
                 return redirect()->route('search_class');
             }else{
                 Session::flash('error','xoa that bai');

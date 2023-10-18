@@ -11,25 +11,26 @@ class RankSalaryController extends Controller
 {
     public function index(){
         $title = 'List';
-        $salaries = RankSalary::all();
+        $salaries = RankSalary::orderBy('id', 'desc')->get();
+        // $salaries = RankSalary::all();
         return view('backend.ranksalary.index', compact('title', 'salaries'));
     }
-    public function create(RankSalaryRequest $request){
-        $title = 'thêm mới';
-            if($request->post()){
-                $params = $request->post();
-                $ranksalary = new RankSalary();
-                $ranksalary->value = $request->value;
-                $ranksalary->save();
-                if($ranksalary->save()) {
-                    Session::flash('success', 'Thêm thành công!');
-                    return redirect()->route('search_salary');
-                }
-                else {
-                    Session::flash('error', 'Thêm không thành công!');
-                }
+    public function add(RankSalaryRequest $request){
+        $title = 'Thêm mới mức lương';
+        if($request->post()){
+            $params = $request->post();
+            $ranksalary = new RankSalary();
+            $ranksalary->name = $request->name;
+            $ranksalary->save();
+            if($ranksalary->save()) {
+                Session::flash('success', 'Thêm thành công!');
+                return redirect()->to('salary');
             }
-            return view('backend.ranksalary.add', compact('title'));
+            else {
+                Session::flash('error', 'Thêm không thành công!');
+            }
+        }
+        return view('backend.ranksalary.add', compact('title'));
     }
     public function update(RankSalaryRequest $request, $id){
         $title = 'Sửa';
@@ -51,7 +52,7 @@ class RankSalaryController extends Controller
             $deleted = $salary->delete();
             if($deleted){
                 Session::flash('success','Xoa thanh cong');
-                return redirect()->route('search_salary');
+                return redirect()->to('salary');
             }else{
                 Session::flash('error','xoa that bai');
             }

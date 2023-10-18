@@ -9,16 +9,13 @@ use Illuminate\Support\Facades\Session;
 
 class SubjectController extends Controller
 {
-    public function dashboard(){
-        $title = 'Dashboard';
-        return view('dashboard', compact('title'));
-    }
     public function index(Request $request){
+        $title = 'List';
         $subject = Subject::all();
-        return view('subject.index', compact('subject'));
+        return view('backend.subject.index', compact('subject', 'title'));
     }
     public function add(SubjectRequest $request){
-        $title = 'Them moi mon hoc';
+        $title = 'Thêm mới môn học';
         if($request->post()){
             $params = $request->post();
             $subject = new Subject();
@@ -32,7 +29,7 @@ class SubjectController extends Controller
                 Session::flash('error', 'Thêm không thành công!');
             }
         }
-        return view('subject.add', compact('title'));
+        return view('backend.subject.add', compact('title'));
     }
     public function edit(SubjectRequest $request, $id){
         $title = 'Sửa môn học';
@@ -46,7 +43,7 @@ class SubjectController extends Controller
                 Session::flash('error', 'Edit subject error');
             }
         }
-            return view('subject.edit', compact('title','subject'));
+            return view('backend.subject.edit', compact('title','subject'));
         }
         public function delete($id){
             if($id){
