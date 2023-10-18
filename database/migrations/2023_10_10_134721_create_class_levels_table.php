@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('class_levels', function (Blueprint $table) {
             $table->id();
             $table->string('class');
-            $table->string('subject');
             $table->timestamps();
             $table->softDeletes();
         });
