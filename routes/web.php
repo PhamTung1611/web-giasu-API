@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClassLevelController;
+use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\RankSalaryController;
@@ -18,17 +19,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/dashboard',[Dashboard::class, 'index'])->name('dashboard');
 //salary rank
 Route::get('salary', [RankSalaryController::class, 'index'])->name('search_salary');
-Route::match(['get','post'],'salary/add',[RankSalaryController::class,'create'])->name('salary.add');
+Route::match(['get','post'],'salary/add',[RankSalaryController::class,'add'])->name('salary.add');
 Route::match(['get','post'],'salary/edit/{id}',[RankSalaryController::class,'update'])->name('salary.edit');
 Route::get('salary/delete/{id}',[RankSalaryController::class,'delete'])->name('salary.delete');
 //timeslot
 Route::get('timeslot', [TimeSlotController::class, 'index'])->name('search_timeslot');
-Route::match(['get','post'],'timelsot/add',[TimeSlotController::class,'create'])->name('timeslot.add');
+Route::match(['get','post'],'timelsot/add',[TimeSlotController::class,'add'])->name('timeslot.add');
 Route::match(['get','post'],'timeslot/edit/{id}',[TimeSlotController::class,'update'])->name('timeslot.edit');
 Route::get('timeslot/delete/{id}',[TimeSlotController::class,'delete'])->name('timeslot.delete');
 //job
@@ -36,13 +35,6 @@ Route::get('job', [JobController::class, 'index'])->name('search_job');
 Route::match(['get','post'], 'job/add',[JobController::class,'create'])->name('job.add');
 Route::match(['get','post'],'job/edit/{id}',[JobController::class,'update'])->name('job.edit');
 Route::get('job/delete/{id}',[JobController::class,'delete'])->name('job.delete');
-
-
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-Route::get('/', [SubjectController::class, 'dashboard'])->name('dashboard');
 //subject
 Route::get('subject',[SubjectController::class,'index'])->name('search_subject');
 Route::match(['get','post'],'subject/add',[SubjectController::class,'add'])->name('add_subject');
