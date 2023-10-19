@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\Session;
 class ClassLevelController extends Controller
 {
     public function index(Request $request){
+        $title = 'List';
         $class_levels = ClassLevel::all();
-        return view('backend.class.index', compact('class_levels'));
+        return view('backend.class.index', compact('class_levels', 'title'));
     }
     public function add(ClassLevelRequest $request){
         $title = 'Thêm mới lớp học';

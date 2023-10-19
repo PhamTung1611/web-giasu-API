@@ -75,8 +75,8 @@
     </div>
 </div>
 <div class="card card-body border-0 shadow table-wrapper table-responsive">
-    <table border="1" class="table">
-        <thead class="thead-dark">
+    <table class="table table-hover">
+        <thead>
             <tr>
                 <th>ID</th>
                 <th>Title</th>
