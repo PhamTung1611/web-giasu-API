@@ -14,12 +14,12 @@ class TimeSlotController extends Controller
         $timeslots = TimeSlot::all();
         return view('backend.timeslot.index', compact('title', 'timeslots'));
     }
-    public function create(TimeSlotRequest $request){
+    public function add(TimeSlotRequest $request){
         $title = 'thêm mới';
             if($request->post()){
                 $params = $request->post();
                 $timeslot = new TimeSlot();
-                $timeslot->value = $request->value;
+                $timeslot->name = $request->name;
                 $timeslot->save();
                 if($timeslot->save()) {
                     Session::flash('success', 'Thêm thành công!');

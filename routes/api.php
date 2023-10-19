@@ -52,9 +52,9 @@ Route::prefix('users')->group(function(){
 Route::prefix('teachers')->group(function(){
     Route::get('/', [TeachersController::class, 'index']);
     Route::get('/{id}', [TeachersController::class, 'getDetailTeacher']);
-    Route::get('/class/{id}', [TeachersController::class, 'getTeacherByClass']);
-    Route::get('/subject/{id}', [ApiSubjectController::class, 'getTeacherBySubject']);
-    Route::get('/district/{id}', [DistrictController::class, 'getTeacherByDistrict']);
+    Route::get('/Class/{id}', [TeachersController::class, 'getTeacherByClass']);
+    Route::get('/Subject/{id}', [ApiSubjectController::class, 'getTeacherBySubject']);
+    Route::get('/District/{id}', [DistrictController::class, 'getTeacherByDistrict']);
     Route::get('/timeSlot/{id}', [ApiTimeSlotController::class, 'getTeacherByTimeSlot']);
     Route::post('/', [TeachersController::class, 'store']);
     Route::put('/{id}', [TeachersController::class, 'update']);
