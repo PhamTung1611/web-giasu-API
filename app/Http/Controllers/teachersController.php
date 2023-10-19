@@ -55,7 +55,7 @@ class TeachersController extends Controller
         ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
         ->where('users.role', 'teacher')
         ->where('users.id', $id)
-        ->get();
+        ->first();
         return response()->json($teacher,200);
     }
     /**

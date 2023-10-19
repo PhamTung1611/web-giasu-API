@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Response;
 use Exception;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use phpseclib3\File\ASN1\Maps\UserNotice;
 
 class UsersController extends Controller
 {
@@ -100,5 +102,40 @@ class UsersController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e], 500);
         }
+    }
+    public function getAllUser()
+    {
+        $title = 'List';
+        $users = User::where('role', 'user')->get();
+        return view('backend.users.index', compact('users', 'title'));
+    }
+    public function addNewUser(UserRequest $request){
+        $title = 'Thêm mới user';
+        if($request->post()){
+            $params = $request->post();
+            $user = new User();
+            $user->role=$request->role;
+            $user->name = $request->name;
+            $user->avatar = $request->avatar;
+            $user->phone = $request->phone;
+            $user->password = $request->password;
+            $user->address = $request->address;
+            $user->email = $request->email;
+            $user->save();
+            if($user->save()) {
+                Session::flash('success', 'Thêm thành công!');
+                return redirect()->route('search_subject');
+            }
+            else {
+                Session::flash('error', 'Thêm không thành công!');
+            }
+        }
+        return view('backend.users.add', compact('title'));
+    }
+    public function updateUser(UserRequest $request, $id){
+        $title = 'Sửa User';
+        $user = User::findOrFail($id);
+        return view('backend.users.edit', compact('title','user'));
+
     }
 }

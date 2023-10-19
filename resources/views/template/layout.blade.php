@@ -101,7 +101,7 @@
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                       <ul class="flex-column nav">
                           <li class="nav-item">
-                              <a class="nav-link" href="classLevel">
+                              <a class="nav-link" href="{{route('search_class')}}">
                                   <span class="sidebar-text">ClassLevel</span>
                               </a>
                           </li>
@@ -110,8 +110,17 @@
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="timeslot">
+                                <a class="nav-link" href="{{route('search_timeslot')}}">
                                     <span class="sidebar-text">Time Slot</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('search_client')}}">
+                                    <span class="sidebar-text">Users</span>
                                 </a>
                             </li>
                         </ul>

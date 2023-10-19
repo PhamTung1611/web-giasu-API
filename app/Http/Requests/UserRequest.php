@@ -22,7 +22,7 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'role_id' => 'required|integer',
+            // 'role_id' => 'required|integer',
             'name' => 'required|string',
             'avatar' => 'required|string',
             'phone' => 'required|string',
@@ -34,7 +34,7 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            'role_id.required' => 'Vui lòng nhập role_id.',
+            // 'role_id.required' => 'Vui lòng nhập role_id.',
             'role_id.integer' => 'Role_id phải là một số nguyên.',
             'name.required' => 'Vui lòng nhập tên.',
             'name.string' => 'Tên phải là một chuỗi.',
