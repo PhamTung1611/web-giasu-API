@@ -76,21 +76,6 @@
               </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12 mb-3">
-              <div>
-                <label>Chọn môn học</label><br>
-                <select class="form-select w-100 mb-0" id="state" name="subject" aria-label="State select example">
-                  @foreach ($subjects as $subject)
-                      <option value="{{ $subject->name }}" {{($class_levels->subject === $subject->name) ? 'selected' : ''}}>{{ $subject->name }}</option>
-                  @endforeach
-                </select>
-                  @error('subject')
-                  <span class="text-danger">{{$message}}</span>
-                  @enderror
-              </div>
-          </div>
-        </div>
         <div class="mt-3">
           <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Cập nhật</button>
       </div>

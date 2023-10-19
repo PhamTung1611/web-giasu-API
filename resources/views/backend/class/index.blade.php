@@ -80,7 +80,6 @@
             <tr>
                 <th>ID</th>
                 <th>Class</th>
-                <th>Subject</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -92,9 +91,6 @@
                 </td>
                 <td>
                     <span class="fw-normal">{{$class_level->class}}</span>
-                </td>
-                <td>
-                    <span class="fw-normal">{{$class_level->subject}}</span>
                 </td>
                 <td>
                     <div class="btn-group">

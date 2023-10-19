@@ -17,12 +17,11 @@ class ClassLevelController extends Controller
     }
     public function add(ClassLevelRequest $request){
         $title = 'Thêm mới lớp học';
-        $subject = Subject::all();
+        // $subject = Subject::all();
         if($request->post()){
             $params = $request->post();
             $class_levels = new ClassLevel();
             $class_levels->class = $request->class;
-            $class_levels->subject = $request->subject;
             $class_levels->save();
             if($class_levels->save()) {
                 Session::flash('success', 'Thêm thành công!');
@@ -32,11 +31,11 @@ class ClassLevelController extends Controller
                 Session::flash('error', 'Thêm không thành công!');
             }
         }
-        return view('backend.class.add', compact('title','subject'));
+        return view('backend.class.add', compact('title'));
     }
     public function edit(ClassLevelRequest $request, $id){
         $title = 'Sửa lop hoc';
-        $subjects = Subject::all();
+        // $subjects = Subject::all();
         $class_levels = ClassLevel::findOrFail($id);
         if($request->isMethod('post')){
             $update = ClassLevel::where('id', $id)->update($request->except('_token'));
@@ -47,7 +46,7 @@ class ClassLevelController extends Controller
                 Session::flash('error', 'Edit class error');
             }
         }
-            return view('backend.class.edit', compact('title','class_levels','subjects'));
+            return view('backend.class.edit', compact('title','class_levels'));
         }
     public function delete($id){
         if($id){
