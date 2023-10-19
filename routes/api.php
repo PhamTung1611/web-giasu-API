@@ -148,4 +148,5 @@ Route::prefix('district')->group(function () {
 });
 Route::prefix('auth')->group(function(){
     Route::post('/login',[AuthController::class,'login']);
+    Route::post('/refresh',[AuthController::class,'RefreshToken']);
 });
