@@ -24,7 +24,7 @@
       </svg>
       Archive
     </a>
-    <a href="{{ route('add_user') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+    <a href="{{ route('add_teacher') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
       <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
       </svg>
@@ -74,11 +74,12 @@
         <th>Avatar</th>
         <th>Phone</th>
         <th>Address</th>
+        <th>Status</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      @foreach($users as $u)
+      @foreach($teachers as $u)
       <tr>
         <td>
           <a href="" class="fw-bold">{{$u->id}}</a>
@@ -99,6 +100,9 @@
           <span class="fw-normal">{{$u->address}}</span>
         </td>
         <td>
+          <span class="fw-normal">{{$u->status}}</span>
+        </td>
+        <td>
           <div class="btn-group">
             <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="icon icon-sm">
@@ -113,7 +117,7 @@
             </button>
             <div class="dropdown-menu py-0">
 
-              <a class="dropdown-item" href="{{ route('edit_user', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Edit</a>
+              <a class="dropdown-item" href="{{ route('edit_teacher', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Edit</a>
               <a class="dropdown-item text-danger rounded-bottom" href="" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
             </div>
           </div>

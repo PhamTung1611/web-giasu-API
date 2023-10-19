@@ -124,5 +124,24 @@ class TeachersController extends Controller
             return response()->json(['error' => "Xóa không thành công "], 400);
         }
     }
+
+    public function getAllTeacher(){
+        $title = "List";
+        $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class','subjects.name as subject','rank_salaries.name as salary','time_slots.name as time_tutor','schools.name as school_id')
+            ->leftJoin('district', 'users.districtID', '=', 'district.id')
+            ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
+            ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
+            ->leftJoin('rank_salaries', 'users.salary', '=', 'rank_salaries.id')
+            ->leftJoin('time_slots', 'users.time_tutor', '=', 'time_slots.id')
+            ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
+            ->where('users.role', 'teacher')
+            ->get();
+            return view('backend.teacher.index', compact('teachers', 'title'));
+
+    }
+
+    public function addNewTeacher(){
+        
+    }
    
 }

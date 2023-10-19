@@ -111,20 +111,23 @@ class UsersController extends Controller
     }
     public function addNewUser(UserRequest $request){
         $title = 'Thêm mới user';
-        if($request->post()){
+        if($request->isMethod('post')){
+            // dd($request);
             $params = $request->post();
+            // dd($params);
+            // unset($params['_token']);
             $user = new User();
             $user->role=$request->role;
             $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = $request->password;
             $user->avatar = $request->avatar;
             $user->phone = $request->phone;
-            $user->password = $request->password;
             $user->address = $request->address;
-            $user->email = $request->email;
             $user->save();
             if($user->save()) {
                 Session::flash('success', 'Thêm thành công!');
-                return redirect()->route('search_subject');
+                return redirect()->route('search_user');
             }
             else {
                 Session::flash('error', 'Thêm không thành công!');
@@ -135,6 +138,15 @@ class UsersController extends Controller
     public function updateUser(UserRequest $request, $id){
         $title = 'Sửa User';
         $user = User::findOrFail($id);
+        if($request->isMethod('post')){
+            $update = User::where('id', $id)->update($request->except('_token'));
+            if($update){
+                Session::flash('success', 'Edit user success');
+                return redirect()->route('search_user');
+            }else{
+                Session::flash('error', 'Edit subject error');
+            }
+        }
         return view('backend.users.edit', compact('title','user'));
 
     }

@@ -44,7 +44,7 @@ Route::prefix('TeacherSubject')->group(function () {
 Route::prefix('users')->group(function(){
     Route::get('/', [UsersController::class, 'index']);
     Route::get('/{id}', [UsersController::class, 'show']);
-    Route::post('/', [UsersController::class, 'store']);
+    Route::post('/', [UsersController::class, 'sore']);
     Route::put('/{id}', [UsersController::class, 'update']);
     Route::delete('/{id}', [UsersController::class, 'destroy']);
 });

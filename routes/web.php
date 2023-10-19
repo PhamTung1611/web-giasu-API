@@ -5,6 +5,7 @@ use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\RankSalaryController;
+use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\TimeSlotController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -47,8 +48,12 @@ Route::match(['get','post'],'classLevel/add',[ClassLevelController::class,'add']
 Route::match(['get','post'],'classLevel/edit/{id}',[ClassLevelController::class,'edit'])->name('edit_class');
 Route::get('classLevel/delete/{id}',[ClassLevelController::class,'delete'])->name('delete_class');
 //users
-Route::get('client',[UsersController::class,'getAllUser'])->name('search_client');
-// Route::get('client/addNew',[UsersController::class,'addNewUser'])->name('add_client');
-Route::match(['get','post'],'client/addNew',[UsersController::class,'addNewUser'])->name('add_client');
-Route::match(['get','post'],'client/edit/{id}',[UsersController::class,'updateUser'])->name('edit_client');
-Route::get('client/delete/{id}',[UsersController::class,'delete'])->name('delete_client'); 
+Route::get('user',[UsersController::class,'getAllUser'])->name('search_user');
+Route::match(['get','post'],'user/addNew',[UsersController::class,'addNewUser'])->name('add_user');
+Route::match(['get','post'],'user/edit/{id}',[UsersController::class,'updateUser'])->name('edit_user');
+Route::get('user/delete/{id}',[UsersController::class,'delete'])->name('delete_user'); 
+//teachers
+Route::get('teacher',[TeachersController::class,'getAllTeacher'])->name('search_teacher');
+Route::match(['get','post'],'teacher/addNew',[TeachersController::class,'addNewTeacher'])->name('add_teacher');
+Route::match(['get','post'],'teacher/edit/{id}',[TeachersController::class,'updateTeacher'])->name('edit_teacher');
+Route::get('teacher/delete/{id}',[TeachersController::class,'delete'])->name('delete_teacher'); 

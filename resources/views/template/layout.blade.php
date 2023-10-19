@@ -119,8 +119,17 @@
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('search_client')}}">
+                                <a class="nav-link" href="{{route('search_user')}}">
                                     <span class="sidebar-text">Users</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('search_teacher')}}">
+                                    <span class="sidebar-text">Teachers</span>
                                 </a>
                             </li>
                         </ul>

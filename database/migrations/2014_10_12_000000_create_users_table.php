@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('status')->nullable();
             $table->integer('DistrictID')->nullable();
             $table->String('Certificate')->nullable();
-            $table->rememberToken();
+            $table->rememberToken()->nullable();
             $table->timestamps();
         });
     }

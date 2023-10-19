@@ -21,25 +21,57 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            // 'role_id' => 'required|integer',
-            'name' => 'required|string',
-            'avatar' => 'required|string',
-            'phone' => 'required|string',
-            'password' => 'required|string',
-            'address' => 'required|string',
-            'email' => 'required|email|unique:users,email', // Thêm kiểm tra duy nhất
-        ];
+        $rules = [];
+        $currentAction = $this->route()->getActionMethod();
+        switch ($this->method()) {
+            case 'POST':
+                switch ($currentAction) {
+                    case 'addNewUser':
+                        $rules = [
+                            'name' => 'required|string',
+                            'phone' => 'required|string',
+                            'password' => 'required|string',
+                            'address' => 'required|string',
+                            'email' => 'required|email|unique:users,email',
+                        ];
+                        break;
+                    case 'updateUser':
+                        $rules = [
+                            'name' => 'required|string',
+                            'phone' => 'required|string',
+                            'password' => 'required|string',
+                            'address' => 'required|string',
+                            'email' => 'required|email|unique:users,email',
+                        ];
+                        break;
+                    default:
+                        # code...
+                        break;
+                }
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+        return $rules;
+        // return [
+        //     // 'role_id' => 'required|integer',
+        //     'name' => 'required|string',
+        //     'avatar' => 'required|string',
+        //     'phone' => 'required|string',
+        //     'password' => 'required|string',
+        //     'address' => 'required|string',
+        //     'email' => 'required|email|unique:users,email', // Thêm kiểm tra duy nhất
+        // ];
     }
     public function messages()
     {
         return [
             // 'role_id.required' => 'Vui lòng nhập role_id.',
-            'role_id.integer' => 'Role_id phải là một số nguyên.',
+            // 'role_id.integer' => 'Role_id phải là một số nguyên.',
             'name.required' => 'Vui lòng nhập tên.',
             'name.string' => 'Tên phải là một chuỗi.',
-            'avatar.required' => 'Vui lòng nhập avatar.',
-            'avatar.string' => 'Avatar phải là một chuỗi.',
             'phone.required' => 'Vui lòng nhập số điện thoại.',
             'phone.string' => 'Số điện thoại phải là một chuỗi.',
             'password.required' => 'Vui lòng nhập mật khẩu.',

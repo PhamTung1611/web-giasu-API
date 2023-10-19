@@ -52,15 +52,17 @@
 </div>
 <div class="row">
     <div class="card card-body border-0 shadow mb-4">
-        <form action="{{ route('edit_client', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data" style="width: 1200px" class="mx-auto mb-4">
+        <form action="{{ route('edit_user', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data" style="width: 1200px" class="mx-auto mb-4">
             @csrf
             <div class="row">
                 <div class="col-md-12 mb-3">
-                    <input type="text" value="role" name="role" hidden>
+                    <input type="text" value="user" name="role" hidden>
                     <label>Họ và Tên</label><br>
-                    <input type="text" class="form-control" placeholder="Nhập tên user" name="class" value="{{$user->name}}">
+                    <input type="text" class="form-control" placeholder="Nhập tên user" name="name" value="{{$user->name}}">
                     <label>Email</label><br>
                     <input type="email" class="form-control" placeholder="Nhập email" name="email" value="{{$user->email}}">
+                    <label>Mật khẩu</label><br>
+                    <input type="password" class="form-control" placeholder="Nhập email" name="password" value="{{$user->password}}">
                     <label>Avatar</label><br>
                     <input type="text" class="form-control" placeholder="Nhập link Avatar" name="avatar" value="{{$user->avatar}}">
                     <label>Số điện thoại</label><br>
