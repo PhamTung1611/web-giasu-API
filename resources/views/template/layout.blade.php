@@ -1,3 +1,6 @@
+@php
+    session_start();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,13 +14,14 @@
     <meta name="description" content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
     <meta name="keywords" content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, themesberg, themesberg dashboard, themesberg admin dashboard" />
     <!-- Sweet Alert -->
-    <link type="text/css" href="{{ asset('vendor/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet">
+    {{-- <link type="text/css" href="{{ asset('vendor/sweetalert2/dist/sweetalert2.min.css') }}" rel="stylesheet"> --}}
 
     <!-- Notyf -->
     <link type="text/css" href="{{ asset('vendor/notyf/notyf.min.css') }}" rel="stylesheet">
 
     <!-- Volt CSS -->
     <link type="text/css" href="{{ asset('css/volt.css') }}" rel="stylesheet">
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
     <title>{{ $title }}</title>
 </head>
 
@@ -101,8 +105,8 @@
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                       <ul class="flex-column nav">
                           <li class="nav-item">
-                              <a class="nav-link" href="{{route('search_salary')}}">
-                                  <span class="sidebar-text">Salary</span>
+                              <a class="nav-link" href="classLevel">
+                                  <span class="sidebar-text">ClassLevel</span>
                               </a>
                           </li>
                       </ul>
@@ -111,7 +115,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="timeslot">
-                                    <span class="sidebar-text">Time Slot</span>
+                                    <span class="sidebar-text">TimeSlot</span>
                                 </a>
                             </li>
                         </ul>
@@ -288,7 +292,7 @@
 
     <!-- Slider -->
     <script src="../../vendor/nouislider/distribute/nouislider.min.js"></script>
-
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
     <!-- Smooth scroll -->
     <script src="../../vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
 

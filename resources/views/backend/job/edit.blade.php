@@ -105,7 +105,7 @@
           <select class="form-select w-100 mb-0" id="state" name="date_time" aria-label="State select example">
             @foreach ($date as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>
-                <option value="{{ $item->id }}" {{$date->date_time === $item->id ? 'selected' : ''}}> {{ $item->value }} </option>
+                <option value="{{ $item->id }}" {{$job->date_time === $item->id ? 'selected' : ''}}> {{ $item->value }} </option>
             @endforeach
         </select>
           @error('date_time')
@@ -118,7 +118,7 @@
           <div class="col-md-12 mb-3">
               <div>
                 <label>Nhập số điện thoại</label><br>
-          <input type="text" class="form-control" placeholder="Nhập sdt..." name="phone" value="{{$job->title}}">
+          <input type="text" class="form-control" placeholder="Nhập sdt..." name="phone" value="{{$job->phone}}">
           @error('phone')
           <span class="text-danger">{{$message}}</span>
           @enderror
@@ -128,8 +128,8 @@
         <div class="row">
           <div class="col-md-12 mb-3">
               <div>
-                <label>Nhập emmail</label><br>
-            <input type="text" class="form-control" placeholder="Nhập email..." name="email" value="{{$job->title}}">
+                <label>Nhập email</label><br>
+            <input type="text" class="form-control" placeholder="Nhập email..." name="email" value="{{$job->email}}">
             @error('email')
             <span class="text-danger">{{$message}}</span>
             @enderror
@@ -140,7 +140,7 @@
           <div class="col-md-12 mb-3">
               <div>
                 <label>Nhập môn học</label><br>
-            <input type="text" class="form-control" placeholder="Nhập moon học..." name="subjects_need" value="{{$job->title}}">
+            <input type="text" class="form-control" placeholder="Nhập moon học..." name="subjects_need" value="{{$job->subjects_need}}">
             @error('subjects_need')
             <span class="text-danger">{{$message}}</span>
             @enderror
@@ -151,7 +151,7 @@
           <div class="col-md-12 mb-3">
               <div>
                 <label>Nhập trình độ học vấn</label><br>
-            <input type="text" class="form-control" placeholder="Nhập trình độ học vấn..." name="education_level" value="{{$job->title}}">
+            <input type="text" class="form-control" placeholder="Nhập trình độ học vấn..." name="education_level" value="{{$job->education_level}}">
             @error('education_level')
             <span class="text-danger">{{$message}}</span>
             @enderror
@@ -162,9 +162,9 @@
           <div class="col-md-12 mb-3">
               <div>
                 <label>Nhập lương</label><br>
-            <select class="form-select w-100 mb-0" id="state" name="salary" aria-label="State select example" value="{{$job->title}}">
+            <select class="form-select w-100 mb-0" id="state" name="salary" aria-label="State select example">
               @foreach ($salary as $sl)
-                <option value="{{ $sl->id }}">{{ $sl->name }}</option>
+                <option value="{{ $sl->id }}" {{$job->salary === $sl->id ? 'selected': ''}}>{{ $sl->name }}</option>
               @endforeach
               </select>
             @error('salary')
@@ -178,7 +178,7 @@
           <div class="col-md-12 mb-3">
               <div>
                 <label>Nhập yêu cầu</label><br>
-                <input type="text" class="form-control" placeholder="Nhập yêu cầu..." name="requirements" value="{{$job->title}}">
+                <input type="text" class="form-control" placeholder="Nhập yêu cầu..." name="requirements" value="{{$job->requirements}}">
                 @error('requirements')
                 <span class="text-danger">{{$message}}</span>
                 @enderror
@@ -186,7 +186,7 @@
           </div>
         </div>
         <div class="mt-3">
-          <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Thêm mới</button>
+          <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Cập nhật</button>
       </div>
       </form>
     </div>
