@@ -26,6 +26,7 @@ class SubjectSeeder extends Seeder
             [
                 'name' => 'Môn Vật Lý'
             ],
+
             [
                 'name' => 'Môn Sinh'
             ],

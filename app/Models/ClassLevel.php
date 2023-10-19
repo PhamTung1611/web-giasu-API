@@ -12,5 +12,6 @@ class ClassLevel extends Model
     protected $table = 'class_levels';
     protected $fillable = [
         'class',
+        'subject'
     ];
 }
