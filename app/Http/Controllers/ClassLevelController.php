@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 class ClassLevelController extends Controller
 {
     public function index(Request $request){
-        $title = 'List';
+        $title = "list";
         $class_levels = ClassLevel::all();
         return view('backend.class.index', compact('class_levels', 'title'));
     }

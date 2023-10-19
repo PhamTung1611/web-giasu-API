@@ -101,15 +101,15 @@
         <div class="row">
           <div class="col-md-12 mb-3">
               <div>
-                <label>Nhập ngày dạy</label><br>
-                <select class="form-select w-100 mb-0" id="state" name="date_time" aria-label="State select example">
-                  @foreach ($date as $item)
-                      <option value="{{ $item->id }}">{{ $item->name }}</option>
-                  @endforeach
-                </select>
-                  @error('date_time')
-                  <span class="text-danger">{{$message}}</span>
-                  @enderror
+                <label>Nhập ca học</label><br>
+          <select class="form-select w-100 mb-0" id="state" name="date_time" aria-label="State select example">
+            @foreach ($date as $item)
+                <option value="{{ $item->id }}">{{ $item->name }}</option>
+            @endforeach
+        </select>
+          @error('date_time')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
               </div>
           </div>
         </div>
@@ -117,21 +117,21 @@
           <div class="col-md-12 mb-3">
               <div>
                 <label>Nhập số điện thoại</label><br>
-                <input type="text" class="form-control" placeholder="Nhập sdt..." name="phone">
-                @error('phone')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
+          <input type="text" class="form-control" placeholder="Nhập sdt..." name="phone">
+          @error('phone')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
               </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12 mb-3">
               <div>
-                <label>Nhập emmail</label><br>
-                <input type="text" class="form-control" placeholder="Nhập email..." name="email">
-                @error('email')
-                <span class="text-danger">{{$message}}</span>
-                @enderror
+                <label>Nhập email</label><br>
+            <input type="text" class="form-control" placeholder="Nhập email..." name="email">
+            @error('email')
+            <span class="text-danger">{{$message}}</span>
+            @enderror
               </div>
           </div>
         </div>
@@ -187,6 +187,7 @@
         <div class="mt-3">
           <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Thêm mới</button>
       </div>
+      </form>
     </div>
 </div>
 @endsection

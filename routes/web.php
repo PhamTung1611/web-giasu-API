@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[Dashboard::class, 'index'])->name('dashboard');
+Route::get('/dashboard',[Dashboard::class, 'index'])->name('dashboard');
 //salary rank
 Route::get('salary', [RankSalaryController::class, 'index'])->name('search_salary');
 Route::match(['get','post'],'salary/add',[RankSalaryController::class,'add'])->name('salary.add');

@@ -84,8 +84,8 @@
                 <th>Action</th>
             </tr>
         </thead>
-        @foreach($class_levels as $class_level)
         <tbody>
+        @foreach($class_levels as $class_level)
             <tr>
                 <td>
                     <a href="" class="fw-bold">{{$class_level->id}}</a>
@@ -118,8 +118,8 @@
                 </td>
                 
             </tr>
+            @endforeach
         </tbody>
-        @endforeach
     </table>
     <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
         <nav aria-label="Page navigation example">

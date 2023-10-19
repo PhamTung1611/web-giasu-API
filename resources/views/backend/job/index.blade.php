@@ -75,7 +75,7 @@
     </div>
 </div>
 <div class="card card-body border-0 shadow table-wrapper table-responsive">
-    <table class="table table-hover">
+    <table border="1" class="table table-hover">
         <thead>
             <tr>
                 <th>ID</th>
@@ -92,8 +92,8 @@
                 <th>Action</th>
             </tr>
         </thead>
-        @foreach($jobs as $item)
         <tbody>
+        @foreach($jobs as $item)
             <tr>
                 <td>
                     <a href="" class="fw-bold">{{$item->id}}</a>
@@ -150,8 +150,8 @@
                 </td>
                 
             </tr>
-        </tbody>
-        @endforeach
+            @endforeach
+          </tbody>
     </table>
     <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
         <nav aria-label="Page navigation example">
