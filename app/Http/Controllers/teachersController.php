@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Teachers;
 use App\Http\Requests\TeacherRequest;
+use App\Http\Requests\UserRequest;
 use App\Models\ClassLevel;
 use App\Models\District;
 use App\Models\RankSalary;
@@ -184,7 +185,7 @@ class TeachersController extends Controller
 
         return view('backend.teacher.add', compact('district', 'title','school', 'subject','class', 'salary','timeTutor'));
     }
-    public function updateTeacher($id){
+    public function updateTeacher(UserRequest $request,$id){
         $title = "Edit Teacher";
         $district = District::all();
         $school = Schools::all();
@@ -194,6 +195,15 @@ class TeachersController extends Controller
         $timeTutor = TimeSlot::all();
         $teacher = User::findOrFail($id);
         // dd($teacher);
+        if($request->isMethod('post')){
+            $update = User::where('id', $id)->update($request->except('_token'));
+            if($update){
+                Session::flash('success', 'Edit teacher success');
+                return redirect()->route('search_teacher');
+            }else{
+                Session::flash('error', 'Edit subject error');
+            }
+        }
         return view('backend.teacher.edit', compact('teacher', 'title','district','school', 'subject','class', 'salary','timeTutor'));
     }
 }

@@ -52,6 +52,11 @@
 </div>
 <div class="row">
   <div class="card card-body border-0 shadow mb-4">
+    @if ($errors->any())
+    @foreach ($errors->all() as $error)
+    <p style="color: red;">{{ $error }}</p>
+    @endforeach
+    @endif
     <form action="{{ route('add_teacher') }}" method="POST" enctype="multipart/form-data" style="width: 1200px" class="mx-auto mb-4">
       @csrf
       <div class="row">
@@ -73,7 +78,7 @@
             <label>Trường học</label><br>
             <select name="school_id" id="" class="form-control">
               @foreach($school as $s)
-              <option class="form-control" value="{{$s->id}}">{{$s->name}}</option>
+              <option class="form-control" name="school_id" value="{{$s->id}}">{{$s->name}}</option>
               @endforeach
             </select>
             <label>Số căn cước hoặc chứng minh thư</label><br>
@@ -83,31 +88,31 @@
             <label>Lớp muốn dạy</label><br>
             <select name="class" id="" class="form-control">
               @foreach($class as $s)
-              <option class="form-control" value="{{$s->id}}">{{$s->class}}</option>
+              <option class="form-control" name="class" value="{{$s->id}}">{{$s->class}}</option>
               @endforeach
             </select>
             <label>Môn học muốn dạy</label><br>
             <select name="subject" id="" class="form-control">
               @foreach($subject as $s)
-              <option class="form-control" value="{{$s->id}}">{{$s->name}}</option>
+              <option class="form-control" name="subject" value="{{$s->id}}">{{$s->name}}</option>
               @endforeach
             </select>
             <label>Mức lương</label><br>
             <select name="salary" id="" class="form-control">
               @foreach($salary as $s)
-              <option class="form-control" value="{{$s->id}}">{{$s->name}}</option>
+              <option class="form-control" name="salary" value="{{$s->id}}">{{$s->name}}</option>
               @endforeach
             </select>
             <label>Quận/Huyện muốn dạy</label><br>
             <select name="DistrictID" id="" class="form-control">
               @foreach($district as $s)
-              <option class="form-control" value="{{$s->id}}">{{$s->name}}</option>
+              <option class="form-control" name="DistrictID" value="{{$s->id}}">{{$s->name}}</option>
               @endforeach
             </select>
             <label>Chọn thời gian dạy</label><br>
             <select name="time_tutor" id="" class="form-control">
               @foreach($timeTutor as $s)
-              <option class="form-control" value="{{$s->id}}">{{$s->name}}</option>
+              <option class="form-control" name="time_tutor" value="{{$s->id}}">{{$s->name}}</option>
               @endforeach
             </select>
             <label>Ảnh bằng cấp</label><br>

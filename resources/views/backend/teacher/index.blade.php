@@ -65,6 +65,11 @@
   </div>
 </div>
 <div class="card card-body border-0 shadow table-wrapper table-responsive">
+@if ($errors->any())
+    @foreach ($errors->all() as $error)
+    <p style="color: red;">{{ $error }}</p>
+    @endforeach
+    @endif
   <table class="table table-hover">
     <thead>
       <tr>

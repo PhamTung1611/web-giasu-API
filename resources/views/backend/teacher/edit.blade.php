@@ -52,7 +52,12 @@
 </div>
 <div class="row">
   <div class="card card-body border-0 shadow mb-4">
-    <form action="{{ route('add_teacher') }}" method="POST" enctype="multipart/form-data" style="width: 1200px" class="mx-auto mb-4">
+  @if ($errors->any())
+    @foreach ($errors->all() as $error)
+    <p style="color: red;">{{ $error }}</p>
+    @endforeach
+    @endif
+    <form action="{{ route('edit_teacher', ['id' => $teacher->id]) }}" method="POST" enctype="multipart/form-data" style="width: 1200px" class="mx-auto mb-4">
       @csrf
       <div class="row">
         <div class="col-md-12 mb-3">
