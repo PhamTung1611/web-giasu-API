@@ -52,12 +52,12 @@
 </div>
 <div class="row">
   <div class="card card-body border-0 shadow mb-4">
-    <form action="{{ route('add_user') }}" method="POST" enctype="multipart/form-data" style="width: 1200px" class="mx-auto mb-4">
+    <form action="{{ route('add_teacher') }}" method="POST" enctype="multipart/form-data" style="width: 1200px" class="mx-auto mb-4">
       @csrf
       <div class="row">
         <div class="col-md-12 mb-3">
           <div>
-            <input type="text" name="role" value="user" hidden>
+            <input type="text" name="role" value="teacher" hidden>
             <label>Họ và Tên</label><br>
             <input type="text" class="form-control" placeholder="Nhập tên user" name="name">
             <label>Email</label><br>
@@ -70,6 +70,53 @@
             <input type="text" class="form-control" placeholder="Nhập Số điện thoại" name="phone">
             <label>Địa chỉ</label><br>
             <input type="text" class="form-control" placeholder="Nhập Địa chỉ" name="address">
+            <label>Trường học</label><br>
+            <select name="school_id" id="" class="form-control">
+              @foreach($school as $s)
+              <option class="form-control" value="{{$s->id}}">{{$s->name}}</option>
+              @endforeach
+            </select>
+            <label>Số căn cước hoặc chứng minh thư</label><br>
+            <input type="text" class="form-control" placeholder="Nhập Số căn cước hoặc chứng minh thư" name="Citizen_card">
+            <label>Trình độ học vấn</label><br>
+            <input type="text" class="form-control" placeholder="Nhập trình độ học vấn" name="education_level">
+            <label>Lớp muốn dạy</label><br>
+            <select name="class" id="" class="form-control">
+              @foreach($class as $s)
+              <option class="form-control" value="{{$s->id}}">{{$s->class}}</option>
+              @endforeach
+            </select>
+            <label>Môn học muốn dạy</label><br>
+            <select name="subject" id="" class="form-control">
+              @foreach($subject as $s)
+              <option class="form-control" value="{{$s->id}}">{{$s->name}}</option>
+              @endforeach
+            </select>
+            <label>Mức lương</label><br>
+            <select name="salary" id="" class="form-control">
+              @foreach($salary as $s)
+              <option class="form-control" value="{{$s->id}}">{{$s->name}}</option>
+              @endforeach
+            </select>
+            <label>Quận/Huyện muốn dạy</label><br>
+            <select name="DistrictID" id="" class="form-control">
+              @foreach($district as $s)
+              <option class="form-control" value="{{$s->id}}">{{$s->name}}</option>
+              @endforeach
+            </select>
+            <label>Chọn thời gian dạy</label><br>
+            <select name="time_tutor" id="" class="form-control">
+              @foreach($timeTutor as $s)
+              <option class="form-control" value="{{$s->id}}">{{$s->name}}</option>
+              @endforeach
+            </select>
+            <label>Ảnh bằng cấp</label><br>
+            <input type="text" placeholder="Ảnh bằng cấp" class="form-control" name="Certificate">
+            <label>Nhập mô tả về gia sư</label><br>
+            <textarea type="text" class="form-control" placeholder="Nhập mô tả về gia sư" name="description"></textarea>
+            <label>Trạng thái</label><br>
+            Kích hoạt: <input type="radio" name="status" id="" value="1">
+            Chưa kích hoạt: <input type="radio" name="status" id="" value="0">
             @error('class')
             <span class="text-danger">{{$message}}</span>
             @enderror

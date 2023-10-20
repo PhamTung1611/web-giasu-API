@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             'salary'=>'1',
             'description'=>'Yêu nghề',
             'time_tutor'=>'1',
-            'status'=>'active',
+            'status'=>'1',
             'DistrictID'=>'1',
             'Certificate'=>'none'
         ]);
@@ -50,7 +50,7 @@ class UserSeeder extends Seeder
             'salary'=>'1',
             'description'=>'Yêu nghề',
             'time_tutor'=>'1',
-            'status'=>'active',
+            'status'=>'1',
             'DistrictID'=>'2',
             'Certificate'=>'none'
         ]);
@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
             'salary'=>'1',
             'description'=>'Yêu nghề',
             'time_tutor'=>'1',
-            'status'=>'active',
+            'status'=>'1',
             'DistrictID'=>'3',
             'Certificate'=>'none'
         ]);
@@ -90,7 +90,7 @@ class UserSeeder extends Seeder
             'salary'=>'1',
             'description'=>'Yêu nghề',
             'time_tutor'=>'1',
-            'status'=>'active',
+            'status'=>'1',
             'DistrictID'=>'4',
             'Certificate'=>'none'
         ]);

@@ -100,7 +100,7 @@
           <span class="fw-normal">{{$u->address}}</span>
         </td>
         <td>
-          <span class="fw-normal">{{$u->status}}</span>
+          <span class="fw-normal">{{ $u->status == "1" ? 'active':'non-active' }}</span>
         </td>
         <td>
           <div class="btn-group">

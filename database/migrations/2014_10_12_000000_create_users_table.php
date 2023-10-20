@@ -30,7 +30,7 @@ return new class extends Migration
             $table->integer('salary')->nullable();
             $table->String('description')->nullable();
             $table->integer('time_tutor')->nullable();
-            $table->string('status')->nullable();
+            $table->integer('status')->nullable();
             $table->integer('DistrictID')->nullable();
             $table->String('Certificate')->nullable();
             $table->rememberToken()->nullable();
