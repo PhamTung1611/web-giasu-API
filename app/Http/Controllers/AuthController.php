@@ -35,7 +35,10 @@ class AuthController extends Controller
         ]);
 
         return response()->json([
-            'user' => $user,
+            'avatar'=>$user->avatar,
+            'name'=>$user->name,
+            'email'=>$user->email,
+            'phone'=>$user->phone,
             'access_token' => $tokenResult->accessToken,
             'refresh_token' => $refreshToken->id,
 
@@ -66,7 +69,10 @@ class AuthController extends Controller
                     'access_token_id'=> $tokenResult->accessToken
                 ]);
                 return response()->json([
-                    'user'=>$user,
+                    'avatar'=>$user->avatar,
+                    'name'=>$user->name,
+                    'email'=>$user->email,
+                    'phone'=>$user->phone,
                     'access_token' => $accessToken,
                     'refresh_token' => $refreshToken,
                 ],200);
