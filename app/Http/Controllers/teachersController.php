@@ -14,6 +14,7 @@ use App\Models\Subject;
 use App\Models\TimeSlot;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class TeachersController extends Controller
 {
@@ -153,7 +154,11 @@ class TeachersController extends Controller
         $timeTutor = TimeSlot::all();
 
         if($request->isMethod('post')){
-            $params = $request->post();
+            // $params = $request->post();
+            $params = $request->except('_token');
+            if($request->hasFile('avatar') && $request->file('avatar')->isValid()){
+                $params['avatar'] = uploadFile('hinh',$request->file('avatar'));
+            }
             $teacher = new User();
             $teacher->role = $request->role;
             $teacher->name = $request->name;
@@ -173,6 +178,7 @@ class TeachersController extends Controller
             $teacher->status = $request->status;
             $teacher->DistrictID = $request->DistrictID;
             $teacher->Certificate = $request->Certificate;
+            $teacher->fill($params);
             $teacher->save();
             if($teacher->save()) {
                 Session::flash('success', 'Thêm thành công!');
@@ -196,7 +202,16 @@ class TeachersController extends Controller
         $teacher = User::findOrFail($id);
         // dd($teacher);
         if($request->isMethod('post')){
-            $update = User::where('id', $id)->update($request->except('_token'));
+            $params = $request->except('_token');
+            if($request->hasFile('avatar') && $request->file('avatar')->isValid()){
+                $deleteImage = Storage::delete('/public/'.$teacher->avatar);
+                if($deleteImage){
+                    $params['avatar'] = uploadFile('hinh',$request->file('avatar'));
+                }
+               
+            }
+            // $update = User::where('id', $id)->update($request->except('_token'));
+            $update = User::where('id', $id)->update($params);
             if($update){
                 Session::flash('success', 'Edit teacher success');
                 return redirect()->route('search_teacher');
@@ -205,5 +220,17 @@ class TeachersController extends Controller
             }
         }
         return view('backend.teacher.edit', compact('teacher', 'title','district','school', 'subject','class', 'salary','timeTutor'));
+    }
+    public function delete($id){
+        if($id){
+            $teacher = User::find($id);
+            $deleted = $teacher->delete();
+            if($deleted){
+                Session::flash('success','Xoa thanh cong');
+                return redirect()->route('search_teacher');
+            }else{
+                Session::flash('error','xoa that bai');
+            }
+        }
     }
 }

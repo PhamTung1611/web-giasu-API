@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('status');
             $table->integer('DistrictID');
             $table->String('Certificate');
-
+            $table->softDeletes();
         });
     }
 

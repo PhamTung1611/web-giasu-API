@@ -35,6 +35,7 @@ return new class extends Migration
             $table->String('Certificate')->nullable();
             $table->rememberToken()->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

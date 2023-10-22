@@ -70,7 +70,9 @@
             <label>Mật khẩu</label><br>
             <input type="password" class="form-control" placeholder="Nhập password" name="password">
             <label>Avatar</label><br>
-            <input type="text" class="form-control" placeholder="Nhập link Avatar" value="{{$teacher->avatar}}"  name="avatar">
+            {{-- <input type="text" class="form-control" placeholder="Nhập link Avatar" value="{{$teacher->avatar}}"  name="avatar"> --}}
+            <input type="file" placeholder="" name="avatar" accept="avatar/*" value="{{$teacher->avatar}}" class="form-control @error('avatar') is-invalid @enderror" id="avatar" >
+            <img src="{{$teacher->avatar ? ''.Storage::url($teacher->avatar) : ''}}" alt="" id="image_preview" width="100" value="{{$teacher->avatar}}"><br><br>
             <label>Số điện thoại</label><br>
             <input type="text" class="form-control" placeholder="Nhập Số điện thoại"value="{{$teacher->phone}}"  name="phone">
             <label>Địa chỉ</label><br>
@@ -129,7 +131,7 @@
         </div>
       </div>
       <div class="mt-3">
-        <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Thêm mới</button>
+        <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Cập nhật</button>
       </div>
     </form>
   </div>

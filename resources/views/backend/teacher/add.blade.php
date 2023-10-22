@@ -70,7 +70,8 @@
             <label>Mật khẩu</label><br>
             <input type="password" class="form-control" placeholder="Nhập password" name="password">
             <label>Avatar</label><br>
-            <input type="text" class="form-control" placeholder="Nhập link Avatar" name="avatar">
+            {{-- <input type="text" class="form-control" placeholder="Nhập link Avatar" name="avatar"> --}}
+            <input type="file" placeholder="" name="avatar" accept="hinh/*" class="mb-3 form-control @error('avatar') is-invalid @enderror" id="avatar">
             <label>Số điện thoại</label><br>
             <input type="text" class="form-control" placeholder="Nhập Số điện thoại" name="phone">
             <label>Địa chỉ</label><br>
