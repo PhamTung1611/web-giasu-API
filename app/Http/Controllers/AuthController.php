@@ -103,19 +103,21 @@ class AuthController extends Controller
                 ]);
                 $school = Schools::find($user->school_id);
                 $distric = District::find($user->DistrictID);
-                $class = ClassLevel::find($user->class);
+                $class = ClassLevel::find($user->class_id);
                 $subjectArray = explode(',',$user->subject);
                 $newSubjectArray =new Collection();
                 foreach ($subjectArray as $item) {
                     $sub = Subject::find($item);
                     $newSubjectArray->push($sub->name);
                 }
+
+                $timetutor = explode(',',$user->time_tutor_id);
                 $newTimetutor =new Collection();
-                foreach ($user->time_tutor_id as $item) {
+                foreach ($timetutor as $item) {
                     $time = TimeSlot::find($item);
                     $newTimetutor->push($time->name);
                 }
-                $rank = RankSalary::find($user->salary);
+                $rank = RankSalary::find($user->salary_id);
                 return response()->json([
                     'user'=>['role'=>$user->role,
                         'address'=>$user->address,
@@ -136,7 +138,7 @@ class AuthController extends Controller
                         ],
 
                     'access_token' => $tokenResult->accessToken,
-                    'refresh_token' => $refreshToken->id,
+                    'refresh_token' => $refreshTokenData->id,
 
                 ]);
             }
