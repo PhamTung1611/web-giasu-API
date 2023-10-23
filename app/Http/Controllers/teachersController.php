@@ -15,7 +15,8 @@ use App\Models\TimeSlot;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Hash;
+use App\Models\Role;
 class TeachersController extends Controller
 {
     /**
@@ -72,22 +73,7 @@ class TeachersController extends Controller
      * Show the form for creating a new resource.
      */
 
-    public function store(TeacherRequest $request)
-    {
-        try {
-            // Validate dữ liệu
-            $userData = $request->all();
-            // Tạo user mới
-            $teacher = Teachers::create($userData);
-            // Trả về response
-            return response()->json($teacher, 201);
-        } catch (\Exception $e) {
-            return response()->json(['error' => "Thêm không thành công"], 400);
-        }
-    }
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
         try {
@@ -207,7 +193,7 @@ class TeachersController extends Controller
                 if($deleteImage){
                     $params['avatar'] = uploadFile('hinh',$request->file('avatar'));
                 }
-               
+
             }
             // $update = User::where('id', $id)->update($request->except('_token'));
             $update = User::where('id', $id)->update($params);

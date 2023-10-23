@@ -27,11 +27,11 @@ return new class extends Migration
             $table->integer('school_id')->nullable();
             $table->String('Citizen_card')->nullable();
             $table->String('education_level')->nullable();
-            $table->integer('class')->nullable();
+            $table->integer('class_id')->nullable();
             $table->string('subject')->nullable();
-            $table->integer('salary')->nullable();
+            $table->integer('salary_id')->nullable();
             $table->String('description')->nullable();
-            $table->integer('time_tutor')->nullable();
+            $table->string('time_tutor_id')->nullable();
             $table->integer('status')->nullable();
             $table->integer('DistrictID')->nullable();
             $table->String('Certificate')->nullable();

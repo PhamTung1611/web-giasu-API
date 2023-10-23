@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use Exception;
 use App\Http\Requests\UserRequest;
@@ -40,15 +42,43 @@ class UsersController extends Controller
     public function store(UserRequest $request)
     {
         try {
-            $userData = $request->all();
-            $user = User::create($userData);
-            if ($user) {
-                return response()->json($user, 201);
-            } else {
-                return response()->json(['error' => 'Thêm không thành công'], 400);
+            $user = new User;
+            $role = Role::find($request->role);
+//            dd($role->name);
+            if(!$role){
+                return response()->json('Sai quyền',400);
             }
+            $user->role= $role->name;
+            $user->gender = $request->gender;
+            $user->date_of_birth = $request->date_of_birth;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->avatar= $request->avatar;
+
+            $user->password= Hash::make($request->password);
+            $user->address = $request->address;
+            $user->DistrictID = $request->districtID;
+            $user->phone = $request->phone;
+            if($request->role == 3 ){
+                $user->school_id = $request->school_id;
+                $user->Citizen_card = $request->citizen_card;
+                $user->education_level = $request->education_level;
+                $user->class_id = $request->class_id;
+                $subject = implode(",",$request->subject);
+                $user->subject =$subject;
+                $user->salary_id = $request->salary_id;
+                $user->description = $request->description;
+                $user->time_tutor_id = $request->time_tutor_id;
+                $user->status = 1 ;
+                $user->time_tutor_id = $request->time_tutor_id;
+                $user->Certificate= $request->Certificate;
+            }
+
+            $user->save();
+
+            return response()->json("success", 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e], 500);
+            return response()->json(['error' => "Thêm không thành công,$e"], 400);
         }
     }
 
@@ -151,7 +181,7 @@ class UsersController extends Controller
                 if($deleteImage){
                     $params['avatar'] = uploadFile('hinh',$request->file('avatar'));
                 }
-               
+
             }
             // $update = User::where('id', $id)->update($request->except('_token'));
             $update = User::where('id', $id)->update($params);

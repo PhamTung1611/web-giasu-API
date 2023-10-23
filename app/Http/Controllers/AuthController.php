@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subject;
+use App\Models\TimeSlot;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -40,14 +41,20 @@ class AuthController extends Controller
         ]);
         $school = Schools::find($user->school_id);
         $distric = District::find($user->DistrictID);
-        $class = ClassLevel::find($user->class);
+        $class = ClassLevel::find($user->class_id);
         $subjectArray = explode(',',$user->subject);
         $newSubjectArray =new Collection();
         foreach ($subjectArray as $item) {
             $sub = Subject::find($item);
             $newSubjectArray->push($sub->name);
         }
-        $rank = RankSalary::find($user->salary);
+        $timetutorArray = explode(',',$user->time_tutor_id);
+        $newTimetutor =new Collection();
+        foreach ($timetutorArray as $item) {
+            $time = TimeSlot::find($item);
+            $newTimetutor->push($time->name);
+        }
+        $rank = RankSalary::find($user->salary_id);
         return response()->json([
             'user'=>['role'=>$user->role,
                 'address'=>$user->address,
@@ -63,7 +70,8 @@ class AuthController extends Controller
                 'avatar'=>$user->avatar,
                 'name'=>$user->name,
                 'email'=>$user->email,
-                'phone'=>$user->phone,],
+                'phone'=>$user->phone,
+                'time_tutor'=>$newTimetutor],
             'access_token' => $tokenResult->accessToken,
             'refresh_token' => $refreshToken->id,
 
@@ -102,6 +110,11 @@ class AuthController extends Controller
                     $sub = Subject::find($item);
                     $newSubjectArray->push($sub->name);
                 }
+                $newTimetutor =new Collection();
+                foreach ($user->time_tutor_id as $item) {
+                    $time = TimeSlot::find($item);
+                    $newTimetutor->push($time->name);
+                }
                 $rank = RankSalary::find($user->salary);
                 return response()->json([
                     'user'=>['role'=>$user->role,
@@ -118,7 +131,10 @@ class AuthController extends Controller
                         'avatar'=>$user->avatar,
                         'name'=>$user->name,
                         'email'=>$user->email,
-                        'phone'=>$user->phone,],
+                        'phone'=>$user->phone,
+                        'time_tutor'=>$newTimetutor
+                        ],
+
                     'access_token' => $tokenResult->accessToken,
                     'refresh_token' => $refreshToken->id,
 

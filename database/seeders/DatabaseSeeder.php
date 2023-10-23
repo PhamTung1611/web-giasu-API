@@ -30,7 +30,8 @@ class DatabaseSeeder extends Seeder
             ClassLevelSeeder::class,
             SubjectSeeder::class,
             SchoolSeeder::class,
-            FeedBackSeeder::class
+            FeedBackSeeder::class,
+            RoleSeeder::class
         ]);
     }
 }
