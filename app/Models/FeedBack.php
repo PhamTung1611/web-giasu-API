@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Schools extends Model
+class FeedBack extends Model
 {
     use HasFactory;
+    protected $table = 'feedback';
     protected $fillable=[
-        'name'
+        'idSender',
+        'idTeacher',
+        'point',
+        'description'
     ];
-    public function users()
-    {
-        return $this->hasMany(User::class, 'school_id');
-    }
 }

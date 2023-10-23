@@ -12,6 +12,7 @@ use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\schoolsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DistrictController;
+use App\Http\Controllers\FeedBackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -146,6 +147,13 @@ Route::prefix('district')->group(function () {
     // //xóa
     // Route::delete('/{id}', [DistrictController::class, 'destroy']);
 });
+Route::prefix('feedback')->group(function () {
+    // lấy ra danh sách
+    Route::post('/',[FeedBackController::class,'store']);
+    Route::get('/{id}',[FeedBackController::class,'show']);
+    Route::get('/avgPoint/{id}',[FeedBackController::class,'averagePoint']);
+});
+Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
 Route::prefix('auth')->group(function(){
     Route::post('/login',[AuthController::class,'login']);
     Route::post('/refresh',[AuthController::class,'RefreshToken']);

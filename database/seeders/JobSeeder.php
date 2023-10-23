@@ -13,18 +13,33 @@ class JobSeeder extends Seeder
      */
     public function run(): void
     {
+        // DB::table('jobs')->insert([
+        //     [
+        //         'title' => 'Title 1',
+        //         'name' => 'name1',
+        //         'address' => 'ad1',
+        //         'date_time' => 'date_time1',
+        //         'phone' => '0862178842',
+        //         'email' => 'huytqph27342@fpt.edu.vn',
+        //         'subjects_need' => 'hihi',
+        //         'education_level' => 'Đại học',
+        //         'salary' => '5000',
+        //         'requirements' => 'gjod'
+        //     ],
+        // ]);
+
         DB::table('jobs')->insert([
             [
-                'title' => 'Title 1',
-                'name' => 'name1',
-                'address' => 'ad1',
-                'date_time' => 'date_time1',
-                'phone' => '0862178842',
-                'email' => 'huytqph27342@fpt.edu.vn',
-                'subjects_need' => 'hihi',
-                'education_level' => 'Đại học',
-                'salary' => '5000',
-                'requirements' => 'gjod'
+                'idUser'=>'5',
+                'idTeacher'=>'1',
+                'idSubject'=>'1',
+                'status'=>'0'
+            ],
+            [
+                'idUser'=>'6',
+                'idTeacher'=>'2',
+                'idSubject'=>'3',
+                'status'=>'1'
             ],
         ]);
     }

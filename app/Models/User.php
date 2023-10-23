@@ -58,4 +58,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'DistrictID');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject');
+    }
+    public function class_levels()
+    {
+        return $this->belongsTo(ClassLevel::class, 'class');
+    }
+    public function school()
+    {
+        return $this->belongsTo(Schools::class, 'school_id');
+    }
+    public function timeSlot()
+    {
+        return $this->belongsTo(TimeSlot::class, 'time_tutor');
+    }
 }

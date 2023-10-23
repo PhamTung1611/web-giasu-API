@@ -137,8 +137,7 @@ class TeachersController extends Controller
     public function getAllTeacher()
     {
         $title = "List";
-        $teachers = User::where('users.role', 'teacher')
-            ->get();
+        $teachers = User::where('users.role', 'teacher')->get();
         return view('backend.teacher.index', compact('teachers', 'title'));
     }
 
@@ -205,5 +204,30 @@ class TeachersController extends Controller
             }
         }
         return view('backend.teacher.edit', compact('teacher', 'title','district','school', 'subject','class', 'salary','timeTutor'));
+    }
+
+    public function getTeacherByFilter(Request $request)
+    {
+        // dd($request);
+        $query = User::with('district:id,name', 'subject:id,name','school:id,name','class_levels:id,class','timeSlot:id,name');
+        // $query = User::query();
+
+        if ($request->has('DistrictID')) {
+            $query->where('DistrictID', $request->input('DistrictID'));
+        }
+
+        if ($request->has('subject')) {
+            $query->where('subject', $request->input('subject'));
+        }
+
+        if ($request->has('class')) {
+            $query->where('class', $request->input('class'));
+        }
+        $users = $query->get();
+        if($users){
+            return response()->json($users,200);
+        }else{
+            return response()->json(['message' => "Not Found"], 404);
+        }
     }
 }
