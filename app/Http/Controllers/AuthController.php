@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\Passport;
-
+use App\Models\Schools;
+use App\Models\District;
+use App\Models\ClassLevel;
+use App\Models\RankSalary;
 class AuthController extends Controller
 {
     public function login(Request $request)
@@ -17,7 +22,7 @@ class AuthController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-
+//        dd(Hash::make('12345'));
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized'], 401);
@@ -33,12 +38,32 @@ class AuthController extends Controller
             'user_id'=>$tokenResult->token->user_id,
             'access_token_id'=> $tokenResult->accessToken
         ]);
-
+        $school = Schools::find($user->school_id);
+        $distric = District::find($user->DistrictID);
+        $class = ClassLevel::find($user->class);
+        $subjectArray = explode(',',$user->subject);
+        $newSubjectArray =new Collection();
+        foreach ($subjectArray as $item) {
+            $sub = Subject::find($item);
+            $newSubjectArray->push($sub->name);
+        }
+        $rank = RankSalary::find($user->salary);
         return response()->json([
-            'avatar'=>$user->avatar,
-            'name'=>$user->name,
-            'email'=>$user->email,
-            'phone'=>$user->phone,
+            'user'=>['role'=>$user->role,
+                'address'=>$user->address,
+                'school' => $school->name,
+                'citizen_card'=>$user->Citizen_card,
+                'education_level'=>$user->education_level,
+                'class'=> $class->class,
+                'subject'=>$newSubjectArray,
+                'salary'=>$rank->name,
+                'description'=>$user->description,
+                'District'=>$distric->name,
+                'Certificate'=>$user->Certificate,
+                'avatar'=>$user->avatar,
+                'name'=>$user->name,
+                'email'=>$user->email,
+                'phone'=>$user->phone,],
             'access_token' => $tokenResult->accessToken,
             'refresh_token' => $refreshToken->id,
 
@@ -68,14 +93,36 @@ class AuthController extends Controller
                     'user_id'=>$tokenResult->token->user_id,
                     'access_token_id'=> $tokenResult->accessToken
                 ]);
+                $school = Schools::find($user->school_id);
+                $distric = District::find($user->DistrictID);
+                $class = ClassLevel::find($user->class);
+                $subjectArray = explode(',',$user->subject);
+                $newSubjectArray =new Collection();
+                foreach ($subjectArray as $item) {
+                    $sub = Subject::find($item);
+                    $newSubjectArray->push($sub->name);
+                }
+                $rank = RankSalary::find($user->salary);
                 return response()->json([
-                    'avatar'=>$user->avatar,
-                    'name'=>$user->name,
-                    'email'=>$user->email,
-                    'phone'=>$user->phone,
-                    'access_token' => $accessToken,
-                    'refresh_token' => $refreshToken,
-                ],200);
+                    'user'=>['role'=>$user->role,
+                        'address'=>$user->address,
+                        'school' => $school->name,
+                        'citizen_card'=>$user->Citizen_card,
+                        'education_level'=>$user->education_level,
+                        'class'=> $class->class,
+                        'subject'=>$newSubjectArray,
+                        'salary'=>$rank->name,
+                        'description'=>$user->description,
+                        'District'=>$distric->name,
+                        'Certificate'=>$user->Certificate,
+                        'avatar'=>$user->avatar,
+                        'name'=>$user->name,
+                        'email'=>$user->email,
+                        'phone'=>$user->phone,],
+                    'access_token' => $tokenResult->accessToken,
+                    'refresh_token' => $refreshToken->id,
+
+                ]);
             }
 
         }

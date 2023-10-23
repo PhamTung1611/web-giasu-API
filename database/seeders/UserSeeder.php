@@ -13,14 +13,14 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        
+
         DB::table('users')->insert([
             'role'=>'teacher',
             'name' => 'Phạm Huy Tùng',
-            'email'=>'tung@gmail.com',
+            'email'=>'admin@gmail.com',
             'avatar' => 'https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg',
             'phone'=>'0342757452',
-            'password'=>'123',
+            'password'=>'$2y$10$lXjMFU12aNHFh.OJxdjG7ePtzntxKl7wiHswPxn.CdPCEiZGhK6vO',
             'address'=>'hanoi',
             'school_id'=>'001',
             'Citizen_card'=>'00012364',
@@ -32,7 +32,10 @@ class UserSeeder extends Seeder
             'time_tutor'=>'1',
             'status'=>'1',
             'DistrictID'=>'1',
-            'Certificate'=>'none'
+            'Certificate'=>'none',
+            'date_of_birth'=>'2003-09-30',
+            'gender'=>'Nam'
+
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -52,7 +55,9 @@ class UserSeeder extends Seeder
             'time_tutor'=>'1',
             'status'=>'1',
             'DistrictID'=>'2',
-            'Certificate'=>'none'
+            'Certificate'=>'none',
+            'date_of_birth'=>'2003-09-30',
+            'gender'=>'Nam'
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -72,7 +77,9 @@ class UserSeeder extends Seeder
             'time_tutor'=>'1',
             'status'=>'1',
             'DistrictID'=>'3',
-            'Certificate'=>'none'
+            'Certificate'=>'none',
+            'date_of_birth'=>'2003-09-30',
+            'gender'=>'Nam'
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -92,7 +99,9 @@ class UserSeeder extends Seeder
             'time_tutor'=>'1',
             'status'=>'1',
             'DistrictID'=>'4',
-            'Certificate'=>'none'
+            'Certificate'=>'none',
+            'date_of_birth'=>'2003-09-30',
+            'gender'=>'Nam'
         ]);
         DB::table('users')->insert([
             'role'=>'user',
@@ -103,6 +112,8 @@ class UserSeeder extends Seeder
             'password'=>'123',
             'address'=>'hanoi',
             'DistrictID'=>'5',
+            'date_of_birth'=>'2003-09-30',
+            'gender'=>'Nam'
         ]);
     }
 }
