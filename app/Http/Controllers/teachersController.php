@@ -14,6 +14,7 @@ use App\Models\Subject;
 use App\Models\TimeSlot;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class TeachersController extends Controller
 {
@@ -137,8 +138,7 @@ class TeachersController extends Controller
     public function getAllTeacher()
     {
         $title = "List";
-        $teachers = User::where('users.role', 'teacher')
-            ->get();
+        $teachers = User::where('users.role', 'teacher')->get();
         return view('backend.teacher.index', compact('teachers', 'title'));
     }
 
@@ -153,7 +153,11 @@ class TeachersController extends Controller
         $timeTutor = TimeSlot::all();
 
         if($request->isMethod('post')){
-            $params = $request->post();
+            // $params = $request->post();
+            $params = $request->except('_token');
+            if($request->hasFile('avatar') && $request->file('avatar')->isValid()){
+                $params['avatar'] = uploadFile('hinh',$request->file('avatar'));
+            }
             $teacher = new User();
             $teacher->role = $request->role;
             $teacher->name = $request->name;
@@ -173,6 +177,7 @@ class TeachersController extends Controller
             $teacher->status = $request->status;
             $teacher->DistrictID = $request->DistrictID;
             $teacher->Certificate = $request->Certificate;
+            $teacher->fill($params);
             $teacher->save();
             if($teacher->save()) {
                 Session::flash('success', 'Thêm thành công!');
@@ -196,7 +201,16 @@ class TeachersController extends Controller
         $teacher = User::findOrFail($id);
         // dd($teacher);
         if($request->isMethod('post')){
-            $update = User::where('id', $id)->update($request->except('_token'));
+            $params = $request->except('_token');
+            if($request->hasFile('avatar') && $request->file('avatar')->isValid()){
+                $deleteImage = Storage::delete('/public/'.$teacher->avatar);
+                if($deleteImage){
+                    $params['avatar'] = uploadFile('hinh',$request->file('avatar'));
+                }
+               
+            }
+            // $update = User::where('id', $id)->update($request->except('_token'));
+            $update = User::where('id', $id)->update($params);
             if($update){
                 Session::flash('success', 'Edit teacher success');
                 return redirect()->route('search_teacher');
@@ -205,5 +219,30 @@ class TeachersController extends Controller
             }
         }
         return view('backend.teacher.edit', compact('teacher', 'title','district','school', 'subject','class', 'salary','timeTutor'));
+    }
+
+    public function getTeacherByFilter(Request $request)
+    {
+        // dd($request);
+        $query = User::with('district:id,name', 'subject:id,name','school:id,name','class_levels:id,class','timeSlot:id,name');
+        // $query = User::query();
+
+        if ($request->has('DistrictID')) {
+            $query->where('DistrictID', $request->input('DistrictID'));
+        }
+
+        if ($request->has('subject')) {
+            $query->where('subject', $request->input('subject'));
+        }
+
+        if ($request->has('class')) {
+            $query->where('class', $request->input('class'));
+        }
+        $users = $query->get();
+        if($users){
+            return response()->json($users,200);
+        }else{
+            return response()->json(['message' => "Not Found"], 404);
+        }
     }
 }

@@ -13,7 +13,11 @@ class JobController extends Controller
 {
     public function index() {
         $title = 'Jobs';
-        $jobs = Job::all();
+        $jobs = Job::select('jobs.*', 'user1.name as idUser', 'user2.name as idTeacher','subjects.name as idSubject')
+        ->leftJoin('users as user1', 'jobs.idUser', '=', 'user1.id')
+        ->leftJoin('users as user2', 'jobs.idTeacher', '=', 'user2.id')
+        ->leftJoin('subjects','jobs.idSubject','=','subjects.id')
+        ->get();
         return view('backend.job.index', compact('title', 'jobs'));
     }
     public function create(JobRequest $request) {

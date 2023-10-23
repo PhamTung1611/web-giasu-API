@@ -90,7 +90,8 @@
           <span class="fw-normal">{{$u->email}}</span>
         </td>
         <td>
-          <img src="{{$u->avatar}}" style="width: 50px;" alt="">
+          {{-- <img src="{{$u->avatar}}" style="width: 50px;" alt=""> --}}
+          <img src="{{$u->avatar?''.Storage::url($u->avatar):''}}" alt="" style="width: 70px; height: auto;">
         </td>
         <td>
           <span class="fw-normal">{{$u->phone}}</span>
@@ -114,7 +115,7 @@
             <div class="dropdown-menu py-0">
 
               <a class="dropdown-item" href="{{ route('edit_user', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Edit</a>
-              <a class="dropdown-item text-danger rounded-bottom" href="" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
+              <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_user', ['id' => $u->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
             </div>
           </div>
         </td>

@@ -11,18 +11,29 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Schema::create('jobs', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('title');
+        //     $table->string('name');
+        //     $table->string('address');
+        //     $table->string('date_time');
+        //     $table->string('phone')->unique();
+        //     $table->string('email')->unique();
+        //     $table->string('subjects_need');
+        //     $table->string('education_level');
+        //     $table->string('salary');
+        //     $table->string('requirements');
+        //     $table->softDeletes();
+        //     $table->timestamps();
+        // });
+
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('name');
-            $table->string('address');
-            $table->string('date_time');
-            $table->string('phone')->unique();
-            $table->string('email')->unique();
-            $table->string('subjects_need');
-            $table->string('education_level');
-            $table->string('salary');
-            $table->string('requirements');
+            $table->string('idUser');
+            $table->string('idTeacher');
+            $table->string('idSubject');
+            $table->tinyInteger('status')->default(0);
+            $table->string('description')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
