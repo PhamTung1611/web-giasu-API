@@ -31,11 +31,14 @@ class AuthController extends Controller
             'revoked' => false, // Refresh token chưa bị thu hồi (revoke)
             'expires_at' => now()->addSeconds(2000), // Thời gian hết hạn của refresh token
             'user_id'=>$tokenResult->token->user_id,
-        'access_token_id'=> $tokenResult->accessToken
+            'access_token_id'=> $tokenResult->accessToken
         ]);
 
         return response()->json([
-            'user' => $user,
+            'avatar'=>$user->avatar,
+            'name'=>$user->name,
+            'email'=>$user->email,
+            'phone'=>$user->phone,
             'access_token' => $tokenResult->accessToken,
             'refresh_token' => $refreshToken->id,
 
@@ -48,7 +51,6 @@ class AuthController extends Controller
             ->where('id', $request->input('refresh_token_id'))
             ->where('revoked',0)
             ->first();
-
         // Kiểm tra nếu có dữ liệu và trả về refresh token nếu có
         if ($refreshTokenData) {
             DB::table('oauth_refresh_tokens')
@@ -67,14 +69,18 @@ class AuthController extends Controller
                     'access_token_id'=> $tokenResult->accessToken
                 ]);
                 return response()->json([
+                    'avatar'=>$user->avatar,
+                    'name'=>$user->name,
+                    'email'=>$user->email,
+                    'phone'=>$user->phone,
                     'access_token' => $accessToken,
                     'refresh_token' => $refreshToken,
                 ],200);
             }
 
-            return response()->json([
-                'message'=>'refreshtoken không tồn tại'
-            ],400);
         }
+        return response()->json([
+            'message'=>'refreshtoken không tồn tại'
+        ],400);
     }
 }
