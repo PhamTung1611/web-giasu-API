@@ -41,7 +41,12 @@ class AuthController extends Controller
         ]);
         $school = Schools::find($user->school_id);
         $distric = District::find($user->DistrictID);
-        $class = ClassLevel::find($user->class_id);
+        $classArray = explode(',',$user->class_id);
+        $newClassArray =new Collection();
+        foreach ($classArray as $item) {
+            $class = ClassLevel::find($item);
+            $newClassArray->push($class->class);
+        }
         $subjectArray = explode(',',$user->subject);
         $newSubjectArray =new Collection();
         foreach ($subjectArray as $item) {
@@ -56,12 +61,14 @@ class AuthController extends Controller
         }
         $rank = RankSalary::find($user->salary_id);
         return response()->json([
-            'user'=>['role'=>$user->role,
+            'user'=>[
+                'id'=>$user->id,
+                'role'=>$user->role,
                 'address'=>$user->address,
                 'school' => $school->name,
                 'citizen_card'=>$user->Citizen_card,
                 'education_level'=>$user->education_level,
-                'class'=> $class->class,
+                'class'=> $newClassArray,
                 'subject'=>$newSubjectArray,
                 'salary'=>$rank->name,
                 'description'=>$user->description,
@@ -103,12 +110,18 @@ class AuthController extends Controller
                 ]);
                 $school = Schools::find($user->school_id);
                 $distric = District::find($user->DistrictID);
-                $class = ClassLevel::find($user->class_id);
+
                 $subjectArray = explode(',',$user->subject);
                 $newSubjectArray =new Collection();
                 foreach ($subjectArray as $item) {
                     $sub = Subject::find($item);
                     $newSubjectArray->push($sub->name);
+                }
+                $classArray = explode(',',$user->class_id);
+                $newClassArray =new Collection();
+                foreach ($classArray as $item) {
+                    $class = ClassLevel::find($item);
+                    $newClassArray->push($class->class);
                 }
 
                 $timetutor = explode(',',$user->time_tutor_id);
@@ -119,12 +132,14 @@ class AuthController extends Controller
                 }
                 $rank = RankSalary::find($user->salary_id);
                 return response()->json([
-                    'user'=>['role'=>$user->role,
+                    'user'=>[
+                        'id'=>$user->id,
+                        'role'=>$user->role,
                         'address'=>$user->address,
                         'school' => $school->name,
                         'citizen_card'=>$user->Citizen_card,
                         'education_level'=>$user->education_level,
-                        'class'=> $class->class,
+                        'class'=> $newClassArray,
                         'subject'=>$newSubjectArray,
                         'salary'=>$rank->name,
                         'description'=>$user->description,
