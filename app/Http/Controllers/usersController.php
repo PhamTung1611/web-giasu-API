@@ -70,7 +70,6 @@ class UsersController extends Controller
                 $user->description = $request->description;
                 $user->time_tutor_id = $request->time_tutor_id;
                 $user->status = 1 ;
-                $user->time_tutor_id = $request->time_tutor_id;
                 $user->Certificate= $request->Certificate;
             }
 

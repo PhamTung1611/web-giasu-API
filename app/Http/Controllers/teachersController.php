@@ -156,14 +156,16 @@ class TeachersController extends Controller
             $teacher->school_id = $request->school_id;
             $teacher->Citizen_card = $request->Citizen_card;
             $teacher->education_level = $request->education_level;
-            $teacher->class = $request->class;
+            $teacher->class_id = $request->class;
             $teacher->subject = $request->subject;
-            $teacher->salary = $request->salary;
+            $teacher->salary_id = $request->salary;
             $teacher->description = $request->description;
-            $teacher->time_tutor = $request->time_tutor;
+            $teacher->time_tutor_id = $request->time_tutor;
             $teacher->status = $request->status;
             $teacher->DistrictID = $request->DistrictID;
             $teacher->Certificate = $request->Certificate;
+            $teacher->date_of_birth = $request->date_of_birth;
+            $teacher->gender = $request->gneder;
             $teacher->fill($params);
             $teacher->save();
             if ($teacher->save()) {
@@ -222,7 +224,7 @@ class TeachersController extends Controller
         }
 
         if ($request->has('class')) {
-            $query->where('class', $request->input('class'));
+            $query->where('class_id', $request->input('class'));
         }
         $users = $query->get();
         if ($users) {

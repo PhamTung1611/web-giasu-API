@@ -121,6 +121,11 @@
             <input type="text" placeholder="Ảnh bằng cấp" class="form-control" value="{{$teacher->Certificate}}" name="Certificate">
             <label>Nhập mô tả về gia sư</label><br>
             <textarea type="text" class="form-control" value="{{$teacher->description}}" placeholder="Nhập mô tả về gia sư" name="description"></textarea>
+              <label for="">Giới tính</label>
+              Nam: <input type="radio" @if($teacher->gender == 1) checked @endif name="gender" id="" value="1">
+              Nữ: <input type="radio" name="gender" @if($teacher->gender == 0) checked @endif id="" value="0">
+              <label for="">Ngày sinh</label>
+              <input type="date" value="{{$teacher->date_of_birth}}" name="date_of_birth">
             <label>Trạng thái</label><br>
             Kích hoạt: <input type="radio" name="status" id="" value="1" {{ $teacher->status == "1" ? "checked":"" }}>
             Chưa kích hoạt: <input type="radio" name="status" id="" value="0" {{ $teacher->status == "0" ? "checked":"" }}>

@@ -29,14 +29,16 @@ class User extends Authenticatable
         'school_id',
         'Citizen_card',
         'education_level',
-        'class',
+        'class_id',
         'subject',
-        'salary',
+        'salary_id',
         'description',
-        'time_tutor',
+        'time_tutor_id',
         'status',
         'DistrictID',
-        'Certificate'
+        'Certificate',
+        'date_of_birth',
+        'gender'
 
     ];
 

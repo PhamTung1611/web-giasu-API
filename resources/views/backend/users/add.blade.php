@@ -76,6 +76,11 @@
             <input type="text" class="form-control" placeholder="Nhập Số điện thoại" name="phone">
             <label>Địa chỉ</label><br>
             <input type="text" class="form-control" placeholder="Nhập Địa chỉ" name="address">
+              <label for="">Giới tính</label>
+              Nam: <input type="radio" name="gender" id="" value="1">
+              Nữ: <input type="radio" name="gender" id="" value="0">
+              <label for="">Ngày sinh</label>
+              <input type="date" name="date_of_birth">
             @error('class')
             <span class="text-danger">{{$message}}</span>
             @enderror
