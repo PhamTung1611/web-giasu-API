@@ -153,6 +153,8 @@ Route::prefix('feedback')->group(function () {
     Route::get('/avgPoint/{id}',[FeedBackController::class,'averagePoint']);
 });
 Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
+// Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
+
 Route::prefix('auth')->group(function(){
     Route::post('/login',[AuthController::class,'login']);
     Route::post('/refresh',[AuthController::class,'RefreshToken']);

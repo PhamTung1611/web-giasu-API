@@ -15,6 +15,6 @@ class TimeSlot extends Model
     ];
     public function users()
     {
-        return $this->hasMany(User::class, 'time_tutor');
+        return $this->hasMany(User::class, 'time_tutor_id');
     }
 }

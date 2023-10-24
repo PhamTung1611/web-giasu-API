@@ -15,6 +15,6 @@ class ClassLevel extends Model
     ];
     public function users()
     {
-        return $this->hasMany(User::class, 'class');
+        return $this->hasMany(User::class, 'class_id');
     }
 }

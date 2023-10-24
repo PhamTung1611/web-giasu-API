@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Role;
+
 class TeachersController extends Controller
 {
     /**
@@ -25,12 +26,12 @@ class TeachersController extends Controller
     public function index()
     {
         try {
-            $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class', 'subjects.name as subject', 'rank_salaries.name as salary', 'time_slots.name as time_tutor', 'schools.name as school_id')
+            $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class_id', 'subjects.name as subject', 'rank_salaries.name as salary_id', 'time_slots.name as time_tutor_id', 'schools.name as school_id')
                 ->leftJoin('district', 'users.districtID', '=', 'district.id')
-                ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
+                ->leftJoin('class_levels', 'users.class_id', '=', 'class_levels.id')
                 ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
-                ->leftJoin('rank_salaries', 'users.salary', '=', 'rank_salaries.id')
-                ->leftJoin('time_slots', 'users.time_tutor', '=', 'time_slots.id')
+                ->leftJoin('rank_salaries', 'users.salary_id', '=', 'rank_salaries.id')
+                ->leftJoin('time_slots', 'users.time_tutor_id', '=', 'time_slots.id')
                 ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
                 ->where('users.role', 'teacher')
                 ->get();
@@ -42,32 +43,32 @@ class TeachersController extends Controller
 
     public function getTeacherByClass($class)
     {
-        $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class', 'subjects.name as subject', 'rank_salaries.name as salary', 'time_slots.name as time_tutor', 'schools.name as school_id')
+        $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class_id', 'subjects.name as subject', 'rank_salaries.name as salary_id', 'time_slots.name as time_tutor_id', 'schools.name as school_id')
             ->leftJoin('district', 'users.districtID', '=', 'district.id')
-            ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
+            ->leftJoin('class_levels', 'users.class_id', '=', 'class_levels.id')
             ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
-            ->leftJoin('rank_salaries', 'users.salary', '=', 'rank_salaries.id')
-            ->leftJoin('time_slots', 'users.time_tutor', '=', 'time_slots.id')
+            ->leftJoin('rank_salaries', 'users.salary_id', '=', 'rank_salaries.id')
+            ->leftJoin('time_slots', 'users.time_tutor_id', '=', 'time_slots.id')
             ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
             ->where('users.role', 'teacher')
-            ->where('users.class', $class)
+            ->where('users.class_id', $class)
             ->get();
         return response()->json($teachers, 200);
     }
 
     public function getDetailTeacher($id)
     {
-        $teacher = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class', 'subjects.name as subject', 'rank_salaries.name as salary', 'time_slots.name as time_tutor', 'schools.name as school_id')
+        $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class_id', 'subjects.name as subject', 'rank_salaries.name as salary_id', 'time_slots.name as time_tutor_id', 'schools.name as school_id')
             ->leftJoin('district', 'users.districtID', '=', 'district.id')
-            ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
+            ->leftJoin('class_levels', 'users.class_id', '=', 'class_levels.id')
             ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
-            ->leftJoin('rank_salaries', 'users.salary', '=', 'rank_salaries.id')
-            ->leftJoin('time_slots', 'users.time_tutor', '=', 'time_slots.id')
+            ->leftJoin('rank_salaries', 'users.salary_id', '=', 'rank_salaries.id')
+            ->leftJoin('time_slots', 'users.time_tutor_id', '=', 'time_slots.id')
             ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
             ->where('users.role', 'teacher')
             ->where('users.id', $id)
             ->first();
-        return response()->json($teacher, 200);
+        return response()->json($teachers, 200);
     }
     /**
      * Show the form for creating a new resource.
@@ -138,11 +139,11 @@ class TeachersController extends Controller
         $salary = RankSalary::all();
         $timeTutor = TimeSlot::all();
 
-        if($request->isMethod('post')){
+        if ($request->isMethod('post')) {
             // $params = $request->post();
             $params = $request->except('_token');
-            if($request->hasFile('avatar') && $request->file('avatar')->isValid()){
-                $params['avatar'] = uploadFile('hinh',$request->file('avatar'));
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                $params['avatar'] = uploadFile('hinh', $request->file('avatar'));
             }
             $teacher = new User();
             $teacher->role = $request->role;
@@ -165,18 +166,18 @@ class TeachersController extends Controller
             $teacher->Certificate = $request->Certificate;
             $teacher->fill($params);
             $teacher->save();
-            if($teacher->save()) {
+            if ($teacher->save()) {
                 Session::flash('success', 'Thêm thành công!');
                 return redirect()->route('search_teacher');
-            }
-            else {
+            } else {
                 Session::flash('error', 'Thêm không thành công!');
             }
         }
 
-        return view('backend.teacher.add', compact('district', 'title','school', 'subject','class', 'salary','timeTutor'));
+        return view('backend.teacher.add', compact('district', 'title', 'school', 'subject', 'class', 'salary', 'timeTutor'));
     }
-    public function updateTeacher(UserRequest $request,$id){
+    public function updateTeacher(UserRequest $request, $id)
+    {
         $title = "Edit Teacher";
         $district = District::all();
         $school = Schools::all();
@@ -186,31 +187,30 @@ class TeachersController extends Controller
         $timeTutor = TimeSlot::all();
         $teacher = User::findOrFail($id);
         // dd($teacher);
-        if($request->isMethod('post')){
+        if ($request->isMethod('post')) {
             $params = $request->except('_token');
-            if($request->hasFile('avatar') && $request->file('avatar')->isValid()){
-                $deleteImage = Storage::delete('/public/'.$teacher->avatar);
-                if($deleteImage){
-                    $params['avatar'] = uploadFile('hinh',$request->file('avatar'));
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                $deleteImage = Storage::delete('/public/' . $teacher->avatar);
+                if ($deleteImage) {
+                    $params['avatar'] = uploadFile('hinh', $request->file('avatar'));
                 }
-
             }
             // $update = User::where('id', $id)->update($request->except('_token'));
             $update = User::where('id', $id)->update($params);
-            if($update){
+            if ($update) {
                 Session::flash('success', 'Edit teacher success');
                 return redirect()->route('search_teacher');
-            }else{
+            } else {
                 Session::flash('error', 'Edit subject error');
             }
         }
-        return view('backend.teacher.edit', compact('teacher', 'title','district','school', 'subject','class', 'salary','timeTutor'));
+        return view('backend.teacher.edit', compact('teacher', 'title', 'district', 'school', 'subject', 'class', 'salary', 'timeTutor'));
     }
 
     public function getTeacherByFilter(Request $request)
     {
         // dd($request);
-        $query = User::with('district:id,name', 'subject:id,name','school:id,name','class_levels:id,class','timeSlot:id,name');
+        $query = User::with('district:id,name', 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')->where('role', 'teacher');
         // $query = User::query();
 
         if ($request->has('DistrictID')) {
@@ -225,9 +225,9 @@ class TeachersController extends Controller
             $query->where('class', $request->input('class'));
         }
         $users = $query->get();
-        if($users){
-            return response()->json($users,200);
-        }else{
+        if ($users) {
+            return response()->json($users, 200);
+        } else {
             return response()->json(['message' => "Not Found"], 404);
         }
     }

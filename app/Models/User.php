@@ -70,7 +70,7 @@ class User extends Authenticatable
     }
     public function class_levels()
     {
-        return $this->belongsTo(ClassLevel::class, 'class');
+        return $this->belongsTo(ClassLevel::class, 'class_id');
     }
     public function school()
     {
@@ -78,6 +78,6 @@ class User extends Authenticatable
     }
     public function timeSlot()
     {
-        return $this->belongsTo(TimeSlot::class, 'time_tutor');
+        return $this->belongsTo(TimeSlot::class, 'time_tutor_id');
     }
 }
