@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->id();
-            $table->String('name');
-            $table->timestamps();
+        Schema::table('oauth_refresh_tokens', function (Blueprint $table) {
+            $table->integer('user_id');
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::table('oauth_refresh_tokens', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+        });
     }
 };

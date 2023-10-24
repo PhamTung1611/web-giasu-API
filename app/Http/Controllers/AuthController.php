@@ -94,7 +94,7 @@ class AuthController extends Controller
                 $tokenResult = $user->createToken('MyAppToken');
                 $accessToken = $tokenResult->accessToken;
                 $refreshToken = $tokenResult->token->id;
-                $tokennew=Passport::refreshToken()->create([
+                $tokennew =Passport::refreshToken()->create([
                     'id' => $refreshToken,
                     'revoked' => false, // Refresh token chưa bị thu hồi (revoke)
                     'expires_at' => now()->addDays(30), // Thời gian hết hạn của refresh token (30 ngày)

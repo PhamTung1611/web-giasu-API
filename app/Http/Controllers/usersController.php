@@ -63,7 +63,8 @@ class UsersController extends Controller
                 $user->school_id = $request->school_id;
                 $user->Citizen_card = $request->citizen_card;
                 $user->education_level = $request->education_level;
-                $user->class_id = $request->class_id;
+                $class = implode(",",$request->class_id);
+                $user->class_id = $request->$class;
                 $subject = implode(",",$request->subject);
                 $user->subject =$subject;
                 $user->salary_id = $request->salary_id;
