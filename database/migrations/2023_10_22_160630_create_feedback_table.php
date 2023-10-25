@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('idTeacher');
             $table->string('point');
             $table->string('description')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

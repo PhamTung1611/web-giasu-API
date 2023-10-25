@@ -134,6 +134,15 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('search_feedback')}}">
+                                    <span class="sidebar-text">Feedback</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li class="nav-item ">
                     <a href="../../pages/settings.html" class="nav-link">

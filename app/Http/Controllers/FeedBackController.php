@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FeedBack;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class FeedBackController extends Controller
 {
@@ -91,5 +92,22 @@ class FeedBackController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function getAllFeedback(Request $request){
+        $title = 'List';
+        $feedback = FeedBack::all();
+        return view('backend.feedback.index', compact('feedback', 'title'));
+    }
+    public function delete($id){
+        if($id){
+            $feedback = FeedBack::find($id);
+            $deleted = $feedback->delete();
+            if($deleted){
+                Session::flash('success','Xóa thành công');
+                return redirect()->route('search_feedback');
+            }else{
+                Session::flash('error','Xóa thất bại');
+            }
+        }
     }
 }
