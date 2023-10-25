@@ -45,7 +45,13 @@ class AuthController extends Controller
         }else{
             $schoolName = "";
         }
-        $distric = District::find($user->DistrictID);
+        if($user->DistrictID){
+            $distric = District::find($user->DistrictID);
+            $districName = $distric->name;
+        }else{
+            $districName ="";
+        }
+
         if ($user->class_id){
             $classArray = explode(',',$user->class_id);
             $newClassArray =new Collection();
@@ -95,7 +101,7 @@ class AuthController extends Controller
                 'subject'=>$newSubjectArray,
                 'salary'=>$rankName,
                 'description'=>$user->description,
-                'District'=>$distric->name,
+                'District'=>$districName,
                 'Certificate'=>$user->Certificate,
                 'avatar'=>$user->avatar,
                 'name'=>$user->name,
@@ -137,7 +143,12 @@ class AuthController extends Controller
                 }else{
                     $schoolName = "";
                 }
-                $distric = District::find($user->DistrictID);
+                if($user->DistrictID){
+                    $distric = District::find($user->DistrictID);
+                    $districName = $distric->name;
+                }else{
+                    $districName ="";
+                }
                 if ($user->class_id){
                     $classArray = explode(',',$user->class_id);
                     $newClassArray =new Collection();
@@ -186,7 +197,7 @@ class AuthController extends Controller
                         'subject'=>$newSubjectArray,
                         'salary'=>$rankName,
                         'description'=>$user->description,
-                        'District'=>$distric->name,
+                        'District'=>$districName,
                         'Certificate'=>$user->Certificate,
                         'avatar'=>$user->avatar,
                         'name'=>$user->name,
