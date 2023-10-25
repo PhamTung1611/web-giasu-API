@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClassLevelController;
 use App\Http\Controllers\Dashboard;
+use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\RankSalaryController;
@@ -57,3 +58,8 @@ Route::get('teacher',[TeachersController::class,'getAllTeacher'])->name('search_
 Route::match(['get','post'],'teacher/addNew',[TeachersController::class,'addNewTeacher'])->name('add_teacher');
 Route::match(['get','post'],'teacher/edit/{id}',[TeachersController::class,'updateTeacher'])->name('edit_teacher');
 Route::get('teacher/delete/{id}',[TeachersController::class,'delete'])->name('delete_teacher'); 
+//feedback
+Route::get('feedback',[FeedBackController::class,'getAllFeedback'])->name('search_feedback');
+// Route::match(['get','post'],'feedback/addNew',[FeedBackController::class,'addNewFeedback'])->name('add_feedback');
+// Route::match(['get','post'],'feedback/edit/{id}',[FeedBackController::class,'updateFeedback'])->name('edit_feedback');
+Route::get('feedback/delete/{id}',[FeedBackController::class,'delete'])->name('delete_feedback'); 
