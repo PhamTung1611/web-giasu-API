@@ -39,38 +39,61 @@ class AuthController extends Controller
             'user_id'=>$tokenResult->token->user_id,
             'access_token_id'=> $tokenResult->accessToken
         ]);
-        $school = Schools::find($user->school_id);
+        if($user->school_id){
+            $school = Schools::find($user->school_id);
+            $schoolName = $school->name;
+        }else{
+            $schoolName = "";
+        }
         $distric = District::find($user->DistrictID);
-        $classArray = explode(',',$user->class_id);
-        $newClassArray =new Collection();
-        foreach ($classArray as $item) {
-            $class = ClassLevel::find($item);
-            $newClassArray->push($class->class);
+        if ($user->class_id){
+            $classArray = explode(',',$user->class_id);
+            $newClassArray =new Collection();
+            foreach ($classArray as $item) {
+                $class = ClassLevel::find($item);
+                $newClassArray->push($class->class);
+            }
+        }else{
+            $newClassArray= [];
         }
-        $subjectArray = explode(',',$user->subject);
-        $newSubjectArray =new Collection();
-        foreach ($subjectArray as $item) {
-            $sub = Subject::find($item);
-            $newSubjectArray->push($sub->name);
+       if($user->subject){
+           $subjectArray = explode(',',$user->subject);
+           $newSubjectArray =new Collection();
+           foreach ($subjectArray as $item) {
+               $sub = Subject::find($item);
+               $newSubjectArray->push($sub->name);
+           }
+       }else{
+           $newSubjectArray=[];
+       }
+        if($user->time_tutor_id){
+            $timetutorArray = explode(',',$user->time_tutor_id);
+            $newTimetutor =new Collection();
+            foreach ($timetutorArray as $item) {
+                $time = TimeSlot::find($item);
+                $newTimetutor->push($time->name);
+            }
+        }else{
+            $newTimetutor =[];
         }
-        $timetutorArray = explode(',',$user->time_tutor_id);
-        $newTimetutor =new Collection();
-        foreach ($timetutorArray as $item) {
-            $time = TimeSlot::find($item);
-            $newTimetutor->push($time->name);
-        }
-        $rank = RankSalary::find($user->salary_id);
+       if($user->salary_id){
+           $rank = RankSalary::find($user->salary_id);
+           $rankName = $rank->name;
+       }else{
+           $rankName ="";
+       }
+
         return response()->json([
             'user'=>[
                 'id'=>$user->id,
                 'role'=>$user->role,
                 'address'=>$user->address,
-                'school' => $school->name,
+                'school' => $schoolName,
                 'citizen_card'=>$user->Citizen_card,
                 'education_level'=>$user->education_level,
                 'class'=> $newClassArray,
                 'subject'=>$newSubjectArray,
-                'salary'=>$rank->name,
+                'salary'=>$rankName,
                 'description'=>$user->description,
                 'District'=>$distric->name,
                 'Certificate'=>$user->Certificate,
@@ -108,40 +131,60 @@ class AuthController extends Controller
                     'user_id'=>$tokenResult->token->user_id,
                     'access_token_id'=> $tokenResult->accessToken
                 ]);
-                $school = Schools::find($user->school_id);
+                if($user->school_id){
+                    $school = Schools::find($user->school_id);
+                    $schoolName = $school->name;
+                }else{
+                    $schoolName = "";
+                }
                 $distric = District::find($user->DistrictID);
-
-                $subjectArray = explode(',',$user->subject);
-                $newSubjectArray =new Collection();
-                foreach ($subjectArray as $item) {
-                    $sub = Subject::find($item);
-                    $newSubjectArray->push($sub->name);
+                if ($user->class_id){
+                    $classArray = explode(',',$user->class_id);
+                    $newClassArray =new Collection();
+                    foreach ($classArray as $item) {
+                        $class = ClassLevel::find($item);
+                        $newClassArray->push($class->class);
+                    }
+                }else{
+                    $newClassArray= [];
                 }
-                $classArray = explode(',',$user->class_id);
-                $newClassArray =new Collection();
-                foreach ($classArray as $item) {
-                    $class = ClassLevel::find($item);
-                    $newClassArray->push($class->class);
+                if($user->subject){
+                    $subjectArray = explode(',',$user->subject);
+                    $newSubjectArray =new Collection();
+                    foreach ($subjectArray as $item) {
+                        $sub = Subject::find($item);
+                        $newSubjectArray->push($sub->name);
+                    }
+                }else{
+                    $newSubjectArray=[];
                 }
-
-                $timetutor = explode(',',$user->time_tutor_id);
-                $newTimetutor =new Collection();
-                foreach ($timetutor as $item) {
-                    $time = TimeSlot::find($item);
-                    $newTimetutor->push($time->name);
+                if($user->time_tutor_id){
+                    $timetutorArray = explode(',',$user->time_tutor_id);
+                    $newTimetutor =new Collection();
+                    foreach ($timetutorArray as $item) {
+                        $time = TimeSlot::find($item);
+                        $newTimetutor->push($time->name);
+                    }
+                }else{
+                    $newTimetutor =[];
                 }
-                $rank = RankSalary::find($user->salary_id);
+                if($user->salary_id){
+                    $rank = RankSalary::find($user->salary_id);
+                    $rankName = $rank->name;
+                }else{
+                    $rankName ="";
+                }
                 return response()->json([
                     'user'=>[
                         'id'=>$user->id,
                         'role'=>$user->role,
                         'address'=>$user->address,
-                        'school' => $school->name,
+                        'school' => $schoolName,
                         'citizen_card'=>$user->Citizen_card,
                         'education_level'=>$user->education_level,
                         'class'=> $newClassArray,
                         'subject'=>$newSubjectArray,
-                        'salary'=>$rank->name,
+                        'salary'=>$rankName,
                         'description'=>$user->description,
                         'District'=>$distric->name,
                         'Certificate'=>$user->Certificate,
@@ -149,8 +192,7 @@ class AuthController extends Controller
                         'name'=>$user->name,
                         'email'=>$user->email,
                         'phone'=>$user->phone,
-                        'time_tutor'=>$newTimetutor
-                        ],
+                        'time_tutor'=>$newTimetutor],
 
                     'access_token' => $tokenResult->accessToken,
                     'refresh_token' => $tokennew->id,
