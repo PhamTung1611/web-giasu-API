@@ -13,7 +13,7 @@ use App\Http\Controllers\schoolsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\FeedBackController;
-
+use App\Http\Controllers\ResetPasswordController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -158,4 +158,7 @@ Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
 Route::prefix('auth')->group(function(){
     Route::post('/login',[AuthController::class,'login']);
     Route::post('/refresh',[AuthController::class,'RefreshToken']);
+    Route::post('/reset-password', [ResetPasswordController::class,'sendMail']);
+    Route::put('/reset-password/{token}', [ResetPasswordController::class,'reset']);
+
 });
