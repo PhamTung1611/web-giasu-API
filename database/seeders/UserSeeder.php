@@ -92,7 +92,7 @@ class UserSeeder extends Seeder
             'school_id'=>'001',
             'Citizen_card'=>'00012314',
             'education_level'=>'Đại học',
-            'class_id'=>'6',
+            'class_id'=>'6,2',
             'subject'=>'2',
             'salary_id'=>'1',
             'description'=>'Yêu nghề',

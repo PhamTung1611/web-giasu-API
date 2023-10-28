@@ -67,13 +67,13 @@ class UsersController extends Controller
                 $user->Citizen_card = $request->citizen_card;
                 $user->education_level = $request->education_level;
                 $class = implode(",",$request->class_id);
-                $user->class_id = $request->$class;
+                $user->class_id = $class;
                 $subject = implode(",",$request->subject);
                 $user->subject =$subject;
                 $user->salary_id = $request->salary_id;
                 $user->description = $request->description;
                 $time_tutor = implode(",",$request->time_tutor_id);
-                $user->time_tutor_id = $request->$time_tutor;
+                $user->time_tutor_id = $time_tutor;
                 $user->status = 1 ;
                 $user->Certificate= $request->Certificate;
             }
