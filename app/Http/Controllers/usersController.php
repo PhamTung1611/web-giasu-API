@@ -53,8 +53,11 @@ class UsersController extends Controller
             $user->date_of_birth = $request->date_of_birth;
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->avatar= $request->avatar;
-
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                    $user->avatar = uploadFile('hinh', $request->file('avatar'));
+            }else{
+                $user->avatar ="duong dan co dinh";
+            }
             $user->password= Hash::make($request->password);
             $user->address = $request->address;
             $user->DistrictID = $request->districtID;
@@ -69,7 +72,8 @@ class UsersController extends Controller
                 $user->subject =$subject;
                 $user->salary_id = $request->salary_id;
                 $user->description = $request->description;
-                $user->time_tutor_id = $request->time_tutor_id;
+                $time_tutor = implode(",",$request->time_tutor_id);
+                $user->time_tutor_id = $request->$time_tutor;
                 $user->status = 1 ;
                 $user->Certificate= $request->Certificate;
             }
@@ -99,20 +103,47 @@ class UsersController extends Controller
     public function update(UserRequest $request, String $id)
     {
         try {
-            $user = User::findOrFail($id);
-            $data = $request->all();
-            $update = $user->update($data);
-            if ($update) {
-                return response()->json($user, 200);
-            } else {
-                return response()->json(['error' => 'Update không thành công'], 400);
+            $user = User::find($id);
+            $role = Role::find($request->role);
+            if(!$role){
+                return response()->json('Sai quyền',400);
             }
-        } catch (ModelNotFoundException $e) {
-            // Xử lý ngoại lệ nếu không tìm thấy user
-            return response()->json(['error' => 'User not found'], 404);
-        } catch (QueryException $e) {
-            // Xử lý ngoại lệ nếu có lỗi trong truy vấn cơ sở dữ liệu
-            return response()->json(['error' => $e], 500);
+            $user->role= $role->name;
+            $user->gender = $request->gender;
+            $user->date_of_birth = $request->date_of_birth;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                $deleteImage = Storage::delete('/public/' . $user->avatar);
+                if ($deleteImage) {
+                    $user->avatar = uploadFile('hinh', $request->file('avatar'));
+                }
+            }
+            $user->password= Hash::make($request->password);
+            $user->address = $request->address;
+            $user->DistrictID = $request->districtID;
+            $user->phone = $request->phone;
+            if($request->role == 3 ){
+                $user->school_id = $request->school_id;
+                $user->Citizen_card = $request->citizen_card;
+                $user->education_level = $request->education_level;
+                $class = implode(",",$request->class_id);
+                $user->class_id = $request->$class;
+                $subject = implode(",",$request->subject);
+                $user->subject =$subject;
+                $user->salary_id = $request->salary_id;
+                $user->description = $request->description;
+                $time_tutor = implode(",",$request->time_tutor_id);
+                $user->time_tutor_id = $request->$time_tutor;
+                $user->status = 1 ;
+                $user->Certificate= $request->Certificate;
+            }
+
+            $user->save();
+
+            return response()->json("success", 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => "Sửa không thành công,$e"], 400);
         }
     }
 
