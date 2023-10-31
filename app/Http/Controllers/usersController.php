@@ -42,9 +42,11 @@ class UsersController extends Controller
     public function store(UserRequest $request)
     {
         try {
+
             $user = new User;
             $role = Role::find($request->role);
 //            dd($role->name);
+
             if(!$role){
                 return response()->json('Sai quyền',400);
             }
@@ -71,11 +73,23 @@ class UsersController extends Controller
                 $subject = implode(",",$request->subject);
                 $user->subject =$subject;
                 $user->salary_id = $request->salary_id;
+                if ($request->hasFile('Certificate')) {
+                    $certificates = [];
+
+                    foreach ($request->file('Certificate') as $file) {
+                        if ($file->isValid()) {
+                            $certificates[] = uploadFile('hinh', $file);
+                        }
+                    }
+                    $user->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
+                } else {
+                    $user->Certificate = "";
+                }
+
                 $user->description = $request->description;
                 $time_tutor = implode(",",$request->time_tutor_id);
                 $user->time_tutor_id = $time_tutor;
                 $user->status = 1 ;
-                $user->Certificate= $request->Certificate;
             }
 
             $user->save();

@@ -197,6 +197,9 @@ class TeachersController extends Controller
                     $params['avatar'] = uploadFile('hinh', $request->file('avatar'));
                 }
             }
+            if($params['avatar']==""){
+                $params['password']= $teacher->password;
+            }
             // $update = User::where('id', $id)->update($request->except('_token'));
             $update = User::where('id', $id)->update($params);
             if ($update) {

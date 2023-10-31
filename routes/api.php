@@ -45,10 +45,11 @@ Route::prefix('TeacherSubject')->group(function () {
 Route::prefix('users')->group(function(){
     Route::get('/', [UsersController::class, 'index']);
     Route::get('/{id}', [UsersController::class, 'show']);
-    Route::post('/', [UsersController::class, 'store']);
+
     Route::put('/{id}', [UsersController::class, 'update']);
     Route::delete('/{id}', [UsersController::class, 'destroy']);
 });
+Route::post('/register', [UsersController::class, 'store']);
 //route teacher
 Route::prefix('teachers')->group(function(){
     Route::get('/', [TeachersController::class, 'index']);

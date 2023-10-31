@@ -88,7 +88,7 @@
             <label>Trình độ học vấn</label><br>
             <input type="text" class="form-control" value="{{$teacher->education_level}}" placeholder="Nhập trình độ học vấn" name="education_level">
             <label>Lớp muốn dạy</label><br>
-            <select name="class" id="" class="form-control">
+            <select name="class_id" id="" class="form-control">
               @foreach($class as $s)
               <option class="form-control" value="{{$s->id}}" {{$teacher->class == $s->id ?"selected":""}}>{{$s->class}}</option>
               @endforeach
@@ -100,7 +100,7 @@
               @endforeach
             </select>
             <label>Mức lương</label><br>
-            <select name="salary" id="" class="form-control">
+            <select name="salary_id" id="" class="form-control">
               @foreach($salary as $s)
               <option class="form-control" value="{{$s->id}}" {{$teacher->salary == $s->id ?"selected":""}}>{{$s->name}}</option>
               @endforeach
@@ -112,7 +112,7 @@
               @endforeach
             </select>
             <label>Chọn thời gian dạy</label><br>
-            <select name="time_tutor" id="" class="form-control">
+            <select name="time_tutor_id" id="" class="form-control">
               @foreach($timeTutor as $s)
               <option class="form-control" value="{{$s->id}}" {{$teacher->time_tutor == $s->id ?"selected":""}}>{{$s->name}}</option>
               @endforeach
