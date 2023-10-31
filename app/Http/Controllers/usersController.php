@@ -26,6 +26,12 @@ class UsersController extends Controller
     {
         try {
             $users = User::where('role', 'user')->get();
+            $users = $users->map(function ($user) {
+                if ($user->avatar) {
+                    $user->avatar = 'http://127.0.0.1:8000/storage/' . $user->avatar;
+                }
+                return $user;
+            });
             return response()->json($users, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e], 500);

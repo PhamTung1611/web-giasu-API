@@ -35,6 +35,12 @@ class TeachersController extends Controller
                 ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
                 ->where('users.role', 'teacher')
                 ->get();
+                $teachers->transform(function ($teacher) {
+                    if ($teacher->avatar) {
+                        $teacher->avatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
+                    }
+                    return $teacher;
+                });
             return response()->json($teachers, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e], 500);
@@ -53,12 +59,19 @@ class TeachersController extends Controller
             ->where('users.role', 'teacher')
             ->where('users.class_id', $class)
             ->get();
+
+            $teachers->transform(function ($teacher) {
+                if ($teacher->avatar) {
+                    $teacher->avatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
+                }
+                return $teacher;
+            });
         return response()->json($teachers, 200);
     }
 
     public function getDetailTeacher($id)
     {
-        $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class_id', 'subjects.name as subject', 'rank_salaries.name as salary_id', 'time_slots.name as time_tutor_id', 'schools.name as school_id')
+        $teacher = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class_id', 'subjects.name as subject', 'rank_salaries.name as salary_id', 'time_slots.name as time_tutor_id', 'schools.name as school_id')
             ->leftJoin('district', 'users.districtID', '=', 'district.id')
             ->leftJoin('class_levels', 'users.class_id', '=', 'class_levels.id')
             ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
@@ -68,7 +81,10 @@ class TeachersController extends Controller
             ->where('users.role', 'teacher')
             ->where('users.id', $id)
             ->first();
-        return response()->json($teachers, 200);
+        if ($teacher && $teacher->avatar) {
+            $teacher->avatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
+        }
+        return response()->json($teacher, 200);
     }
     /**
      * Show the form for creating a new resource.

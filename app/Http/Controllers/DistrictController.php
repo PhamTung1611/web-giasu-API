@@ -31,6 +31,12 @@ class DistrictController extends Controller
             ->where('users.role', 'teacher')
             ->where('users.DistrictID',$id)
             ->get();
+            $teachers->transform(function ($teacher) {
+                if ($teacher->avatar) {
+                    $teacher->avatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
+                }
+                return $teacher;
+            });
             return response()->json($teachers, 200);
         // } catch (\Exception $e) {
         //     return response()->json(['error' => $e], 500);
