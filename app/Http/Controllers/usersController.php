@@ -113,6 +113,9 @@ class UsersController extends Controller
     public function show(string $id)
     {
         $user = User::where('role', 'user')->find($id);
+        if ($user && $user->avatar) {
+            $user->avatar = 'http://127.0.0.1:8000/storage/' . $user->avatar;
+        }
         if ($user) {
             return response()->json($user, 200);
         } else {
