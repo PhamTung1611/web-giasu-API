@@ -246,6 +246,12 @@ class TeachersController extends Controller
             $query->where('class_id', $request->input('class'));
         }
         $users = $query->get();
+        $users->transform(function ($users) {
+            if ($users->avatar) {
+                $users->avatar = 'http://127.0.0.1:8000/storage/' . $users->avatar;
+            }
+            return $users;
+        });
         if ($users) {
             return response()->json($users, 200);
         } else {

@@ -31,7 +31,8 @@ return new class extends Migration
             $table->id();
             $table->string('idUser');
             $table->string('idTeacher');
-            $table->string('idSubject');
+            $table->string('subject');
+            $table->string('class');
             $table->tinyInteger('status')->default(0);
             $table->string('description')->nullable();
             $table->softDeletes();
