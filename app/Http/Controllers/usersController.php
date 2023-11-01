@@ -161,7 +161,7 @@ class UsersController extends Controller
             $newDistrict = $district->name;
         }
 
-        return  response()->json(['data'=> [
+        return  response()->json( [
             'role'=>$records->role,
             'gender'=>$records->gender,
             'date_of_birth'=>$records->date_of_birth,
@@ -181,7 +181,7 @@ class UsersController extends Controller
             'status'=>$records->status,
             'DistrictID'=>$newDistrict,
             'Certificate'=>$records->Certificate
-        ]], 200);
+        ], 200);
     }
 
 
