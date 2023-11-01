@@ -32,7 +32,7 @@ class ResetPasswordController extends Controller
             }
 
             return response()->json([
-                'message' => 'We have e-mailed your password reset link!'
+                'token' => $passwordReset->token
             ]);
         } catch (\Exception $e) {
             // Handle other exceptions here
