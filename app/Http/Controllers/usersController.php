@@ -43,6 +43,13 @@ class UsersController extends Controller
             return response()->json(['error' => $e], 500);
         }
 
+        // $users = User::select('users.*', 'district.name as district_name', 'class_levels.class as class_name')
+        //     ->leftJoin('district', 'users.districtID', '=', 'district.id')
+        //     ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
+        //     ->where('users.role', 'user')
+        //     ->get();
+
+        // return  response()->json($users, 200);
     }
     public function store(UserRequest $request)
     {
@@ -111,69 +118,12 @@ class UsersController extends Controller
      */
     public function show(string $id)
     {
-        $records = User::where('id', $id)
-            ->first();
-        $newArraySubject = [];
-        if($records->subject != null){
-            $makeSubject = explode(',',$records->subject);
-            foreach($makeSubject as $item ){
-                $subjectNew = Subject::find($item);
-                array_push($newArraySubject,$subjectNew->name);
-            }
+        $user = User::where('role', 'user')->find($id);
+        if ($user) {
+            return response()->json($user, 200);
+        } else {
+            return false;
         }
-        $newArrayClass = [];
-        if($records->class_id != null){
-            $makeClass = explode(',',$records->class_id);
-            foreach($makeClass as $item ){
-                $classNew = ClassLevel::find($item);
-                array_push($newArrayClass,$classNew->class);
-            }
-        }
-        $newArrayTime = [];
-        if($records->time_tutor_id != null){
-            $makeTimetutor = explode(',',$records->time_tutor_id);
-            foreach($makeTimetutor as $item ){
-                $timeNew = TimeSlot::find($item);
-                array_push($newArrayTime,$timeNew->name);
-            }
-        }
-        $newSchool = "";
-        $newSalary ="";
-        $newDistrict ="";
-        if($records->school_id != null){
-            $school = Schools::find($records->school_id);
-            $newSchool=$school->name;
-        }
-       if ($records->salary_id != null){
-           $salary = RankSalary::find($records->salary_id);
-           $newSalary= $salary->name;
-       }
-        if($records->DistrictID != null){
-            $district = District::find($records->DistrictID);
-            $newDistrict = $district->name;
-        }
-
-        return  response()->json(['data'=> [
-            'role'=>$records->role,
-            'gender'=>$records->gender,
-            'date_of_birth'=>$records->date_of_birth,
-            'name'=>$records->name,
-            'email'=>$records->email,
-            'avatar'=>$records->avatar,
-            'phone'=>$records->phone,
-            'address'=>$records->address,
-            'school_id'=>$newSchool,
-            'Citizen_card'=>$records->Citizen_card,
-            'education_level'=>$records->education_level,
-            'class_id'=>$newArrayClass,
-            'subject'=>$newArraySubject,
-            'salary_id'=>$newSalary,
-            'description'=>$records->description,
-            'time_tutor_id'=>$newArrayTime,
-            'status'=>$records->status,
-            'DistrictID'=>$newDistrict,
-            'Certificate'=>$records->Certificate
-        ]], 200);
     }
 
     public function update(UserRequest $request, String $id)

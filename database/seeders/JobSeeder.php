@@ -30,16 +30,16 @@ class JobSeeder extends Seeder
 
         DB::table('jobs')->insert([
             [
-                'idUser'=>'5',
+                'idUser' => '5',
                 'idTeacher'=>'1',
-                'idSubject'=>'1',
-                'status'=>'0'
+                'subject'=>'[1,2,3]',
+                'class'=>'[2,3]'
             ],
             [
-                'idUser'=>'6',
+                'idUser' => '5',
                 'idTeacher'=>'2',
-                'idSubject'=>'3',
-                'status'=>'1'
+                'subject'=>'[2,3]',
+                'class'=>'[4,5]'
             ],
         ]);
     }
