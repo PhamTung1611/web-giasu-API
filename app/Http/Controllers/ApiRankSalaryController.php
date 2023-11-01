@@ -14,7 +14,7 @@ class ApiRankSalaryController extends Controller
     public function index()
     {
         $rank_salary = RankSalary::all();
-        return response->json($rank_salary, 200);
+        return response()->json($rank_salary, 200);
     }
 
     /**
