@@ -71,20 +71,7 @@ class TeachersController extends Controller
 
     public function getDetailTeacher($id)
     {
-        $teacher = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class_id', 'subjects.name as subject', 'rank_salaries.name as salary_id', 'time_slots.name as time_tutor_id', 'schools.name as school_id')
-            ->leftJoin('district', 'users.districtID', '=', 'district.id')
-            ->leftJoin('class_levels', 'users.class_id', '=', 'class_levels.id')
-            ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
-            ->leftJoin('rank_salaries', 'users.salary_id', '=', 'rank_salaries.id')
-            ->leftJoin('time_slots', 'users.time_tutor_id', '=', 'time_slots.id')
-            ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
-            ->where('users.role', 'teacher')
-            ->where('users.id', $id)
-            ->first();
-        if ($teacher && $teacher->avatar) {
-            $teacher->avatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
-        }
-        return response()->json($teacher, 200);
+
     }
     /**
      * Show the form for creating a new resource.
