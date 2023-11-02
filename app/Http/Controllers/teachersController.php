@@ -206,7 +206,7 @@ class TeachersController extends Controller
         // dd($request);
         $query = User::with('district:id,name', 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')->where('role', 'teacher');
         // $query = User::query();
-
+        // dd($query);
         if ($request->has('DistrictID')) {
             $query->where('DistrictID', $request->input('DistrictID'));
         }
@@ -223,8 +223,9 @@ class TeachersController extends Controller
             if ($users->avatar) {
                 $users->avatar = 'http://127.0.0.1:8000/storage/' . $users->avatar;
             }
-
+            return $users;
         });
+        // dd($users);
         if ($users) {
             return response()->json($users, 200);
         } else {
