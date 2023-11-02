@@ -72,19 +72,14 @@
         <th>Người Thuê</th>
         <th>Người Dạy</th>
         <th>Môn Học</th>
-        <th>Status</th>
+        <th>Lớp Học</th>
         <th>Mô tả</th>
-                <!-- <th>Phone</th>
-                <th>Email</th>
-                <th>SubjectNeed</th>
-                <th>EducationLevel</th>
-                <th>Salary</th>
-                <th>Requirement</th> -->
+        <th>Status</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      @foreach($jobs as $item)
+      @foreach($results as $item)
       <tr>
         <td>
           <a href="" class="fw-bold">{{$item->id}}</a>
@@ -96,37 +91,19 @@
           <span class="fw-normal">{{$item->idTeacher}}</span>
         </td>
         <td>
-          <span class="fw-normal">{{$item->idSubject}}</span>
+          <span class="fw-normal">{{$item->subject}}</span>
+        </td>
+        <td>
+          <span class="fw-normal">{{$item->class}}</span>
+        </td>
+        <td>
+        <span class="fw-normal">{{$item->description}}</span>
         </td>
         <td>
           <span class="fw-normal">
             {{$item->status == "1" ? 'Thành công' : ($item->status == "2" ? 'Từ chối dạy' : 'Chờ xác nhận')}}
           </span>
         </td>
-        <td>
-          <span class="fw-normal">{{$item->description}}</span>
-        </td>
-        <!-- <td>
-                    <span class="fw-normal">{{$item->date_time}}</span>
-                </td>
-                <td>
-                    <span class="fw-normal">{{$item->phone}}</span>
-                </td>
-                <td>
-                    <span class="fw-normal">{{$item->email}}</span>
-                </td>
-                <td>
-                    <span class="fw-normal">{{$item->subjects_need}}</span>
-                </td>
-                <td>
-                    <span class="fw-normal">{{$item->education_level}}</span>
-                </td>
-                <td>
-                    <span class="fw-normal">{{$item->salary}}</span>
-                </td>
-                <td>
-                    <span class="fw-normal">{{$item->requirements}}</span>
-                </td> -->
         <td>
           <div class="btn-group">
             <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
