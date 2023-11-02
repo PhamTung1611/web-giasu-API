@@ -71,7 +71,7 @@
                     <label>Avatar</label><br>
                     {{-- <input type="text" class="form-control" placeholder="Nhập link Avatar" name="avatar" value="{{$user->avatar}}"> --}}
                     <input type="file" placeholder="" name="avatar" accept="avatar/*" value="{{$user->avatar}}" class="form-control @error('avatar') is-invalid @enderror" id="avatar" >
-                    <img src="{{$user->avatar ? ''.Storage::url($user->avatar) : ''}}" alt="" id="image_preview" width="100" value="{{$user->avatar}}"><br><br>
+                    <img src="{{$user->avatar ? ''.Storage::url($user->avatar) : ''}}" alt="" id="image_preview" width="100" value="{{$user->avatar}}" ><br><br>
                     <label>Số điện thoại</label><br>
                     <input type="text" class="form-control" placeholder="Nhập Số điện thoại" name="phone" value="{{$user->phone}}">
                     <label>Địa chỉ</label><br>

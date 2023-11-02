@@ -69,24 +69,7 @@ class TeachersController extends Controller
         return response()->json($teachers, 200);
     }
 
-    public function getDetailTeacher($id)
-    {
 
-    }
-    /**
-     * Show the form for creating a new resource.
-     */
-
-
-    public function show(string $id)
-    {
-        try {
-            $teacher = Teachers::findOrFail($id);
-            return response()->json($teacher, 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'User not found'], 404);
-        }
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -152,7 +135,7 @@ class TeachersController extends Controller
             $teacher->role = $request->role;
             $teacher->name = $request->name;
             $teacher->email = $request->email;
-            $teacher->password = $request->password;
+            $teacher->password =  Hash::make($request->password);
             $teacher->avatar = $request->avatar;
             $teacher->phone = $request->phone;
             $teacher->address = $request->address;
@@ -200,7 +183,10 @@ class TeachersController extends Controller
                     $params['avatar'] = uploadFile('hinh', $request->file('avatar'));
                 }
             }
-            if($params['avatar']==""){
+
+            if ($request->password){
+                $params['password'] =  Hash::make($request->password);
+            }else {
                 $params['password']= $teacher->password;
             }
             // $update = User::where('id', $id)->update($request->except('_token'));
@@ -237,7 +223,7 @@ class TeachersController extends Controller
             if ($users->avatar) {
                 $users->avatar = 'http://127.0.0.1:8000/storage/' . $users->avatar;
             }
-            return $users;
+
         });
         if ($users) {
             return response()->json($users, 200);

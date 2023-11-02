@@ -167,7 +167,7 @@ class UsersController extends Controller
             'date_of_birth'=>$records->date_of_birth,
             'name'=>$records->name,
             'email'=>$records->email,
-            'avatar'=>$records->avatar,
+            'avatar'=>'http://127.0.0.1:8000/storage/'.$records->avatar,
             'phone'=>$records->phone,
             'address'=>$records->address,
             'school_id'=>$newSchool,
