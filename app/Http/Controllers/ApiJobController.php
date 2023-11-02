@@ -87,43 +87,47 @@ class ApiJobController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        $test = Job::select('jobs.*', 'user1.name as idUser', 'user2.name as idTeacher')
+{
+    $test = Job::select('jobs.*', 'user1.name as idUser', 'user2.name as idTeacher')
         ->leftJoin('users as user1', 'jobs.idUser', '=', 'user1.id')
         ->leftJoin('users as user2', 'jobs.idTeacher', '=', 'user2.id')
-        ->where('jobs.id', $id) // Thêm tên bảng trước trường 'id'
-        ->first();
-
-    if (!$test) {
+        ->where(function ($query) use ($id) {
+            $query->where('jobs.idUser', $id)
+                ->orWhere('jobs.idTeacher', $id);
+        })
+        ->get();
+        
+    if ($test->isEmpty()) {
         return response()->json(['message' => 'Jobs not found'], 404);
     }
 
-    $dataSubject = json_decode($test->subject, true);
-
-    $subjectNames = [];
-    foreach ($dataSubject as $subjectId) {
-        $subject = DB::table('subjects')->where('id', $subjectId)->value('name');
-        if ($subject) {
-            $subjectNames[] = $subject;
+    $result = [];
+    foreach ($test as $item) {
+        $dataSubject = json_decode($item->subject, true);
+        $subjectNames = [];
+        foreach ($dataSubject as $subjectId) {
+            $subject = DB::table('subjects')->where('id', $subjectId)->value('name');
+            if ($subject) {
+                $subjectNames[] = $subject;
+            }
         }
-    }
-    $test->subject = $subjectNames;
+        $item->subject = $subjectNames;
 
-    // Thêm trường 'class_name' từ ID 'class' trong kết quả
-    $dataClass = json_decode($test->class, true); // Sửa đoạn này
-    $classNames = [];
-    foreach ($dataClass as $classId) {
-        $class = DB::table('class_levels')->where('id', $classId)->value('class');
-        if ($class) {
-            $classNames[] = $class;
+        $dataClass = json_decode($item->class, true);
+        $classNames = [];
+        foreach ($dataClass as $classId) {
+            $class = DB::table('class_levels')->where('id', $classId)->value('class');
+            if ($class) {
+                $classNames[] = $class;
+            }
         }
-    }
-    $test->class = $classNames;
+        $item->class = $classNames;
 
-    $result = json_encode($test, JSON_UNESCAPED_UNICODE);
-    return $result;
+        $result[] = $item;
     }
 
+    return response()->json($result, 200);
+}
     /**
      * Update the specified resource in storage.
      *
