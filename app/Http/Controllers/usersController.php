@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use Exception;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -28,6 +29,32 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function signin(Request $request) {
+        if($request->isMethod('POST')) {
+            // dd($request);
+            // try {
+                // dd(123);
+                if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password])) {
+                    // dd(123);
+                    //  return view('dashboard');
+                    return redirect()->route('dashboard');
+                }
+                else{
+                    // dd(432);
+                    Session::flash('error', 'Sai thông tin đăng nhập');
+                    return redirect()->route('login');
+                }
+            // } catch (\Throwable $th) {
+            //     dd($th);
+            // }
+        }
+        
+        return view('auth.login');
+    }
+    public function logout() {
+        Auth::logout();
+        return redirect()->route('login');
+    }
     public function index()
     {
         try {
