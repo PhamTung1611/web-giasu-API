@@ -13,4 +13,8 @@ class ClassLevel extends Model
     protected $fillable = [
         'class',
     ];
+    public function users()
+    {
+        return $this->hasMany(User::class, 'class_id');
+    }
 }

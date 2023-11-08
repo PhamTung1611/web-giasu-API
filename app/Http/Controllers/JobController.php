@@ -7,14 +7,45 @@ use App\Models\Job;
 use App\Models\RankSalary;
 use App\Models\TimeSlot;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class JobController extends Controller
 {
     public function index() {
-        $title = 'Jobs';
-        $jobs = Job::all();
-        return view('backend.job.index', compact('title', 'jobs'));
+        $title = 'Index';
+        $tests = DB::table('jobs')->get();
+        $results = [];
+
+        foreach ($tests as $test) {
+            $dataArray = json_decode($test->subject, true);
+
+            $subjectNames = [];
+            foreach ($dataArray as $id) {
+                $subject = DB::table('subjects')->where('id', $id)->value('name');
+                if ($subject) {
+                    $subjectNames[] = $subject;
+                }
+            }
+            
+            $classNames = [];
+            foreach ($dataArray as $id) {
+                $class = DB::table('class_levels')->where('id', $id)->value('class');
+                if ($class) {
+                    $classNames[] = $class;
+                }
+            }
+
+            $idUser = DB::table('users')->where('id', $test->idUser)->value('name');
+            $idTeacher = DB::table('users')->where('id', $test->idTeacher)->value('name');
+
+            $test->idUser = $idUser;
+            $test->idTeacher = $idTeacher;
+            $test->subject = implode(', ', $subjectNames); // Chuyển mảng thành chuỗi bằng hàm implode
+            $test->class = implode(', ', $classNames); // Chuyển mảng thành chuỗi bằng hàm implode
+            $results[] = $test;
+        }
+        return view('backend.job.index', compact('results','title'));
     }
     public function create(JobRequest $request) {
         $title = 'Add new job';

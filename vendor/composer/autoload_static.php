@@ -38,6 +38,7 @@ class ComposerStaticInitec4bdcfa8379ae852619eb79b2b2bb4e
         'a1cfe24d14977df6878b9bf804af2d1c' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
+        'f9e6937975af75e7c73e759ab4c82295' => __DIR__ . '/../..' . '/app/Helpers/system.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -431,8 +432,8 @@ class ComposerStaticInitec4bdcfa8379ae852619eb79b2b2bb4e
         ),
         'League\\Uri\\' => 
         array (
-            0 => __DIR__ . '/..' . '/league/uri-interfaces/src',
-            1 => __DIR__ . '/..' . '/league/uri/src',
+            0 => __DIR__ . '/..' . '/league/uri/src',
+            1 => __DIR__ . '/..' . '/league/uri-interfaces/src',
         ),
         'League\\OAuth2\\Server\\' => 
         array (
@@ -608,6 +609,9 @@ class ComposerStaticInitec4bdcfa8379ae852619eb79b2b2bb4e
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\ClassLevelController' => __DIR__ . '/../..' . '/app/Http/Controllers/ClassLevelController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\Dashboard' => __DIR__ . '/../..' . '/app/Http/Controllers/Dashboard.php',
+        'App\\Http\\Controllers\\DistrictController' => __DIR__ . '/../..' . '/app/Http/Controllers/DistrictController.php',
+        'App\\Http\\Controllers\\FeedBackController' => __DIR__ . '/../..' . '/app/Http/Controllers/FeedBackController.php',
         'App\\Http\\Controllers\\JobController' => __DIR__ . '/../..' . '/app/Http/Controllers/JobController.php',
         'App\\Http\\Controllers\\RankSalaryController' => __DIR__ . '/../..' . '/app/Http/Controllers/RankSalaryController.php',
         'App\\Http\\Controllers\\SubjectController' => __DIR__ . '/../..' . '/app/Http/Controllers/SubjectController.php',
@@ -641,8 +645,11 @@ class ComposerStaticInitec4bdcfa8379ae852619eb79b2b2bb4e
         'App\\Http\\Resources\\TimeSlotResource' => __DIR__ . '/../..' . '/app/Http/Resources/TimeSlotResource.php',
         'App\\Models\\ClassLevel' => __DIR__ . '/../..' . '/app/Models/ClassLevel.php',
         'App\\Models\\District' => __DIR__ . '/../..' . '/app/Models/District.php',
+        'App\\Models\\FeedBack' => __DIR__ . '/../..' . '/app/Models/FeedBack.php',
         'App\\Models\\Job' => __DIR__ . '/../..' . '/app/Models/Job.php',
+        'App\\Models\\PasswordReset' => __DIR__ . '/../..' . '/app/Models/PasswordReset.php',
         'App\\Models\\RankSalary' => __DIR__ . '/../..' . '/app/Models/RankSalary.php',
+        'App\\Models\\Role' => __DIR__ . '/../..' . '/app/Models/Role.php',
         'App\\Models\\Schools' => __DIR__ . '/../..' . '/app/Models/Schools.php',
         'App\\Models\\Subject' => __DIR__ . '/../..' . '/app/Models/Subject.php',
         'App\\Models\\Teachers' => __DIR__ . '/../..' . '/app/Models/Teachers.php',
@@ -650,6 +657,7 @@ class ComposerStaticInitec4bdcfa8379ae852619eb79b2b2bb4e
         'App\\Models\\TechearSubject' => __DIR__ . '/../..' . '/app/Models/TechearSubject.php',
         'App\\Models\\TimeSlot' => __DIR__ . '/../..' . '/app/Models/TimeSlot.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Notifications\\ResetPasswordRequest' => __DIR__ . '/../..' . '/app/Notifications/ResetPasswordRequest.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
@@ -769,8 +777,11 @@ class ComposerStaticInitec4bdcfa8379ae852619eb79b2b2bb4e
         'Database\\Seeders\\ClassLevelSeeder' => __DIR__ . '/../..' . '/database/seeders/ClassLevelSeeder.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'Database\\Seeders\\DistrictSeeder' => __DIR__ . '/../..' . '/database/seeders/DistrictSeeder.php',
+        'Database\\Seeders\\FeedBackSeeder' => __DIR__ . '/../..' . '/database/seeders/FeedBackSeeder.php',
         'Database\\Seeders\\JobSeeder' => __DIR__ . '/../..' . '/database/seeders/JobSeeder.php',
         'Database\\Seeders\\RankSalarySeeder' => __DIR__ . '/../..' . '/database/seeders/RankSalarySeeder.php',
+        'Database\\Seeders\\RoleSeeder' => __DIR__ . '/../..' . '/database/seeders/RoleSeeder.php',
+        'Database\\Seeders\\SchoolSeeder' => __DIR__ . '/../..' . '/database/seeders/SchoolSeeder.php',
         'Database\\Seeders\\SubjectSeeder' => __DIR__ . '/../..' . '/database/seeders/SubjectSeeder.php',
         'Database\\Seeders\\TeacherClassSeeder' => __DIR__ . '/../..' . '/database/seeders/TeacherClassSeeder.php',
         'Database\\Seeders\\TeacherSubjectSeeder' => __DIR__ . '/../..' . '/database/seeders/TeacherSubjectSeeder.php',

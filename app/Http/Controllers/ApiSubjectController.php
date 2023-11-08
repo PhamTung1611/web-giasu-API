@@ -17,19 +17,20 @@ class ApiSubjectController extends Controller
     public function index()
     {
         $subject = Subject::all();
-        return SubjectResource::collection($subject);
+        return response()->json($subject,200);
+        // return SubjectResource::collection($subject);
     }
 
 
     public function getTeacherBySubject($subject){
         
         try {
-            $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class','subjects.name as subject','rank_salaries.name as salary','time_slots.name as time_tutor','schools.name as school_id')
-            ->leftJoin('district', 'users.districtID', '=', 'district.id')
-            ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
+            $teachers = User::select('users.*', 'district.name as DistrictID', 'class_levels.class as class_id','subjects.name as subject','rank_salaries.name as salary_id','time_slots.name as time_tutor_id','schools.name as school_id')
+            ->leftJoin('district', 'users.DistrictID', '=', 'district.id')
+            ->leftJoin('class_levels', 'users.class_id', '=', 'class_levels.id')
             ->leftJoin('subjects', 'users.subject', '=', 'subjects.id')
-            ->leftJoin('rank_salaries', 'users.salary', '=', 'rank_salaries.id')
-            ->leftJoin('time_slots', 'users.time_tutor', '=', 'time_slots.id')
+            ->leftJoin('rank_salaries', 'users.salary_id', '=', 'rank_salaries.id')
+            ->leftJoin('time_slots', 'users.time_tutor_id', '=', 'time_slots.id')
             ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
             ->where('users.role', 'teacher')
             ->where('users.subject',$subject)

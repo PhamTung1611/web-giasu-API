@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\JobResource;
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ApiJobController extends Controller
 {
@@ -13,8 +14,41 @@ class ApiJobController extends Controller
      */
     public function index()
     {
-        $jobs = Job::all();
-        return JobResource::collection($jobs);
+        $tests = DB::table('jobs')->get();
+        $results = [];
+
+        foreach ($tests as $test) {
+            $dataArray = json_decode($test->subject, true);
+
+            $subjectNames = [];
+            foreach ($dataArray as $id) {
+                $subject = DB::table('subjects')->where('id', $id)->value('name');
+                if ($subject) {
+                    $subjectNames[] = $subject;
+                }
+            }
+            
+            $classNames = [];
+            foreach ($dataArray as $id) {
+                $class = DB::table('class_levels')->where('id', $id)->value('class');
+                if ($class) {
+                    $classNames[] = $class;
+                }
+            }
+
+            $idUser = DB::table('users')->where('id', $test->idUser)->value('name');
+            $idTeacher = DB::table('users')->where('id', $test->idTeacher)->value('name');
+
+            $test->idUser = $idUser;
+            $test->idTeacher = $idTeacher;
+            $test->subject = $subjectNames;
+            $test->class = $classNames;
+            $results[] = $test;
+        }
+
+        // Chuyển đổi mảng thành JSON
+        $result = json_encode($results, JSON_UNESCAPED_UNICODE);
+        return $result;
     }
 
     /**
@@ -25,8 +59,25 @@ class ApiJobController extends Controller
      */
     public function store(Request $request)
     {
-        $job = Job::create($request->all());
-        return new JobResource($job);
+        // $job = Job::create($request->all());
+        $idUser = $request->input('idUser');
+        $idTeacher = $request->input('idTeacher');
+        $subject = json_encode($request->input('subject')); // Chuyển đổi thành JSON
+        $class = json_encode($request->input('class')); // Chuyển đổi thành JSON
+        try {
+            DB::table('jobs')->insert([
+                'idUser' => $idUser,
+                'idTeacher' => $idTeacher,
+                'subject' => $subject,
+                'class' => $class,
+            ]);
+
+            // Trả về kết quả thành công
+            return response()->json(['message' => 'Data inserted successfully'], 200);
+        } catch (\Exception $e) {
+            // Trả về thông báo lỗi nếu có lỗi xảy ra
+            return response()->json(['message' => 'Error: ' . $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -36,15 +87,47 @@ class ApiJobController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        $job = Job::find($id);
-        if($job){
-            return new JobResource($job);
-        }else{
-            return response()->json(['message'=>'Lỗi hệ thống'], 404);
-        }
+{
+    $test = Job::select('jobs.*', 'user1.name as idUser', 'user2.name as idTeacher')
+        ->leftJoin('users as user1', 'jobs.idUser', '=', 'user1.id')
+        ->leftJoin('users as user2', 'jobs.idTeacher', '=', 'user2.id')
+        ->where(function ($query) use ($id) {
+            $query->where('jobs.idUser', $id)
+                ->orWhere('jobs.idTeacher', $id);
+        })
+        ->get();
+        
+    if ($test->isEmpty()) {
+        return response()->json(['message' => 'Jobs not found'], 404);
     }
 
+    $result = [];
+    foreach ($test as $item) {
+        $dataSubject = json_decode($item->subject, true);
+        $subjectNames = [];
+        foreach ($dataSubject as $subjectId) {
+            $subject = DB::table('subjects')->where('id', $subjectId)->value('name');
+            if ($subject) {
+                $subjectNames[] = $subject;
+            }
+        }
+        $item->subject = $subjectNames;
+
+        $dataClass = json_decode($item->class, true);
+        $classNames = [];
+        foreach ($dataClass as $classId) {
+            $class = DB::table('class_levels')->where('id', $classId)->value('class');
+            if ($class) {
+                $classNames[] = $class;
+            }
+        }
+        $item->class = $classNames;
+
+        $result[] = $item;
+    }
+
+    return response()->json($result, 200);
+}
     /**
      * Update the specified resource in storage.
      *
@@ -55,11 +138,11 @@ class ApiJobController extends Controller
     public function update(Request $request, $id)
     {
         $job = Job::find($id);
-        if($job){
+        if ($job) {
             $job->update($request->all());
-            return new JobResource($job);
-        }else{
-            return response()->json(['message'=>'Lỗi hệ thống'], 404);
+            return response()->json(['message' => 'Success'], 200);
+        } else {
+            return response()->json(['message' => 'Error'], 404);
         }
     }
 

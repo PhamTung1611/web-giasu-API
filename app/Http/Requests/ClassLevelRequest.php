@@ -29,13 +29,11 @@ class ClassLevelRequest extends FormRequest
                     case 'add':
                         $rules = [
                             'class' => 'required',
-                            'subject' => 'required'
                         ];
                         break;
                     case 'edit':
                         $rules = [
                             'class' => 'required',
-                            'subject' => 'required'
                         ];
                         break;
                     
@@ -55,7 +53,6 @@ class ClassLevelRequest extends FormRequest
     {
        return [
             'class.required' => 'Bắt buộc phải nhập tên lớp học',
-            'subject.required' => 'Bắt buộc phải chọn môn học'
        ];
     }
 }

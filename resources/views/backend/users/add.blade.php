@@ -52,6 +52,11 @@
 </div>
 <div class="row">
   <div class="card card-body border-0 shadow mb-4">
+    @if ($errors->any())
+    @foreach ($errors->all() as $error)
+    <p style="color: red;">{{ $error }}</p>
+    @endforeach
+    @endif
     <form action="{{ route('add_user') }}" method="POST" enctype="multipart/form-data" style="width: 1200px" class="mx-auto mb-4">
       @csrf
       <div class="row">
@@ -65,11 +70,17 @@
             <label>Mật khẩu</label><br>
             <input type="password" class="form-control" placeholder="Nhập password" name="password">
             <label>Avatar</label><br>
-            <input type="text" class="form-control" placeholder="Nhập link Avatar" name="avatar">
+            {{-- <input type="text" class="form-control" placeholder="Nhập link Avatar" name="avatar"> --}}
+            <input type="file" placeholder="" name="avatar" accept="hinh/*" class="mb-3 form-control @error('avatar') is-invalid @enderror" id="avatar">
             <label>Số điện thoại</label><br>
             <input type="text" class="form-control" placeholder="Nhập Số điện thoại" name="phone">
             <label>Địa chỉ</label><br>
             <input type="text" class="form-control" placeholder="Nhập Địa chỉ" name="address">
+              <label for="">Giới tính</label>
+              Nam: <input type="radio" name="gender" id="" value="1">
+              Nữ: <input type="radio" name="gender" id="" value="0">
+              <label for="">Ngày sinh</label>
+              <input type="date" name="date_of_birth">
             @error('class')
             <span class="text-danger">{{$message}}</span>
             @enderror

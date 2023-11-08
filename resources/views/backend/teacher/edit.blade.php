@@ -70,7 +70,9 @@
             <label>Mật khẩu</label><br>
             <input type="password" class="form-control" placeholder="Nhập password" name="password">
             <label>Avatar</label><br>
-            <input type="text" class="form-control" placeholder="Nhập link Avatar" value="{{$teacher->avatar}}"  name="avatar">
+            {{-- <input type="text" class="form-control" placeholder="Nhập link Avatar" value="{{$teacher->avatar}}"  name="avatar"> --}}
+            <input type="file" placeholder="" name="avatar" accept="avatar/*" value="{{$teacher->avatar}}" class="form-control @error('avatar') is-invalid @enderror" id="avatar" >
+            <img src="{{$teacher->avatar ? ''.Storage::url($teacher->avatar) : ''}}" alt="" id="image_preview" width="100" value="{{$teacher->avatar}}"><br><br>
             <label>Số điện thoại</label><br>
             <input type="text" class="form-control" placeholder="Nhập Số điện thoại"value="{{$teacher->phone}}"  name="phone">
             <label>Địa chỉ</label><br>
@@ -86,7 +88,7 @@
             <label>Trình độ học vấn</label><br>
             <input type="text" class="form-control" value="{{$teacher->education_level}}" placeholder="Nhập trình độ học vấn" name="education_level">
             <label>Lớp muốn dạy</label><br>
-            <select name="class" id="" class="form-control">
+            <select name="class_id" id="" class="form-control">
               @foreach($class as $s)
               <option class="form-control" value="{{$s->id}}" {{$teacher->class == $s->id ?"selected":""}}>{{$s->class}}</option>
               @endforeach
@@ -98,7 +100,7 @@
               @endforeach
             </select>
             <label>Mức lương</label><br>
-            <select name="salary" id="" class="form-control">
+            <select name="salary_id" id="" class="form-control">
               @foreach($salary as $s)
               <option class="form-control" value="{{$s->id}}" {{$teacher->salary == $s->id ?"selected":""}}>{{$s->name}}</option>
               @endforeach
@@ -110,7 +112,7 @@
               @endforeach
             </select>
             <label>Chọn thời gian dạy</label><br>
-            <select name="time_tutor" id="" class="form-control">
+            <select name="time_tutor_id" id="" class="form-control">
               @foreach($timeTutor as $s)
               <option class="form-control" value="{{$s->id}}" {{$teacher->time_tutor == $s->id ?"selected":""}}>{{$s->name}}</option>
               @endforeach
@@ -119,6 +121,11 @@
             <input type="text" placeholder="Ảnh bằng cấp" class="form-control" value="{{$teacher->Certificate}}" name="Certificate">
             <label>Nhập mô tả về gia sư</label><br>
             <textarea type="text" class="form-control" value="{{$teacher->description}}" placeholder="Nhập mô tả về gia sư" name="description"></textarea>
+              <label for="">Giới tính</label>
+              Nam: <input type="radio" @if($teacher->gender == 1) checked @endif name="gender" id="" value="1">
+              Nữ: <input type="radio" name="gender" @if($teacher->gender == 0) checked @endif id="" value="0">
+              <label for="">Ngày sinh</label>
+              <input type="date" value="{{$teacher->date_of_birth}}" name="date_of_birth">
             <label>Trạng thái</label><br>
             Kích hoạt: <input type="radio" name="status" id="" value="1" {{ $teacher->status == "1" ? "checked":"" }}>
             Chưa kích hoạt: <input type="radio" name="status" id="" value="0" {{ $teacher->status == "0" ? "checked":"" }}>
@@ -129,7 +136,7 @@
         </div>
       </div>
       <div class="mt-3">
-        <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Thêm mới</button>
+        <button class="btn btn-gray-800 mt-2 animate-up-2" type="submit">Cập nhật</button>
       </div>
     </form>
   </div>
