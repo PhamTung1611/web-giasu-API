@@ -47,7 +47,7 @@ class UserRequest extends FormRequest
                             'phone' => 'required|string',
                             'password' => 'required|string',
                             'address' => 'required|string',
-                            'email' => 'required|email|unique:users,email',
+                            'email' => 'required',
                         ];
                         break;
                     default:

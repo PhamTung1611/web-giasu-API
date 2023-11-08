@@ -4,13 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -29,14 +30,16 @@ class User extends Authenticatable
         'school_id',
         'Citizen_card',
         'education_level',
-        'class',
+        'class_id',
         'subject',
-        'salary',
+        'salary_id',
         'description',
-        'time_tutor',
+        'time_tutor_id',
         'status',
         'DistrictID',
-        'Certificate'
+        'Certificate',
+        'date_of_birth',
+        'gender'
 
     ];
 
@@ -59,4 +62,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'DistrictID');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject');
+    }
+    public function class_levels()
+    {
+        return $this->belongsTo(ClassLevel::class, 'class_id');
+    }
+    public function school()
+    {
+        return $this->belongsTo(Schools::class, 'school_id');
+    }
+    public function timeSlot()
+    {
+        return $this->belongsTo(TimeSlot::class, 'time_tutor_id');
+    }
 }

@@ -14,11 +14,11 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        
+
         DB::table('users')->insert([
             'role'=>'admin',
             'name' => 'Phạm Huy Tùng',
-            'email'=>'tung@gmail.com',
+            'email'=>'admin@gmail.com',
             'avatar' => 'https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg',
             'phone'=>'0342757452',
             'password'=>Hash::make('123'),
@@ -26,14 +26,17 @@ class UserSeeder extends Seeder
             'school_id'=>'001',
             'Citizen_card'=>'00012364',
             'education_level'=>'Đại học',
-            'class'=>'1',
+            'class_id'=>'1',
             'subject'=>'1',
-            'salary'=>'1',
+            'salary_id'=>'1',
             'description'=>'Yêu nghề',
-            'time_tutor'=>'1',
+            'time_tutor_id'=>'1',
             'status'=>'1',
             'DistrictID'=>'1',
-            'Certificate'=>'none'
+            'Certificate'=>'none',
+            'date_of_birth'=>'2003-09-30',
+            'gender'=>'Nam'
+
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -46,14 +49,16 @@ class UserSeeder extends Seeder
             'school_id'=>'001',
             'Citizen_card'=>'00012914',
             'education_level'=>'Đại học',
-            'class'=>'3',
+            'class_id'=>'3',
             'subject'=>'2',
-            'salary'=>'1',
+            'salary_id'=>'1',
             'description'=>'Yêu nghề',
-            'time_tutor'=>'1',
+            'time_tutor_id'=>'1',
             'status'=>'1',
             'DistrictID'=>'2',
-            'Certificate'=>'none'
+            'Certificate'=>'none',
+            'date_of_birth'=>'2003-09-30',
+            'gender'=>'Nam'
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -66,14 +71,16 @@ class UserSeeder extends Seeder
             'school_id'=>'001',
             'Citizen_card'=>'00012314',
             'education_level'=>'Đại học',
-            'class'=>'2',
+            'class_id'=>'2',
             'subject'=>'4',
-            'salary'=>'1',
+            'salary_id'=>'1',
             'description'=>'Yêu nghề',
-            'time_tutor'=>'1',
+            'time_tutor_id'=>'1',
             'status'=>'1',
             'DistrictID'=>'3',
-            'Certificate'=>'none'
+            'Certificate'=>'none',
+            'date_of_birth'=>'2003-09-30',
+            'gender'=>'Nam'
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -86,14 +93,16 @@ class UserSeeder extends Seeder
             'school_id'=>'001',
             'Citizen_card'=>'00012314',
             'education_level'=>'Đại học',
-            'class'=>'6',
+            'class_id'=>'6,2',
             'subject'=>'2',
-            'salary'=>'1',
+            'salary_id'=>'1',
             'description'=>'Yêu nghề',
-            'time_tutor'=>'1',
+            'time_tutor_id'=>'1',
             'status'=>'1',
             'DistrictID'=>'4',
-            'Certificate'=>'none'
+            'Certificate'=>'none',
+            'date_of_birth'=>'2003-09-30',
+            'gender'=>'Nam'
         ]);
         DB::table('users')->insert([
             'role'=>'user',
@@ -104,6 +113,8 @@ class UserSeeder extends Seeder
             'password'=>'123',
             'address'=>'hanoi',
             'DistrictID'=>'5',
+            'date_of_birth'=>'2003-09-30',
+            'gender'=>'Nam'
         ]);
     }
 }

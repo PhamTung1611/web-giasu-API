@@ -12,7 +12,8 @@ use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\schoolsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DistrictController;
-
+use App\Http\Controllers\FeedBackController;
+use App\Http\Controllers\ResetPasswordController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -44,10 +45,11 @@ Route::prefix('TeacherSubject')->group(function () {
 Route::prefix('users')->group(function(){
     Route::get('/', [UsersController::class, 'index']);
     Route::get('/{id}', [UsersController::class, 'show']);
-    Route::post('/', [UsersController::class, 'sore']);
+
     Route::put('/{id}', [UsersController::class, 'update']);
     Route::delete('/{id}', [UsersController::class, 'destroy']);
 });
+Route::post('/register', [UsersController::class, 'store']);
 //route teacher
 Route::prefix('teachers')->group(function(){
     Route::get('/', [TeachersController::class, 'index']);
@@ -56,7 +58,6 @@ Route::prefix('teachers')->group(function(){
     Route::get('/subject/{id}', [ApiSubjectController::class, 'getTeacherBySubject']);
     Route::get('/district/{id}', [DistrictController::class, 'getTeacherByDistrict']);
     Route::get('/timeSlot/{id}', [ApiTimeSlotController::class, 'getTeacherByTimeSlot']);
-    Route::post('/', [TeachersController::class, 'store']);
     Route::put('/{id}', [TeachersController::class, 'update']);
     Route::delete('/{id}', [TeachersController::class, 'destroy']);
 });
@@ -146,7 +147,19 @@ Route::prefix('district')->group(function () {
     // //xóa
     // Route::delete('/{id}', [DistrictController::class, 'destroy']);
 });
+Route::prefix('feedback')->group(function () {
+    // lấy ra danh sách
+    Route::post('/',[FeedBackController::class,'store']);
+    Route::get('/{id}',[FeedBackController::class,'show']);
+    Route::get('/avgPoint/{id}',[FeedBackController::class,'averagePoint']);
+});
+Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
+// Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
+
 Route::prefix('auth')->group(function(){
     Route::post('/login',[AuthController::class,'login']);
     Route::post('/refresh',[AuthController::class,'RefreshToken']);
+    Route::post('/reset-password', [ResetPasswordController::class,'sendMail']);
+    Route::put('/reset-password/{token}', [ResetPasswordController::class,'reset']);
+
 });

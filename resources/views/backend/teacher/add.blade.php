@@ -70,7 +70,8 @@
             <label>Mật khẩu</label><br>
             <input type="password" class="form-control" placeholder="Nhập password" name="password">
             <label>Avatar</label><br>
-            <input type="text" class="form-control" placeholder="Nhập link Avatar" name="avatar">
+            {{-- <input type="text" class="form-control" placeholder="Nhập link Avatar" name="avatar"> --}}
+            <input type="file" placeholder="" name="avatar" accept="hinh/*" class="mb-3 form-control @error('avatar') is-invalid @enderror" id="avatar">
             <label>Số điện thoại</label><br>
             <input type="text" class="form-control" placeholder="Nhập Số điện thoại" name="phone">
             <label>Địa chỉ</label><br>
@@ -119,6 +120,11 @@
             <input type="text" placeholder="Ảnh bằng cấp" class="form-control" name="Certificate">
             <label>Nhập mô tả về gia sư</label><br>
             <textarea type="text" class="form-control" placeholder="Nhập mô tả về gia sư" name="description"></textarea>
+              <label for="">Giới tính</label>
+              Nam: <input type="radio" name="gender" id="" value="1">
+              Nữ: <input type="radio" name="gender" id="" value="0">
+              <label for="">Ngày sinh</label>
+              <input type="date" name="date_of_birth">
             <label>Trạng thái</label><br>
             Kích hoạt: <input type="radio" name="status" id="" value="1">
             Chưa kích hoạt: <input type="radio" name="status" id="" value="0">

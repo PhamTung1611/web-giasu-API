@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClassLevelController;
 use App\Http\Controllers\Dashboard;
+use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\RankSalaryController;
@@ -23,7 +24,6 @@ use Illuminate\Support\Facades\Route;
 Route::match(['get', 'post'], '/login',[UsersController::class, 'signin'])->name('login');
 Route::get('/logout',[UsersController::class, 'logout'])->name('logout');
 // Route::post('/login',[UsersController::class, 'signin'])->name('post-login');
-
 Route::match(['get', 'post'], '/register',[UsersController::class, 'register'])->name('register');
 
 Route::middleware('auth')->group(function() {
