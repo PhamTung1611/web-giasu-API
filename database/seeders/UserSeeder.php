@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -15,12 +16,12 @@ class UserSeeder extends Seeder
     {
         
         DB::table('users')->insert([
-            'role'=>'teacher',
+            'role'=>'admin',
             'name' => 'Phạm Huy Tùng',
             'email'=>'tung@gmail.com',
             'avatar' => 'https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg',
             'phone'=>'0342757452',
-            'password'=>'123',
+            'password'=>Hash::make('123'),
             'address'=>'hanoi',
             'school_id'=>'001',
             'Citizen_card'=>'00012364',
@@ -80,7 +81,7 @@ class UserSeeder extends Seeder
             'email'=>'nghia@gmail.com',
             'avatar' => 'https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg',
             'phone'=>'0342757452',
-            'password'=>'123',
+            'password'=>Hash::make('123'),
             'address'=>'hanoi',
             'school_id'=>'001',
             'Citizen_card'=>'00012314',
