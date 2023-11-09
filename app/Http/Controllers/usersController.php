@@ -48,7 +48,7 @@ class UsersController extends Controller
             //     dd($th);
             // }
         }
-        
+
         return view('auth.login');
     }
     public function logout() {
@@ -97,7 +97,7 @@ class UsersController extends Controller
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                     $user->avatar = uploadFile('hinh', $request->file('avatar'));
             }else{
-                $user->avatar ="duong dan co dinh";
+                $user->avatar ="https://inkythuatso.com/uploads/thumbnails/800/2023/03/6-anh-dai-dien-trang-inkythuatso-03-15-26-36.jpg";
             }
             $user->password= Hash::make($request->password);
             $user->address = $request->address;

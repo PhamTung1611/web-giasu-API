@@ -39,7 +39,7 @@ class ResetPasswordRequest extends Notification implements ShouldQueue
 
         return (new MailMessage)
             ->line('You are receiving this email because we received a password reset request for your account.')
-            ->action('Reset Password','http://127.0.0.1:8000/form_reset')
+            ->action('Reset Password','localhost:3000/auth/reset-password')
             ->line('If you did not request a password reset, no further action is required.');
     }
 }
