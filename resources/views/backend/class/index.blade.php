@@ -14,7 +14,7 @@
               </svg>
             </a>
           </li>
-          <li class="breadcrumb-item"><a href="#">Tables</a></li>
+          <li class="breadcrumb-item"><a href="#">Bảng</a></li>
         </ol>
       </nav>
       <h2 class="h4">{{$title}}</h2>
@@ -22,14 +22,14 @@
     <div class="btn-toolbar mb-2 mb-md-0">
       <a href="" class="btn btn-sm btn-danger d-inline-flex align-items-center mx-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16"> <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/> </svg>
-        Archive
+        Kho lưu trữ
       </a>
       <a href="{{route('add_class')}}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
         <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
         </svg>
-        Add new class
+        Thêm mới lớp học
       </a>
     </div>
   </div>
@@ -79,7 +79,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Class</th>
+                <th>Lớp học</th>
                 <th>Action</th>
             </tr>
         </thead>
