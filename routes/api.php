@@ -46,7 +46,7 @@ Route::prefix('users')->group(function(){
     Route::get('/', [UsersController::class, 'index']);
     Route::get('/{id}', [UsersController::class, 'show']);
 
-    Route::put('/{id}', [UsersController::class, 'update']);
+    Route::put('/{id}', [UsersController::class, 'updateApi']);
     Route::delete('/{id}', [UsersController::class, 'destroy']);
 });
 Route::post('/register', [UsersController::class, 'store']);
@@ -137,15 +137,6 @@ Route::prefix('job')->group(function () {
 Route::prefix('district')->group(function () {
     // lấy ra danh sách
     Route::get('/', [DistrictController::class, 'index']);
-
-    // //thêm
-    // Route::post('/', [DistrictController::class, 'store']);
-    // //chi tiết
-    // Route::get('/{id}', [DistrictController::class, 'show']);
-    // //chỉnh sửa
-    // Route::put('/{id}', [DistrictController::class, 'update']);
-    // //xóa
-    // Route::delete('/{id}', [DistrictController::class, 'destroy']);
 });
 Route::prefix('feedback')->group(function () {
     // lấy ra danh sách

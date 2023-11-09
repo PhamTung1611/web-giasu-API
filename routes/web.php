@@ -66,3 +66,4 @@ Route::middleware('auth')->group(function() {
         Route::get('teacher/delete/{id}',[TeachersController::class,'delete'])->name('delete_teacher'); 
     });
 });
+
