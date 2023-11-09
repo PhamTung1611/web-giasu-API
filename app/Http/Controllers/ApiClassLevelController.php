@@ -16,7 +16,8 @@ class ApiClassLevelController extends Controller
     public function index()
     {
         $class_levels = ClassLevel::all();
-        return ClassLevelResource::collection($class_levels);
+        // return ClassLevelResource::collection($class_levels);
+        return response()->json($class_levels, 200);
     }
 
     /**

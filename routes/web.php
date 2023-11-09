@@ -21,6 +21,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::match(['get', 'post'], '/login',[UsersController::class, 'signin'])->name('login');
+Route::get('/logout',[UsersController::class, 'logout'])->name('logout');
+// Route::post('/login',[UsersController::class, 'signin'])->name('post-login');
+Route::match(['get', 'post'], '/register',[UsersController::class, 'register'])->name('register');
 
 Route::get('/',[Dashboard::class, 'index'])->name('dashboard');
 //salary rank

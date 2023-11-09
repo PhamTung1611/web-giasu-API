@@ -35,6 +35,12 @@ class UserRequest extends FormRequest
                             'email' => 'required|email|unique:users,email',
                         ];
                         break;
+                    case 'signin':
+                        $rules = [
+                            'email' => 'required',
+                            'password' => 'required',
+                        ];
+                        break;
                     case 'updateUser':
                         $rules = [
                             'name' => 'required|string',
