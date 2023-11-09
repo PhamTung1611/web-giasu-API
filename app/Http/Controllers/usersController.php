@@ -48,7 +48,7 @@ class UsersController extends Controller
             //     dd($th);
             // }
         }
-        
+
         return view('auth.login');
     }
     public function logout() {
@@ -97,7 +97,7 @@ class UsersController extends Controller
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                     $user->avatar = uploadFile('hinh', $request->file('avatar'));
             }else{
-                $user->avatar ="duong dan co dinh";
+                $user->avatar ="https://inkythuatso.com/uploads/thumbnails/800/2023/03/6-anh-dai-dien-trang-inkythuatso-03-15-26-36.jpg";
             }
             $user->password= Hash::make($request->password);
             $user->address = $request->address;
@@ -212,7 +212,7 @@ class UsersController extends Controller
     }
 
 
-    public function update(UserRequest $request, String $id)
+    public function updateApi(UserRequest $request, String $id)
     {
         try {
             $user = User::find($id);
@@ -318,17 +318,43 @@ class UsersController extends Controller
         $title = 'Sửa User';
         $user = User::findOrFail($id);
         if($request->isMethod('post')){
-            $params = $request->except('_token');
-            if($request->hasFile('avatar') && $request->file('avatar')->isValid()){
-                $deleteImage = Storage::delete('/public/'.$user->avatar);
-                if($deleteImage){
-                    $params['avatar'] = uploadFile('hinh',$request->file('avatar'));
-                }
-
+            $user = User::find($id);
+            $role = Role::find(2);
+            if(!$role){
+                return response()->json('Sai quyền',400);
             }
-            // $update = User::where('id', $id)->update($request->except('_token'));
-            $update = User::where('id', $id)->update($params);
-            if($update){
+            $user->role= $role->name;
+            $user->gender = $request->gender;
+            $user->date_of_birth = $request->date_of_birth;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                $deleteImage = Storage::delete('/public/' . $user->avatar);
+                if ($deleteImage) {
+                    $user->avatar = uploadFile('hinh', $request->file('avatar'));
+                }
+            }
+            $user->password= Hash::make($request->password);
+            $user->address = $request->address;
+            $user->DistrictID = $request->districtID;
+            $user->phone = $request->phone;
+            if($request->role == 3 ){
+                $user->school_id = $request->school_id;
+                $user->Citizen_card = $request->citizen_card;
+                $user->education_level = $request->education_level;
+                $class = implode(",",$request->class_id);
+                $user->class_id = $request->$class;
+                $subject = implode(",",$request->subject);
+                $user->subject =$subject;
+                $user->salary_id = $request->salary_id;
+                $user->description = $request->description;
+                $time_tutor = implode(",",$request->time_tutor_id);
+                $user->time_tutor_id = $request->$time_tutor;
+                $user->status = 1 ;
+                $user->Certificate= $request->Certificate;
+            }
+
+            if($user->save()){
                 Session::flash('success', 'Edit user success');
                 return redirect()->route('search_user');
             }else{

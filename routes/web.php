@@ -25,7 +25,6 @@ Route::match(['get', 'post'], '/login',[UsersController::class, 'signin'])->name
 Route::get('/logout',[UsersController::class, 'logout'])->name('logout');
 // Route::post('/login',[UsersController::class, 'signin'])->name('post-login');
 Route::match(['get', 'post'], '/register',[UsersController::class, 'register'])->name('register');
-
 Route::middleware('auth')->group(function() {
     Route::middleware('check.role')->group(function() {
     Route::get('/',[Dashboard::class, 'index'])->name('dashboard');
