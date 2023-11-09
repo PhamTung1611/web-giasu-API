@@ -52,14 +52,14 @@ Route::get('classLevel/delete/{id}',[ClassLevelController::class,'delete'])->nam
 Route::get('user',[UsersController::class,'getAllUser'])->name('search_user');
 Route::match(['get','post'],'user/addNew',[UsersController::class,'addNewUser'])->name('add_user');
 Route::match(['get','post'],'user/edit/{id}',[UsersController::class,'updateUser'])->name('edit_user');
-Route::get('user/delete/{id}',[UsersController::class,'delete'])->name('delete_user'); 
+Route::get('user/delete/{id}',[UsersController::class,'delete'])->name('delete_user');
 //teachers
 Route::get('teacher',[TeachersController::class,'getAllTeacher'])->name('search_teacher');
 Route::match(['get','post'],'teacher/addNew',[TeachersController::class,'addNewTeacher'])->name('add_teacher');
 Route::match(['get','post'],'teacher/edit/{id}',[TeachersController::class,'updateTeacher'])->name('edit_teacher');
-Route::get('teacher/delete/{id}',[TeachersController::class,'delete'])->name('delete_teacher'); 
+Route::get('teacher/delete/{id}',[TeachersController::class,'delete'])->name('delete_teacher');
 //feedback
 Route::get('feedback',[FeedBackController::class,'getAllFeedback'])->name('search_feedback');
 // Route::match(['get','post'],'feedback/addNew',[FeedBackController::class,'addNewFeedback'])->name('add_feedback');
 // Route::match(['get','post'],'feedback/edit/{id}',[FeedBackController::class,'updateFeedback'])->name('edit_feedback');
-Route::get('feedback/delete/{id}',[FeedBackController::class,'delete'])->name('delete_feedback'); 
+Route::get('feedback/delete/{id}',[FeedBackController::class,'delete'])->name('delete_feedback');
