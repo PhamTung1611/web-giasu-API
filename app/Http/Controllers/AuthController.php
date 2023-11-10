@@ -66,8 +66,7 @@ class AuthController extends Controller
            $subjectArray = explode(',',$user->subject);
            $newSubjectArray =new Collection();
            foreach ($subjectArray as $item) {
-               $sub = Subject::find($item);
-               $newSubjectArray->push($sub->name);
+               $newSubjectArray->push($item);
            }
        }else{
            $newSubjectArray=[];
@@ -103,7 +102,7 @@ class AuthController extends Controller
                 'description'=>$user->description,
                 'District'=>$districName,
                 'Certificate'=>$user->Certificate,
-                'avatar'=>$user->avatar,
+                'avatar'=>'http://127.0.0.1:8000/'.$user->avatar,
                 'name'=>$user->name,
                 'email'=>$user->email,
                 'phone'=>$user->phone,
@@ -199,15 +198,14 @@ class AuthController extends Controller
                         'description'=>$user->description,
                         'District'=>$districName,
                         'Certificate'=>$user->Certificate,
-                        'avatar'=>$user->avatar,
+                        'avatar'=>'http://127.0.0.1:8000/'.$user->avatar,
                         'name'=>$user->name,
                         'email'=>$user->email,
                         'phone'=>$user->phone,
-                        'time_tutor'=>$newTimetutor],
-
+                        'time_tutor'=>$newTimetutor
+                    ],
                     'access_token' => $tokenResult->accessToken,
                     'refresh_token' => $tokennew->id,
-
                 ]);
             }
 
