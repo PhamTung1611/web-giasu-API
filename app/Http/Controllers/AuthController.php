@@ -67,7 +67,7 @@ class AuthController extends Controller
            $newSubjectArray =new Collection();
            foreach ($subjectArray as $item) {
                $sub = Subject::find($item);
-               $newSubjectArray->push($sub->name);
+               $newSubjectArray->push($item);
            }
        }else{
            $newSubjectArray=[];
