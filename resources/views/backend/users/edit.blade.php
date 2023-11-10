@@ -72,16 +72,16 @@
                     <label>Avatar</label><br>
                     {{-- <input type="text" class="form-control" placeholder="Nhập link Avatar" name="avatar" value="{{$user->avatar}}"> --}}
                     <input type="file" placeholder="" name="avatar" accept="avatar/*" value="{{$user->avatar}}" class="form-control @error('avatar') is-invalid @enderror" id="avatar" >
-                    <img src="{{$user->avatar ? ''.Storage::url($user->avatar) : ''}}" alt="" id="image_preview" width="100" value="{{$user->avatar}}" ><br><br>
+                    <img src="{{$user->avatar ? ''.Storage::url($user->avatar) : ''}}" alt="" id="image_preview" width="100" value="{{$user->avatar}}" >
                     <label>Số điện thoại</label><br>
                     <input type="text" class="form-control" placeholder="Nhập Số điện thoại" name="phone" value="{{$user->phone}}">
                     <label>Địa chỉ</label><br>
                     <input type="text" class="form-control" placeholder="Nhập Địa chỉ" name="address" value="{{$user->address}}">
-                    <label for="">Giới tính</label>
+                    <label for="">Giới tính</label><br>
                     Nam: <input type="radio" name="gender" @if($user->gender == 1) checked @endif id="" value="1">
-                    Nữ: <input type="radio" name="gender" @if($user->gender == 0) checked @endif id="" value="0">
-                    <label for="">Ngày sinh</label>
-                    <input type="date" name="date_of_birth" value="{{$user->date_of_birth}}">
+                    Nữ: <input type="radio" name="gender" @if($user->gender == 0) checked @endif id="" value="0"><br>
+                    <label for="" class="mt-2">Ngày sinh</label><br>
+                    <input type="date" class="form-control" name="date_of_birth" value="{{$user->date_of_birth}}">
                     @error('class')
                     <span class="text-danger">{{$message}}</span>
                     @enderror

@@ -15,26 +15,26 @@ class ClassLevelSeeder extends Seeder
     {
         DB::table('class_levels')->insert([
             [
-                'class' => 'Lop 1',
+                'class' => 'Lớp 1',
             ],
             [
-                'class' => 'Lop 2',
+                'class' => 'Lớp 2',
             ],
             [
-                'class' => 'Lop 3',
+                'class' => 'Lớp 3',
             ],
             [
-                'class' => 'Lop 4',
+                'class' => 'Lớp 4',
             ],
 
             [
-                'class' => 'Lop 5',
+                'class' => 'Lớp 5',
             ],
             [
-                'class' => 'Lop 6',
+                'class' => 'Lớp 6',
             ],
             [
-                'class' => 'Lop 7',
+                'class' => 'Lớp 7',
             ],
         ]);
     }

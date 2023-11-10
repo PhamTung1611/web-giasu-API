@@ -120,12 +120,12 @@
             <input type="text" placeholder="Ảnh bằng cấp" class="form-control" name="Certificate">
             <label>Nhập mô tả về gia sư</label><br>
             <textarea type="text" class="form-control" placeholder="Nhập mô tả về gia sư" name="description"></textarea>
-              <label for="">Giới tính</label>
+              <label for="">Giới tính</label><br>
               Nam: <input type="radio" name="gender" id="" value="1">
-              Nữ: <input type="radio" name="gender" id="" value="0">
-              <label for="">Ngày sinh</label>
-              <input type="date" name="date_of_birth">
-            <label>Trạng thái</label><br>
+              Nữ: <input type="radio" name="gender" id="" value="0"><br>
+              <label for="" class="mt-2">Ngày sinh</label><br>
+              <input type="date" class="form-control" name="date_of_birth">
+            <label class="mt-2">Trạng thái</label><br>
             Kích hoạt: <input type="radio" name="status" id="" value="1">
             Chưa kích hoạt: <input type="radio" name="status" id="" value="0">
             @error('class')

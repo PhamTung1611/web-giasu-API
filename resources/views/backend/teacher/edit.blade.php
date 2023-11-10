@@ -72,7 +72,7 @@
             <label>Avatar</label><br>
             {{-- <input type="text" class="form-control" placeholder="Nhập link Avatar" value="{{$teacher->avatar}}"  name="avatar"> --}}
             <input type="file" placeholder="" name="avatar" accept="avatar/*" value="{{$teacher->avatar}}" class="form-control @error('avatar') is-invalid @enderror" id="avatar" >
-            <img src="{{$teacher->avatar ? ''.Storage::url($teacher->avatar) : ''}}" alt="" id="image_preview" width="100" value="{{$teacher->avatar}}"><br><br>
+            <img src="{{$teacher->avatar ? ''.Storage::url($teacher->avatar) : ''}}" alt="" id="image_preview" width="100" value="{{$teacher->avatar}}">
             <label>Số điện thoại</label><br>
             <input type="text" class="form-control" placeholder="Nhập Số điện thoại"value="{{$teacher->phone}}"  name="phone">
             <label>Địa chỉ</label><br>
@@ -121,12 +121,12 @@
             <input type="text" placeholder="Ảnh bằng cấp" class="form-control" value="{{$teacher->Certificate}}" name="Certificate">
             <label>Nhập mô tả về gia sư</label><br>
             <textarea type="text" class="form-control" value="{{$teacher->description}}" placeholder="Nhập mô tả về gia sư" name="description"></textarea>
-              <label for="">Giới tính</label>
+              <label for="">Giới tính</label><br>
               Nam: <input type="radio" @if($teacher->gender == 1) checked @endif name="gender" id="" value="1">
-              Nữ: <input type="radio" name="gender" @if($teacher->gender == 0) checked @endif id="" value="0">
-              <label for="">Ngày sinh</label>
-              <input type="date" value="{{$teacher->date_of_birth}}" name="date_of_birth">
-            <label>Trạng thái</label><br>
+              Nữ: <input type="radio" name="gender" @if($teacher->gender == 0) checked @endif id="" value="0"><br>
+              <label for="" class="mt-2">Ngày sinh</label><br>
+              <input type="date" class="form-control" value="{{$teacher->date_of_birth}}" name="date_of_birth">
+            <label class="mt-2">Trạng thái</label><br>
             Kích hoạt: <input type="radio" name="status" id="" value="1" {{ $teacher->status == "1" ? "checked":"" }}>
             Chưa kích hoạt: <input type="radio" name="status" id="" value="0" {{ $teacher->status == "0" ? "checked":"" }}>
             @error('class')
