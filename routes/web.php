@@ -25,6 +25,10 @@ Route::match(['get', 'post'], '/login',[UsersController::class, 'signin'])->name
 Route::get('/logout',[UsersController::class, 'logout'])->name('logout');
 // Route::post('/login',[UsersController::class, 'signin'])->name('post-login');
 Route::match(['get', 'post'], '/register',[UsersController::class, 'register'])->name('register');
+<<<<<<< HEAD
+
+=======
+>>>>>>> ad0488017b50e0ff8a8d6c618dbf97ca47666e39
 Route::middleware('auth')->group(function() {
     Route::middleware('check.role')->group(function() {
     Route::get('/',[Dashboard::class, 'index'])->name('dashboard');
@@ -65,3 +69,7 @@ Route::middleware('auth')->group(function() {
         Route::get('teacher/delete/{id}',[TeachersController::class,'delete'])->name('delete_teacher'); 
     });
 });
+<<<<<<< HEAD
+
+=======
+>>>>>>> ad0488017b50e0ff8a8d6c618dbf97ca47666e39
