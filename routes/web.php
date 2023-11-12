@@ -25,7 +25,6 @@ Route::match(['get', 'post'], '/login',[UsersController::class, 'signin'])->name
 Route::get('/logout',[UsersController::class, 'logout'])->name('logout');
 // Route::post('/login',[UsersController::class, 'signin'])->name('post-login');
 Route::match(['get', 'post'], '/register',[UsersController::class, 'register'])->name('register');
-
 Route::middleware('auth')->group(function() {
     Route::middleware('check.role')->group(function() {
     Route::get('/',[Dashboard::class, 'index'])->name('dashboard');
@@ -41,6 +40,8 @@ Route::middleware('auth')->group(function() {
     Route::post('classLevel',[ClassLevelController::class,'index'])->name('search_class');
     Route::get('teacher',[TeachersController::class,'getAllTeacher'])->name('search_teacher');
     Route::get('user',[UsersController::class,'getAllUser'])->name('search_user');
+    Route::get('teacher/waiting',[UsersController::class,'getAllTeacher'])->name('waiting');
+    Route::post('waiting_teacher',[UsersController::class,'agree'])->name('waiting_teacher');
     //salary rank
         Route::match(['get','post'],'salary/add',[RankSalaryController::class,'add'])->name('salary.add');
         Route::match(['get','post'],'salary/edit/{id}',[RankSalaryController::class,'update'])->name('salary.edit');
@@ -64,10 +65,11 @@ Route::middleware('auth')->group(function() {
         //users
         Route::match(['get','post'],'user/addNew',[UsersController::class,'addNewUser'])->name('add_user');
         Route::match(['get','post'],'user/edit/{id}',[UsersController::class,'updateUser'])->name('edit_user');
-        Route::get('user/delete/{id}',[UsersController::class,'delete'])->name('delete_user'); 
+        Route::get('user/delete/{id}',[UsersController::class,'delete'])->name('delete_user');
         //teachers
         Route::match(['get','post'],'teacher/addNew',[TeachersController::class,'addNewTeacher'])->name('add_teacher');
         Route::match(['get','post'],'teacher/edit/{id}',[TeachersController::class,'updateTeacher'])->name('edit_teacher');
-        Route::get('teacher/delete/{id}',[TeachersController::class,'delete'])->name('delete_teacher'); 
+        Route::get('teacher/delete/{id}/{view}',[TeachersController::class,'delete'])->name('delete_teacher');
+        Route::get('detailTeacher/{id}',[UsersController::class,'getOneTeacherWaiting'])->name('deatailWaitingTeacher');
     });
 });

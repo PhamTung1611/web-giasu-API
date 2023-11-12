@@ -68,7 +68,7 @@
             <label>Email</label><br>
             <input type="email" class="form-control" placeholder="Nhập email" value="{{$teacher->email}}"  name="email">
             <label>Mật khẩu</label><br>
-            <input type="password" class="form-control" placeholder="Nhập password" name="password">
+            <input type="password" class="form-control" placeholder="Nhập password" value="{{$teacher->password}}" name="password">
             <label>Avatar</label><br>
             {{-- <input type="text" class="form-control" placeholder="Nhập link Avatar" value="{{$teacher->avatar}}"  name="avatar"> --}}
             <input type="file" placeholder="" name="avatar" accept="avatar/*" value="{{$teacher->avatar}}" class="form-control @error('avatar') is-invalid @enderror" id="avatar" >
@@ -93,6 +93,18 @@
               <option class="form-control" value="{{$s->id}}" {{$teacher->class == $s->id ?"selected":""}}>{{$s->class}}</option>
               @endforeach
             </select>
+              <label>Kinh nghiệm</label><br>
+              <select name="exp" id="" class="form-control">
+                  <option class="form-control" name="class" value="0" {{$teacher->exp == 0 ?"selected":""}}>0 Năm</option>
+                  <option class="form-control" name="class" value="1" {{$teacher->exp == 1 ?"selected":""}}>1 Năm</option>
+                  <option class="form-control" name="class" value="2" {{$teacher->exp == 2 ?"selected":""}}>2 Năm</option>
+                  <option class="form-control" name="class" value="3" {{$teacher->exp == 3 ?"selected":""}}>3 Năm</option>
+                  <option class="form-control" name="class" value="4" {{$teacher->exp == 4 ?"selected":""}}>4 Năm</option>
+                  <option class="form-control" name="class" value="5" {{$teacher->exp == 5 ?"selected":""}}>5 Năm</option>
+                  <option class="form-control" name="class" value="6" {{$teacher->exp == 6 ?"selected":""}}> >5 Năm</option>
+              </select>
+              <label>Vai trò hiện tại</label><br>
+              <input type="text" class="form-control" value="{{$teacher->current_role}}" placeholder="Nhập vai trò hiện tại" name="current_role">
             <label>Môn học muốn dạy</label><br>
             <select name="subject" id="" class="form-control">
               @foreach($subject as $s)
@@ -118,12 +130,13 @@
               @endforeach
             </select>
             <label>Ảnh bằng cấp</label><br>
-            <input type="text" placeholder="Ảnh bằng cấp" class="form-control" value="{{$teacher->Certificate}}" name="Certificate">
+            <input type="hidden" placeholder="Ảnh bằng cấp" class="form-control" value="{{$teacher->Certificate}}" name="Certificatelast">
+              <input type="file" name="Certificate[]" class="form-control" multiple>
             <label>Nhập mô tả về gia sư</label><br>
             <textarea type="text" class="form-control" value="{{$teacher->description}}" placeholder="Nhập mô tả về gia sư" name="description"></textarea>
               <label for="">Giới tính</label><br>
-              Nam: <input type="radio" @if($teacher->gender == 1) checked @endif name="gender" id="" value="1">
-              Nữ: <input type="radio" name="gender" @if($teacher->gender == 0) checked @endif id="" value="0"><br>
+              Nam: <input type="radio" @if($teacher->gender == 'Nam') checked @endif name="gender" id="" value="1">
+              Nữ: <input type="radio" name="gender" @if($teacher->gender == 'Nữ') checked @endif id="" value="0"><br>
               <label for="" class="mt-2">Ngày sinh</label><br>
               <input type="date" class="form-control" value="{{$teacher->date_of_birth}}" name="date_of_birth">
             <label class="mt-2">Trạng thái</label><br>

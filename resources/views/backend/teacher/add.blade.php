@@ -92,6 +92,18 @@
               <option class="form-control" name="class" value="{{$s->id}}">{{$s->class}}</option>
               @endforeach
             </select>
+              <label>Kinh nghiệm</label><br>
+              <select name="exp" id="" class="form-control">
+                  <option class="form-control" name="class" value="0">0 Năm</option>
+                  <option class="form-control" name="class" value="1">1 Năm</option>
+                  <option class="form-control" name="class" value="2">2 Năm</option>
+                  <option class="form-control" name="class" value="3">3 Năm</option>
+                  <option class="form-control" name="class" value="4">4 Năm</option>
+                  <option class="form-control" name="class" value="5">5 Năm</option>
+                  <option class="form-control" name="class" value="6"> >5 Năm</option>
+              </select>
+              <label>Vai trò hiện tại</label><br>
+              <input type="text" class="form-control" placeholder="Nhập vai trò hiện tại" name="current_role">
             <label>Môn học muốn dạy</label><br>
             <select name="subject" id="" class="form-control">
               @foreach($subject as $s)
@@ -116,8 +128,8 @@
               <option class="form-control" name="time_tutor" value="{{$s->id}}">{{$s->name}}</option>
               @endforeach
             </select>
-            <label>Ảnh bằng cấp</label><br>
-            <input type="text" placeholder="Ảnh bằng cấp" class="form-control" name="Certificate">
+              <label>Ảnh bằng cấp</label><br>
+              <input type="file" name="Certificate[]" class="form-control" multiple>
             <label>Nhập mô tả về gia sư</label><br>
             <textarea type="text" class="form-control" placeholder="Nhập mô tả về gia sư" name="description"></textarea>
               <label for="">Giới tính</label><br>

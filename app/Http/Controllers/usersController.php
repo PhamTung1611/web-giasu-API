@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use Exception;
@@ -63,6 +64,9 @@ class UsersController extends Controller
                 if ($user->avatar) {
                     $user->avatar = 'http://127.0.0.1:8000/storage/' . $user->avatar;
                 }
+                if ($user->Certificate ){
+                    $user->Certificate = json_decode($user->Certificate);
+                }
                 return $user;
             });
             return response()->json($users, 200);
@@ -104,6 +108,8 @@ class UsersController extends Controller
             $user->DistrictID = $request->districtID;
             $user->phone = $request->phone;
             if($request->role == 3 ){
+                $user->exp= $request->exp;
+                $user->current_role= $request->current_role;
                 $user->school_id = $request->school_id;
                 $user->Citizen_card = $request->citizen_card;
                 $user->education_level = $request->education_level;
@@ -117,18 +123,19 @@ class UsersController extends Controller
 
                     foreach ($request->file('Certificate') as $file) {
                         if ($file->isValid()) {
-                            $certificates[] = uploadFile('hinh', $file);
+                            $certificates[] ='http://127.0.0.1:8000/storage/'. uploadFile('hinh', $file);
                         }
                     }
                     $user->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
                 } else {
-                    $user->Certificate = "";
+                    $user->Certificate = null;
                 }
-
                 $user->description = $request->description;
                 $time_tutor = implode(",",$request->time_tutor_id);
                 $user->time_tutor_id = $time_tutor;
-                $user->status = 1 ;
+                $user->status = 2 ;
+            }else {
+                $user->status=1;
             }
 
             $user->save();
@@ -187,7 +194,11 @@ class UsersController extends Controller
             $district = District::find($records->DistrictID);
             $newDistrict = $district->name;
         }
-
+        if ($records->Certificate != null){
+            $Certificate = json_decode($records->Certificate);
+        }else{
+            $Certificate = [];
+        }
         return  response()->json( [
             'role'=>$records->role,
             'gender'=>$records->gender,
@@ -207,7 +218,9 @@ class UsersController extends Controller
             'time_tutor_id'=>$newArrayTime,
             'status'=>$records->status,
             'DistrictID'=>$newDistrict,
-            'Certificate'=>$records->Certificate
+            'Certificate'=>$Certificate,
+            'exp'=>$records->exp,
+            'current_role'=>$records->current_role
         ], 200);
     }
 
@@ -247,10 +260,23 @@ class UsersController extends Controller
                 $user->description = $request->description;
                 $time_tutor = implode(",",$request->time_tutor_id);
                 $user->time_tutor_id = $request->$time_tutor;
+                $user->current_role = $request->current_role;
+                $user->exp = $request->exp;
                 $user->status = 1 ;
-                $user->Certificate= $request->Certificate;
-            }
+                if ($request->hasFile('Certificate')) {
+                    $certificates = [];
 
+                    foreach ($request->file('Certificate') as $file) {
+                        if ($file->isValid()) {
+                            $certificates ='http://127.0.0.1:8000/storage/'. uploadFile('hinh', $file);
+                        }
+                    }
+                    $user->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
+                }else{
+                    $user->Certificate= $request->Certificate;
+                }
+
+            }
             $user->save();
 
             return response()->json("success", 201);
@@ -340,21 +366,6 @@ class UsersController extends Controller
             $user->address = $request->address;
             $user->DistrictID = $request->districtID;
             $user->phone = $request->phone;
-            if($request->role == 3 ){
-                $user->school_id = $request->school_id;
-                $user->Citizen_card = $request->citizen_card;
-                $user->education_level = $request->education_level;
-                $class = implode(",",$request->class_id);
-                $user->class_id = $request->$class;
-                $subject = implode(",",$request->subject);
-                $user->subject =$subject;
-                $user->salary_id = $request->salary_id;
-                $user->description = $request->description;
-                $time_tutor = implode(",",$request->time_tutor_id);
-                $user->time_tutor_id = $request->$time_tutor;
-                $user->status = 1 ;
-                $user->Certificate= $request->Certificate;
-            }
 
             if($user->save()){
                 Session::flash('success', 'Edit user success');
@@ -378,4 +389,100 @@ class UsersController extends Controller
             }
         }
     }
+    public function getAllTeacher(){
+        $teachers = DB::table('users')
+            ->where('role', 'teacher')
+            ->where('status', '2')
+            ->whereNull('deleted_at')
+            ->get();
+        if ($teachers){
+            $title = "Danh sách gia sư chờ phê duyệt";
+            $view = 2;
+            return view('backend.teacher.index',compact('teachers','title','view'));
+        }
+    }
+    public function agree(Request $request){
+        $user = User::find($request->id);
+        if($user){
+            Session::flash('success','success');
+            $user->update(['status' => '1']);
+            return redirect()->route('waiting');
+        }else{
+            Session::flash('error','error');
+        }
+    }
+    public function getOneTeacherWaiting($id){
+
+            $records = User::where('id', $id)
+                ->first();
+
+            $newArraySubject = [];
+            if($records->subject != null){
+                $makeSubject = explode(',',$records->subject);
+                foreach($makeSubject as $item ){
+                    $subjectNew = Subject::find($item);
+                    array_push($newArraySubject,$subjectNew->name);
+                }
+            }
+            $newArrayClass = [];
+            if($records->class_id != null){
+                $makeClass = explode(',',$records->class_id);
+                foreach($makeClass as $item ){
+                    $classNew = ClassLevel::find($item);
+                    array_push($newArrayClass,$classNew->class);
+                }
+            }
+            $newArrayTime = [];
+            if($records->time_tutor_id != null){
+                $makeTimetutor = explode(',',$records->time_tutor_id);
+                foreach($makeTimetutor as $item ){
+                    $timeNew = TimeSlot::find($item);
+                    array_push($newArrayTime,$timeNew->name);
+                }
+            }
+            $newSchool = "";
+            $newSalary ="";
+            $newDistrict ="";
+            if($records->school_id != null){
+                $school = Schools::find($records->school_id);
+                $newSchool=$school->name;
+            }
+            if ($records->salary_id != null){
+                $salary = RankSalary::find($records->salary_id);
+                $newSalary= $salary->name;
+            }
+            if($records->DistrictID != null){
+                $district = District::find($records->DistrictID);
+                $newDistrict = $district->name;
+            }
+            if ($records->Certificate ){
+                $records->Certificate = json_decode($records->Certificate);
+            }
+            $data=[
+                'role'=>$records->role,
+                'gender'=>$records->gender,
+                'date_of_birth'=>$records->date_of_birth,
+                'name'=>$records->name,
+                'email'=>$records->email,
+                'avatar'=>'http://127.0.0.1:8000/storage/'.$records->avatar,
+                'phone'=>$records->phone,
+                'address'=>$records->address,
+                'school_id'=>$newSchool,
+                'Citizen_card'=>$records->Citizen_card,
+                'education_level'=>$records->education_level,
+                'class_id'=>$newArrayClass,
+                'subject'=>$newArraySubject,
+                'salary_id'=>$newSalary,
+                'description'=>$records->description,
+                'time_tutor_id'=>$newArrayTime,
+                'status'=>$records->status,
+                'DistrictID'=>$newDistrict,
+                'Certificate'=>$records->Certificate,
+                'curent_role'=>$records->current_role,
+                'exp'=>$records->exp
+            ];
+            return $data;
+    }
+
+
 }
