@@ -64,6 +64,9 @@ class UsersController extends Controller
                 if ($user->avatar) {
                     $user->avatar = 'http://127.0.0.1:8000/storage/' . $user->avatar;
                 }
+                if ($user->Certificate ){
+                    $user->Certificate = json_decode($user->Certificate);
+                }
                 return $user;
             });
             return response()->json($users, 200);
@@ -118,12 +121,12 @@ class UsersController extends Controller
 
                     foreach ($request->file('Certificate') as $file) {
                         if ($file->isValid()) {
-                            $certificates[] = uploadFile('hinh', $file);
+                            $certificates[] ='http://127.0.0.1:8000/storage/'. uploadFile('hinh', $file);
                         }
                     }
                     $user->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
                 } else {
-                    $user->Certificate = "";
+                    $user->Certificate = null;
                 }
                 $user->description = $request->description;
                 $time_tutor = implode(",",$request->time_tutor_id);
@@ -189,7 +192,11 @@ class UsersController extends Controller
             $district = District::find($records->DistrictID);
             $newDistrict = $district->name;
         }
-
+        if ($records->Certificate != null){
+            $Certificate = json_decode($records->Certificate);
+        }else{
+            $Certificate = [];
+        }
         return  response()->json( [
             'role'=>$records->role,
             'gender'=>$records->gender,
@@ -209,7 +216,7 @@ class UsersController extends Controller
             'time_tutor_id'=>$newArrayTime,
             'status'=>$records->status,
             'DistrictID'=>$newDistrict,
-            'Certificate'=>$records->Certificate
+            'Certificate'=>$Certificate
         ], 200);
     }
 
@@ -250,9 +257,20 @@ class UsersController extends Controller
                 $time_tutor = implode(",",$request->time_tutor_id);
                 $user->time_tutor_id = $request->$time_tutor;
                 $user->status = 1 ;
-                $user->Certificate= $request->Certificate;
-            }
+                if ($request->hasFile('Certificate')) {
+                    $certificates = [];
 
+                    foreach ($request->file('Certificate') as $file) {
+                        if ($file->isValid()) {
+                            $certificates ='http://127.0.0.1:8000/storage/'. uploadFile('hinh', $file);
+                        }
+                    }
+                    $user->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
+                }else{
+                    $user->Certificate= $request->Certificate;
+                }
+
+            }
             $user->save();
 
             return response()->json("success", 201);
@@ -342,21 +360,6 @@ class UsersController extends Controller
             $user->address = $request->address;
             $user->DistrictID = $request->districtID;
             $user->phone = $request->phone;
-            if($request->role == 3 ){
-                $user->school_id = $request->school_id;
-                $user->Citizen_card = $request->citizen_card;
-                $user->education_level = $request->education_level;
-                $class = implode(",",$request->class_id);
-                $user->class_id = $request->$class;
-                $subject = implode(",",$request->subject);
-                $user->subject =$subject;
-                $user->salary_id = $request->salary_id;
-                $user->description = $request->description;
-                $time_tutor = implode(",",$request->time_tutor_id);
-                $user->time_tutor_id = $request->$time_tutor;
-                $user->status = 1 ;
-                $user->Certificate= $request->Certificate;
-            }
 
             if($user->save()){
                 Session::flash('success', 'Edit user success');

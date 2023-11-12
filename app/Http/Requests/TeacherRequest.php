@@ -39,7 +39,7 @@ class TeacherRequest extends FormRequest
                             'time_tutor' => 'required',
                             'status' => 'required|integer',
                             'DistrictID' => 'required|integer',
-                            'Certificate' => 'required|string',
+
                         ];
                         break;
                     case 'updateTeacher':
@@ -105,7 +105,7 @@ class TeacherRequest extends FormRequest
             'DistrictID.required' => 'Vui lòng nhập DistrictID.',
             'DistrictID.integer' => 'DistrictID phải là một số nguyên.',
             'Certificate.required' => 'Vui lòng nhập Certificate.',
-            'Certificate.string' => 'Certificate phải là một chuỗi.',
+
             // Thêm các messages khác nếu cần
         ];
     }

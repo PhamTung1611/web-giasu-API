@@ -116,8 +116,8 @@
               <option class="form-control" name="time_tutor" value="{{$s->id}}">{{$s->name}}</option>
               @endforeach
             </select>
-            <label>Ảnh bằng cấp</label><br>
-            <input type="text" placeholder="Ảnh bằng cấp" class="form-control" name="Certificate">
+              <label>Ảnh bằng cấp</label><br>
+              <input type="file" name="Certificate[]" class="form-control" multiple>
             <label>Nhập mô tả về gia sư</label><br>
             <textarea type="text" class="form-control" placeholder="Nhập mô tả về gia sư" name="description"></textarea>
               <label for="">Giới tính</label><br>

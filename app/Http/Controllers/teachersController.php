@@ -39,6 +39,9 @@ class TeachersController extends Controller
                     if ($teacher->avatar) {
                         $teacher->avatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
                     }
+                    if ($teacher->Certificate ){
+                        $teacher->Certificate = json_decode($teacher->Certificate);
+                    }
                     return $teacher;
                 });
             return response()->json($teachers, 200);
@@ -63,6 +66,9 @@ class TeachersController extends Controller
             $teachers->transform(function ($teacher) {
                 if ($teacher->avatar) {
                     $teacher->avatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
+                }
+                if ($teacher->Certificate ){
+                    $teacher->Certificate = json_decode($teacher->Certificate);
                 }
                 return $teacher;
             });
@@ -150,10 +156,21 @@ class TeachersController extends Controller
             $teacher->time_tutor_id = $request->time_tutor;
             $teacher->status = $request->status;
             $teacher->DistrictID = $request->DistrictID;
-            $teacher->Certificate = $request->Certificate;
+            if ($request->hasFile('Certificate')) {
+                $certificates = [];
+
+                foreach ($request->file('Certificate') as $file) {
+                    if ($file->isValid()) {
+                        $certificates[] = uploadFile('hinh', $file);
+                    }
+                }
+                $teacher->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
+            } else {
+                $teacher->Certificate = null;
+            }
             $teacher->date_of_birth = $request->date_of_birth;
-            $teacher->gender = $request->gneder;
-            $teacher->fill($params);
+            $teacher->gender = $request->gender;
+//            $teacher->fill($params);
             $teacher->save();
             if ($teacher->save()) {
                 Session::flash('success', 'Thêm thành công!');
@@ -175,23 +192,49 @@ class TeachersController extends Controller
         $salary = RankSalary::all();
         $timeTutor = TimeSlot::all();
         $teacher = User::findOrFail($id);
+
         // dd($teacher);
         if ($request->isMethod('post')) {
             $params = $request->except('_token');
+            if ($request->hasFile('Certificate')) {
+                    if ($params['Certificatelast']!= null){
+                        $imagelast = json_decode($params['Certificatelast']);
+                        foreach ($imagelast as $i){
+                            Storage::delete('/public/' . $i);
+                        }
+                    }
+
+                $certificates = [];
+
+                foreach ($request->file('Certificate') as $file) {
+                    if ($file->isValid()) {
+                        $certificates[] = uploadFile('hinh', $file);
+                    }
+                }
+                $params['Certificate'] = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
+
+            }else{
+                $params['Certificate']= $params['Certificatelast'];
+            }
+
+            unset($params['Certificatelast']);
+            $data = $params;
+            if($data['gender']== 1 ){
+                $data['gender']='Nam';
+            }else{
+                $data['gender']='Nữ';
+            }
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                 $deleteImage = Storage::delete('/public/' . $teacher->avatar);
                 if ($deleteImage) {
-                    $params['avatar'] = uploadFile('hinh', $request->file('avatar'));
+                    $data['avatar'] = uploadFile('hinh', $request->file('avatar'));
                 }
             }
 
-            if ($request->password){
-                $params['password'] =  Hash::make($request->password);
-            }else {
-                $params['password']= $teacher->password;
-            }
+            $data['password'] =  Hash::make($data['password']);
+
             // $update = User::where('id', $id)->update($request->except('_token'));
-            $update = User::where('id', $id)->update($params);
+            $update = User::where('id', $id)->update($data);
             if ($update) {
                 Session::flash('success', 'Edit teacher success');
                 return redirect()->route('search_teacher');
@@ -241,6 +284,9 @@ class TeachersController extends Controller
                         array_push($newArrayClass, $classNew->class);
                     }
                 }
+            }
+            if ($record->Certificate ){
+                $record->Certificate = json_decode($record->Certificate);
             }
 
             // Thêm các xử lý khác cho các trường dữ liệu khác
