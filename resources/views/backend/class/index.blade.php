@@ -36,16 +36,10 @@
   <div class="table-settings mb-4">
     <div class="row align-items-center justify-content-between">
       <div class="col col-md-6 col-lg-3 col-xl-4">
-        <form class="input-group me-2 me-lg-3 fmxw-400" action="">
-          <span class="input-group-text">
-            <svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                clip-rule="evenodd"></path>
-            </svg>
-          </span>
-          <input type="text" class="form-control" placeholder="Search class">
+        <form class="input-group me-2 me-lg-3 fmxw-400" action="{{route('search_class')}}" method="POST">
+          @csrf
+          <input type="text" class="form-control" placeholder="Nhập..." name="search">
+          <input type="submit" value="Lọc" class="btn btn-secondary">
         </form>
       </div>
       <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
@@ -80,7 +74,7 @@
             <tr>
                 <th>ID</th>
                 <th>Lớp học</th>
-                <th>Action</th>
+                <th>Hành động</th>
             </tr>
         </thead>
         <tbody>
@@ -100,15 +94,15 @@
                             <span class="fas fa-ellipsis-h icon-dark"></span>
                         </span>
                         <span>
-                        views
+                          Views
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.005 11.995v.01m0-4.01v.01m0 7.99v.01"/></svg>
                         </span>
                         </button>
                         <div class="dropdown-menu py-0">
                         
-                        <a class="dropdown-item" href="{{ route('edit_class', ['id' => $class_level->id])}}"><span class="fas fa-edit me-2"></span>Edit</a>
-                        <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_class', ['id' => $class_level->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span
-                            class="fas fa-trash-alt me-2"></span>Remove</a>
+                        <a class="dropdown-item" href="{{ route('edit_class', ['id' => $class_level->id])}}"><span class="fas fa-edit me-2"></span>Sửa</a>
+                        <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_class', ['id' => $class_level->id])}}" onclick="return confirm(' Bạn có chắc muốn xóa?');"><span
+                            class="fas fa-trash-alt me-2"></span>Xóa</a>
                         </div>
                     </div>
                 </td>

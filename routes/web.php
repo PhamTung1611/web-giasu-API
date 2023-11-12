@@ -28,11 +28,16 @@ Route::match(['get', 'post'], '/register',[UsersController::class, 'register'])-
 Route::middleware('auth')->group(function() {
     Route::middleware('check.role')->group(function() {
     Route::get('/',[Dashboard::class, 'index'])->name('dashboard');
-    Route::get('salary', [RankSalaryController::class, 'index'])->name('search_salary');
-    Route::get('timeslot', [TimeSlotController::class, 'index'])->name('search_timeslot');
-    Route::get('job', [JobController::class, 'index'])->name('search_job');
-    Route::get('subject',[SubjectController::class,'index'])->name('search_subject');
-    Route::get('classLevel',[ClassLevelController::class,'index'])->name('search_class');
+    Route::get('salary', [RankSalaryController::class, 'index']);
+    Route::post('salary', [RankSalaryController::class, 'index'])->name('search_salary');
+    Route::get('timeslot', [TimeSlotController::class, 'index']);
+    Route::post('timeslot', [TimeSlotController::class, 'index'])->name('search_timeslot');
+    Route::get('job', [JobController::class, 'index']);
+    Route::post('job', [JobController::class, 'index'])->name('search_job');
+    Route::get('subject',[SubjectController::class,'index']);
+    Route::post('subject',[SubjectController::class,'index'])->name('search_subject');
+    Route::get('classLevel',[ClassLevelController::class,'index']);
+    Route::post('classLevel',[ClassLevelController::class,'index'])->name('search_class');
     Route::get('teacher',[TeachersController::class,'getAllTeacher'])->name('search_teacher');
     Route::get('user',[UsersController::class,'getAllUser'])->name('search_user');
     Route::get('teacher/waiting',[UsersController::class,'getAllTeacher'])->name('waiting');
@@ -68,4 +73,3 @@ Route::middleware('auth')->group(function() {
         Route::get('detailTeacher/{id}',[UsersController::class,'getOneTeacherWaiting'])->name('deatailWaitingTeacher');
     });
 });
-

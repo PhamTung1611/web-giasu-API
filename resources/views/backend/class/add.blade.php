@@ -32,7 +32,7 @@
                 clip-rule="evenodd"></path>
             </svg>
           </span>
-          <input type="text" class="form-control" placeholder="Search job">
+          <input type="text" class="form-control" placeholder="Tìm kiếm...">
         </form>
       </div>
       <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
