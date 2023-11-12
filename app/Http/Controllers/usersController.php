@@ -449,6 +449,9 @@ class UsersController extends Controller
                 $district = District::find($records->DistrictID);
                 $newDistrict = $district->name;
             }
+            if ($records->Certificate ){
+                $records->Certificate = json_decode($records->Certificate);
+            }
             $data=[
                 'role'=>$records->role,
                 'gender'=>$records->gender,

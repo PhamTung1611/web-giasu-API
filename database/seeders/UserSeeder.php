@@ -122,7 +122,7 @@ class UserSeeder extends Seeder
             'time_tutor_id'=>'1',
             'status'=>'1',
             'DistrictID'=>'4',
-            'Certificate'=>'none',
+            'Certificate'=>null,
             'date_of_birth'=>'2002-09-03',
             'gender'=>'Nam'
         ]);

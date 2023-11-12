@@ -208,7 +208,7 @@ class TeachersController extends Controller
 
                 foreach ($request->file('Certificate') as $file) {
                     if ($file->isValid()) {
-                        $certificates[] = uploadFile('hinh', $file);
+                        $certificates[] ='http://127.0.0.1:8000/storage/'. uploadFile('hinh', $file);
                     }
                 }
                 $params['Certificate'] = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
@@ -298,7 +298,7 @@ class TeachersController extends Controller
                 'date_of_birth' => $record->date_of_birth,
                 'name' => $record->name,
                 'email' => $record->email,
-                'avatar' => 'http://127.0.0.1:8000/storage/' . $record->avatar,
+                'avatar' => 'http://127.0.0.1:8000/storage/'. $record->avatar,
                 'phone' => $record->phone,
                 'address' => $record->address,
                 'school_id' => $record->school_id ? Schools::find($record->school_id)->name : null,
