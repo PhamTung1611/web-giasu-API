@@ -93,6 +93,18 @@
               <option class="form-control" value="{{$s->id}}" {{$teacher->class == $s->id ?"selected":""}}>{{$s->class}}</option>
               @endforeach
             </select>
+              <label>Kinh nghiệm</label><br>
+              <select name="exp" id="" class="form-control">
+                  <option class="form-control" name="class" value="0" {{$teacher->exp == 0 ?"selected":""}}>0 Năm</option>
+                  <option class="form-control" name="class" value="1" {{$teacher->exp == 1 ?"selected":""}}>1 Năm</option>
+                  <option class="form-control" name="class" value="2" {{$teacher->exp == 2 ?"selected":""}}>2 Năm</option>
+                  <option class="form-control" name="class" value="3" {{$teacher->exp == 3 ?"selected":""}}>3 Năm</option>
+                  <option class="form-control" name="class" value="4" {{$teacher->exp == 4 ?"selected":""}}>4 Năm</option>
+                  <option class="form-control" name="class" value="5" {{$teacher->exp == 5 ?"selected":""}}>5 Năm</option>
+                  <option class="form-control" name="class" value="6" {{$teacher->exp == 6 ?"selected":""}}> >5 Năm</option>
+              </select>
+              <label>Vai trò hiện tại</label><br>
+              <input type="text" class="form-control" value="{{$teacher->current_role}}" placeholder="Nhập vai trò hiện tại" name="current_role">
             <label>Môn học muốn dạy</label><br>
             <select name="subject" id="" class="form-control">
               @foreach($subject as $s)

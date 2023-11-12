@@ -143,7 +143,7 @@ class TeachersController extends Controller
             $teacher->name = $request->name;
             $teacher->email = $request->email;
             $teacher->password =  Hash::make($request->password);
-            $teacher->avatar = $request->avatar;
+            $teacher->avatar = $params['avatar'];
             $teacher->phone = $request->phone;
             $teacher->address = $request->address;
             $teacher->school_id = $request->school_id;
@@ -156,6 +156,8 @@ class TeachersController extends Controller
             $teacher->time_tutor_id = $request->time_tutor;
             $teacher->status = $request->status;
             $teacher->DistrictID = $request->DistrictID;
+            $teacher->current_role= $request->current_role;
+            $teacher->exp= $request->exp;
             if ($request->hasFile('Certificate')) {
                 $certificates = [];
 
@@ -312,6 +314,8 @@ class TeachersController extends Controller
                 'status' => $record->status,
                 'DistrictID' => $record->DistrictID ? District::find($record->DistrictID)->name : null,
                 'Certificate' => $record->Certificate,
+                'current_role'=>$record->current_role,
+                'exp'=>$record->exp
             ];
         });
 

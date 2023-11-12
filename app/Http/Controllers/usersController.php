@@ -108,6 +108,8 @@ class UsersController extends Controller
             $user->DistrictID = $request->districtID;
             $user->phone = $request->phone;
             if($request->role == 3 ){
+                $user->exp= $request->exp;
+                $user->current_role= $request->current_role;
                 $user->school_id = $request->school_id;
                 $user->Citizen_card = $request->citizen_card;
                 $user->education_level = $request->education_level;
@@ -216,7 +218,9 @@ class UsersController extends Controller
             'time_tutor_id'=>$newArrayTime,
             'status'=>$records->status,
             'DistrictID'=>$newDistrict,
-            'Certificate'=>$Certificate
+            'Certificate'=>$Certificate,
+            'exp'=>$records->exp,
+            'current_role'=>$records->current_role
         ], 200);
     }
 
@@ -256,6 +260,8 @@ class UsersController extends Controller
                 $user->description = $request->description;
                 $time_tutor = implode(",",$request->time_tutor_id);
                 $user->time_tutor_id = $request->$time_tutor;
+                $user->current_role = $request->current_role;
+                $user->exp = $request->exp;
                 $user->status = 1 ;
                 if ($request->hasFile('Certificate')) {
                     $certificates = [];
@@ -471,7 +477,9 @@ class UsersController extends Controller
                 'time_tutor_id'=>$newArrayTime,
                 'status'=>$records->status,
                 'DistrictID'=>$newDistrict,
-                'Certificate'=>$records->Certificate
+                'Certificate'=>$records->Certificate,
+                'curent_role'=>$records->current_role,
+                'exp'=>$records->exp
             ];
             return $data;
     }

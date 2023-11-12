@@ -30,6 +30,8 @@ return new class extends Migration
             $table->string('class_id')->nullable();
             $table->string('subject')->nullable();
             $table->integer('salary_id')->nullable();
+            $table->String('exp')->nullable();
+            $table->String('current_role')->nullable();
             $table->String('description')->nullable();
             $table->string('time_tutor_id')->nullable();
             $table->integer('status')->nullable();
