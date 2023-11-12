@@ -53,12 +53,6 @@ Route::group(['middleware'=>'auth:api'],function(){
     Route::post('/register', [UsersController::class, 'store']);
 //route teacher
     Route::prefix('teachers')->group(function(){
-        Route::get('/', [TeachersController::class, 'index']);
-        Route::get('/{id}', [TeachersController::class, 'getDetailTeacher']);
-        Route::get('/class/{id}', [TeachersController::class, 'getTeacherByClass']);
-        Route::get('/subject/{id}', [ApiSubjectController::class, 'getTeacherBySubject']);
-        Route::get('/district/{id}', [DistrictController::class, 'getTeacherByDistrict']);
-        Route::get('/timeSlot/{id}', [ApiTimeSlotController::class, 'getTeacherByTimeSlot']);
         Route::put('/{id}', [TeachersController::class, 'update']);
         Route::delete('/{id}', [TeachersController::class, 'destroy']);
     });
@@ -156,4 +150,11 @@ Route::group(['middleware'=>'auth:api'],function(){
 
     });
 });
-
+Route::prefix('teachers')->group(function() {
+    Route::get('/', [TeachersController::class, 'index']);
+    Route::get('/{id}', [TeachersController::class, 'getDetailTeacher']);
+    Route::get('/class/{id}', [TeachersController::class, 'getTeacherByClass']);
+    Route::get('/subject/{id}', [ApiSubjectController::class, 'getTeacherBySubject']);
+    Route::get('/district/{id}', [DistrictController::class, 'getTeacherByDistrict']);
+    Route::get('/timeSlot/{id}', [ApiTimeSlotController::class, 'getTeacherByTimeSlot']);
+});
