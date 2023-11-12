@@ -28,7 +28,12 @@ class AuthController extends Controller
         if (!Auth::attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-
+        $users = DB::table('users')->where('email', $request->email)->first();
+        if ($users->status == 2){
+            return response()->json(['message' => 'Tài khoản chưa được kích hoạt'], 401);
+        }else if ($users->status == 0 ){
+            return response()->json(['message' => 'Tài khoản bị vô hiệu hóa'], 401);
+        }
         $user = $request->user();
         // Create an access token and a refresh token
         $tokenResult = $user->createToken('MyAppToken'); // Pass a token name here

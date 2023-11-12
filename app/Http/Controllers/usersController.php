@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use Exception;
@@ -124,11 +125,12 @@ class UsersController extends Controller
                 } else {
                     $user->Certificate = "";
                 }
-
                 $user->description = $request->description;
                 $time_tutor = implode(",",$request->time_tutor_id);
                 $user->time_tutor_id = $time_tutor;
-                $user->status = 1 ;
+                $user->status = 2 ;
+            }else {
+                $user->status=1;
             }
 
             $user->save();
@@ -378,4 +380,95 @@ class UsersController extends Controller
             }
         }
     }
+    public function getAllTeacher(){
+        $teachers = DB::table('users')
+            ->where('role', 'teacher')
+            ->where('status', '2')
+            ->whereNull('deleted_at')
+            ->get();
+        if ($teachers){
+            $title = "Danh sách gia sư chờ phê duyệt";
+            $view = 2;
+            return view('backend.teacher.index',compact('teachers','title','view'));
+        }
+    }
+    public function agree(Request $request){
+        $user = User::find($request->id);
+        if($user){
+            Session::flash('success','success');
+            $user->update(['status' => '1']);
+            return redirect()->route('waiting');
+        }else{
+            Session::flash('error','error');
+        }
+    }
+    public function getOneTeacherWaiting($id){
+
+            $records = User::where('id', $id)
+                ->first();
+
+            $newArraySubject = [];
+            if($records->subject != null){
+                $makeSubject = explode(',',$records->subject);
+                foreach($makeSubject as $item ){
+                    $subjectNew = Subject::find($item);
+                    array_push($newArraySubject,$subjectNew->name);
+                }
+            }
+            $newArrayClass = [];
+            if($records->class_id != null){
+                $makeClass = explode(',',$records->class_id);
+                foreach($makeClass as $item ){
+                    $classNew = ClassLevel::find($item);
+                    array_push($newArrayClass,$classNew->class);
+                }
+            }
+            $newArrayTime = [];
+            if($records->time_tutor_id != null){
+                $makeTimetutor = explode(',',$records->time_tutor_id);
+                foreach($makeTimetutor as $item ){
+                    $timeNew = TimeSlot::find($item);
+                    array_push($newArrayTime,$timeNew->name);
+                }
+            }
+            $newSchool = "";
+            $newSalary ="";
+            $newDistrict ="";
+            if($records->school_id != null){
+                $school = Schools::find($records->school_id);
+                $newSchool=$school->name;
+            }
+            if ($records->salary_id != null){
+                $salary = RankSalary::find($records->salary_id);
+                $newSalary= $salary->name;
+            }
+            if($records->DistrictID != null){
+                $district = District::find($records->DistrictID);
+                $newDistrict = $district->name;
+            }
+            $data=[
+                'role'=>$records->role,
+                'gender'=>$records->gender,
+                'date_of_birth'=>$records->date_of_birth,
+                'name'=>$records->name,
+                'email'=>$records->email,
+                'avatar'=>'http://127.0.0.1:8000/storage/'.$records->avatar,
+                'phone'=>$records->phone,
+                'address'=>$records->address,
+                'school_id'=>$newSchool,
+                'Citizen_card'=>$records->Citizen_card,
+                'education_level'=>$records->education_level,
+                'class_id'=>$newArrayClass,
+                'subject'=>$newArraySubject,
+                'salary_id'=>$newSalary,
+                'description'=>$records->description,
+                'time_tutor_id'=>$newArrayTime,
+                'status'=>$records->status,
+                'DistrictID'=>$newDistrict,
+                'Certificate'=>$records->Certificate
+            ];
+            return $data;
+    }
+
+
 }

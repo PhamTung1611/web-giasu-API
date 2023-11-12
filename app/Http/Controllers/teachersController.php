@@ -111,8 +111,9 @@ class TeachersController extends Controller
     public function getAllTeacher()
     {
         $title = "List";
-        $teachers = User::where('users.role', 'teacher')->get();
-        return view('backend.teacher.index', compact('teachers', 'title'));
+        $view=1;
+        $teachers = User::where('role', 'teacher')->whereIn('status', [0, 1])->get();
+        return view('backend.teacher.index', compact('teachers', 'title','view'));
     }
 
     public function addNewTeacher(TeacherRequest $request)
@@ -204,21 +205,21 @@ class TeachersController extends Controller
     public function getTeacherByFilter(Request $request)
     {
         $query = User::with('district:id,name', 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')->where('role', 'teacher');
-    
+
         if ($request->has('DistrictID')) {
             $query->where('DistrictID', $request->input('DistrictID'));
         }
-    
+
         if ($request->has('subject')) {
             $query->where('subject', $request->input('subject'));
         }
-    
+
         if ($request->has('class')) {
             $query->where('class_id', $request->input('class'));
         }
-    
+
         $records = $query->get();
-    
+
         $processedRecords = $records->map(function ($record) {
             $newArraySubject = [];
             if ($record->subject != null) {
@@ -230,7 +231,7 @@ class TeachersController extends Controller
                     }
                 }
             }
-    
+
             $newArrayClass = [];
             if ($record->class_id != null) {
                 $makeClass = explode(',', $record->class_id);
@@ -241,9 +242,9 @@ class TeachersController extends Controller
                     }
                 }
             }
-    
+
             // Thêm các xử lý khác cho các trường dữ liệu khác
-    
+
             return [
                 'id' => $record->id, // Thêm id của bản ghi vào mảng
                 'role' => $record->role,
@@ -267,9 +268,27 @@ class TeachersController extends Controller
                 'Certificate' => $record->Certificate,
             ];
         });
-    
+
         return response()->json($processedRecords, 200);
     }
-    
+    public function delete($id,$view){
+
+        if($id){
+            $user = User::find($id);
+            $deleted = $user->delete();
+            if($deleted){
+
+                if($view==1){
+                    Session::flash('success','success');
+                    return redirect()->route('search_teacher');
+                }else{
+                    Session::flash('success','success');
+                    return redirect()->route('waiting');
+                }
+            }else{
+                Session::flash('error','error');
+            }
+        }
+    }
 
 }

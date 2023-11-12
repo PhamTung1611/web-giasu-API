@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- Primary Meta Tags -->
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="title" content="Volt Free Bootstrap Dashboard - Bootstrap Tables">
     <meta name="author" content="Themesberg">
@@ -145,7 +145,16 @@
                             </li>
                         </ul>
                     </div>
-                </li>        
+                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('waiting')}}">
+                                    <span class="sidebar-text">Phê duyệt</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
             </ul>
         </div>
@@ -258,18 +267,18 @@
             function readURL(input, selector) {
                 if (input.files && input.files[0]) {
                     let reader = new FileReader();
-    
+
                     reader.onload = function (e) {
                         $(selector).attr('src', e.target.result);
                     };
-    
+
                     reader.readAsDataURL(input.files[0]);
                 }
             }
             $("#image").change(function () {
                 readURL(this, '#image_preview');
             });
-    
+
         });
     </script>
 </body>
