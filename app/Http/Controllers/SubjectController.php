@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SubjectRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class SubjectController extends Controller
 {
     public function index(Request $request){
-        $title = 'List';
+        $title = 'Danh sách môn học';
         $subject = Subject::all();
+        if ($request->post() && $request->search) {
+            $subject = DB::table('subjects')
+                ->where('name', 'like', '%'.$request->search.'%')->get();
+        }
         return view('backend.subject.index', compact('subject', 'title'));
     }
     public function add(SubjectRequest $request){
@@ -37,7 +42,7 @@ class SubjectController extends Controller
         if($request->isMethod('post')){
             $update = Subject::where('id', $id)->update($request->except('_token'));
             if($update){
-                Session::flash('success', 'Edit subject success');
+                Session::flash('success', 'Sửa thành công');
                 return redirect()->route('search_subject');
             }else{
                 Session::flash('error', 'Edit subject error');
@@ -50,7 +55,7 @@ class SubjectController extends Controller
                 $subject = Subject::find($id);
                 $deleted = $subject->delete();
                 if($deleted){
-                    Session::flash('success','Xoa thanh cong');
+                    Session::flash('success','Xóa thành công!');
                     return redirect()->route('search_subject');
                 }else{
                     Session::flash('error','xoa that bai');

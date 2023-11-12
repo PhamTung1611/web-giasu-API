@@ -35,30 +35,24 @@
     <div class="btn-toolbar mb-2 mb-md-0">
       <a href="" class="btn btn-sm btn-danger d-inline-flex align-items-center mx-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-archive" viewBox="0 0 16 16"> <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1V2zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5H2zm13-3H1v2h14V2zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/> </svg>
-        Archive
+        Kho lưu trữ
       </a>
       <a href="{{route('add_subject')}}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
         <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
         </svg>
-        Add new subject
+        Thêm mới môn học
       </a>
     </div>
   </div>
   <div class="table-settings mb-4">
     <div class="row align-items-center justify-content-between">
       <div class="col col-md-6 col-lg-3 col-xl-4">
-        <form class="input-group me-2 me-lg-3 fmxw-400" action="">
-          <span class="input-group-text">
-            <svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                clip-rule="evenodd"></path>
-            </svg>
-          </span>
-          <input type="text" class="form-control" placeholder="Search subject">
+        <form class="input-group me-2 me-lg-3 fmxw-400" action="{{route('search_subject')}}" method="POST">
+          @csrf
+          <input type="text" class="form-control" name="search" placeholder="Tìm kiếm ...">
+            <input type="submit" value="Lọc" class="btn btn-secondary">  
         </form>
       </div>
       <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
@@ -92,8 +86,8 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Action</th>
+                <th>Tên môn học</th>
+                <th>Hành động</th>
             </tr>
         </thead>
         <tbody>
@@ -113,7 +107,7 @@
                             <span class="fas fa-ellipsis-h icon-dark"></span>
                         </span>
                         <span>
-                        views
+                          Views
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.005 11.995v.01m0-4.01v.01m0 7.99v.01"/></svg>
                         </span>
                         </button>

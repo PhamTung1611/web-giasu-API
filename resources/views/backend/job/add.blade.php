@@ -14,7 +14,7 @@
               </svg>
             </a>
           </li>
-          <li class="breadcrumb-item"><a href="#">Tables</a></li>
+          {{-- <li class="breadcrumb-item"><a href="#">Tables</a></li> --}}
         </ol>
       </nav>
       <h2 class="h4">{{$title}}</h2>
@@ -32,7 +32,7 @@
                 clip-rule="evenodd"></path>
             </svg>
           </span>
-          <input type="text" class="form-control" placeholder="Search job">
+          <input type="text" class="form-control" placeholder="Nhập...">
         </form>
       </div>
       <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">

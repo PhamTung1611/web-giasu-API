@@ -6,13 +6,19 @@ use App\Http\Requests\ClassLevelRequest;
 use App\Models\ClassLevel;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class ClassLevelController extends Controller
 {
     public function index(Request $request){
-        $title = "list";
+        $title = "Danh sách lớp học";
+        
         $class_levels = ClassLevel::all();
+        if ($request->post() && $request->search) {
+            $class_levels = DB::table('class_levels')
+                ->where('class', 'like', '%'.$request->search.'%')->get();
+        }
         return view('backend.class.index', compact('class_levels', 'title'));
     }
     public function add(ClassLevelRequest $request){
@@ -34,13 +40,13 @@ class ClassLevelController extends Controller
         return view('backend.class.add', compact('title'));
     }
     public function edit(ClassLevelRequest $request, $id){
-        $title = 'Sửa lop hoc';
+        $title = 'Sửa lớp học';
         // $subjects = Subject::all();
         $class_levels = ClassLevel::findOrFail($id);
         if($request->isMethod('post')){
             $update = ClassLevel::where('id', $id)->update($request->except('_token'));
             if($update){
-                Session::flash('success', 'Edit class success');
+                Session::flash('success', 'Sửa thành công!');
                 return redirect()->route('search_class');
             }else{
                 Session::flash('error', 'Edit class error');

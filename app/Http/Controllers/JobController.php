@@ -12,9 +12,13 @@ use Illuminate\Support\Facades\Session;
 
 class JobController extends Controller
 {
-    public function index() {
-        $title = 'Index';
+    public function index(Request $request) {
+        $title = 'Danh sách công việc';
         $tests = DB::table('jobs')->get();
+        if ($request->post() && $request->search) {
+            $tests = DB::table('jobs')
+                ->where('id', 'like', '%'.$request->search.'%')->get();
+        }
         $results = [];
 
         foreach ($tests as $test) {
@@ -48,7 +52,7 @@ class JobController extends Controller
         return view('backend.job.index', compact('results','title'));
     }
     public function create(JobRequest $request) {
-        $title = 'Add new job';
+        $title = 'Thêm mới công việc';
         $salary = RankSalary::all();
         $date = TimeSlot::all();
         if($request->post()) {
@@ -67,7 +71,7 @@ class JobController extends Controller
             $job->requirements = $request->requirements;
             $job->save();
             if($job->save()){
-                Session::flash('success', 'Add new job success');
+                Session::flash('success', 'Thêm thành công!');
                 return redirect()->to('job');
             }
             else {
@@ -77,14 +81,14 @@ class JobController extends Controller
         return view('backend.job.add', compact('title', 'salary', 'date'));
     }
     public function update(JobRequest $request, $id){
-        $title = 'Sửa';
+        $title = 'Sửa công việc';
         $salary = RankSalary::all();
         $date = TimeSlot::all();
         $job = Job::findOrFail($id);
         if($request->isMethod('post')){
             $update = Job::where('id', $id)->update($request->except('_token'));
             if($update){
-                Session::flash('success', 'Edit job success');
+                Session::flash('success', 'Sửa thành công');
                 return redirect()->route('search_job');
             }else{
                 Session::flash('error', 'Edit job error');
@@ -97,7 +101,7 @@ class JobController extends Controller
             $job = Job::find($id);
             $deleted = $job->delete();
             if($deleted){
-                Session::flash('success','Xoa thanh cong');
+                Session::flash('success','Xoá thành công!');
                 return redirect()->route('search_job');
             }else{
                 Session::flash('error','xoa that bai');
