@@ -25,18 +25,20 @@ Route::match(['get', 'post'], '/login',[UsersController::class, 'signin'])->name
 Route::get('/logout',[UsersController::class, 'logout'])->name('logout');
 // Route::post('/login',[UsersController::class, 'signin'])->name('post-login');
 Route::match(['get', 'post'], '/register',[UsersController::class, 'register'])->name('register');
-<<<<<<< HEAD
 
-=======
->>>>>>> ad0488017b50e0ff8a8d6c618dbf97ca47666e39
 Route::middleware('auth')->group(function() {
     Route::middleware('check.role')->group(function() {
     Route::get('/',[Dashboard::class, 'index'])->name('dashboard');
-    Route::get('salary', [RankSalaryController::class, 'index'])->name('search_salary');
-    Route::get('timeslot', [TimeSlotController::class, 'index'])->name('search_timeslot');
-    Route::get('job', [JobController::class, 'index'])->name('search_job');
-    Route::get('subject',[SubjectController::class,'index'])->name('search_subject');
-    Route::get('classLevel',[ClassLevelController::class,'index'])->name('search_class');
+    Route::get('salary', [RankSalaryController::class, 'index']);
+    Route::post('salary', [RankSalaryController::class, 'index'])->name('search_salary');
+    Route::get('timeslot', [TimeSlotController::class, 'index']);
+    Route::post('timeslot', [TimeSlotController::class, 'index'])->name('search_timeslot');
+    Route::get('job', [JobController::class, 'index']);
+    Route::post('job', [JobController::class, 'index'])->name('search_job');
+    Route::get('subject',[SubjectController::class,'index']);
+    Route::post('subject',[SubjectController::class,'index'])->name('search_subject');
+    Route::get('classLevel',[ClassLevelController::class,'index']);
+    Route::post('classLevel',[ClassLevelController::class,'index'])->name('search_class');
     Route::get('teacher',[TeachersController::class,'getAllTeacher'])->name('search_teacher');
     Route::get('user',[UsersController::class,'getAllUser'])->name('search_user');
     //salary rank
@@ -69,7 +71,3 @@ Route::middleware('auth')->group(function() {
         Route::get('teacher/delete/{id}',[TeachersController::class,'delete'])->name('delete_teacher'); 
     });
 });
-<<<<<<< HEAD
-
-=======
->>>>>>> ad0488017b50e0ff8a8d6c618dbf97ca47666e39
