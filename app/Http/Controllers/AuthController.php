@@ -26,7 +26,7 @@ class AuthController extends Controller
 //        dd(Hash::make('12345'));
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'Email hoặc password không tồn tại'], 401);
         }
         $users = DB::table('users')->where('email', $request->email)->first();
         if ($users->status == 2){
