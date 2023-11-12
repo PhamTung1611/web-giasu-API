@@ -14,7 +14,7 @@
               </svg>
             </a>
           </li>
-          <li class="breadcrumb-item"><a href="#">Tables</a></li>
+          {{-- <li class="breadcrumb-item"><a href="#">Tables</a></li> --}}
         </ol>
       </nav>
       <h2 class="h4">{{$title}}</h2>
