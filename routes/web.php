@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::match(['get', 'post'], '/login',[UsersController::class, 'signin'])->name('login');
 Route::get('/logout',[UsersController::class, 'logout'])->name('logout');
+Route::get('vnpay', [UsersController::class, 'showvnpay']);
+Route::post('deposit', [UsersController::class, 'deposit']);
 // Route::post('/login',[UsersController::class, 'signin'])->name('post-login');
 Route::match(['get', 'post'], '/register',[UsersController::class, 'register'])->name('register');
 Route::middleware('auth')->group(function() {
