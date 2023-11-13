@@ -30,21 +30,21 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function signin(Request $request) {
-        if($request->isMethod('POST')) {
+    public function signin(Request $request)
+    {
+        if ($request->isMethod('POST')) {
             // dd($request);
             // try {
+            // dd(123);
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 // dd(123);
-                if(Auth::attempt(['email'=>$request->email, 'password'=>$request->password])) {
-                    // dd(123);
-                    //  return view('dashboard');
-                    return redirect()->route('dashboard');
-                }
-                else{
-                    // dd(432);
-                    Session::flash('error', 'Sai thông tin đăng nhập');
-                    return redirect()->route('login');
-                }
+                //  return view('dashboard');
+                return redirect()->route('dashboard');
+            } else {
+                // dd(432);
+                Session::flash('error', 'Sai thông tin đăng nhập');
+                return redirect()->route('login');
+            }
             // } catch (\Throwable $th) {
             //     dd($th);
             // }
@@ -52,20 +52,23 @@ class UsersController extends Controller
 
         return view('auth.login');
     }
-    public function logout() {
+    public function logout()
+    {
         Auth::logout();
         return redirect()->route('login');
     }
-    public function showvnpay(){
+    public function showvnpay()
+    {
         return view('payment');
     }
-    public function deposit(Request $request) {
+    public function deposit(Request $request)
+    {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://127.0.0.1:8000/";
-        $vnp_TmnCode = "YSRAA9QW";//Mã website tại VNPAY 
+        $vnp_Returnurl = "http://localhost:3000/profile/history";
+        $vnp_TmnCode = "YSRAA9QW"; //Mã website tại VNPAY 
         $vnp_HashSecret = "BWGVWFDPSGGASGPKLZMCMYEOHKLKHNFF"; //Chuỗi bí mật
         $data = $request->all();
-        $vnp_TxnRef = rand(1,10000); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_TxnRef = rand(1, 10000); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
         $vnp_OrderInfo = 1;
         $vnp_OrderType = "GS7";
         $vnp_Amount = $data['total'] * 100;
@@ -113,19 +116,18 @@ class UsersController extends Controller
 
         $vnp_Url = $vnp_Url . "?" . $query;
         if (isset($vnp_HashSecret)) {
-            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);//  
+            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
-        $returnData = array('code' => '00'
-            , 'message' => 'success'
-            , 'data' => $vnp_Url);
-            if (isset($_POST['redirect'])) {
-                header('Location: ' . $vnp_Url);
-                die();
-            } else {
-                echo json_encode($returnData);
-            }
-            // vui lòng tham khảo thêm tại code demo
+        $returnData = array(
+            'code' => '00', 'message' => 'success', 'data' => $vnp_Url
+        );
+        if (isset($_POST['redirect'])) {
+            header('Location: ' . $vnp_Url);
+            die();
+        } else {
+            echo json_encode($returnData);
+        }
     }
     public function index()
     {
@@ -135,7 +137,7 @@ class UsersController extends Controller
                 if ($user->avatar) {
                     $user->avatar = 'http://127.0.0.1:8000/storage/' . $user->avatar;
                 }
-                if ($user->Certificate ){
+                if ($user->Certificate) {
                     $user->Certificate = json_decode($user->Certificate);
                 }
                 return $user;
@@ -159,42 +161,42 @@ class UsersController extends Controller
 
             $user = new User;
             $role = Role::find($request->role);
-//            dd($role->name);
+            //            dd($role->name);
 
-            if(!$role){
-                return response()->json('Sai quyền',400);
+            if (!$role) {
+                return response()->json('Sai quyền', 400);
             }
-            $user->role= $role->name;
+            $user->role = $role->name;
             $user->gender = $request->gender;
             $user->date_of_birth = $request->date_of_birth;
             $user->name = $request->name;
             $user->email = $request->email;
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
-                    $user->avatar = uploadFile('hinh', $request->file('avatar'));
-            }else{
-                $user->avatar ="hinh/1699622845_avatar.jpg";
+                $user->avatar = uploadFile('hinh', $request->file('avatar'));
+            } else {
+                $user->avatar = "hinh/1699622845_avatar.jpg";
             }
-            $user->password= Hash::make($request->password);
+            $user->password = Hash::make($request->password);
             $user->address = $request->address;
             $user->DistrictID = $request->districtID;
             $user->phone = $request->phone;
-            if($request->role == 3 ){
-                $user->exp= $request->exp;
-                $user->current_role= $request->current_role;
+            if ($request->role == 3) {
+                $user->exp = $request->exp;
+                $user->current_role = $request->current_role;
                 $user->school_id = $request->school_id;
                 $user->Citizen_card = $request->citizen_card;
                 $user->education_level = $request->education_level;
-                $class = implode(",",$request->class_id);
+                $class = implode(",", $request->class_id);
                 $user->class_id = $class;
-                $subject = implode(",",$request->subject);
-                $user->subject =$subject;
+                $subject = implode(",", $request->subject);
+                $user->subject = $subject;
                 $user->salary_id = $request->salary_id;
                 if ($request->hasFile('Certificate')) {
                     $certificates = [];
 
                     foreach ($request->file('Certificate') as $file) {
                         if ($file->isValid()) {
-                            $certificates[] ='http://127.0.0.1:8000/storage/'. uploadFile('hinh', $file);
+                            $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
                         }
                     }
                     $user->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
@@ -202,11 +204,11 @@ class UsersController extends Controller
                     $user->Certificate = null;
                 }
                 $user->description = $request->description;
-                $time_tutor = implode(",",$request->time_tutor_id);
+                $time_tutor = implode(",", $request->time_tutor_id);
                 $user->time_tutor_id = $time_tutor;
-                $user->status = 2 ;
-            }else {
-                $user->status=1;
+                $user->status = 2;
+            } else {
+                $user->status = 1;
             }
 
             $user->save();
@@ -227,71 +229,71 @@ class UsersController extends Controller
             ->first();
 
         $newArraySubject = [];
-        if($records->subject != null){
-            $makeSubject = explode(',',$records->subject);
-            foreach($makeSubject as $item ){
+        if ($records->subject != null) {
+            $makeSubject = explode(',', $records->subject);
+            foreach ($makeSubject as $item) {
                 $subjectNew = Subject::find($item);
-                array_push($newArraySubject,$subjectNew->name);
+                array_push($newArraySubject, $subjectNew->name);
             }
-         }
+        }
         $newArrayClass = [];
-        if($records->class_id != null){
-            $makeClass = explode(',',$records->class_id);
-            foreach($makeClass as $item ){
+        if ($records->class_id != null) {
+            $makeClass = explode(',', $records->class_id);
+            foreach ($makeClass as $item) {
                 $classNew = ClassLevel::find($item);
-                array_push($newArrayClass,$classNew->class);
+                array_push($newArrayClass, $classNew->class);
             }
         }
         $newArrayTime = [];
-        if($records->time_tutor_id != null){
-            $makeTimetutor = explode(',',$records->time_tutor_id);
-            foreach($makeTimetutor as $item ){
+        if ($records->time_tutor_id != null) {
+            $makeTimetutor = explode(',', $records->time_tutor_id);
+            foreach ($makeTimetutor as $item) {
                 $timeNew = TimeSlot::find($item);
-                array_push($newArrayTime,$timeNew->name);
+                array_push($newArrayTime, $timeNew->name);
             }
         }
         $newSchool = "";
-        $newSalary ="";
-        $newDistrict ="";
-        if($records->school_id != null){
+        $newSalary = "";
+        $newDistrict = "";
+        if ($records->school_id != null) {
             $school = Schools::find($records->school_id);
-            $newSchool=$school->name;
+            $newSchool = $school->name;
         }
-        if ($records->salary_id != null){
+        if ($records->salary_id != null) {
             $salary = RankSalary::find($records->salary_id);
-            $newSalary= $salary->name;
+            $newSalary = $salary->name;
         }
-        if($records->DistrictID != null){
+        if ($records->DistrictID != null) {
             $district = District::find($records->DistrictID);
             $newDistrict = $district->name;
         }
-        if ($records->Certificate != null){
+        if ($records->Certificate != null) {
             $Certificate = json_decode($records->Certificate);
-        }else{
+        } else {
             $Certificate = [];
         }
-        return  response()->json( [
-            'role'=>$records->role,
-            'gender'=>$records->gender,
-            'date_of_birth'=>$records->date_of_birth,
-            'name'=>$records->name,
-            'email'=>$records->email,
-            'avatar'=>'http://127.0.0.1:8000/storage/'.$records->avatar,
-            'phone'=>$records->phone,
-            'address'=>$records->address,
-            'school_id'=>$newSchool,
-            'Citizen_card'=>$records->Citizen_card,
-            'education_level'=>$records->education_level,
-            'class_id'=>$newArrayClass,
-            'subject'=>$newArraySubject,
-            'salary_id'=>$newSalary,
-            'description'=>$records->description,
-            'time_tutor_id'=>$newArrayTime,
-            'status'=>$records->status,
-            'DistrictID'=>$newDistrict,
-            'Certificate'=>$Certificate,
-            'exp'=>$records->exp,
-            'current_role'=>$records->current_role
+        return  response()->json([
+            'role' => $records->role,
+            'gender' => $records->gender,
+            'date_of_birth' => $records->date_of_birth,
+            'name' => $records->name,
+            'email' => $records->email,
+            'avatar' => 'http://127.0.0.1:8000/storage/' . $records->avatar,
+            'phone' => $records->phone,
+            'address' => $records->address,
+            'school_id' => $newSchool,
+            'Citizen_card' => $records->Citizen_card,
+            'education_level' => $records->education_level,
+            'class_id' => $newArrayClass,
+            'subject' => $newArraySubject,
+            'salary_id' => $newSalary,
+            'description' => $records->description,
+            'time_tutor_id' => $newArrayTime,
+            'status' => $records->status,
+            'DistrictID' => $newDistrict,
+            'Certificate' => $Certificate,
+            'exp' => $records->exp,
+            'current_role' => $records->current_role
         ], 200);
     }
 
@@ -301,10 +303,10 @@ class UsersController extends Controller
         try {
             $user = User::find($id);
             $role = Role::find($request->role);
-            if(!$role){
-                return response()->json('Sai quyền',400);
+            if (!$role) {
+                return response()->json('Sai quyền', 400);
             }
-            $user->role= $role->name;
+            $user->role = $role->name;
             $user->gender = $request->gender;
             $user->date_of_birth = $request->date_of_birth;
             $user->name = $request->name;
@@ -315,38 +317,37 @@ class UsersController extends Controller
                     $user->avatar = uploadFile('hinh', $request->file('avatar'));
                 }
             }
-            $user->password= Hash::make($request->password);
+            $user->password = Hash::make($request->password);
             $user->address = $request->address;
             $user->DistrictID = $request->districtID;
             $user->phone = $request->phone;
-            if($request->role == 3 ){
+            if ($request->role == 3) {
                 $user->school_id = $request->school_id;
                 $user->Citizen_card = $request->citizen_card;
                 $user->education_level = $request->education_level;
-                $class = implode(",",$request->class_id);
+                $class = implode(",", $request->class_id);
                 $user->class_id = $request->$class;
-                $subject = implode(",",$request->subject);
-                $user->subject =$subject;
+                $subject = implode(",", $request->subject);
+                $user->subject = $subject;
                 $user->salary_id = $request->salary_id;
                 $user->description = $request->description;
-                $time_tutor = implode(",",$request->time_tutor_id);
+                $time_tutor = implode(",", $request->time_tutor_id);
                 $user->time_tutor_id = $request->$time_tutor;
                 $user->current_role = $request->current_role;
                 $user->exp = $request->exp;
-                $user->status = 1 ;
+                $user->status = 1;
                 if ($request->hasFile('Certificate')) {
                     $certificates = [];
 
                     foreach ($request->file('Certificate') as $file) {
                         if ($file->isValid()) {
-                            $certificates ='http://127.0.0.1:8000/storage/'. uploadFile('hinh', $file);
+                            $certificates = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
                         }
                     }
                     $user->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
-                }else{
-                    $user->Certificate= $request->Certificate;
+                } else {
+                    $user->Certificate = $request->Certificate;
                 }
-
             }
             $user->save();
 
@@ -380,21 +381,22 @@ class UsersController extends Controller
         $users = User::where('role', 'user')->get();
         return view('backend.users.index', compact('users', 'title'));
     }
-    public function addNewUser(UserRequest $request){
+    public function addNewUser(UserRequest $request)
+    {
         $title = 'Thêm mới user';
-        if($request->isMethod('post')){
+        if ($request->isMethod('post')) {
             // dd($request);
             // $params = $request->post();
             $params = $request->except('_token');
-            if($request->hasFile('avatar') && $request->file('avatar')->isValid()){
-                $params['avatar'] = uploadFile('hinh',$request->file('avatar'));
-            }else {
-                $params['avatar']="hinh/1699622845_avatar.jpg";
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                $params['avatar'] = uploadFile('hinh', $request->file('avatar'));
+            } else {
+                $params['avatar'] = "hinh/1699622845_avatar.jpg";
             }
             // dd($params);
             // unset($params['_token']);
             $user = new User();
-            $user->role=$request->role;
+            $user->role = $request->role;
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = $request->password;
@@ -403,26 +405,26 @@ class UsersController extends Controller
             $user->address = $request->address;
             $user->fill($params);
             $user->save();
-            if($user->save()) {
+            if ($user->save()) {
                 Session::flash('success', 'Thêm thành công!');
                 return redirect()->route('search_user');
-            }
-            else {
+            } else {
                 Session::flash('error', 'Thêm không thành công!');
             }
         }
         return view('backend.users.add', compact('title'));
     }
-    public function updateUser(UserRequest $request, $id){
+    public function updateUser(UserRequest $request, $id)
+    {
         $title = 'Sửa User';
         $user = User::findOrFail($id);
-        if($request->isMethod('post')){
+        if ($request->isMethod('post')) {
             $user = User::find($id);
             $role = Role::find(2);
-            if(!$role){
-                return response()->json('Sai quyền',400);
+            if (!$role) {
+                return response()->json('Sai quyền', 400);
             }
-            $user->role= $role->name;
+            $user->role = $role->name;
             $user->gender = $request->gender;
             $user->date_of_birth = $request->date_of_birth;
             $user->name = $request->name;
@@ -433,127 +435,128 @@ class UsersController extends Controller
                     $user->avatar = uploadFile('hinh', $request->file('avatar'));
                 }
             }
-            $user->password= Hash::make($request->password);
+            $user->password = Hash::make($request->password);
             $user->address = $request->address;
             $user->DistrictID = $request->districtID;
             $user->phone = $request->phone;
 
-            if($user->save()){
+            if ($user->save()) {
                 Session::flash('success', 'Edit user success');
                 return redirect()->route('search_user');
-            }else{
+            } else {
                 Session::flash('error', 'Edit subject error');
             }
         }
-        return view('backend.users.edit', compact('title','user'));
-
+        return view('backend.users.edit', compact('title', 'user'));
     }
-    public function delete($id){
-        if($id){
+    public function delete($id)
+    {
+        if ($id) {
             $user = User::find($id);
             $deleted = $user->delete();
-            if($deleted){
-                Session::flash('success','Xoa thanh cong');
+            if ($deleted) {
+                Session::flash('success', 'Xoa thanh cong');
                 return redirect()->route('search_user');
-            }else{
-                Session::flash('error','xoa that bai');
+            } else {
+                Session::flash('error', 'xoa that bai');
             }
         }
     }
-    public function getAllTeacher(){
+    public function getAllTeacher()
+    {
         $teachers = DB::table('users')
             ->where('role', 'teacher')
             ->where('status', '2')
             ->whereNull('deleted_at')
             ->get();
-        if ($teachers){
+        if ($teachers) {
             $title = "Danh sách gia sư chờ phê duyệt";
             $view = 2;
-            return view('backend.teacher.index',compact('teachers','title','view'));
+            return view('backend.teacher.index', compact('teachers', 'title', 'view'));
         }
     }
-    public function agree(Request $request){
+    public function agree(Request $request)
+    {
         $user = User::find($request->id);
-        if($user){
-            Session::flash('success','success');
+        if ($user) {
+            Session::flash('success', 'success');
             $user->update(['status' => '1']);
             return redirect()->route('waiting');
-        }else{
-            Session::flash('error','error');
+        } else {
+            Session::flash('error', 'error');
         }
     }
-    public function getOneTeacherWaiting($id){
+    public function getOneTeacherWaiting($id)
+    {
 
-            $records = User::where('id', $id)
-                ->first();
+        $records = User::where('id', $id)
+            ->first();
 
-            $newArraySubject = [];
-            if($records->subject != null){
-                $makeSubject = explode(',',$records->subject);
-                foreach($makeSubject as $item ){
-                    $subjectNew = Subject::find($item);
-                    array_push($newArraySubject,$subjectNew->name);
-                }
+        $newArraySubject = [];
+        if ($records->subject != null) {
+            $makeSubject = explode(',', $records->subject);
+            foreach ($makeSubject as $item) {
+                $subjectNew = Subject::find($item);
+                array_push($newArraySubject, $subjectNew->name);
             }
-            $newArrayClass = [];
-            if($records->class_id != null){
-                $makeClass = explode(',',$records->class_id);
-                foreach($makeClass as $item ){
-                    $classNew = ClassLevel::find($item);
-                    array_push($newArrayClass,$classNew->class);
-                }
+        }
+        $newArrayClass = [];
+        if ($records->class_id != null) {
+            $makeClass = explode(',', $records->class_id);
+            foreach ($makeClass as $item) {
+                $classNew = ClassLevel::find($item);
+                array_push($newArrayClass, $classNew->class);
             }
-            $newArrayTime = [];
-            if($records->time_tutor_id != null){
-                $makeTimetutor = explode(',',$records->time_tutor_id);
-                foreach($makeTimetutor as $item ){
-                    $timeNew = TimeSlot::find($item);
-                    array_push($newArrayTime,$timeNew->name);
-                }
+        }
+        $newArrayTime = [];
+        if ($records->time_tutor_id != null) {
+            $makeTimetutor = explode(',', $records->time_tutor_id);
+            foreach ($makeTimetutor as $item) {
+                $timeNew = TimeSlot::find($item);
+                array_push($newArrayTime, $timeNew->name);
             }
-            $newSchool = "";
-            $newSalary ="";
-            $newDistrict ="";
-            if($records->school_id != null){
-                $school = Schools::find($records->school_id);
-                $newSchool=$school->name;
-            }
-            if ($records->salary_id != null){
-                $salary = RankSalary::find($records->salary_id);
-                $newSalary= $salary->name;
-            }
-            if($records->DistrictID != null){
-                $district = District::find($records->DistrictID);
-                $newDistrict = $district->name;
-            }
-            if ($records->Certificate ){
-                $records->Certificate = json_decode($records->Certificate);
-            }
-            $data=[
-                'role'=>$records->role,
-                'gender'=>$records->gender,
-                'date_of_birth'=>$records->date_of_birth,
-                'name'=>$records->name,
-                'email'=>$records->email,
-                'avatar'=>'http://127.0.0.1:8000/storage/'.$records->avatar,
-                'phone'=>$records->phone,
-                'address'=>$records->address,
-                'school_id'=>$newSchool,
-                'Citizen_card'=>$records->Citizen_card,
-                'education_level'=>$records->education_level,
-                'class_id'=>$newArrayClass,
-                'subject'=>$newArraySubject,
-                'salary_id'=>$newSalary,
-                'description'=>$records->description,
-                'time_tutor_id'=>$newArrayTime,
-                'status'=>$records->status,
-                'DistrictID'=>$newDistrict,
-                'Certificate'=>$records->Certificate,
-                'curent_role'=>$records->current_role,
-                'exp'=>$records->exp
-            ];
-            return $data;
+        }
+        $newSchool = "";
+        $newSalary = "";
+        $newDistrict = "";
+        if ($records->school_id != null) {
+            $school = Schools::find($records->school_id);
+            $newSchool = $school->name;
+        }
+        if ($records->salary_id != null) {
+            $salary = RankSalary::find($records->salary_id);
+            $newSalary = $salary->name;
+        }
+        if ($records->DistrictID != null) {
+            $district = District::find($records->DistrictID);
+            $newDistrict = $district->name;
+        }
+        if ($records->Certificate) {
+            $records->Certificate = json_decode($records->Certificate);
+        }
+        $data = [
+            'role' => $records->role,
+            'gender' => $records->gender,
+            'date_of_birth' => $records->date_of_birth,
+            'name' => $records->name,
+            'email' => $records->email,
+            'avatar' => 'http://127.0.0.1:8000/storage/' . $records->avatar,
+            'phone' => $records->phone,
+            'address' => $records->address,
+            'school_id' => $newSchool,
+            'Citizen_card' => $records->Citizen_card,
+            'education_level' => $records->education_level,
+            'class_id' => $newArrayClass,
+            'subject' => $newArraySubject,
+            'salary_id' => $newSalary,
+            'description' => $records->description,
+            'time_tutor_id' => $newArrayTime,
+            'status' => $records->status,
+            'DistrictID' => $newDistrict,
+            'Certificate' => $records->Certificate,
+            'curent_role' => $records->current_role,
+            'exp' => $records->exp
+        ];
+        return $data;
     }
-
-
 }

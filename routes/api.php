@@ -183,3 +183,4 @@ Route::prefix('schools')->group(function(){
     Route::get('/{id}', [schoolsController::class, 'show']);
 
 });
+Route::post('/deposit',[UsersController::class,'deposit']);
