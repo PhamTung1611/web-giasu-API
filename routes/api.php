@@ -31,11 +31,11 @@ use App\Http\Controllers\ResetPasswordController;
 Route::group(['middleware'=>'auth:api'],function(){
     Route::prefix('TeacherSubject')->group(function () {
         // lấy ra danh sách
-        Route::get('/', [TeacherSubjectController::class, 'index']);
+
         //thêm
         Route::post('/', [TeacherSubjectController::class, 'store']);
         //chi tiết
-        Route::get('/{id}', [TeacherSubjectController::class, 'show']);
+
         //chỉnh sửa
         Route::put('/{id}', [TeacherSubjectController::class, 'update']);
         //xóa
@@ -79,15 +79,12 @@ Route::group(['middleware'=>'auth:api'],function(){
     });
 
     Route::prefix('subject')->group( function () {
-        Route::get('/', [ApiSubjectController::class, 'index']);
-        Route::get('/{id}', [ApiSubjectController::class, 'show']);
+
         Route::post('/', [ApiSubjectController::class, 'store']);
         Route::put('/{id}', [ApiSubjectController::class, 'update']);
         Route::delete('/{id}', [ApiSubjectController::class, 'destroy']);
     });
     Route::prefix('class_levels')->group( function () {
-        Route::get('/', [ApiClassLevelController::class, 'index']);
-        Route::get('/{id}', [ApiClassLevelController::class, 'show']);
         Route::post('/', [ApiClassLevelController::class, 'store']);
         Route::put('/{id}', [ApiClassLevelController::class, 'update']);
         Route::delete('/{id}', [ApiClassLevelController::class, 'destroy']);
@@ -129,17 +126,14 @@ Route::group(['middleware'=>'auth:api'],function(){
         //xóa
         Route::delete('/{id}', [ApiJobController::class, 'destroy']);
     });
-    Route::prefix('district')->group(function () {
-        // lấy ra danh sách
-        Route::get('/', [DistrictController::class, 'index']);
-    });
+
     Route::prefix('feedback')->group(function () {
         // lấy ra danh sách
         Route::post('/',[FeedBackController::class,'store']);
         Route::get('/{id}',[FeedBackController::class,'show']);
         Route::get('/avgPoint/{id}',[FeedBackController::class,'averagePoint']);
     });
-    Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
+
 // Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
 
     Route::prefix('auth')->group(function(){
@@ -157,4 +151,23 @@ Route::prefix('teachers')->group(function() {
     Route::get('/subject/{id}', [ApiSubjectController::class, 'getTeacherBySubject']);
     Route::get('/district/{id}', [DistrictController::class, 'getTeacherByDistrict']);
     Route::get('/timeSlot/{id}', [ApiTimeSlotController::class, 'getTeacherByTimeSlot']);
+});
+Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
+Route::prefix('ranksalary')->group(function () {
+    // lấy ra danh sách
+    Route::get('/', [ApiRankSalaryController::class, 'index']);
+    Route::get('/{id}', [ApiRankSalaryController::class, 'show']);
+    //chỉnh sửa
+});
+Route::prefix('subject')->group( function () {
+    Route::get('/', [ApiSubjectController::class, 'index']);
+    Route::get('/{id}', [ApiSubjectController::class, 'show']);
+});
+Route::prefix('class_levels')->group( function () {
+    Route::get('/', [ApiClassLevelController::class, 'index']);
+    Route::get('/{id}', [ApiClassLevelController::class, 'show']);
+});
+Route::prefix('district')->group(function () {
+    // lấy ra danh sách
+    Route::get('/', [DistrictController::class, 'index']);
 });
