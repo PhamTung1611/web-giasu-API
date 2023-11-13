@@ -58,8 +58,7 @@ Route::group(['middleware'=>'auth:api'],function(){
     });
 // route schools
     Route::prefix('schools')->group(function(){
-        Route::get('/', [schoolsController::class, 'index']);
-        Route::get('/{id}', [schoolsController::class, 'show']);
+
         Route::post('/', [schoolsController::class, 'store']);
         Route::put('/{id}', [schoolsController::class, 'update']);
         Route::delete('/{id}', [schoolsController::class, 'destroy']);
@@ -177,5 +176,10 @@ Route::prefix('timeslot')->group(function () {
 
     Route::get('/{id}', [ApiTimeSlotController::class, 'show']);
     //chỉnh sửa
+
+});
+Route::prefix('schools')->group(function(){
+    Route::get('/', [schoolsController::class, 'index']);
+    Route::get('/{id}', [schoolsController::class, 'show']);
 
 });
