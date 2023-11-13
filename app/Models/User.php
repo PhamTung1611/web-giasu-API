@@ -27,6 +27,7 @@ class User extends Authenticatable
         'email_verified_at',
         'password',
         'address',
+        'coin',
         'school_id',
         'Citizen_card',
         'education_level',

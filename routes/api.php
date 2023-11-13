@@ -184,3 +184,4 @@ Route::prefix('schools')->group(function(){
 
 });
 Route::post('/deposit',[UsersController::class,'deposit']);
+Route::post('/saveDeposit',[UsersController::class,'depositInsertDatabase']);

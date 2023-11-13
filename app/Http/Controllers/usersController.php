@@ -61,6 +61,21 @@ class UsersController extends Controller
     {
         return view('payment');
     }
+    
+    public function depositInsertDatabase(Request $request){
+        $id= $request->input('id');
+        $coin=$request->input('coin');
+
+        $user = User::find($id);
+
+        if($user){
+            $user->coin += $coin;
+            $user->save();
+
+            return response()->json(['message'=>'Nạp tiền thành công'],200);
+        }
+        return response()->json(['message'=>'Nạp tiền lỗi'],400);
+    }
     public function deposit(Request $request)
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -73,7 +88,7 @@ class UsersController extends Controller
         $vnp_OrderType = "GS7";
         $vnp_Amount = $data['total'] * 100;
         $vnp_Locale = "VN";
-        $vnp_BankCode = "NCB";
+        $vnp_BankCode = "VNPAYQR";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
 
         //Billing
