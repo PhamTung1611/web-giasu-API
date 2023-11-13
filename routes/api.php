@@ -50,7 +50,7 @@ Route::group(['middleware'=>'auth:api'],function(){
         Route::put('/{id}', [UsersController::class, 'updateApi']);
         Route::delete('/{id}', [UsersController::class, 'destroy']);
     });
-    Route::post('/register', [UsersController::class, 'store']);
+
 //route teacher
     Route::prefix('teachers')->group(function(){
         Route::put('/{id}', [TeachersController::class, 'update']);
@@ -136,13 +136,7 @@ Route::group(['middleware'=>'auth:api'],function(){
 
 // Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
 
-    Route::prefix('auth')->group(function(){
-        Route::post('/login',[AuthController::class,'login']);
-        Route::post('/refresh',[AuthController::class,'RefreshToken']);
-        Route::post('/reset-password', [ResetPasswordController::class,'sendMail']);
-        Route::put('/reset-password/{token}', [ResetPasswordController::class,'reset']);
 
-    });
 });
 Route::prefix('teachers')->group(function() {
     Route::get('/', [TeachersController::class, 'index']);
@@ -170,4 +164,12 @@ Route::prefix('class_levels')->group( function () {
 Route::prefix('district')->group(function () {
     // lấy ra danh sách
     Route::get('/', [DistrictController::class, 'index']);
+});
+Route::post('/register', [UsersController::class, 'store']);
+Route::prefix('auth')->group(function(){
+    Route::post('/login',[AuthController::class,'login']);
+    Route::post('/refresh',[AuthController::class,'RefreshToken']);
+    Route::post('/reset-password', [ResetPasswordController::class,'sendMail']);
+    Route::put('/reset-password/{token}', [ResetPasswordController::class,'reset']);
+
 });
