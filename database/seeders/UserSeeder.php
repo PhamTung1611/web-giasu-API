@@ -240,7 +240,8 @@ class UserSeeder extends Seeder
             'address'=>'Ba Đình',
             'DistrictID'=>'5',
             'date_of_birth'=>'2003-09-30',
-            'gender'=>'Nam'
+            'gender'=>'Nam',
+            'status'=>"1"
         ]);
         DB::table('users')->insert([
             'role'=>'user',
@@ -252,7 +253,8 @@ class UserSeeder extends Seeder
             'address'=>'Thanh Xuân Trung',
             'DistrictID'=>'2',
             'date_of_birth'=>'2003-05-26',
-            'gender'=>'Nam'
+            'gender'=>'Nam',
+            'status'=>"1"
         ]);
         DB::table('users')->insert([
             'role'=>'user',
@@ -264,7 +266,9 @@ class UserSeeder extends Seeder
             'address'=>'Thanh Xuân',
             'DistrictID'=>'6',
             'date_of_birth'=>'2003-04-27',
-            'gender'=>'Nam'
+            'gender'=>'Nam',
+            'status'=>"1"
+
         ]);
         DB::table('users')->insert([
             'role'=>'user',
@@ -276,7 +280,8 @@ class UserSeeder extends Seeder
             'address'=>'Triều Khúc',
             'DistrictID'=>'3',
             'date_of_birth'=>'1992-02-02',
-            'gender'=>'Nam'
+            'gender'=>'Nam',
+            'status'=>"1"
         ]);
     }
 }
