@@ -88,7 +88,7 @@ class UsersController extends Controller
         $vnp_OrderType = "GS7";
         $vnp_Amount = $data['total'] * 100;
         $vnp_Locale = "VN";
-        $vnp_BankCode = "VNPAYQR";
+        $vnp_BankCode = "NCB";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
 
         //Billing
