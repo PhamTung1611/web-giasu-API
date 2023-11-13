@@ -92,23 +92,21 @@ Route::group(['middleware'=>'auth:api'],function(){
 
     Route::prefix('ranksalary')->group(function () {
         // lấy ra danh sách
-        Route::get('/', [ApiRankSalaryController::class, 'index']);
-        //thêm
+
         Route::post('/', [ApiRankSalaryController::class, 'store']);
         //chi tiết
-        Route::get('/{id}', [ApiRankSalaryController::class, 'show']);
-        //chỉnh sửa
+
         Route::put('/{id}', [ApiRankSalaryController::class, 'update']);
         //xóa
         Route::delete('/{id}', [ApiRankSalaryController::class, 'destroy']);
     });
     Route::prefix('timeslot')->group(function () {
         // lấy ra danh sách
-        Route::get('/', [ApiTimeSlotController::class, 'index']);
+
         //thêm
         Route::post('/', [ApiTimeSlotController::class, 'store']);
         //chi tiết
-        Route::get('/{id}', [ApiTimeSlotController::class, 'show']);
+
         //chỉnh sửa
         Route::put('/{id}', [ApiTimeSlotController::class, 'update']);
         //xóa
@@ -171,5 +169,13 @@ Route::prefix('auth')->group(function(){
     Route::post('/refresh',[AuthController::class,'RefreshToken']);
     Route::post('/reset-password', [ResetPasswordController::class,'sendMail']);
     Route::put('/reset-password/{token}', [ResetPasswordController::class,'reset']);
+
+});
+Route::prefix('timeslot')->group(function () {
+    // lấy ra danh sách
+    Route::get('/', [ApiTimeSlotController::class, 'index']);
+
+    Route::get('/{id}', [ApiTimeSlotController::class, 'show']);
+    //chỉnh sửa
 
 });
