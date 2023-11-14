@@ -8,6 +8,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\RankSalaryController;
 use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\TimeSlotController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,7 @@ Route::middleware('auth')->group(function() {
     Route::middleware('check.role')->group(function() {
     Route::get('/',[Dashboard::class, 'index'])->name('dashboard');
     Route::get('salary', [RankSalaryController::class, 'index']);
+    Route::get('payment', [TransactionController::class, 'index'])->name('vnpay');
     Route::post('salary', [RankSalaryController::class, 'index'])->name('search_salary');
     Route::get('timeslot', [TimeSlotController::class, 'index']);
     Route::post('timeslot', [TimeSlotController::class, 'index'])->name('search_timeslot');
