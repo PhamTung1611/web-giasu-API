@@ -14,6 +14,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\TransactionController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -183,5 +185,13 @@ Route::prefix('schools')->group(function(){
     Route::get('/{id}', [schoolsController::class, 'show']);
 
 });
-Route::post('/deposit',[UsersController::class,'deposit']);
-Route::post('/saveDeposit',[UsersController::class,'depositInsertDatabase']);
+//nap tien
+Route::prefix('vnpay')->group(function(){
+    Route::post('/deposit',[UsersController::class,'deposit']);
+// Route::post('/saveDeposit',[UsersController::class,'depositInsertDatabase']);
+Route::post('/',[TransactionController::class,'store']);
+Route::get('/{id}',[TransactionController::class,'show']);
+
+});
+
+//transaction
