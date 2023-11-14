@@ -14,8 +14,9 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
-        
+        $title = 'Thanh toán';
+        $params = Transaction::all();
+        return view('backend.payment.index', compact('params', 'title'));
     }
 
     /**
