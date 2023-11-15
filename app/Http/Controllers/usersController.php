@@ -193,7 +193,7 @@ class UsersController extends Controller
             }
             $user->password = Hash::make($request->password);
             $user->address = $request->address;
-            $user->DistrictID = json_encode($request->districtID);
+            $user->DistrictID = $request->districtID;
             $user->phone = $request->phone;
             if ($request->role == 3) {
                 $user->exp = $request->exp;
@@ -501,9 +501,8 @@ class UsersController extends Controller
             Session::flash('error', 'error');
         }
     }
-    public function getOneTeacherWaiting($id)
+    public function getOneTeacherWaiting(Request $request,$id)
     {
-
         $records = User::where('id', $id)
             ->first();
 
@@ -547,9 +546,10 @@ class UsersController extends Controller
             $newDistrict = $district->name;
         }
         if ($records->Certificate) {
-            $records->Certificate = json_decode($records->Certificate);
+            $records->Certificate = [];
         }
         $data = [
+            'id'=> $id,
             'role' => $records->role,
             'gender' => $records->gender,
             'date_of_birth' => $records->date_of_birth,
@@ -558,7 +558,7 @@ class UsersController extends Controller
             'avatar' => 'http://127.0.0.1:8000/storage/' . $records->avatar,
             'phone' => $records->phone,
             'address' => $records->address,
-            'school_id' => $newSchool,
+            'school' => $newSchool,
             'Citizen_card' => $records->Citizen_card,
             'education_level' => $records->education_level,
             'class_id' => $newArrayClass,
@@ -569,81 +569,10 @@ class UsersController extends Controller
             'status' => $records->status,
             'DistrictID' => $newDistrict,
             'Certificate' => $records->Certificate,
-            'curent_role' => $records->current_role,
+            'current_role' => $records->current_role,
             'exp' => $records->exp
         ];
-        return $data;
-            $newArraySubject = [];
-            if($records->subject != null){
-                $makeSubject = explode(',',$records->subject);
-                foreach($makeSubject as $item ){
-                    $subjectNew = Subject::find($item);
-                    array_push($newArraySubject,$subjectNew->name);
-                }
-            }
-            $newArrayClass = [];
-            if($records->class_id != null){
-                $makeClass = explode(',',$records->class_id);
-                foreach($makeClass as $item ){
-                    $classNew = ClassLevel::find($item);
-                    array_push($newArrayClass,$classNew->class);
-                }
-            }
-            $newArrayTime = [];
-            if($records->time_tutor_id != null){
-                $makeTimetutor = explode(',',$records->time_tutor_id);
-                foreach($makeTimetutor as $item ){
-                    $timeNew = TimeSlot::find($item);
-                    array_push($newArrayTime,$timeNew->name);
-                }
-            }
-            $newSchool = "";
-            $newSalary ="";
-            $newDistrict ="";
-            if($records->school_id != null){
-                $school = Schools::find($records->school_id);
-                $newSchool=$school->name;
-            }
-            if ($records->salary_id != null){
-                $salary = RankSalary::find($records->salary_id);
-                $newSalary= $salary->name;
-            }
-            if($records->DistrictID != null){
-                $district = District::find($records->DistrictID);
-                $newDistrict = $district->name;
-            }
-            if ($records->Certificate){
-                $Certificate = [];
-
-            }else {
-                $Certificate=[];
-
-            }
-            $data=[
-                'id'=>$id,
-                'role'=>$records->role,
-                'gender'=>$records->gender,
-                'date_of_birth'=>$records->date_of_birth,
-                'name'=>$records->name,
-                'email'=>$records->email,
-                'avatar'=>'http://127.0.0.1:8000/storage/'.$records->avatar,
-                'phone'=>$records->phone,
-                'address'=>$records->address,
-                'school'=>$newSchool,
-                'Citizen_card'=>$records->Citizen_card,
-                'education_level'=>$records->education_level,
-                'class_id'=>$newArrayClass,
-                'subject'=>$newArraySubject,
-                'salary_id'=>$newSalary,
-                'description'=>$records->description,
-                'time_tutor_id'=>$newArrayTime,
-                'status'=>$records->status,
-                'DistrictID'=>$newDistrict,
-                'Certificate'=>$Certificate,
-                'current_role'=>$records->current_role,
-                'exp'=>$records->exp
-            ];
-
+//        return $data;
             $title = "show Detail Teacher";
             return view('backend.teacher.show',compact('title','data'));
     }
