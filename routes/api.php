@@ -11,6 +11,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\schoolsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\ResetPasswordController;
@@ -200,3 +201,4 @@ Route::prefix('feedback')->group(function () {
         Route::get('/{id}', [UsersController::class, 'show']);
     });
 //transaction
+Route::post('contact',[ContactController::class,'store']);
