@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\JobResource;
 use App\Models\Job;
+use App\Models\User;
+use Brick\Math\BigNumber;
+use Faker\Core\Number;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +30,7 @@ class ApiJobController extends Controller
                     $subjectNames[] = $subject;
                 }
             }
-            
+
             $classNames = [];
             foreach ($dataArray as $id) {
                 $class = DB::table('class_levels')->where('id', $id)->value('class');
@@ -87,47 +90,47 @@ class ApiJobController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-{
-    $test = Job::select('jobs.*', 'user1.name as idUser', 'user2.name as idTeacher')
-        ->leftJoin('users as user1', 'jobs.idUser', '=', 'user1.id')
-        ->leftJoin('users as user2', 'jobs.idTeacher', '=', 'user2.id')
-        ->where(function ($query) use ($id) {
-            $query->where('jobs.idUser', $id)
-                ->orWhere('jobs.idTeacher', $id);
-        })
-        ->get();
-        
-    if ($test->isEmpty()) {
-        return response()->json(['message' => 'Jobs not found'], 404);
-    }
+    {
+        $test = Job::select('jobs.*', 'user1.name as idUser', 'user2.name as idTeacher')
+            ->leftJoin('users as user1', 'jobs.idUser', '=', 'user1.id')
+            ->leftJoin('users as user2', 'jobs.idTeacher', '=', 'user2.id')
+            ->where(function ($query) use ($id) {
+                $query->where('jobs.idUser', $id)
+                    ->orWhere('jobs.idTeacher', $id);
+            })
+            ->get();
 
-    $result = [];
-    foreach ($test as $item) {
-        $dataSubject = json_decode($item->subject, true);
-        $subjectNames = [];
-        foreach ($dataSubject as $subjectId) {
-            $subject = DB::table('subjects')->where('id', $subjectId)->value('name');
-            if ($subject) {
-                $subjectNames[] = $subject;
-            }
+        if ($test->isEmpty()) {
+            return response()->json(['message' => 'Jobs not found'], 404);
         }
-        $item->subject = $subjectNames;
 
-        $dataClass = json_decode($item->class, true);
-        $classNames = [];
-        foreach ($dataClass as $classId) {
-            $class = DB::table('class_levels')->where('id', $classId)->value('class');
-            if ($class) {
-                $classNames[] = $class;
+        $result = [];
+        foreach ($test as $item) {
+            $dataSubject = json_decode($item->subject, true);
+            $subjectNames = [];
+            foreach ($dataSubject as $subjectId) {
+                $subject = DB::table('subjects')->where('id', $subjectId)->value('name');
+                if ($subject) {
+                    $subjectNames[] = $subject;
+                }
             }
+            $item->subject = $subjectNames;
+
+            $dataClass = json_decode($item->class, true);
+            $classNames = [];
+            foreach ($dataClass as $classId) {
+                $class = DB::table('class_levels')->where('id', $classId)->value('class');
+                if ($class) {
+                    $classNames[] = $class;
+                }
+            }
+            $item->class = $classNames;
+
+            $result[] = $item;
         }
-        $item->class = $classNames;
 
-        $result[] = $item;
+        return response()->json($result, 200);
     }
-
-    return response()->json($result, 200);
-}
     /**
      * Update the specified resource in storage.
      *
@@ -138,11 +141,51 @@ class ApiJobController extends Controller
     public function update(Request $request, $id)
     {
         $job = Job::find($id);
-        if ($job) {
-            $job->update($request->all());
-            return response()->json(['message' => 'Success'], 200);
+        $checkStatus = $request->input('status');
+        if ($checkStatus == 1) {
+            if ($job) {
+                $userId = $job->idTeacher;
+                $user = User::find($userId);
+                $balanceOfUser = floatval($user->coin);
+                if ($user) {
+                    if ($user->salary_id == 1) {
+                        $user->coin = strval($balanceOfUser - 10000);
+                        if (floatval($user->coin) < 0) {
+                            return response()->json(['message' => 'Not enough coin'], 404);
+                        }
+                        $user->save();
+                    } else if ($user->salary_id == 2) {
+                        $user->coin = strval($balanceOfUser - 30000);
+                        if (floatval($user->coin) < 0) {
+                            return response()->json(['message' => 'Not enough coin'], 404);
+                        }
+                        $user->save();
+                    } else if ($user->salary_id == 3) {
+                        $user->coin = strval($balanceOfUser - 50000);
+                        if (floatval($user->coin) < 0) {
+                            return response()->json(['message' => 'Not enough coin'], 404);
+                        }
+                        $user->save();
+                    } else if ($user->salary_id == 4) {
+                        $user->coin = strval($balanceOfUser - 70000);
+                        if (floatval($user->coin) < 0) {
+                            return response()->json(['message' => 'Not enough coin'], 404);
+                        }
+                        $user->save();
+                    }
+                }
+                $job->update($request->all());
+                return response()->json(['message' => 'Success'], 200);
+            } else {
+                return response()->json(['message' => 'Error'], 404);
+            }
         } else {
-            return response()->json(['message' => 'Error'], 404);
+            if ($job) {
+                $job->update($request->all());
+                return response()->json(['message' => 'Success'], 200);
+            } else {
+                return response()->json(['message' => 'Error'], 404);
+            }
         }
     }
 
@@ -155,11 +198,11 @@ class ApiJobController extends Controller
     public function destroy($id)
     {
         $job = Job::find($id);
-        if($job){
+        if ($job) {
             $job->delete();
-            return response()->json(['message'=>'Xóa thành công'], 200);
-        }else{
-            return response()->json(['message'=>'Lỗi hệ thống'], 404);
+            return response()->json(['message' => 'Xóa thành công'], 200);
+        } else {
+            return response()->json(['message' => 'Lỗi hệ thống'], 404);
         }
     }
 }

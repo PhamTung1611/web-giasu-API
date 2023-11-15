@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Session;
 class TimeSlotController extends Controller
 {
     public function index(){
-        $title = 'List';
+        $title = 'Danh sách ca học';
         $timeslots = TimeSlot::all();
         return view('backend.timeslot.index', compact('title', 'timeslots'));
     }
     public function add(TimeSlotRequest $request){
-        $title = 'thêm mới';
+        $title = 'Thêm mới';
             if($request->post()){
                 $params = $request->post();
                 $timeslot = new TimeSlot();

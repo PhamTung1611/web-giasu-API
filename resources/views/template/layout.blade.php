@@ -274,6 +274,15 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('vnpay')}}">
+                                    <span class="sidebar-text">Thanh toán vnpay</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
             </ul>

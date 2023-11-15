@@ -249,21 +249,27 @@ class TeachersController extends Controller
 
     public function getTeacherByFilter(Request $request)
     {
-        $query = User::with('district:id,name', 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')->where('role', 'teacher')->where('status','1');
-
-        if ($request->has('DistrictID')) {
-            $query->where('DistrictID', $request->input('DistrictID'));
-        }
-
-        if ($request->has('subject')) {
-            $query->where('subject', $request->input('subject'));
-        }
-
-        if ($request->has('class')) {
-            $query->where('class_id', $request->input('class'));
-        }
-
-        $records = $query->get();
+        $results = User::with('district:id,name', 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
+        ->where('role', 'teacher')
+        ->where('status', '1')
+        ->when($request->filled('DistrictID'), function ($query) use ($request) {
+            $query->where(function ($query) use ($request) {
+                $query->where('DistrictID', 'like', '%' . $request->input('DistrictID') . '%');
+            });
+        })
+        ->when($request->filled('subject'), function ($query) use ($request) {
+            $query->where(function ($query) use ($request) {
+                $query->where('subject', 'like', '%' . $request->input('subject') . '%');
+            });
+        })
+        ->when($request->filled('class'), function ($query) use ($request) {
+            $query->where(function ($query) use ($request) {
+                $query->where('class_id', 'like', '%' . $request->input('class') . '%');
+            });
+        })
+        ->get();
+        // dd($results);
+        $records = $results;
 
         $processedRecords = $records->map(function ($record) {
             $newArraySubject = [];
@@ -295,27 +301,12 @@ class TeachersController extends Controller
 
             return [
                 'id' => $record->id, // Thêm id của bản ghi vào mảng
-                'role' => $record->role,
-                'gender' => $record->gender,
-                'date_of_birth' => $record->date_of_birth,
                 'name' => $record->name,
-                'email' => $record->email,
                 'avatar' => 'http://127.0.0.1:8000/storage/'. $record->avatar,
-                'phone' => $record->phone,
                 'address' => $record->address,
-                'school_id' => $record->school_id ? Schools::find($record->school_id)->name : null,
-                'Citizen_card' => $record->Citizen_card,
-                'education_level' => $record->education_level,
                 'class_id' => $newArrayClass,
                 'subject' => $newArraySubject,
-                'salary_id' => $record->salary_id ? RankSalary::find($record->salary_id)->name : null,
-                'description' => $record->description,
-                'time_tutor_id' => [], // Thêm xử lý cho 'time_tutor_id' nếu cần
-                'status' => $record->status,
                 'DistrictID' => $record->DistrictID ? District::find($record->DistrictID)->name : null,
-                'Certificate' => $record->Certificate,
-                'current_role'=>$record->current_role,
-                'exp'=>$record->exp
             ];
         });
 

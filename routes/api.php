@@ -14,6 +14,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\TransactionController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,7 +30,7 @@ use App\Http\Controllers\ResetPasswordController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-Route::group(['middleware'=>'auth:api'],function(){
+Route::group(['middleware' => 'auth:api'], function () {
     Route::prefix('TeacherSubject')->group(function () {
         // lấy ra danh sách
 
@@ -41,23 +43,22 @@ Route::group(['middleware'=>'auth:api'],function(){
         //xóa
         Route::delete('/{id}', [TeacherSubjectController::class, 'destroy']);
     });
-//user route
-    Route::prefix('users')->group(function(){
+    //user route
+    Route::prefix('users')->group(function () {
 
-        Route::get('/', [UsersController::class, 'index']);
-        Route::get('/{id}', [UsersController::class, 'show']);
+      
 
         Route::put('/{id}', [UsersController::class, 'updateApi']);
         Route::delete('/{id}', [UsersController::class, 'destroy']);
     });
 
-//route teacher
-    Route::prefix('teachers')->group(function(){
+    //route teacher
+    Route::prefix('teachers')->group(function () {
         Route::put('/{id}', [TeachersController::class, 'update']);
         Route::delete('/{id}', [TeachersController::class, 'destroy']);
     });
-// route schools
-    Route::prefix('schools')->group(function(){
+    // route schools
+    Route::prefix('schools')->group(function () {
 
         Route::post('/', [schoolsController::class, 'store']);
         Route::put('/{id}', [schoolsController::class, 'update']);
@@ -77,13 +78,13 @@ Route::group(['middleware'=>'auth:api'],function(){
         Route::delete('/{id}', [TeacherClassController::class, 'destroy']);
     });
 
-    Route::prefix('subject')->group( function () {
+    Route::prefix('subject')->group(function () {
 
         Route::post('/', [ApiSubjectController::class, 'store']);
         Route::put('/{id}', [ApiSubjectController::class, 'update']);
         Route::delete('/{id}', [ApiSubjectController::class, 'destroy']);
     });
-    Route::prefix('class_levels')->group( function () {
+    Route::prefix('class_levels')->group(function () {
         Route::post('/', [ApiClassLevelController::class, 'store']);
         Route::put('/{id}', [ApiClassLevelController::class, 'update']);
         Route::delete('/{id}', [ApiClassLevelController::class, 'destroy']);
@@ -126,16 +127,15 @@ Route::group(['middleware'=>'auth:api'],function(){
 
     Route::prefix('feedback')->group(function () {
         // lấy ra danh sách
-        Route::post('/',[FeedBackController::class,'store']);
-        Route::get('/{id}',[FeedBackController::class,'show']);
-        Route::get('/avgPoint/{id}',[FeedBackController::class,'averagePoint']);
+        Route::post('/', [FeedBackController::class, 'store']);
+        
     });
 
-// Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
+    // Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
 
 
 });
-Route::prefix('teachers')->group(function() {
+Route::prefix('teachers')->group(function () {
     Route::get('/', [TeachersController::class, 'index']);
     Route::get('/{id}', [TeachersController::class, 'getDetailTeacher']);
     Route::get('/class/{id}', [TeachersController::class, 'getTeacherByClass']);
@@ -143,18 +143,18 @@ Route::prefix('teachers')->group(function() {
     Route::get('/district/{id}', [DistrictController::class, 'getTeacherByDistrict']);
     Route::get('/timeSlot/{id}', [ApiTimeSlotController::class, 'getTeacherByTimeSlot']);
 });
-Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
+Route::get('filter', [TeachersController::class, 'getTeacherByFilter']);
 Route::prefix('ranksalary')->group(function () {
     // lấy ra danh sách
     Route::get('/', [ApiRankSalaryController::class, 'index']);
     Route::get('/{id}', [ApiRankSalaryController::class, 'show']);
     //chỉnh sửa
 });
-Route::prefix('subject')->group( function () {
+Route::prefix('subject')->group(function () {
     Route::get('/', [ApiSubjectController::class, 'index']);
     Route::get('/{id}', [ApiSubjectController::class, 'show']);
 });
-Route::prefix('class_levels')->group( function () {
+Route::prefix('class_levels')->group(function () {
     Route::get('/', [ApiClassLevelController::class, 'index']);
     Route::get('/{id}', [ApiClassLevelController::class, 'show']);
 });
@@ -163,12 +163,11 @@ Route::prefix('district')->group(function () {
     Route::get('/', [DistrictController::class, 'index']);
 });
 Route::post('/register', [UsersController::class, 'store']);
-Route::prefix('auth')->group(function(){
-    Route::post('/login',[AuthController::class,'login']);
-    Route::post('/refresh',[AuthController::class,'RefreshToken']);
-    Route::post('/reset-password', [ResetPasswordController::class,'sendMail']);
-    Route::put('/reset-password/{token}', [ResetPasswordController::class,'reset']);
-
+Route::prefix('auth')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/refresh', [AuthController::class, 'RefreshToken']);
+    Route::post('/reset-password', [ResetPasswordController::class, 'sendMail']);
+    Route::put('/reset-password/{token}', [ResetPasswordController::class, 'reset']);
 });
 Route::prefix('timeslot')->group(function () {
     // lấy ra danh sách
@@ -178,8 +177,26 @@ Route::prefix('timeslot')->group(function () {
     //chỉnh sửa
 
 });
-Route::prefix('schools')->group(function(){
+Route::prefix('schools')->group(function () {
     Route::get('/', [schoolsController::class, 'index']);
     Route::get('/{id}', [schoolsController::class, 'show']);
-
 });
+//nap tien
+Route::prefix('vnpay')->group(function () {
+    Route::post('/deposit', [UsersController::class, 'deposit']);
+    // Route::post('/saveDeposit',[UsersController::class,'depositInsertDatabase']);
+    Route::post('/', [TransactionController::class, 'store']);
+    Route::get('/{id}', [TransactionController::class, 'show']);
+});
+Route::prefix('feedback')->group(function () {
+        // lấy ra danh sách
+     
+        Route::get('/{id}', [FeedBackController::class, 'show']);
+        Route::get('/avgPoint/{id}', [FeedBackController::class, 'averagePoint']);
+    });
+ Route::prefix('users')->group(function () {
+
+        Route::get('/', [UsersController::class, 'index']);
+        Route::get('/{id}', [UsersController::class, 'show']);
+    });
+//transaction
