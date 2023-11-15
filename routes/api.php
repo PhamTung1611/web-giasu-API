@@ -46,8 +46,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     //user route
     Route::prefix('users')->group(function () {
 
-        Route::get('/', [UsersController::class, 'index']);
-        Route::get('/{id}', [UsersController::class, 'show']);
+      
 
         Route::put('/{id}', [UsersController::class, 'updateApi']);
         Route::delete('/{id}', [UsersController::class, 'destroy']);
@@ -195,5 +194,9 @@ Route::prefix('feedback')->group(function () {
         Route::get('/{id}', [FeedBackController::class, 'show']);
         Route::get('/avgPoint/{id}', [FeedBackController::class, 'averagePoint']);
     });
+ Route::prefix('users')->group(function () {
 
+        Route::get('/', [UsersController::class, 'index']);
+        Route::get('/{id}', [UsersController::class, 'show']);
+    });
 //transaction
