@@ -129,8 +129,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::prefix('feedback')->group(function () {
         // lấy ra danh sách
         Route::post('/', [FeedBackController::class, 'store']);
-        Route::get('/{id}', [FeedBackController::class, 'show']);
-        Route::get('/avgPoint/{id}', [FeedBackController::class, 'averagePoint']);
+        
     });
 
     // Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
@@ -190,5 +189,11 @@ Route::prefix('vnpay')->group(function () {
     Route::post('/', [TransactionController::class, 'store']);
     Route::get('/{id}', [TransactionController::class, 'show']);
 });
+Route::prefix('feedback')->group(function () {
+        // lấy ra danh sách
+     
+        Route::get('/{id}', [FeedBackController::class, 'show']);
+        Route::get('/avgPoint/{id}', [FeedBackController::class, 'averagePoint']);
+    });
 
 //transaction
