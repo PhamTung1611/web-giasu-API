@@ -105,7 +105,7 @@ class UsersController extends Controller
             }
             $user->password= Hash::make($request->password);
             $user->address = $request->address;
-            $user->DistrictID = $request->districtID;
+            $user->DistrictID = json_encode($request->districtID);
             $user->phone = $request->phone;
             if($request->role == 3 ){
                 $user->exp= $request->exp;
@@ -455,10 +455,15 @@ class UsersController extends Controller
                 $district = District::find($records->DistrictID);
                 $newDistrict = $district->name;
             }
-            if ($records->Certificate ){
-                $records->Certificate = json_decode($records->Certificate);
+            if ($records->Certificate){
+                $Certificate = [];
+
+            }else {
+                $Certificate=[];
+
             }
             $data=[
+                'id'=>$id,
                 'role'=>$records->role,
                 'gender'=>$records->gender,
                 'date_of_birth'=>$records->date_of_birth,
@@ -467,7 +472,7 @@ class UsersController extends Controller
                 'avatar'=>'http://127.0.0.1:8000/storage/'.$records->avatar,
                 'phone'=>$records->phone,
                 'address'=>$records->address,
-                'school_id'=>$newSchool,
+                'school'=>$newSchool,
                 'Citizen_card'=>$records->Citizen_card,
                 'education_level'=>$records->education_level,
                 'class_id'=>$newArrayClass,
@@ -477,11 +482,13 @@ class UsersController extends Controller
                 'time_tutor_id'=>$newArrayTime,
                 'status'=>$records->status,
                 'DistrictID'=>$newDistrict,
-                'Certificate'=>$records->Certificate,
-                'curent_role'=>$records->current_role,
+                'Certificate'=>$Certificate,
+                'current_role'=>$records->current_role,
                 'exp'=>$records->exp
             ];
-            return $data;
+
+            $title = "show Detail Teacher";
+            return view('backend.teacher.show',compact('title','data'));
     }
 
 
