@@ -187,13 +187,13 @@ class UsersController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
-                $user->avatar = uploadFileAntDesign('hinh', $request->file('avatar'));
+                $user->avatar = uploadFile('hinh', $request->file('avatar'));
             } else {
                 $user->avatar = "hinh/1699622845_avatar.jpg";
             }
             $user->password = Hash::make($request->password);
             $user->address = $request->address;
-            $user->DistrictID = $request->districtID;
+            $user->DistrictID = $request->DistrictID;
             $user->phone = $request->phone;
             if ($request->role == 3) {
                 $user->exp = $request->exp;
@@ -209,7 +209,7 @@ class UsersController extends Controller
                 if ($request->has('Certificate')) {
                     $certificates = [];
                     foreach ($request->file('Certificate') as $file) {
-                            $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFileAntDesign('hinh', $file);
+                            $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
                     }
                     $user->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
                 } else {
