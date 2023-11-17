@@ -193,7 +193,7 @@ class UsersController extends Controller
             }
             $user->password = Hash::make($request->password);
             $user->address = $request->address;
-            $user->DistrictID = $request->districtID;
+            $user->DistrictID = $request->DistrictID;
             $user->phone = $request->phone;
             if ($request->role == 3) {
                 $user->exp = $request->exp;
@@ -206,13 +206,10 @@ class UsersController extends Controller
                 $subject = implode(",", $request->subject);
                 $user->subject = $subject;
                 $user->salary_id = $request->salary_id;
-                if ($request->hasFile('Certificate')) {
+                if ($request->has('Certificate')) {
                     $certificates = [];
-
                     foreach ($request->file('Certificate') as $file) {
-                        if ($file->isValid()) {
                             $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
-                        }
                     }
                     $user->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
                 } else {
