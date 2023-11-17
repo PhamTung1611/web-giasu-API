@@ -113,6 +113,18 @@ Route::group(['middleware' => 'auth:api'], function () {
         //xóa
         Route::delete('/{id}', [ApiTimeSlotController::class, 'destroy']);
     });
+    Route::prefix('job')->group(function () {
+        // lấy ra danh sách
+        Route::get('/', [ApiJobController::class, 'index']);
+        //thêm
+        Route::post('/', [ApiJobController::class, 'store']);
+        //chi tiết
+        Route::get('/{id}', [ApiJobController::class, 'show']);
+        //chỉnh sửa
+        Route::put('/{id}', [ApiJobController::class, 'update']);
+        //xóa
+        Route::delete('/{id}', [ApiJobController::class, 'destroy']);
+    });
 
     Route::prefix('feedback')->group(function () {
         // lấy ra danh sách
@@ -190,15 +202,3 @@ Route::prefix('feedback')->group(function () {
     });
 //transaction
 Route::post('contact',[ContactController::class,'store']);
-Route::prefix('job')->group(function () {
-    // lấy ra danh sách
-    Route::get('/', [ApiJobController::class, 'index']);
-    //thêm
-    Route::post('/', [ApiJobController::class, 'store']);
-    //chi tiết
-    Route::get('/{id}', [ApiJobController::class, 'show']);
-    //chỉnh sửa
-    Route::put('/{id}', [ApiJobController::class, 'update']);
-    //xóa
-    Route::delete('/{id}', [ApiJobController::class, 'destroy']);
-});
