@@ -202,3 +202,15 @@ Route::prefix('feedback')->group(function () {
     });
 //transaction
 Route::post('contact',[ContactController::class,'store']);
+Route:post('test',function(){
+    if ($request->has('Certificate')) {
+            $certificates = [];
+            foreach ($request->file('Certificate') as $file) {
+                    $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
+            }
+           $Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
+    } else {
+        $Certificate = null;
+    }
+    return $certificate;
+})
