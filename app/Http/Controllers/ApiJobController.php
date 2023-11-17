@@ -60,29 +60,39 @@ class ApiJobController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, MailController $mailController)
     {
         // $job = Job::create($request->all());
+        $job = Job::create($request->all());
         $idUser = $request->input('idUser');
         $idTeacher = $request->input('idTeacher');
-        $subject = json_encode($request->input('subject')); // Chuyển đổi thành JSON
-        $class = json_encode($request->input('class')); // Chuyển đổi thành JSON
-        try {
-            DB::table('jobs')->insert([
-                'idUser' => $idUser,
-                'idTeacher' => $idTeacher,
-                'subject' => $subject,
-                'class' => $class,
-            ]);
-
-            // Trả về kết quả thành công
-            return response()->json(['message' => 'Data inserted successfully'], 200);
-        } catch (\Exception $e) {
-            // Trả về thông báo lỗi nếu có lỗi xảy ra
-            return response()->json(['message' => 'Error: ' . $e->getMessage()], 500);
+        $emailUser = $this->findEmailById($idUser);
+        $emailTeacher = $this->findEmailById($idTeacher);
+        if ($job) {
+            $titleForUser = 'Bạn đã thuê thành công gia sư.';
+            $titleForTeacher = 'Bạn có người muốn thuê hãy truy cập vào ngay trang web để biết thông tin chi tiết';
+            $sendUser = $mailController->sendMail($emailUser, $titleForUser);
+            $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
+            if ($sendUser && $sendTeacher) {
+                return response()->json(['message' => 'Success'], 200);
+            } else {
+                return response()->json(['message' => 'Error'], 404);
+            }
+        } else {
+            return response()->json(['message' => 'Error'], 404);
         }
     }
 
+    public function findEmailById($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $email = $user->email;
+            return $email;
+        } else {
+            return false;
+        }
+    }
     /**
      * Display the specified resource.
      *
@@ -138,9 +148,15 @@ class ApiJobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, MailController $mailController)
     {
         $job = Job::find($id);
+        $idUser = $request->input('idUser');
+        $idTeacher = $request->input('idTeacher');
+        $status = $request->input('status');
+        $description = $request->input('description');
+        $emailUser = $this->findEmailById($idUser);
+        $emailTeacher = $this->findEmailById($idTeacher);
         $checkStatus = $request->input('status');
         if ($checkStatus == 1) {
             if ($job) {
@@ -175,17 +191,51 @@ class ApiJobController extends Controller
                     }
                 }
                 $job->update($request->all());
-                return response()->json(['message' => 'Success'], 200);
+                if ($status == 1) {
+                    $nameTeacher = $this->findNameByID($idTeacher);
+                    $titleForUser = 'Gia sư '.$nameTeacher.' đã đồng ý dạy. Vui lòng truy cập vào website để lấy thông tin liên lạc';
+                    $titleForTeacher = 'Bạn vừa xác nhận một lịch dạy';
+                    $sendUser = $mailController->sendMail($emailUser, $titleForUser);
+                    $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
+                    if ($sendUser && $sendTeacher) {
+                        return response()->json(['message' => 'Success'], 200);
+                    } else {
+                        return response()->json(['message' => 'Error'], 404);
+                    }
+                }
             } else {
                 return response()->json(['message' => 'Error'], 404);
             }
         } else {
             if ($job) {
                 $job->update($request->all());
+                if ($status == 2) {
+                    $nameTeacher = $this->findNameByID($idTeacher);
+                    $titleForUser = 'Gia sư'.$nameTeacher.' vừa từ chối lịch dạy của bạn với lí do '.$description;
+                    $titleForTeacher = 'Bạn vừa từ chối một lịch dạy';
+                    $sendUser = $mailController->sendMail($emailUser, $titleForUser);
+                    $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
+                    // dd(123);
+                    if ($sendUser && $sendTeacher) {
+                        return response()->json(['message' => 'Success'], 200);
+                    } else {
+                        return response()->json(['message' => 'Error'], 404);
+                    }
+                }
                 return response()->json(['message' => 'Success'], 200);
             } else {
                 return response()->json(['message' => 'Error'], 404);
             }
+        }
+    }
+
+    public function findNameByID($id){
+        $user = User::find($id);
+        if ($user) {
+            $name = $user->name;
+            return $name;
+        } else {
+            return false;
         }
     }
 
