@@ -105,7 +105,7 @@ class UserSeeder extends Seeder
             'description'=>'2 năm',
             'time_tutor_id'=>'1',
             'status'=>'1',
-            'DistrictID'=>'4',
+            'DistrictID'=>'[1,2,3]',
             'Certificate'=>null,
             'date_of_birth'=>'2003-09-30',
             'gender'=>'Nam'
@@ -129,7 +129,7 @@ class UserSeeder extends Seeder
             'description'=>'6 năm',
             'time_tutor_id'=>'1',
             'status'=>'1',
-            'DistrictID'=>'4',
+            'DistrictID'=>'[1,2,3]',
             'Certificate'=>null,
             'date_of_birth'=>'2002-09-03',
             'gender'=>'Nam'
@@ -153,7 +153,7 @@ class UserSeeder extends Seeder
             'description'=>'3 năm',
             'time_tutor_id'=>'3',
             'status'=>'2',
-            'DistrictID'=>'4',
+            'DistrictID'=>'[1,2,3]',
             'Certificate'=>null,
             'date_of_birth'=>'2000-09-03',
             'gender'=>'Nam'
@@ -177,7 +177,7 @@ class UserSeeder extends Seeder
             'description'=>'1 năm',
             'time_tutor_id'=>'4',
             'status'=>'2',
-            'DistrictID'=>'4',
+            'DistrictID'=>'[1,2,3]',
             'Certificate'=>null,
             'date_of_birth'=>'1992-11-22',
             'gender'=>'Nam'
@@ -201,7 +201,7 @@ class UserSeeder extends Seeder
             'description'=>'1 năm',
             'time_tutor_id'=>'2',
             'status'=>'2',
-            'DistrictID'=>'4',
+            'DistrictID'=>'[1,2,3]',
             'Certificate'=>null,
             'date_of_birth'=>'2001-11-22',
             'gender'=>'Nữ'
@@ -225,7 +225,7 @@ class UserSeeder extends Seeder
             'description'=>'6 năm',
             'time_tutor_id'=>'2',
             'status'=>'2',
-            'DistrictID'=>'4',
+            'DistrictID'=>'[1,2,3]',
             'Certificate'=>null,
             'date_of_birth'=>'2001-11-22',
             'gender'=>'Nam'
@@ -264,7 +264,7 @@ class UserSeeder extends Seeder
             'phone'=>'0842757452',
             'password'=>Hash::make('123'),
             'address'=>'Thanh Xuân',
-            'DistrictID'=>'6',
+            'DistrictID'=>'[1,2,3]',
             'date_of_birth'=>'2003-04-27',
             'gender'=>'Nam',
             'status'=>"1"
