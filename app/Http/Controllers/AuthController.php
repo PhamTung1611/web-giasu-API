@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Province;
 use App\Models\Subject;
 use App\Models\TimeSlot;
 use App\Models\User;
+use App\Models\Ward;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -50,12 +52,7 @@ class AuthController extends Controller
         }else{
             $schoolName = "";
         }
-        if($user->DistrictID){
-            $distric = District::find($user->DistrictID);
-            $districName = $distric->name;
-        }else{
-            $districName ="";
-        }
+
 
         if ($user->class_id){
             $classArray = explode(',',$user->class_id);
@@ -92,7 +89,15 @@ class AuthController extends Controller
        }else{
            $rankName ="";
        }
-
+        if ($user->DistrictID){
+            $arrDis=explode(",", $user->DistrictID);
+            $province = Province::find($arrDis[0])->name;
+            $district = District::find($arrDis[1])->name;
+            $ward = Ward::find($arrDis[2])->name;
+            $all = $province.",".$district.",".$ward;
+        }else{
+            $all =null;
+        }
         return response()->json([
             'user'=>[
                 'id'=>$user->id,
@@ -105,13 +110,14 @@ class AuthController extends Controller
                 'subject'=>$newSubjectArray,
                 'salary'=>$rankName,
                 'description'=>$user->description,
-                'District'=>$districName,
+                'District'=>$all,
                 'Certificate'=>$user->Certificate,
                 'avatar'=>'http://127.0.0.1:8000/storage/'.$user->avatar,
                 'name'=>$user->name,
                 'email'=>$user->email,
                 'phone'=>$user->phone,
                 'time_tutor'=>$newTimetutor],
+                'coin'=>$user->coin,
             'access_token' => $tokenResult->accessToken,
             'refresh_token' => $refreshToken->id,
 

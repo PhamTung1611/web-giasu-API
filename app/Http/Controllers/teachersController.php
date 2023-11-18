@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Role;
-
+use App\Models\Province;
+use App\Models\Ward;
 class TeachersController extends Controller
 {
     /**
@@ -296,6 +297,16 @@ class TeachersController extends Controller
             if ($record->Certificate ){
                 $record->Certificate = json_decode($record->Certificate);
             }
+            if ($record->DistrictID){
+                $arrDis=explode(",", $record->DistrictID);
+                $province = Province::find($arrDis[0])->name;
+                $district = District::find($arrDis[1])->name;
+                $ward = Ward::find($arrDis[2])->name;
+                $all = $province.",".$district.",".$ward;
+            }else{
+                $all =null;
+            }
+
 
             // Thêm các xử lý khác cho các trường dữ liệu khác
 
@@ -306,7 +317,7 @@ class TeachersController extends Controller
                 'address' => $record->address,
                 'class_id' => $newArrayClass,
                 'subject' => $newArraySubject,
-                'DistrictID' => $record->DistrictID ? District::find($record->DistrictID)->name : null,
+                'DistrictID' => $all ,
             ];
         });
 

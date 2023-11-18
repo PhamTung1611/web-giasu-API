@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\ClassLevel;
 use App\Models\District;
+use App\Models\Province;
 use App\Models\RankSalary;
 use App\Models\Role;
 use App\Models\Schools;
 use App\Models\Subject;
 use App\Models\TimeSlot;
 use App\Models\User;
+use App\Models\Ward;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -276,9 +278,14 @@ class UsersController extends Controller
             $salary = RankSalary::find($records->salary_id);
             $newSalary = $salary->name;
         }
-        if ($records->DistrictID != null) {
-            $district = District::find($records->DistrictID);
-            $newDistrict = $district->name;
+        if ($records->DistrictID){
+            $arrDis=explode(",", $records->DistrictID);
+            $province = Province::find($arrDis[0])->name;
+            $district = District::find($arrDis[1])->name;
+            $ward = Ward::find($arrDis[2])->name;
+            $all = $province.",".$district.",".$ward;
+        }else{
+            $all =null;
         }
         if ($records->Certificate != null) {
             $Certificate = json_decode($records->Certificate);
@@ -303,7 +310,7 @@ class UsersController extends Controller
             'description' => $records->description,
             'time_tutor_id' => $newArrayTime,
             'status' => $records->status,
-            'DistrictID' => $newDistrict,
+            'DistrictID' => $all,
             'Certificate' => $Certificate,
             'exp' => $records->exp,
             'current_role' => $records->current_role
