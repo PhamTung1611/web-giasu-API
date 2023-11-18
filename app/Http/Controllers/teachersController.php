@@ -252,11 +252,11 @@ class TeachersController extends Controller
         $results = User::with( 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
         ->where('role', 'teacher')
         ->where('status', '1')
-        ->when($request->filled('DistrictID'), function ($query) use ($request) {
-            $query->where(function ($query) use ($request) {
-                $query->where('DistrictID', 'like', '%' . $request->input('DistrictID') . '%');
-            });
-        })
+//        ->when($request->filled('DistrictID'), function ($query) use ($request) {
+//            $query->where(function ($query) use ($request) {
+//                $query->where('DistrictID', 'like', '%' . $request->input('DistrictID') . '%');
+//            });
+//        })
         ->when($request->filled('subject'), function ($query) use ($request) {
             $query->where(function ($query) use ($request) {
                 $query->where('subject', 'like', '%' . $request->input('subject') . '%');
