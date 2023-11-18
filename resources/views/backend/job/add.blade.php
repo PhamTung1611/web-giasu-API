@@ -65,7 +65,7 @@
     <div class="card card-body border-0 shadow mb-4">
       <form action="{{ route('job.add') }}" method="POST" enctype="multipart/form-data" style="width: 1200px" class="mx-auto mb-4">
         @csrf
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-md-12 mb-3">
               <div>
                 <label>Nhập tiêu đề</label><br>
@@ -75,8 +75,8 @@
                 @enderror
               </div>
           </div>
-        </div>
-        <div class="row">
+        </div> --}}
+        {{-- <div class="row">
           <div class="col-md-12 mb-3">
               <div>
                 <label>Nhập tên</label><br>
@@ -86,8 +86,8 @@
                 @enderror
               </div>
           </div>
-        </div>
-        <div class="row">
+        </div> --}}
+        {{-- <div class="row">
           <div class="col-md-12 mb-3">
               <div>
                 <label>Nhập địa chỉ</label><br>
@@ -97,7 +97,7 @@
           @enderror
               </div>
           </div>
-        </div>
+        </div> --}}
         <div class="row">
           <div class="col-md-12 mb-3">
               <div>
@@ -124,7 +124,7 @@
               </div>
           </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-md-12 mb-3">
               <div>
                 <label>Nhập email</label><br>
@@ -134,7 +134,7 @@
             @enderror
               </div>
           </div>
-        </div>
+        </div> --}}
         <div class="row">
           <div class="col-md-12 mb-3">
               <div>
