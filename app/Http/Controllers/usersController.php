@@ -88,7 +88,7 @@ class UsersController extends Controller
         $vnp_TxnRef = rand(1, 10000); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
         $vnp_OrderInfo = 1;
         $vnp_OrderType = "GS7";
-        $vnp_Amount = $data['total'];
+        $vnp_Amount = $data['total'] * 100;
         $vnp_Locale = "VN";
         $vnp_BankCode = "";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
@@ -287,7 +287,7 @@ class UsersController extends Controller
         }else{
             $all =null;
         }
-        if ($records->Certificate != null) {
+        if ($records->Certificate) {
             $Certificate = json_decode($records->Certificate);
         } else {
             $Certificate = [];
@@ -583,5 +583,17 @@ class UsersController extends Controller
 //        return $data;
             $title = "show Detail Teacher";
             return view('backend.teacher.show',compact('title','data'));
+    }
+    public function filterTeacherByDistrict (Request $request){
+        $arr = explode(',',$request->district);
+        if (count($arr) == 1){
+            $result = User::whereRaw("LEFT(DistrictID, 2) = ".$arr[0])->get();
+
+        }else if(count($arr)==2){
+            $result = User::whereRaw("LEFT(DistrictID, 6) = ".$arr[0].$arr[1])->get();
+        }else {
+            $result = User::whereRaw("DistrictID = ".$arr[0].$arr[1].$arr[2])->get();
+        }
+        return response()->json($result,200);
     }
 }

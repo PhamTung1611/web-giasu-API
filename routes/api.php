@@ -126,11 +126,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::delete('/{id}', [ApiJobController::class, 'destroy']);
     });
 
-    Route::prefix('feedback')->group(function () {
-        // lấy ra danh sách
-        Route::post('/', [FeedBackController::class, 'store']);
 
-    });
 
     // Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
 
@@ -217,3 +213,9 @@ $district =$request->district;
     $data=[$certificates,$district];
     return $data;
 });
+Route::prefix('feedback')->group(function () {
+    // lấy ra danh sách
+    Route::post('/', [FeedBackController::class, 'store']);
+
+});
+Route::post('filterDistrict',[UsersController::class,'filterTeacherByDistrict']);
