@@ -302,7 +302,7 @@ class TeachersController extends Controller
                 $province = Province::find($arrDis[0])->name;
                 $district = District::find($arrDis[1])->name;
                 $ward = Ward::find($arrDis[2])->name;
-                $all = $province.",".$district.",".$ward;
+                $all = $province;
             }else{
                 $all =null;
             }

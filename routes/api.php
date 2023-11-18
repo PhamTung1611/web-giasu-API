@@ -113,24 +113,8 @@ Route::group(['middleware' => 'auth:api'], function () {
         //xóa
         Route::delete('/{id}', [ApiTimeSlotController::class, 'destroy']);
     });
-    Route::prefix('job')->group(function () {
-        // lấy ra danh sách
-        Route::get('/', [ApiJobController::class, 'index']);
-        //thêm
-        Route::post('/', [ApiJobController::class, 'store']);
-        //chi tiết
-        Route::get('/{id}', [ApiJobController::class, 'show']);
-        //chỉnh sửa
-        Route::put('/{id}', [ApiJobController::class, 'update']);
-        //xóa
-        Route::delete('/{id}', [ApiJobController::class, 'destroy']);
-    });
 
-    Route::prefix('feedback')->group(function () {
-        // lấy ra danh sách
-        Route::post('/', [FeedBackController::class, 'store']);
 
-    });
 
     // Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
 
@@ -216,4 +200,21 @@ Route::post('test',function(Request $request){
 $district =$request->district;
     $data=[$certificates,$district];
     return $data;
+});
+Route::prefix('feedback')->group(function () {
+    // lấy ra danh sách
+    Route::post('/', [FeedBackController::class, 'store']);
+
+});
+Route::prefix('job')->group(function () {
+    // lấy ra danh sách
+    Route::get('/', [ApiJobController::class, 'index']);
+    //thêm
+    Route::post('/', [ApiJobController::class, 'store']);
+    //chi tiết
+    Route::get('/{id}', [ApiJobController::class, 'show']);
+    //chỉnh sửa
+    Route::put('/{id}', [ApiJobController::class, 'update']);
+    //xóa
+    Route::delete('/{id}', [ApiJobController::class, 'destroy']);
 });

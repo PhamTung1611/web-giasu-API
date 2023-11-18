@@ -88,7 +88,7 @@ class UsersController extends Controller
         $vnp_TxnRef = rand(1, 10000); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
         $vnp_OrderInfo = 1;
         $vnp_OrderType = "GS7";
-        $vnp_Amount = $data['total'];
+        $vnp_Amount = $data['total']*100;
         $vnp_Locale = "VN";
         $vnp_BankCode = "";
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
@@ -287,7 +287,7 @@ class UsersController extends Controller
         }else{
             $all =null;
         }
-        if ($records->Certificate != null) {
+        if ($records->Certificate ) {
             $Certificate = json_decode($records->Certificate);
         } else {
             $Certificate = [];

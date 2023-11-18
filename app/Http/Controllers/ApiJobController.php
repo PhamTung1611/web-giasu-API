@@ -151,8 +151,8 @@ class ApiJobController extends Controller
     public function update(Request $request, $id, MailController $mailController)
     {
         $job = Job::find($id);
-        $idUser = $request->input('idUser');
-        $idTeacher = $request->input('idTeacher');
+        $idUser = $job->idUser;
+        $idTeacher = $job->idTeacher;
         $status = $request->input('status');
         $description = $request->input('description');
         $emailUser = $this->findEmailById($idUser);
