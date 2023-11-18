@@ -31,14 +31,14 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-{{--                    <form action="http://127.0.0.1:8000/waiting_teacher" method="post">--}}
-{{--                            @csrf--}}
-{{--                            <input type="hidden" value="{{$data['id']}}" name="id">--}}
-{{--                            <button class="dropdown-item text-success rounded-bottom">Phê duyệt</button>--}}
-{{--                        </form>--}}
-{{--                    <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_teacher', ['id' => $data['id'],'view'=>'2'])}}" onclick="return confirm('Are you sure you want to refuse?');"><span class="fas fa-trash-alt me-2"></span>Từ chối</a>--}}
-{{--                    <!-- <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Duyệt" />--}}
-{{--                    <input type="submit" class="profile-edit-btn2" name="btnAddMore" value="Từ chối duyệt" /> -->--}}
+                    <form action="http://127.0.0.1:8000/waiting_teacher" method="post">
+                            @csrf
+                            <input type="hidden" value="{{$data['id']}}" name="id">
+                            <button class="dropdown-item text-success rounded-bottom">Phê duyệt</button>
+                        </form>
+                    <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_teacher', ['id' => $data['id'],'view'=>'2'])}}" onclick="return confirm('Are you sure you want to refuse?');"><span class="fas fa-trash-alt me-2"></span>Từ chối</a>
+                    <!-- <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Duyệt" />
+                    <input type="submit" class="profile-edit-btn2" name="btnAddMore" value="Từ chối duyệt" /> -->
 
                 <a class="dropdown-item text-danger rounded-bottom" href="{{ route('waiting')}}" ><span class="fas fa-trash-alt me-2">Back</span></a>
                 </div>
@@ -177,9 +177,11 @@
                                     <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                                 </ol>
                                 <div class="carousel-inner" >
+
                                     @foreach($data['Certificate'] as $value)
+
                                     <div class="carousel-item active">
-                                        <img class="d-block w-100" style="height: 500px;  width: 500px;" src="{{$value}}" alt="First slide">
+                                        <img class="d-block w-100" style="height: 500px;  width: 500px;" src="http://127.0.0.1:8000/storage/{{$value}}" alt="First slide">
                                     </div>
                                     @endforeach
                                 </div>
