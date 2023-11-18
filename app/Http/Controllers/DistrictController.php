@@ -16,40 +16,36 @@ class DistrictController extends Controller
      */
     public function index()
     {
-        $data=[];
-
+        $data = [];
         $provinces = Province::all();
 
-       foreach ($provinces as $pro){
-           $provinceObject = new stdClass();
-           $provinceObject->provinceName = $pro->name;
-           $provinceObject->provinceId = $pro->id;
+        foreach ($provinces as $pro){
+            $provinceObject = new stdClass();
+            $provinceObject->provinceName = $pro->name;
+            $provinceObject->provinceId = $pro->id;
+            $districts = District::where('province_id', $pro->id)->get();
 
+            $arrDis = [];
+            foreach ($districts as $dis){
+                $districtObject = new stdClass();
+                $districtObject->districtName = $dis->name;
+                $districtObject->districtId = $dis->id;
 
-           $districts = District::where('province_id',$pro->id)->get();
-           $arrDis = [];
-           foreach ($districts as $dis){
+                $arrWard = [];
+                $wards = Ward::where('district_id', $dis->id)->get();
+                foreach ($wards as $ward){
+                    $wardObject = new stdClass();
+                    $wardObject->name = $ward->name;
+                    $wardObject->wardId = $ward->id;
+                    $arrWard[] = $wardObject;
+                }
+                $districtObject->ward = $arrWard;
+                $arrDis[] = $districtObject;
+            }
+            $provinceObject->district = $arrDis;
+            $data[] = $provinceObject;
+        }
 
-               $districtObject = new stdClass();
-               $districtObject->districtName = $dis->name;
-               $districtObject->districtId = $dis->id;
-               $arrDis[]= $districtObject;
-               $provinceObject->district=$arrDis;
-               $wards = Ward::where('district_id',$dis->id)->get();
-               $arrWard=[];
-               foreach ($wards as $ward){
-                   $wardObject = new stdClass();
-                   $wardObject->name = $ward->name;
-                   $wardObject->wardId = $ward->id;
-                   $arrWard[]= $wardObject;
-
-
-               }
-               $districtObject->ward = $arrWard;
-               $data[]= $provinceObject;
-           }
-
-       }
         return response()->json($data,200);
     }
 
