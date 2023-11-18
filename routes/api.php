@@ -47,7 +47,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     //user route
     Route::prefix('users')->group(function () {
 
-      
+
 
         Route::put('/{id}', [UsersController::class, 'updateApi']);
         Route::delete('/{id}', [UsersController::class, 'destroy']);
@@ -129,7 +129,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::prefix('feedback')->group(function () {
         // lấy ra danh sách
         Route::post('/', [FeedBackController::class, 'store']);
-        
+
     });
 
     // Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
@@ -191,7 +191,7 @@ Route::prefix('vnpay')->group(function () {
 });
 Route::prefix('feedback')->group(function () {
         // lấy ra danh sách
-     
+
         Route::get('/{id}', [FeedBackController::class, 'show']);
         Route::get('/avgPoint/{id}', [FeedBackController::class, 'averagePoint']);
     });
@@ -205,7 +205,7 @@ Route::post('contact',[ContactController::class,'store']);
 Route::post('test',function(Request $request){
     $certificates = [];
     if ($request->has('Certificate')) {
-            
+
             foreach ($request->file('Certificate') as $file) {
                     $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
             }
@@ -213,5 +213,7 @@ Route::post('test',function(Request $request){
     } else {
         $Certificate = null;
     }
-    return $certificates;
+    $district = implode(",", $request->district);
+    $data=[$certificates,$district];
+    return $data;
 });
