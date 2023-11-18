@@ -218,3 +218,9 @@ Route::prefix('job')->group(function () {
     //xóa
     Route::delete('/{id}', [ApiJobController::class, 'destroy']);
 });
+Route::prefix('feedback')->group(function () {
+    // lấy ra danh sách
+    Route::post('/', [FeedBackController::class, 'store']);
+
+});
+Route::post('filterDistrict',[UsersController::class,'filterTeacherByDistrict']);

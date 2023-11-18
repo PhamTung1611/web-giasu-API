@@ -74,12 +74,12 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Avatar</th>
-        <th>Phone</th>
-        <th>Address</th>
-        <th>Status</th>
+        <th>Tên</th>
+        <th>Địa chỉ email</th>
+        <th>Ảnh đại diện</th>
+        <th>Số điện thoại</th>
+        <th>Địa chỉ</th>
+        <th>Trạng thái</th>
         <th>Action</th>
       </tr>
     </thead>

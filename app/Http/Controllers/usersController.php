@@ -287,7 +287,7 @@ class UsersController extends Controller
         }else{
             $all =null;
         }
-        if ($records->Certificate ) {
+        if ($records->Certificate != null) {
             $Certificate = json_decode($records->Certificate);
         } else {
             $Certificate = [];
