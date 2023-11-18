@@ -36,7 +36,7 @@ return new class extends Migration
             $table->String('description')->nullable();
             $table->string('time_tutor_id')->nullable();
             $table->integer('status')->nullable();
-            $table->integer('DistrictID')->nullable();
+            $table->string('DistrictID')->nullable();
             $table->String('Certificate',1000)->nullable();
             $table->rememberToken()->nullable();
             $table->timestamps();
