@@ -4,20 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class District extends Model
+class Ward extends Model
 {
     use HasFactory;
-//    use SoftDeletes;
-    protected $table = 'districts';
-
-    protected $fillable = [
+    protected $fillable=[
         'name',
         'gso_id',
-        'province_id',
+        'district_id',
         'created_at',
         'updated_at'
     ];
-
 }

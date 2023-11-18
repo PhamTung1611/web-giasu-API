@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\District;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Province;
+use App\Models\Ward;
+use stdClass;
 
 class DistrictController extends Controller
 {
@@ -13,10 +16,41 @@ class DistrictController extends Controller
      */
     public function index()
     {
-        //
-        $district = District::all();
-        return response()->json($district, 200);
+        $data=[];
 
+        $provinces = Province::all();
+
+       foreach ($provinces as $pro){
+           $provinceObject = new stdClass();
+           $provinceObject->provinceName = $pro->name;
+           $provinceObject->provinceId = $pro->id;
+
+
+           $districts = District::where('province_id',$pro->id)->get();
+           $arrDis = [];
+           foreach ($districts as $dis){
+
+               $districtObject = new stdClass();
+               $districtObject->districtName = $dis->name;
+               $districtObject->districtId = $dis->id;
+               $arrDis[]= $districtObject;
+               $provinceObject->district=$arrDis;
+               $wards = Ward::where('district_id',$dis->id)->get();
+               $arrWard=[];
+               foreach ($wards as $ward){
+                   $wardObject = new stdClass();
+                   $wardObject->name = $ward->name;
+                   $wardObject->wardId = $ward->id;
+                   $arrWard[]= $wardObject;
+
+
+               }
+               $districtObject->ward = $arrWard;
+               $data[]= $provinceObject;
+           }
+
+       }
+        return response()->json($data,200);
     }
 
     public function getTeacherByDistrict($id){
@@ -51,7 +85,7 @@ class DistrictController extends Controller
         //
     }
 
-    
+
 
     /**
      * Display the specified resource.

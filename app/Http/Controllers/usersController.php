@@ -539,10 +539,10 @@ class UsersController extends Controller
             $salary = RankSalary::find($records->salary_id);
             $newSalary = $salary->name;
         }
-        if ($records->DistrictID != null) {
-            $district = District::find($records->DistrictID);
-            $newDistrict = $district->name;
-        }
+//        if ($records->DistrictID != null) {
+//            $district = District::find($records->DistrictID);
+//            $newDistrict = $district->name;
+//        }
         if ($records->Certificate) {
             $records->Certificate = [];
         }
