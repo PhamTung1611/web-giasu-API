@@ -201,9 +201,9 @@ class UsersController extends Controller
                 $user->school_id = $request->school_id;
                 $user->Citizen_card = $request->citizen_card;
                 $user->education_level = $request->education_level;
-                $class = implode(",", $request->class_id);
+                $class = $request->class_id;
                 $user->class_id = $class;
-                $subject = implode(",", $request->subject);
+                $subject = $request->subject;
                 $user->subject = $subject;
                 $user->salary_id = $request->salary_id;
                 if ($request->has('Certificate')) {
@@ -217,14 +217,14 @@ class UsersController extends Controller
                 }
                 $user->address = json_encode($request->address);
                 $user->description = $request->description;
-                $time_tutor = implode(",", $request->time_tutor_id);
+                $time_tutor = $request->time_tutor_id;
                 $user->time_tutor_id = $time_tutor;
                 $user->status = 2;
             } else {
                 $user->status = 1;
             }
 
-            $user->save();
+        $user->save();
 
             return response()->json("success", 201);
         } catch (\Exception $e) {

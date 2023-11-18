@@ -213,7 +213,7 @@ Route::post('test',function(Request $request){
     } else {
         $Certificate = null;
     }
-    $district = implode(",", $request->district);
+$district =$request->district;
     $data=[$certificates,$district];
     return $data;
 });

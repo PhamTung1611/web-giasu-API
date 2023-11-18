@@ -22,21 +22,21 @@ class DistrictController extends Controller
         foreach ($provinces as $pro){
             $provinceObject = new stdClass();
             $provinceObject->provinceName = $pro->name;
-            $provinceObject->provinceId = $pro->id;
+            $provinceObject->provinceId = $pro->gso_id;
             $districts = District::where('province_id', $pro->id)->get();
 
             $arrDis = [];
             foreach ($districts as $dis){
                 $districtObject = new stdClass();
                 $districtObject->districtName = $dis->name;
-                $districtObject->districtId = $dis->id;
+                $districtObject->districtId = $dis->gso_id;
 
                 $arrWard = [];
                 $wards = Ward::where('district_id', $dis->id)->get();
                 foreach ($wards as $ward){
                     $wardObject = new stdClass();
                     $wardObject->name = $ward->name;
-                    $wardObject->wardId = $ward->id;
+                    $wardObject->wardId = $ward->gso_id;
                     $arrWard[] = $wardObject;
                 }
                 $districtObject->ward = $arrWard;
