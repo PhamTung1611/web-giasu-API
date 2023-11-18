@@ -59,12 +59,12 @@ class JobController extends Controller
             $params = $request->post();
             unset($params['_token']);
             $job = new Job();
-            $job->title = $request->title;
-            $job->name = $request->name;
-            $job->address = $request->address;
+            // $job->title = $request->title;
+            // $job->name = $request->name;
+            // $job->address = $request->address;
             $job->date_time = $request->date_time;
-            $job->phone = $request->phone;
-            $job->email = $request->email;
+            // $job->phone = $request->phone;
+            // $job->email = $request->email;
             $job->subjects_need = $request->subjects_need;
             $job->education_level = $request->education_level;
             $job->salary = $request->salary;
