@@ -62,8 +62,15 @@ class ApiJobController extends Controller
      */
     public function store(Request $request, MailController $mailController)
     {
+        $job=new Job();
+        $job->idUser = $request->idUser;
+        $job->idTeacher = $request->idTeacher;
+        $job->subject = implode(',',$request->subject);
+        // dd( $job->subject);
+        $job->class = implode(',',$request->class);
+         $job->save();
         // $job = Job::create($request->all());
-        $job = Job::create($request->all());
+        // $job = Job::create($request->all());
         $idUser = $request->input('idUser');
         $idTeacher = $request->input('idTeacher');
         $emailUser = $this->findEmailById($idUser);
@@ -116,8 +123,10 @@ class ApiJobController extends Controller
 
         $result = [];
         foreach ($test as $item) {
-            $dataSubject = json_decode($item->subject, true);
+            // dd($item->subject);
+            $dataSubject = explode(',',$item->subject);
             $subjectNames = [];
+            
             foreach ($dataSubject as $subjectId) {
                 $subject = DB::table('subjects')->where('id', $subjectId)->value('name');
                 if ($subject) {
@@ -126,7 +135,7 @@ class ApiJobController extends Controller
             }
             $item->subject = $subjectNames;
 
-            $dataClass = json_decode($item->class, true);
+            $dataClass = explode(',',$item->class);
             $classNames = [];
             foreach ($dataClass as $classId) {
                 $class = DB::table('class_levels')->where('id', $classId)->value('class');
