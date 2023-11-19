@@ -199,7 +199,7 @@ Route::post('contact',[ContactController::class,'store']);
 //    }
 //
 //    return $certificate;
-});
+//});
 Route::prefix('feedback')->group(function () {
     // lấy ra danh sách
     Route::post('/', [FeedBackController::class, 'store']);

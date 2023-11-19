@@ -195,7 +195,7 @@ class UsersController extends Controller
             }
             $user->password = Hash::make($request->password);
             $user->address = $request->address;
-            $user->DistrictID = json_encode($request->DistrictID);
+            $user->DistrictID = $request->DistrictID;
             $user->phone = $request->phone;
             if ($request->role == 3) {
                 $user->exp = $request->exp;
