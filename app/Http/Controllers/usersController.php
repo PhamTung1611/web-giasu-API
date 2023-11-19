@@ -217,7 +217,7 @@ class UsersController extends Controller
                 } else {
                     $user->Certificate = null;
                 }
-                $user->address = json_encode($request->address);
+                $user->address = $request->address;
                 $user->description = $request->description;
                 $time_tutor = $request->time_tutor_id;
                 $user->time_tutor_id = $time_tutor;
