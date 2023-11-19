@@ -186,20 +186,19 @@ Route::prefix('feedback')->group(function () {
     });
 //transaction
 Route::post('contact',[ContactController::class,'store']);
-Route::post('test',function(Request $request){
-    $certificates = [];
-    if ($request->has('Certificate')) {
-
-            foreach ($request->file('Certificate') as $file) {
-                    $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
-            }
-           $certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
-    } else {
-        $Certificate = null;
-    }
-$district =$request->district;
-    $data=[$certificates,$district];
-    return $data;
+//Route::post('test',function(Request $request){
+//    $certificates = [];
+//    if ($request->has('Certificate')) {
+//
+//            foreach ($request->file('Certificate') as $file) {
+//                    $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
+//            }
+//           $certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
+//    } else {
+//        $Certificate = null;
+//    }
+//
+//    return $certificate;
 });
 Route::prefix('feedback')->group(function () {
     // lấy ra danh sách

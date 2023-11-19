@@ -181,7 +181,7 @@
                                     @foreach($data['Certificate'] as $value)
 
                                     <div class="carousel-item active">
-                                        <img class="d-block w-100" style="height: 500px;  width: 500px;" src="http://127.0.0.1:8000/storage/{{$value}}" alt="First slide">
+                                        <img class="d-block w-100" style="height: 500px;  width: 500px;" src="{{$value}}" alt="First slide">
                                     </div>
                                     @endforeach
                                 </div>
