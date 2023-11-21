@@ -39,6 +39,7 @@ class User extends Authenticatable
         'status',
         'latitude',
         'longitude',
+        'DistrictID',
         'google_id',
         'Certificate',
         'date_of_birth',

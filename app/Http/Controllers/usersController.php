@@ -199,6 +199,7 @@ class UsersController extends Controller
             $user->address = $request->address;
             $user->latitude = $request->latitude;
             $user->longitude = $request->longitude;
+            $user->DistrictID = $request->DistrictID;
             $user->phone = $request->phone;
             if ($request->role == 3) {
                 $user->exp = $request->exp;
@@ -315,6 +316,7 @@ public function updatestatusSendMail(Request $request){
             'status' => $records->status,
             'longitude'=>$records->longitude,
             'latitude'=>$records->latitude,
+            'district'=>$records->DistrictID,
             'Certificate' => $Certificate,
             'exp' => $records->exp,
             'current_role' => $records->current_role,
@@ -346,6 +348,8 @@ public function updatestatusSendMail(Request $request){
             $user->address = $request->address;
             $user->DistrictID = $request->districtID;
             $user->phone = $request->phone;
+            $user->longitude = $request->longitude;
+            $user->latitude = $request->latitude;
             if ($request->role == 3) {
                 $user->school_id = $request->school_id;
                 $user->Citizen_card = $request->citizen_card;
@@ -428,6 +432,8 @@ public function updatestatusSendMail(Request $request){
             $user->avatar = $request->avatar;
             $user->phone = $request->phone;
             $user->address = $request->address;
+            $user->latitude = $request->latitude;
+            $user->longitude = $request->longitude;
             $user->fill($params);
             $user->save();
             if ($user->save()) {
@@ -580,6 +586,7 @@ public function updatestatusSendMail(Request $request){
             'description' => $records->description,
             'time_tutor_id' => $newArrayTime,
             'status' => $records->status,
+            'district'=>$records->DistrictID,
             'longitude'=>$records->longitude,
             'latitude'=>$records->latitude,
             'Certificate' => $records->Certificate,
