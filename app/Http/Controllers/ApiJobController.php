@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\JobResource;
 use App\Models\Job;
 use App\Models\User;
-use Brick\Math\BigNumber;
-use Faker\Core\Number;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -164,7 +161,7 @@ class ApiJobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id, MailController $mailController, HistoryController $historyController)
+    public function update(Request $request, $id, MailController $mailController, HistoryController $historyController, ConnectController $connectController)
     {
         $job = Job::find($id);
         $idUser = $job->idUser;
@@ -183,10 +180,12 @@ class ApiJobController extends Controller
                         return response()->json(['message' => 'Not enough coin'], 404);
                     } else {
                         $title = 'Xác nhận dạy';
-                        $historyController->createHistory($idUser, -50000, $title);
+                        $historyController->createHistory($idTeacher, -50000, $title);
+                        $connectController->createConnect($id, $idUser, $idTeacher);
                     }
                     $user->save();
                 }
+
                 $job->update($request->all());
                 $nameTeacher = $this->findNameByID($idTeacher);
                 $titleForUser = 'Gia sư ' . $nameTeacher . ' đã đồng ý dạy. Vui lòng truy cập vào website để lấy thông tin liên lạc';
@@ -232,16 +231,6 @@ class ApiJobController extends Controller
         }
     }
 
-    public function updateConnect(Request $request, $id)
-    {
-        $job = Job::find($id);
-        $idUser = $job->idUser;
-        $idTeacher = $job->idTeacher;
-        if ($job) {
-            $job->update($request->all());
-        }
-    }
-
     public function findNameByID($id)
     {
         $user = User::find($id);
@@ -269,4 +258,26 @@ class ApiJobController extends Controller
             return response()->json(['message' => 'Lỗi hệ thống'], 404);
         }
     }
+    
+    public function showDetailJob($id){
+        $job = Job::find($id);
+        if($job && $job->status == 1){
+            $user = User::find($job->idUser);
+            $teacher = User::find($job->idTeacher);
+            return response()->json([
+                'nameUser'=>$user->name,
+                'nameTeacher'=>$teacher->name,
+                'emailUser'=>$user->email,
+                'emailTeacher'=>$teacher->email,
+                'phoneUser'=>$user->phone,
+                'phoneTeacher'=>$teacher->phone,
+                'addressUser'=>$user->address,
+                'addressTeacher'=>$teacher->address,
+                'date_create'=>$job->created_at
+            ],200);
+        }else{
+            return response()->json(['message' => 'Error'], 404);
+        }
+    }
+
 }

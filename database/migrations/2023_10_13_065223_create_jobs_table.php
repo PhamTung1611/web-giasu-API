@@ -34,7 +34,6 @@ return new class extends Migration
             $table->string('subject');
             $table->string('class');
             $table->tinyInteger('status')->default(0);
-            $table->tinyInteger('statusConnect')->default(0);
             $table->string('description')->nullable();
             $table->softDeletes();
             $table->timestamps();

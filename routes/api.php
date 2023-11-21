@@ -212,6 +212,7 @@ Route::prefix('job')->group(function () {
     Route::post('/', [ApiJobController::class, 'store']);
     //chi tiết
     Route::get('/{id}', [ApiJobController::class, 'show']);
+    Route::get('/detail/{id}', [ApiJobController::class, 'showDetailJob']);
     //chỉnh sửa
     Route::put('/{id}', [ApiJobController::class, 'update']);
     //xóa
