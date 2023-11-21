@@ -245,7 +245,7 @@ public function updatestatusSendMail(Request $request){
            $user->status=1;
            $user->save();
 
-    return redirect()->away('http://localhost:8000/auth/login');
+    return redirect()->away('http://localhost:3000/auth/teacher');
 }
     /**
      * Display the specified resource.
