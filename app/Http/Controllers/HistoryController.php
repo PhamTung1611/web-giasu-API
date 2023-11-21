@@ -29,7 +29,7 @@ class HistoryController extends Controller
     public function show(string $id)
     {
         //
-        $history = History::find($id);
+        $history = History::where('idClient',$id)->get();
         if($history){
             return response()->json($history,200);
         }else{
