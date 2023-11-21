@@ -238,6 +238,7 @@ class AuthController extends Controller
                     'email' => $googleUser->email,
                     'name' => $googleUser->name,
                     'google_id'=> $googleUser->id,
+                    'status'=>1
                 ]
             );
             return response()->json([

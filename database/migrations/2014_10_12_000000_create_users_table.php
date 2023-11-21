@@ -15,15 +15,15 @@ return new class extends Migration
 
             $table->id();
             $table->string('role');
-            $table->String('gender');
-            $table->date('date_of_birth');
-            $table->string('name');
+            $table->String('gender')->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->String('avatar')->nullable();
-            $table->String('phone');
+            $table->String('phone')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->String('address');
+            $table->string('password')->nullable();
+            $table->String('address')->nullable();
             $table->String('coin')->nullable();
             $table->integer('school_id')->nullable();
             $table->String('Citizen_card')->nullable();
@@ -36,9 +36,9 @@ return new class extends Migration
             $table->String('description')->nullable();
             $table->string('time_tutor_id')->nullable();
             $table->integer('status')->nullable();
-            $table->string('DistrictID');
-            $table->string('latitude');
-            $table->string('longitude');
+            $table->string('DistrictID')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->string('google_id')->nullable();
             $table->String('Certificate',1000)->nullable();
             $table->rememberToken()->nullable();
