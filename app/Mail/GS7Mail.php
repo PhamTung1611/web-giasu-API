@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class GS7Mail extends Mailable
 {
     use Queueable, SerializesModels;
-        public  $mailData; 
+        public  $mailData;
     /**
      * Create a new message instance.
      */
@@ -51,4 +51,5 @@ class GS7Mail extends Mailable
     {
         return [];
     }
+
 }

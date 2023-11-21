@@ -180,7 +180,7 @@ Route::prefix('feedback')->group(function () {
         Route::get('/avgPoint/{id}', [FeedBackController::class, 'averagePoint']);
     });
  Route::prefix('users')->group(function () {
-
+        Route::post('status',[UsersController::class,'updatestatusSendMail']);
         Route::get('/', [UsersController::class, 'index']);
         Route::get('/{id}', [UsersController::class, 'show']);
     });
@@ -224,3 +224,6 @@ Route::prefix('feedback')->group(function () {
 
 });
 Route::post('filterDistrict',[UsersController::class,'filterTeacherByDistrict']);
+Route::get('get-google-sign-in-url', [AuthController::class, 'getGoogleSignInUrl']);
+Route::get('callback', [AuthController::class, 'loginCallback']);
+//Route::post('ggregister',[AuthController::class,'getInfoGG']);

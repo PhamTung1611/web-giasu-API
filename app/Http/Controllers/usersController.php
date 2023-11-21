@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\HTMLMail;
 use App\Models\ClassLevel;
 use App\Models\District;
 use App\Models\Province;
@@ -18,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Response;
 use Exception;
 use App\Http\Requests\UserRequest;
@@ -172,7 +174,7 @@ class UsersController extends Controller
 
         // return  response()->json($users, 200);
     }
-    public function store(UserRequest $request)
+    public function store(UserRequest $request ,MailController $mailController)
     {
         try {
 
@@ -195,7 +197,8 @@ class UsersController extends Controller
             }
             $user->password = Hash::make($request->password);
             $user->address = $request->address;
-            $user->DistrictID = $request->DistrictID;
+            $user->latitude = $request->latitude;
+            $user->longitude = $request->longitude;
             $user->phone = $request->phone;
             if ($request->role == 3) {
                 $user->exp = $request->exp;
@@ -203,12 +206,10 @@ class UsersController extends Controller
                 $user->school_id = $request->school_id;
                 $user->Citizen_card = $request->citizen_card;
                 $user->education_level = $request->education_level;
-                $class = $request->class_id;
-                $user->class_id = $class;
-                $subject = $request->subject;
-                $user->subject = $subject;
+                $user->class_id = $request->class_id;
+                $user->subject = $request->subject;
                 $user->salary_id = $request->salary_id;
-                if ($request->has('Certificate')) {
+                if ($request->hasFile('Certificate')) {
                     $certificates = [];
                     foreach ($request->file('Certificate') as $file) {
                             $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
@@ -217,24 +218,34 @@ class UsersController extends Controller
                 } else {
                     $user->Certificate = null;
                 }
-                $user->address = $request->address;
+
                 $user->description = $request->description;
                 $time_tutor = $request->time_tutor_id;
                 $user->time_tutor_id = $time_tutor;
-                $user->status = 2;
-            } else {
-                $user->status = 1;
+
             }
-
-        $user->save();
-
+                $user->status = 3;
+            $user->save();
+            $htmlContent = "<form action='http://localhost:8000/api/users/status' method='post'>
+        <input type='hidden' name='email' value='$request->email'>
+        <button type='submit'>Xác nhận tài khoản</button>
+        </form>";
+            Mail::to($request->email)->send(new HTMLMail($htmlContent));
             return response()->json("success", 201);
         } catch (\Exception $e) {
             return response()->json(['error' => "Thêm không thành công,$e"], 400);
         }
     }
 
+public function updatestatusSendMail(Request $request){
 
+       $user = User::where('email',$request->email)->first();
+
+           $user->status=2;
+           $user->save();
+
+    return redirect()->away('http://localhost:8000/auth/login');
+}
     /**
      * Display the specified resource.
      */
@@ -269,7 +280,7 @@ class UsersController extends Controller
         }
         $newSchool = "";
         $newSalary = "";
-        $newDistrict = "";
+
         if ($records->school_id != null) {
             $school = Schools::find($records->school_id);
             $newSchool = $school->name;
@@ -278,15 +289,7 @@ class UsersController extends Controller
             $salary = RankSalary::find($records->salary_id);
             $newSalary = $salary->name;
         }
-        if ($records->DistrictID){
-            $arrDis=explode(",", $records->DistrictID);
-            $province = Province::find($arrDis[0])->name;
-            $district = District::find($arrDis[1])->name;
-            $ward = Ward::find($arrDis[2])->name;
-            $all = $province.",".$district.",".$ward;
-        }else{
-            $all =null;
-        }
+
         if ($records->Certificate != null) {
             $Certificate = json_decode($records->Certificate);
         } else {
@@ -310,10 +313,12 @@ class UsersController extends Controller
             'description' => $records->description,
             'time_tutor_id' => $newArrayTime,
             'status' => $records->status,
-            'DistrictID' => $all,
+            'longitude'=>$records->longitude,
+            'latitude'=>$records->latitude,
             'Certificate' => $Certificate,
             'exp' => $records->exp,
-            'current_role' => $records->current_role
+            'current_role' => $records->current_role,
+            'coin'=>$records->coin
         ], 200);
     }
 
@@ -575,10 +580,12 @@ class UsersController extends Controller
             'description' => $records->description,
             'time_tutor_id' => $newArrayTime,
             'status' => $records->status,
-            'DistrictID' => $newDistrict,
+            'longitude'=>$records->longitude,
+            'latitude'=>$records->latitude,
             'Certificate' => $records->Certificate,
             'current_role' => $records->current_role,
             'exp' => $records->exp
+
         ];
 //        return $data;
             $title = "show Detail Teacher";

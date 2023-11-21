@@ -35,7 +35,7 @@ class ConnectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id, MailController $mailController,)
+    public function update(Request $request, string $id, MailController $mailController)
     {
         //
         $connect = Connect::find($id);

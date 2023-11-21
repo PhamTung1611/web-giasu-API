@@ -8,6 +8,7 @@ use App\Models\TimeSlot;
 use App\Models\User;
 use App\Models\Ward;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,8 @@ use App\Models\Schools;
 use App\Models\District;
 use App\Models\ClassLevel;
 use App\Models\RankSalary;
+use Laravel\Socialite\Facades\Socialite;
+
 class AuthController extends Controller
 {
     public function login(Request $request)
@@ -226,4 +229,132 @@ class AuthController extends Controller
             'message'=>'refreshtoken không tồn tại'
         ],400);
     }
+    public function loginCallback(Request $request)
+    {
+
+        try {
+            $state = $request->input('state');
+
+            parse_str($state, $result);
+            $googleUser = Socialite::driver('google')->stateless()->user();
+            $user = User::where('email', $googleUser->email)->first();
+            if ($user) {
+                $tokenResult = $user->createToken('MyAppToken'); // Pass a token name here
+                $refreshToken = Passport::refreshToken()->create([
+                    'id' => $tokenResult->token->id,
+                    'revoked' => false, // Refresh token chưa bị thu hồi (revoke)
+                    'expires_at' => now()->addSeconds(2000), // Thời gian hết hạn của refresh token
+                    'user_id'=>$tokenResult->token->user_id,
+                    'access_token_id'=> $tokenResult->accessToken
+                ]);
+                if($user->school_id){
+                    $school = Schools::find($user->school_id);
+                    $schoolName = $school->name;
+                }else{
+                    $schoolName = "";
+                }
+
+
+                if ($user->class_id){
+                    $classArray = explode(',',$user->class_id);
+                    $newClassArray =new Collection();
+                    foreach ($classArray as $item) {
+                        $class = ClassLevel::find($item);
+                        $newClassArray->push($class->class);
+                    }
+                }else{
+                    $newClassArray= [];
+                }
+                if($user->subject){
+                    $subjectArray = explode(',',$user->subject);
+                    $newSubjectArray =new Collection();
+                    foreach ($subjectArray as $item) {
+                        $newSubjectArray->push($item);
+                    }
+                }else{
+                    $newSubjectArray=[];
+                }
+                if($user->time_tutor_id){
+                    $timetutorArray = explode(',',$user->time_tutor_id);
+                    $newTimetutor =new Collection();
+                    foreach ($timetutorArray as $item) {
+                        $time = TimeSlot::find($item);
+                        $newTimetutor->push($time->name);
+                    }
+                }else{
+                    $newTimetutor =[];
+                }
+                if($user->salary_id){
+                    $rank = RankSalary::find($user->salary_id);
+                    $rankName = $rank->name;
+                }else{
+                    $rankName ="";
+                }
+                if ($user->DistrictID){
+                    $arrDis=explode(",", $user->DistrictID);
+                    $province = Province::find($arrDis[0])->name;
+                    $district = District::find($arrDis[1])->name;
+                    $ward = Ward::find($arrDis[2])->name;
+                    $all = $province.",".$district.",".$ward;
+                }else{
+                    $all =null;
+                }
+                return response()->json([
+                    'user'=>[
+                        'id'=>$user->id,
+                        'role'=>$user->role,
+                        'address'=>$user->address,
+                        'school' => $schoolName,
+                        'citizen_card'=>$user->Citizen_card,
+                        'education_level'=>$user->education_level,
+                        'class'=> $newClassArray,
+                        'subject'=>$newSubjectArray,
+                        'salary'=>$rankName,
+                        'description'=>$user->description,
+                        'District'=>$all,
+                        'Certificate'=>$user->Certificate,
+                        'avatar'=>'http://127.0.0.1:8000/storage/'.$user->avatar,
+                        'name'=>$user->name,
+                        'email'=>$user->email,
+                        'phone'=>$user->phone,
+                        'time_tutor'=>$newTimetutor],
+                    'coin'=>$user->coin,
+                    'access_token' => $tokenResult->accessToken,
+                    'refresh_token' => $refreshToken->id,
+                ]);
+                // co rôi cho qua luon
+            }
+            $user = User::create(
+                [
+                    'email' => $googleUser->email,
+                    'name' => $googleUser->name,
+                    'google_id'=> $googleUser->id,
+                ]
+            );
+            return response()->json([
+                'status' => __('google sign in successful'),
+                'data' => $user,
+            ], Response::HTTP_CREATED);
+
+        } catch (\Exception $exception) {
+            return response()->json([
+                'status' => __('google sign in failed'),
+                'error' => $exception,
+                'message' => $exception->getMessage()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    public function getGoogleSignInUrl()
+    {
+        try {
+            $url = Socialite::driver('google')->stateless()
+                ->redirect()->getTargetUrl();
+            return response()->json([
+                'url' => $url,
+            ])->setStatusCode(Response::HTTP_OK);
+        } catch (\Exception $exception) {
+            return $exception;
+        }
+    }
+
 }

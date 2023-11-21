@@ -37,7 +37,9 @@ class User extends Authenticatable
         'description',
         'time_tutor_id',
         'status',
-        'DistrictID',
+        'latitude',
+        'longitude',
+        'google_id',
         'Certificate',
         'date_of_birth',
         'gender'
