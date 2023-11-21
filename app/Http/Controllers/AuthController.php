@@ -92,15 +92,7 @@ class AuthController extends Controller
        }else{
            $rankName ="";
        }
-        if ($user->DistrictID){
-            $arrDis=explode(",", $user->DistrictID);
-            $province = Province::find($arrDis[0])->name;
-            $district = District::find($arrDis[1])->name;
-            $ward = Ward::find($arrDis[2])->name;
-            $all = $province.",".$district.",".$ward;
-        }else{
-            $all =null;
-        }
+
         return response()->json([
             'user'=>[
                 'id'=>$user->id,
@@ -113,7 +105,8 @@ class AuthController extends Controller
                 'subject'=>$newSubjectArray,
                 'salary'=>$rankName,
                 'description'=>$user->description,
-                'District'=>$all,
+                'longitude'=>$user->longitude,
+                'latitude'=>$user->latitude,
                 'Certificate'=>$user->Certificate,
                 'avatar'=>'http://127.0.0.1:8000/storage/'.$user->avatar,
                 'name'=>$user->name,
@@ -156,12 +149,7 @@ class AuthController extends Controller
                 }else{
                     $schoolName = "";
                 }
-                if($user->DistrictID){
-                    $distric = District::find($user->DistrictID);
-                    $districName = $distric->name;
-                }else{
-                    $districName ="";
-                }
+
                 if ($user->class_id){
                     $classArray = explode(',',$user->class_id);
                     $newClassArray =new Collection();
@@ -210,7 +198,8 @@ class AuthController extends Controller
                         'subject'=>$newSubjectArray,
                         'salary'=>$rankName,
                         'description'=>$user->description,
-                        'District'=>$districName,
+                        'longitude'=>$user->longitude,
+                        'latitude'=>$user->latitude,
                         'Certificate'=>$user->Certificate,
                         'avatar'=>'http://127.0.0.1:8000/storage/'.$user->avatar,
                         'name'=>$user->name,
@@ -290,15 +279,7 @@ class AuthController extends Controller
                 }else{
                     $rankName ="";
                 }
-                if ($user->DistrictID){
-                    $arrDis=explode(",", $user->DistrictID);
-                    $province = Province::find($arrDis[0])->name;
-                    $district = District::find($arrDis[1])->name;
-                    $ward = Ward::find($arrDis[2])->name;
-                    $all = $province.",".$district.",".$ward;
-                }else{
-                    $all =null;
-                }
+
                 return response()->json([
                     'user'=>[
                         'id'=>$user->id,
@@ -311,7 +292,8 @@ class AuthController extends Controller
                         'subject'=>$newSubjectArray,
                         'salary'=>$rankName,
                         'description'=>$user->description,
-                        'District'=>$all,
+                        'longitude'=>$user->longitude,
+                        'latitude'=>$user->latitude,
                         'Certificate'=>$user->Certificate,
                         'avatar'=>'http://127.0.0.1:8000/storage/'.$user->avatar,
                         'name'=>$user->name,
