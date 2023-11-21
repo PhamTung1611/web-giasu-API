@@ -250,14 +250,14 @@ class TeachersController extends Controller
 
     public function getTeacherByFilter(Request $request)
     {
-        $results = User::with( 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
+        $results = User::with('district:id,name', 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
         ->where('role', 'teacher')
         ->where('status', '1')
-//        ->when($request->filled('DistrictID'), function ($query) use ($request) {
-//            $query->where(function ($query) use ($request) {
-//                $query->where('DistrictID', 'like', '%' . $request->input('DistrictID') . '%');
-//            });
-//        })
+        ->when($request->filled('DistrictID'), function ($query) use ($request) {
+            $query->where(function ($query) use ($request) {
+                $query->where('DistrictID', 'like', '%' . $request->input('DistrictID') . '%');
+            });
+        })
         ->when($request->filled('subject'), function ($query) use ($request) {
             $query->where(function ($query) use ($request) {
                 $query->where('subject', 'like', '%' . $request->input('subject') . '%');
@@ -297,16 +297,6 @@ class TeachersController extends Controller
             if ($record->Certificate ){
                 $record->Certificate = json_decode($record->Certificate);
             }
-            if ($record->DistrictID){
-                $arrDis=explode(",", $record->DistrictID);
-                $province = Province::find($arrDis[0])->name;
-                $district = District::find($arrDis[1])->name;
-                $ward = Ward::find($arrDis[2])->name;
-                $all = $province;
-            }else{
-                $all =null;
-            }
-
 
             // Thêm các xử lý khác cho các trường dữ liệu khác
 
@@ -314,10 +304,9 @@ class TeachersController extends Controller
                 'id' => $record->id, // Thêm id của bản ghi vào mảng
                 'name' => $record->name,
                 'avatar' => 'http://127.0.0.1:8000/storage/'. $record->avatar,
-                'address' => $record->address,
                 'class_id' => $newArrayClass,
                 'subject' => $newArraySubject,
-                'DistrictID' => $all ,
+                // 'DistrictID' => $record->DistrictID ? District::find($record->DistrictID)->name : null,
             ];
         });
 
