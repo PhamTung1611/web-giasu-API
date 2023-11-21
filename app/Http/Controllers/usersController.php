@@ -586,7 +586,7 @@ public function updatestatusSendMail(Request $request){
             'description' => $records->description,
             'time_tutor_id' => $newArrayTime,
             'status' => $records->status,
-            'district'=>$records->DistrictID,
+            'DistrictID'=>$records->DistrictID,
             'longitude'=>$records->longitude,
             'latitude'=>$records->latitude,
             'Certificate' => $records->Certificate,
