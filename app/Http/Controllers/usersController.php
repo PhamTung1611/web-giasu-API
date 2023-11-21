@@ -244,7 +244,9 @@ public function updatestatusSendMail(Request $request){
 
            $user->status=1;
            $user->save();
-
+    if($user->role == 2 ){
+        return redirect()->away('http://localhost:3000/auth/user');
+    }
     return redirect()->away('http://localhost:3000/auth/teacher');
 }
     /**
