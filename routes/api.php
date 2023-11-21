@@ -11,9 +11,11 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\schoolsController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ConnectController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\FeedBackController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\TransactionController;
 
@@ -205,6 +207,12 @@ Route::prefix('feedback')->group(function () {
     Route::post('/', [FeedBackController::class, 'store']);
 
 });
+Route::prefix('connect')->group(function () {
+    // lấy ra danh sách
+    Route::get('/{id}', [ConnectController::class, 'show']);
+    Route::put('/{id}', [ConnectController::class, 'update']);
+
+});
 Route::prefix('job')->group(function () {
     // lấy ra danh sách
     Route::get('/', [ApiJobController::class, 'index']);
@@ -227,3 +235,8 @@ Route::post('filterDistrict',[UsersController::class,'filterTeacherByDistrict'])
 Route::get('get-google-sign-in-url', [AuthController::class, 'getGoogleSignInUrl']);
 Route::get('callback', [AuthController::class, 'loginCallback']);
 //Route::post('ggregister',[AuthController::class,'getInfoGG']);
+Route::prefix('history')->group(function () {
+    // lấy ra danh sách
+    Route::get('/{id}', [HistoryController::class, 'show']);
+
+});

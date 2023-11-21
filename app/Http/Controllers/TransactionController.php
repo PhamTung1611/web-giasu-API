@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\History;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -43,6 +44,11 @@ class TransactionController extends Controller
                     'code' => $code,
                     'status' => $status,
                 ]);
+                $history = new History();
+                $history->idClient = $userId;
+                $history->coin = $coin;
+                $history->type = $bank;
+                $history->save();
                 return response()->json(['message'=>'Success'],200);
             }catch(\Exception $e){
                 return response()->json(['message' => 'Error: ' . $e->getMessage()], 500);

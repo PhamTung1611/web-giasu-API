@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('idTeacher');
             $table->string('noteUser')->nullable();
             $table->string('noteTeacher')->nullable();
-            $table->string('confirmUser')->default(0);
-            $table->string('confirmTeacher')->default(0);
-            $table->string('status')->default(0);
+            $table->integer('confirmUser')->default(0);
+            $table->integer('confirmTeacher')->default(0);
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
