@@ -232,7 +232,7 @@ Route::prefix('feedback')->group(function () {
 
 });
 Route::post('filterDistrict',[UsersController::class,'filterTeacherByDistrict']);
-Route::get('get-google-sign-in-url', [AuthController::class, 'getGoogleSignInUrl']);
+Route::post('get-google-sign-in-url', [AuthController::class, 'getGoogleSignInUrl']);
 Route::get('callback', [AuthController::class, 'loginCallback']);
 //Route::post('ggregister',[AuthController::class,'getInfoGG']);
 Route::prefix('history')->group(function () {
