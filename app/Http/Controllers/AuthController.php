@@ -92,15 +92,7 @@ class AuthController extends Controller
        }else{
            $rankName ="";
        }
-        if ($user->DistrictID){
-            $arrDis=explode(",", $user->DistrictID);
-            $province = Province::find($arrDis[0])->name;
-            $district = District::find($arrDis[1])->name;
-            $ward = Ward::find($arrDis[2])->name;
-            $all = $province.",".$district.",".$ward;
-        }else{
-            $all =null;
-        }
+
         return response()->json([
             'user'=>[
                 'id'=>$user->id,
@@ -113,7 +105,9 @@ class AuthController extends Controller
                 'subject'=>$newSubjectArray,
                 'salary'=>$rankName,
                 'description'=>$user->description,
-                'District'=>$all,
+                'District'=>$request->DistrictID,
+                'longitude'=>$request->longitude,
+                'latitude'=>$request->latitude,
                 'Certificate'=>$user->Certificate,
                 'avatar'=>'http://127.0.0.1:8000/storage/'.$user->avatar,
                 'name'=>$user->name,
@@ -156,12 +150,7 @@ class AuthController extends Controller
                 }else{
                     $schoolName = "";
                 }
-                if($user->DistrictID){
-                    $distric = District::find($user->DistrictID);
-                    $districName = $distric->name;
-                }else{
-                    $districName ="";
-                }
+
                 if ($user->class_id){
                     $classArray = explode(',',$user->class_id);
                     $newClassArray =new Collection();
@@ -210,7 +199,9 @@ class AuthController extends Controller
                         'subject'=>$newSubjectArray,
                         'salary'=>$rankName,
                         'description'=>$user->description,
-                        'District'=>$districName,
+                        'District'=>$user->DistrictID,
+                        'longitude'=>$user->longitude,
+                        'latitude'=>$user->latitude,
                         'Certificate'=>$user->Certificate,
                         'avatar'=>'http://127.0.0.1:8000/storage/'.$user->avatar,
                         'name'=>$user->name,
@@ -218,7 +209,7 @@ class AuthController extends Controller
                         'phone'=>$user->phone,
                         'time_tutor'=>$newTimetutor],
 
-                    'access_token' => $tokenResult->accessToken,
+                    'access_token' => $accessToken,
                     'refresh_token' => $tokennew->id,
 
                 ]);
@@ -237,92 +228,10 @@ class AuthController extends Controller
 
             parse_str($state, $result);
             $googleUser = Socialite::driver('google')->stateless()->user();
+
             $user = User::where('email', $googleUser->email)->first();
             if ($user) {
-                $tokenResult = $user->createToken('MyAppToken'); // Pass a token name here
-                $refreshToken = Passport::refreshToken()->create([
-                    'id' => $tokenResult->token->id,
-                    'revoked' => false, // Refresh token chưa bị thu hồi (revoke)
-                    'expires_at' => now()->addSeconds(2000), // Thời gian hết hạn của refresh token
-                    'user_id'=>$tokenResult->token->user_id,
-                    'access_token_id'=> $tokenResult->accessToken
-                ]);
-                if($user->school_id){
-                    $school = Schools::find($user->school_id);
-                    $schoolName = $school->name;
-                }else{
-                    $schoolName = "";
-                }
-
-
-                if ($user->class_id){
-                    $classArray = explode(',',$user->class_id);
-                    $newClassArray =new Collection();
-                    foreach ($classArray as $item) {
-                        $class = ClassLevel::find($item);
-                        $newClassArray->push($class->class);
-                    }
-                }else{
-                    $newClassArray= [];
-                }
-                if($user->subject){
-                    $subjectArray = explode(',',$user->subject);
-                    $newSubjectArray =new Collection();
-                    foreach ($subjectArray as $item) {
-                        $newSubjectArray->push($item);
-                    }
-                }else{
-                    $newSubjectArray=[];
-                }
-                if($user->time_tutor_id){
-                    $timetutorArray = explode(',',$user->time_tutor_id);
-                    $newTimetutor =new Collection();
-                    foreach ($timetutorArray as $item) {
-                        $time = TimeSlot::find($item);
-                        $newTimetutor->push($time->name);
-                    }
-                }else{
-                    $newTimetutor =[];
-                }
-                if($user->salary_id){
-                    $rank = RankSalary::find($user->salary_id);
-                    $rankName = $rank->name;
-                }else{
-                    $rankName ="";
-                }
-                if ($user->DistrictID){
-                    $arrDis=explode(",", $user->DistrictID);
-                    $province = Province::find($arrDis[0])->name;
-                    $district = District::find($arrDis[1])->name;
-                    $ward = Ward::find($arrDis[2])->name;
-                    $all = $province.",".$district.",".$ward;
-                }else{
-                    $all =null;
-                }
-                return response()->json([
-                    'user'=>[
-                        'id'=>$user->id,
-                        'role'=>$user->role,
-                        'address'=>$user->address,
-                        'school' => $schoolName,
-                        'citizen_card'=>$user->Citizen_card,
-                        'education_level'=>$user->education_level,
-                        'class'=> $newClassArray,
-                        'subject'=>$newSubjectArray,
-                        'salary'=>$rankName,
-                        'description'=>$user->description,
-                        'District'=>$all,
-                        'Certificate'=>$user->Certificate,
-                        'avatar'=>'http://127.0.0.1:8000/storage/'.$user->avatar,
-                        'name'=>$user->name,
-                        'email'=>$user->email,
-                        'phone'=>$user->phone,
-                        'time_tutor'=>$newTimetutor],
-                    'coin'=>$user->coin,
-                    'access_token' => $tokenResult->accessToken,
-                    'refresh_token' => $refreshToken->id,
-                ]);
-                // co rôi cho qua luon
+                throw new \Exception(__('google sign in email existed'));
             }
             $user = User::create(
                 [

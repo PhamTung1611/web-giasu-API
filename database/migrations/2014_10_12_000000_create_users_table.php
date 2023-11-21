@@ -36,8 +36,9 @@ return new class extends Migration
             $table->String('description')->nullable();
             $table->string('time_tutor_id')->nullable();
             $table->integer('status')->nullable();
-            $table->integer('latitude');
-            $table->integer('longitude');
+            $table->string('DistrictID');
+            $table->string('latitude');
+            $table->string('longitude');
             $table->string('google_id')->nullable();
             $table->String('Certificate',1000)->nullable();
             $table->rememberToken()->nullable();

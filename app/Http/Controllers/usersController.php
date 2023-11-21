@@ -199,6 +199,7 @@ class UsersController extends Controller
             $user->address = $request->address;
             $user->latitude = $request->latitude;
             $user->longitude = $request->longitude;
+            $user->DistrictID = $request->DistrictID;
             $user->phone = $request->phone;
             if ($request->role == 3) {
                 $user->exp = $request->exp;
@@ -224,7 +225,7 @@ class UsersController extends Controller
                 $user->time_tutor_id = $time_tutor;
 
             }
-                $user->status = 3;
+                $user->status = 2;
             $user->save();
             $htmlContent = "<form action='http://localhost:8000/api/users/status' method='post'>
         <input type='hidden' name='email' value='$request->email'>
@@ -241,7 +242,7 @@ public function updatestatusSendMail(Request $request){
 
        $user = User::where('email',$request->email)->first();
 
-           $user->status=2;
+           $user->status=1;
            $user->save();
 
     return redirect()->away('http://localhost:8000/auth/login');
@@ -315,6 +316,7 @@ public function updatestatusSendMail(Request $request){
             'status' => $records->status,
             'longitude'=>$records->longitude,
             'latitude'=>$records->latitude,
+            'district'=>$records->DistrictID,
             'Certificate' => $Certificate,
             'exp' => $records->exp,
             'current_role' => $records->current_role,
@@ -346,6 +348,8 @@ public function updatestatusSendMail(Request $request){
             $user->address = $request->address;
             $user->DistrictID = $request->districtID;
             $user->phone = $request->phone;
+            $user->longitude = $request->longitude;
+            $user->latitude = $request->latitude;
             if ($request->role == 3) {
                 $user->school_id = $request->school_id;
                 $user->Citizen_card = $request->citizen_card;
@@ -428,6 +432,8 @@ public function updatestatusSendMail(Request $request){
             $user->avatar = $request->avatar;
             $user->phone = $request->phone;
             $user->address = $request->address;
+            $user->latitude = $request->latitude;
+            $user->longitude = $request->longitude;
             $user->fill($params);
             $user->save();
             if ($user->save()) {
@@ -487,108 +493,5 @@ public function updatestatusSendMail(Request $request){
             }
         }
     }
-    public function getAllTeacher()
-    {
-        $teachers = DB::table('users')
-            ->where('role', 'teacher')
-            ->where('status', '2')
-            ->whereNull('deleted_at')
-            ->get();
-        if ($teachers) {
-            $title = "Danh sách gia sư chờ phê duyệt";
-            $view = 2;
-            return view('backend.teacher.index', compact('teachers', 'title', 'view'));
-        }
-    }
-    public function agree(Request $request)
-    {
-        $user = User::find($request->id);
-        if ($user) {
-            Session::flash('success', 'success');
-            $user->update(['status' => '1']);
-            return redirect()->route('waiting');
-        } else {
-            Session::flash('error', 'error');
-        }
-    }
-    public function getOneTeacherWaiting(Request $request,$id)
-    {
-        $records = User::where('id', $id)
-            ->first();
 
-        $newArraySubject = [];
-        if ($records->subject != null) {
-            $makeSubject = explode(',', $records->subject);
-            foreach ($makeSubject as $item) {
-                $subjectNew = Subject::find($item);
-                array_push($newArraySubject, $subjectNew->name);
-            }
-        }
-        $newArrayClass = [];
-        if ($records->class_id != null) {
-            $makeClass = explode(',', $records->class_id);
-            foreach ($makeClass as $item) {
-                $classNew = ClassLevel::find($item);
-                array_push($newArrayClass, $classNew->class);
-            }
-        }
-        $newArrayTime = [];
-        if ($records->time_tutor_id != null) {
-            $makeTimetutor = explode(',', $records->time_tutor_id);
-            foreach ($makeTimetutor as $item) {
-                $timeNew = TimeSlot::find($item);
-                array_push($newArrayTime, $timeNew->name);
-            }
-        }
-        $newSchool = "";
-        $newSalary = "";
-        $newDistrict = "";
-        if ($records->school_id != null) {
-            $school = Schools::find($records->school_id);
-            $newSchool = $school->name;
-        }
-        if ($records->salary_id != null) {
-            $salary = RankSalary::find($records->salary_id);
-            $newSalary = $salary->name;
-        }
-//        if ($records->DistrictID != null) {
-//            $district = District::find($records->DistrictID);
-//            $newDistrict = $district->name;
-//        }
-
-        if (!$records->Certificate) {
-            $records->Certificate = [];
-        }else{
-            $records->Certificate= json_decode($records->Certificate);
-        }
-        $data = [
-            'id'=> $id,
-            'role' => $records->role,
-            'gender' => $records->gender,
-            'date_of_birth' => $records->date_of_birth,
-            'name' => $records->name,
-            'email' => $records->email,
-            'avatar' => 'http://127.0.0.1:8000/storage/' . $records->avatar,
-            'phone' => $records->phone,
-            'address' => $records->address,
-            'school' => $newSchool,
-            'Citizen_card' => $records->Citizen_card,
-            'education_level' => $records->education_level,
-            'class_id' => $newArrayClass,
-            'subject' => $newArraySubject,
-            'salary_id' => $newSalary,
-            'description' => $records->description,
-            'time_tutor_id' => $newArrayTime,
-            'status' => $records->status,
-            'longitude'=>$records->longitude,
-            'latitude'=>$records->latitude,
-            'Certificate' => $records->Certificate,
-            'current_role' => $records->current_role,
-            'exp' => $records->exp
-
-        ];
-//        return $data;
-            $title = "show Detail Teacher";
-            return view('backend.teacher.show',compact('title','data'));
-    }
 }
