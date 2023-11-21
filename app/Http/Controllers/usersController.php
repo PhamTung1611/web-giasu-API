@@ -199,9 +199,9 @@ class UsersController extends Controller
             $user->address = $request->address;
             $user->latitude = $request->latitude;
             $user->longitude = $request->longitude;
-            $user->DistrictID = $request->DistrictID;
             $user->phone = $request->phone;
             if ($request->role == 3) {
+                $user->DistrictID = $request->DistrictID;
                 $user->exp = $request->exp;
                 $user->current_role = $request->current_role;
                 $user->school_id = $request->school_id;
