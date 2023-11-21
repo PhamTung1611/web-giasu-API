@@ -232,8 +232,8 @@ Route::prefix('feedback')->group(function () {
 
 });
 Route::post('filterDistrict',[UsersController::class,'filterTeacherByDistrict']);
-Route::get('get-google-sign-in-url', [AuthController::class, 'getGoogleSignInUrl']);
-Route::post('callback', [AuthController::class, 'loginCallback']);
+Route::post('get-google-sign-in-url', [AuthController::class, 'getGoogleSignInUrl']);
+Route::post('callback/{role}', [AuthController::class, 'loginCallback']);
 //Route::post('ggregister',[AuthController::class,'getInfoGG']);
 Route::prefix('history')->group(function () {
     // lấy ra danh sách

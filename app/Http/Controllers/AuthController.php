@@ -220,7 +220,7 @@ class AuthController extends Controller
             'message'=>'refreshtoken không tồn tại'
         ],400);
     }
-    public function loginCallback(Request $request)
+    public function loginCallback(Request $request,$role)
     {
 
         try {
@@ -318,7 +318,7 @@ class AuthController extends Controller
                     'name' => $googleUser->name,
                     'google_id'=> $googleUser->id,
                     'status'=>1,
-                    'role'=>$request->role
+                    'role'=>$role
                 ]
             );
             return response()->json([
@@ -334,13 +334,13 @@ class AuthController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
     }
-    public function getGoogleSignInUrl()
+    public function getGoogleSignInUrl(Request $request)
     {
         try {
             $url = Socialite::driver('google')->stateless()
                 ->redirect()->getTargetUrl();
             return response()->json([
-                'url' => $url,
+                'url' => $url."/".$request->role,
             ])->setStatusCode(Response::HTTP_OK);
         } catch (\Exception $exception) {
             return $exception;
