@@ -317,7 +317,8 @@ class AuthController extends Controller
                     'email' => $googleUser->email,
                     'name' => $googleUser->name,
                     'google_id'=> $googleUser->id,
-                    'status'=>1
+                    'status'=>1,
+                    'role'=>$request->role
                 ]
             );
             return response()->json([
