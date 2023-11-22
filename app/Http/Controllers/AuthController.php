@@ -207,7 +207,9 @@ class AuthController extends Controller
                         'name'=>$user->name,
                         'email'=>$user->email,
                         'phone'=>$user->phone,
-                        'time_tutor'=>$newTimetutor],
+                        'time_tutor'=>$newTimetutor,
+                        'coin'=>$user->coin
+                    ],
 
                     'access_token' => $accessToken,
                     'refresh_token' => $tokennew->id,
@@ -304,7 +306,9 @@ class AuthController extends Controller
                         'name'=>$user->name,
                         'email'=>$user->email,
                         'phone'=>$user->phone,
-                        'time_tutor'=>$newTimetutor],
+                        'time_tutor'=>$newTimetutor,
+                        'coin'=>$user->coin
+                    ],
 
                     'access_token' => $accessToken,
                     'refresh_token' => $tokennew->id,
@@ -318,7 +322,7 @@ class AuthController extends Controller
                     'name' => $googleUser->name,
                     'google_id'=> $googleUser->id,
                     'status'=>1,
-                    'role'=>$role
+                    'role'=>$request->input('role')
                 ]
             );
             return response()->json([
@@ -340,7 +344,7 @@ class AuthController extends Controller
             $url = Socialite::driver('google')->stateless()
                 ->redirect()->getTargetUrl();
             return response()->json([
-                'url' => $url."/".$request->role,
+                'url' => $url."&&role=".$request->role,
             ])->setStatusCode(Response::HTTP_OK);
         } catch (\Exception $exception) {
             return $exception;
