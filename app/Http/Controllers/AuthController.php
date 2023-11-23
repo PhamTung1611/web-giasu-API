@@ -201,17 +201,14 @@ class AuthController extends Controller
                         'description'=>$user->description,
                         'District'=>$user->DistrictID,
                         'longitude'=>$user->longitude,
-                        'latitude'=>$user->latitude,
                         'Certificate'=>$user->Certificate,
                         'avatar'=>'http://127.0.0.1:8000/storage/'.$user->avatar,
                         'name'=>$user->name,
                         'email'=>$user->email,
                         'phone'=>$user->phone,
-                        'time_tutor'=>$newTimetutor,
-                        'coin'=>$user->coin
-                    ],
+                        'time_tutor'=>$newTimetutor],
 
-                    'access_token' => $accessToken,
+                    'access_token' => $tokenResult->accessToken,
                     'refresh_token' => $tokennew->id,
 
                 ]);
@@ -338,13 +335,13 @@ class AuthController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
     }
-    public function getGoogleSignInUrl(Request $request)
+    public function getGoogleSignInUrl()
     {
         try {
             $url = Socialite::driver('google')->stateless()
                 ->redirect()->getTargetUrl();
             return response()->json([
-                'url' => $url."&&role=".$request->role,
+                'url' => $url,
             ])->setStatusCode(Response::HTTP_OK);
         } catch (\Exception $exception) {
             return $exception;
