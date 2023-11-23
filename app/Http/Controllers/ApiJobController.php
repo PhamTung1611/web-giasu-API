@@ -59,36 +59,32 @@ class ApiJobController extends Controller
      */
     public function store(Request $request, MailController $mailController, HistoryController $historyController)
     {
-        $job = Job::create($request->all());
         $idUser = $request->input('idUser');
         $idTeacher = $request->input('idTeacher');
         $emailUser = $this->findEmailById($idUser);
         $emailTeacher = $this->findEmailById($idTeacher);
-        if ($job) {
-            $user = User::find($idUser);
-            $balanceOfUser = floatval($user->coin);
-            if ($user) {
-                $user->coin = strval($balanceOfUser - 50000);
-                if (floatval($user->coin) < 0) {
-                    return response()->json(['message' => 'Not enough coin'], 404);
-                } else {
-                    $user->save();
-                    $title = 'Đặt cọc thuê gia sư';
-                    $createHistory = $historyController->createHistory($idUser, -50000, $title);
-                    if ($createHistory) {
-                        $titleForUser = 'Bạn đã thuê thành công gia sư.';
-                        $titleForTeacher = 'Bạn có người muốn thuê hãy truy cập vào ngay trang web để biết thông tin chi tiết';
-                        $sendUser = $mailController->sendMail($emailUser, $titleForUser);
-                        $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
-                        if ($sendUser && $sendTeacher) {
-                            return response()->json(['message' => 'Success'], 200);
-                        } else {
-                            return response()->json(['message' => 'Error'], 404);
-                        }
+        $user = User::find($idUser);
+        $balanceOfUser = floatval($user->coin);
+        if ($user) {
+            $user->coin = strval($balanceOfUser - 50000);
+            if (floatval($user->coin) < 0) {
+                return response()->json(['message' => 'Not enough coin'], 404);
+            } else {
+                $user->save();
+                $job = Job::create($request->all());
+                $title = 'Đặt cọc thuê gia sư';
+                $createHistory = $historyController->createHistory($idUser, -50000, $title);
+                if ($createHistory) {
+                    $titleForUser = 'Bạn đã thuê thành công gia sư.';
+                    $titleForTeacher = 'Bạn có người muốn thuê hãy truy cập vào ngay trang web để biết thông tin chi tiết';
+                    $sendUser = $mailController->sendMail($emailUser, $titleForUser);
+                    $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
+                    if ($sendUser && $sendTeacher) {
+                        return response()->json(['message' => 'Success'], 200);
+                    } else {
+                        return response()->json(['message' => 'Error'], 404);
                     }
                 }
-            } else {
-                return response()->json(['message' => 'Error'], 404);
             }
         } else {
             return response()->json(['message' => 'Error'], 404);
