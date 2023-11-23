@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Role;
 use App\Models\Province;
 use App\Models\Ward;
+
 class TeachersController extends Controller
 {
     /**
@@ -36,15 +37,15 @@ class TeachersController extends Controller
                 ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
                 ->where('users.role', 'teacher')
                 ->get();
-                $teachers->transform(function ($teacher) {
-                    if ($teacher->avatar) {
-                        $teacher->avatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
-                    }
-                    if ($teacher->Certificate ){
-                        $teacher->Certificate = json_decode($teacher->Certificate);
-                    }
-                    return $teacher;
-                });
+            $teachers->transform(function ($teacher) {
+                if ($teacher->avatar) {
+                    $teacher->avatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
+                }
+                if ($teacher->Certificate) {
+                    $teacher->Certificate = json_decode($teacher->Certificate);
+                }
+                return $teacher;
+            });
             return response()->json($teachers, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e], 500);
@@ -64,15 +65,15 @@ class TeachersController extends Controller
             ->where('users.class_id', $class)
             ->get();
 
-            $teachers->transform(function ($teacher) {
-                if ($teacher->avatar) {
-                    $teacher->avatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
-                }
-                if ($teacher->Certificate ){
-                    $teacher->Certificate = json_decode($teacher->Certificate);
-                }
-                return $teacher;
-            });
+        $teachers->transform(function ($teacher) {
+            if ($teacher->avatar) {
+                $teacher->avatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
+            }
+            if ($teacher->Certificate) {
+                $teacher->Certificate = json_decode($teacher->Certificate);
+            }
+            return $teacher;
+        });
         return response()->json($teachers, 200);
     }
 
@@ -118,9 +119,9 @@ class TeachersController extends Controller
     public function getAllTeacher()
     {
         $title = "List";
-        $view=1;
+        $view = 1;
         $teachers = User::where('role', 'teacher')->whereIn('status', [0, 1])->get();
-        return view('backend.teacher.index', compact('teachers', 'title','view'));
+        return view('backend.teacher.index', compact('teachers', 'title', 'view'));
     }
 
     public function addNewTeacher(TeacherRequest $request)
@@ -157,8 +158,8 @@ class TeachersController extends Controller
             $teacher->time_tutor_id = $request->time_tutor;
             $teacher->status = $request->status;
             $teacher->DistrictID = $request->DistrictID;
-            $teacher->current_role= $request->current_role;
-            $teacher->exp= $request->exp;
+            $teacher->current_role = $request->current_role;
+            $teacher->exp = $request->exp;
             if ($request->hasFile('Certificate')) {
                 $certificates = [];
 
@@ -173,7 +174,7 @@ class TeachersController extends Controller
             }
             $teacher->date_of_birth = $request->date_of_birth;
             $teacher->gender = $request->gender;
-//            $teacher->fill($params);
+            //            $teacher->fill($params);
             $teacher->save();
             if ($teacher->save()) {
                 Session::flash('success', 'Thêm thành công!');
@@ -200,32 +201,32 @@ class TeachersController extends Controller
         if ($request->isMethod('post')) {
             $params = $request->except('_token');
             if ($request->hasFile('Certificate')) {
-                    if ($params['Certificatelast']!= null){
-                        $imagelast = json_decode($params['Certificatelast']);
-                        foreach ($imagelast as $i){
-                            Storage::delete('/public/' . $i);
-                        }
+                if ($params['Certificatelast'] != null) {
+                    $imagelast = json_decode($params['Certificatelast']);
+                    foreach ($imagelast as $i) {
+                        Storage::delete('/public/' . $i);
                     }
+                }
 
                 $certificates = [];
 
                 foreach ($request->file('Certificate') as $file) {
                     if ($file->isValid()) {
-                        $certificates[] ='http://127.0.0.1:8000/storage/'. uploadFile('hinh', $file);
+                        $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
                     }
                 }
                 $params['Certificate'] = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
 
-            }else{
-                $params['Certificate']= $params['Certificatelast'];
+            } else {
+                $params['Certificate'] = $params['Certificatelast'];
             }
 
             unset($params['Certificatelast']);
             $data = $params;
-            if($data['gender']== 1 ){
-                $data['gender']='Nam';
-            }else{
-                $data['gender']='Nữ';
+            if ($data['gender'] == 1) {
+                $data['gender'] = 'Nam';
+            } else {
+                $data['gender'] = 'Nữ';
             }
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                 $deleteImage = Storage::delete('/public/' . $teacher->avatar);
@@ -251,24 +252,24 @@ class TeachersController extends Controller
     public function getTeacherByFilter(Request $request)
     {
         $results = User::with('district:id,name', 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
-        ->where('role', 'teacher')
-        ->where('status', '1')
-        ->when($request->filled('DistrictID'), function ($query) use ($request) {
-            $query->where(function ($query) use ($request) {
-                $query->where('DistrictID', 'like', '%' . $request->input('DistrictID') . '%');
-            });
-        })
-        ->when($request->filled('subject'), function ($query) use ($request) {
-            $query->where(function ($query) use ($request) {
-                $query->where('subject', 'like', '%' . $request->input('subject') . '%');
-            });
-        })
-        ->when($request->filled('class'), function ($query) use ($request) {
-            $query->where(function ($query) use ($request) {
-                $query->where('class_id', 'like', '%' . $request->input('class') . '%');
-            });
-        })
-        ->get();
+            ->where('role', 'teacher')
+            ->where('status', '1')
+            ->when($request->filled('DistrictID'), function ($query) use ($request) {
+                $query->where(function ($query) use ($request) {
+                    $query->where('DistrictID', 'like', '%' . $request->input('DistrictID') . '%');
+                });
+            })
+            ->when($request->filled('subject'), function ($query) use ($request) {
+                $query->where(function ($query) use ($request) {
+                    $query->where('subject', 'like', '%' . $request->input('subject') . '%');
+                });
+            })
+            ->when($request->filled('class'), function ($query) use ($request) {
+                $query->where(function ($query) use ($request) {
+                    $query->where('class_id', 'like', '%' . $request->input('class') . '%');
+                });
+            })
+            ->get();
         // dd($results);
         $records = $results;
 
@@ -294,7 +295,7 @@ class TeachersController extends Controller
                     }
                 }
             }
-            if ($record->Certificate ){
+            if ($record->Certificate) {
                 $record->Certificate = json_decode($record->Certificate);
             }
 
@@ -303,7 +304,7 @@ class TeachersController extends Controller
             return [
                 'id' => $record->id, // Thêm id của bản ghi vào mảng
                 'name' => $record->name,
-                'avatar' => 'http://127.0.0.1:8000/storage/'. $record->avatar,
+                'avatar' => 'http://127.0.0.1:8000/storage/' . $record->avatar,
                 'class_id' => $newArrayClass,
                 'subject' => $newArraySubject,
                 // 'DistrictID' => $record->DistrictID ? District::find($record->DistrictID)->name : null,
@@ -312,24 +313,64 @@ class TeachersController extends Controller
 
         return response()->json($processedRecords, 200);
     }
-    public function delete($id,$view){
+    public function delete($id, $view)
+    {
 
-        if($id){
+        if ($id) {
             $user = User::find($id);
             $deleted = $user->delete();
-            if($deleted){
+            if ($deleted) {
 
-                if($view==1){
-                    Session::flash('success','success');
+                if ($view == 1) {
+                    Session::flash('success', 'success');
                     return redirect()->route('search_teacher');
-                }else{
-                    Session::flash('success','success');
+                } else {
+                    Session::flash('success', 'success');
                     return redirect()->route('waiting');
                 }
-            }else{
-                Session::flash('error','error');
+            } else {
+                Session::flash('error', 'error');
             }
         }
     }
 
+    public function getSubjectAndClass($id)
+    {
+        $records = User::where('id', $id)->first();
+
+        // Kiểm tra xem $records có tồn tại không
+        if ($records) {
+            $newArraySubject = [];
+            if ($records->subject != null) {
+                $makeSubject = explode(',', $records->subject);
+                foreach ($makeSubject as $item) {
+                    $subjectNew = Subject::find($item);
+                    // Kiểm tra xem $subjectNew có tồn tại không
+                    if ($subjectNew) {
+                        array_push($newArraySubject, ['id' => $subjectNew->id, 'name' => $subjectNew->name]);
+                    }
+                }
+            }
+    
+            $newArrayClass = [];
+            if ($records->class_id != null) {
+                $makeClass = explode(',', $records->class_id);
+                foreach ($makeClass as $item) {
+                    $classNew = ClassLevel::find($item);
+                    // Kiểm tra xem $classNew có tồn tại không
+                    if ($classNew) {
+                        array_push($newArrayClass, ['id' => $classNew->id, 'class' => $classNew->class]);
+                    }
+                }
+            }
+    
+            return response()->json([
+                'class_id' => $newArrayClass,
+                'subject' => $newArraySubject,
+            ], 200);
+        } else {
+            // Trả về một phản hồi nếu không tìm thấy người dùng với ID tương ứng
+            return response()->json(['error' => 'User not found'], 404);
+        }
+    }
 }

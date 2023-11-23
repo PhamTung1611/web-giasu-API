@@ -129,6 +129,7 @@ Route::prefix('teachers')->group(function () {
     Route::get('/subject/{id}', [ApiSubjectController::class, 'getTeacherBySubject']);
     Route::get('/district/{id}', [DistrictController::class, 'getTeacherByDistrict']);
     Route::get('/timeSlot/{id}', [ApiTimeSlotController::class, 'getTeacherByTimeSlot']);
+    Route::get('/subjectAndClass/{id}', [TeachersController::class, 'getSubjectAndClass']);
 });
 Route::get('filter', [TeachersController::class, 'getTeacherByFilter']);
 Route::prefix('ranksalary')->group(function () {
