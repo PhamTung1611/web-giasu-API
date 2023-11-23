@@ -71,19 +71,20 @@ class ApiJobController extends Controller
                 $user->coin = strval($balanceOfUser - 50000);
                 if (floatval($user->coin) < 0) {
                     return response()->json(['message' => 'Not enough coin'], 404);
-                }
-                $user->save();
-                $title = 'Đặt cọc thuê gia sư';
-                $createHistory = $historyController->createHistory($idUser, -50000, $title);
-                if ($createHistory) {
-                    $titleForUser = 'Bạn đã thuê thành công gia sư.';
-                    $titleForTeacher = 'Bạn có người muốn thuê hãy truy cập vào ngay trang web để biết thông tin chi tiết';
-                    $sendUser = $mailController->sendMail($emailUser, $titleForUser);
-                    $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
-                    if ($sendUser && $sendTeacher) {
-                        return response()->json(['message' => 'Success'], 200);
-                    } else {
-                        return response()->json(['message' => 'Error'], 404);
+                } else {
+                    $user->save();
+                    $title = 'Đặt cọc thuê gia sư';
+                    $createHistory = $historyController->createHistory($idUser, -50000, $title);
+                    if ($createHistory) {
+                        $titleForUser = 'Bạn đã thuê thành công gia sư.';
+                        $titleForTeacher = 'Bạn có người muốn thuê hãy truy cập vào ngay trang web để biết thông tin chi tiết';
+                        $sendUser = $mailController->sendMail($emailUser, $titleForUser);
+                        $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
+                        if ($sendUser && $sendTeacher) {
+                            return response()->json(['message' => 'Success'], 200);
+                        } else {
+                            return response()->json(['message' => 'Error'], 404);
+                        }
                     }
                 }
             } else {
@@ -258,26 +259,26 @@ class ApiJobController extends Controller
             return response()->json(['message' => 'Lỗi hệ thống'], 404);
         }
     }
-    
-    public function showDetailJob($id){
+
+    public function showDetailJob($id)
+    {
         $job = Job::find($id);
-        if($job && $job->status == 1){
+        if ($job && $job->status == 1) {
             $user = User::find($job->idUser);
             $teacher = User::find($job->idTeacher);
             return response()->json([
-                'nameUser'=>$user->name,
-                'nameTeacher'=>$teacher->name,
-                'emailUser'=>$user->email,
-                'emailTeacher'=>$teacher->email,
-                'phoneUser'=>$user->phone,
-                'phoneTeacher'=>$teacher->phone,
-                'addressUser'=>$user->address,
-                'addressTeacher'=>$teacher->address,
-                'date_create'=>$job->created_at
-            ],200);
-        }else{
+                'nameUser' => $user->name,
+                'nameTeacher' => $teacher->name,
+                'emailUser' => $user->email,
+                'emailTeacher' => $teacher->email,
+                'phoneUser' => $user->phone,
+                'phoneTeacher' => $teacher->phone,
+                'addressUser' => $user->address,
+                'addressTeacher' => $teacher->address,
+                'date_create' => $job->created_at
+            ], 200);
+        } else {
             return response()->json(['message' => 'Error'], 404);
         }
     }
-
 }
