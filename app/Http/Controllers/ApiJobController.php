@@ -59,20 +59,19 @@ class ApiJobController extends Controller
      */
     public function store(Request $request, MailController $mailController, HistoryController $historyController)
     {
-        $job = Job::create($request->all());
         $idUser = $request->input('idUser');
         $idTeacher = $request->input('idTeacher');
         $emailUser = $this->findEmailById($idUser);
         $emailTeacher = $this->findEmailById($idTeacher);
-        if ($job) {
-            $user = User::find($idUser);
-            $balanceOfUser = floatval($user->coin);
-            if ($user) {
-                $user->coin = strval($balanceOfUser - 50000);
-                if (floatval($user->coin) < 0) {
-                    return response()->json(['message' => 'Not enough coin'], 404);
-                }
+        $user = User::find($idUser);
+        $balanceOfUser = floatval($user->coin);
+        if ($user) {
+            $user->coin = strval($balanceOfUser - 50000);
+            if (floatval($user->coin) < 0) {
+                return response()->json(['message' => 'Not enough coin'], 404);
+            } else {
                 $user->save();
+                $job = Job::create($request->all());
                 $title = 'Đặt cọc thuê gia sư';
                 $createHistory = $historyController->createHistory($idUser, -50000, $title);
                 if ($createHistory) {
@@ -86,8 +85,6 @@ class ApiJobController extends Controller
                         return response()->json(['message' => 'Error'], 404);
                     }
                 }
-            } else {
-                return response()->json(['message' => 'Error'], 404);
             }
         } else {
             return response()->json(['message' => 'Error'], 404);
@@ -258,26 +255,26 @@ class ApiJobController extends Controller
             return response()->json(['message' => 'Lỗi hệ thống'], 404);
         }
     }
-    
-    public function showDetailJob($id){
+
+    public function showDetailJob($id)
+    {
         $job = Job::find($id);
-        if($job && $job->status == 1){
+        if ($job && $job->status == 1) {
             $user = User::find($job->idUser);
             $teacher = User::find($job->idTeacher);
             return response()->json([
-                'nameUser'=>$user->name,
-                'nameTeacher'=>$teacher->name,
-                'emailUser'=>$user->email,
-                'emailTeacher'=>$teacher->email,
-                'phoneUser'=>$user->phone,
-                'phoneTeacher'=>$teacher->phone,
-                'addressUser'=>$user->address,
-                'addressTeacher'=>$teacher->address,
-                'date_create'=>$job->created_at
-            ],200);
-        }else{
+                'nameUser' => $user->name,
+                'nameTeacher' => $teacher->name,
+                'emailUser' => $user->email,
+                'emailTeacher' => $teacher->email,
+                'phoneUser' => $user->phone,
+                'phoneTeacher' => $teacher->phone,
+                'addressUser' => $user->address,
+                'addressTeacher' => $teacher->address,
+                'date_create' => $job->created_at
+            ], 200);
+        } else {
             return response()->json(['message' => 'Error'], 404);
         }
     }
-
 }
