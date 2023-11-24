@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\PasswordReset;
 use App\Notifications\ResetPasswordRequest;
+use phpseclib3\Crypt\Hash;
 
 class ResetPasswordController extends Controller
 {
@@ -54,7 +55,7 @@ class ResetPasswordController extends Controller
                 ], 422);
             }
             $user = User::where('email', $passwordReset->email)->firstOrFail();
-            $updatePasswordUser = $user->update($request->only('password'));
+            $updatePasswordUser = $user->update(Hash::make($request->only('password')));
             $passwordReset->delete();
             return response()->json([
                 'success' => $updatePasswordUser,

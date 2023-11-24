@@ -241,4 +241,5 @@ Route::prefix('history')->group(function () {
     Route::get('/{id}', [HistoryController::class, 'show']);
 
 });
+Route::post('users/editpassword',[AuthController::class,'updatePassword']);
 Route::post('add-info',[AuthController::class,'addInfo']);

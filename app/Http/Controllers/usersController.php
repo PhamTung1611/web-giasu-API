@@ -245,7 +245,7 @@ public function updatestatusSendMail(Request $request){
            $user->status=2;
            $user->save();
 
-    return redirect()->away('http://localhost:8000/auth/login');
+    return redirect()->away('http://localhost3000/auth/user');
 }
     /**
      * Display the specified resource.
@@ -266,7 +266,7 @@ public function updatestatusSendMail(Request $request){
                     }
                 }
             }
-    
+
             $newArrayClass = [];
             if ($records->class_id != null) {
                 $makeClass = explode(',', $records->class_id);
