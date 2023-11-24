@@ -38,9 +38,7 @@ class AuthController extends Controller
             return response()->json(['message' => 'Email hoặc password không tồn tại'], 401);
         }
         $users = DB::table('users')->where('email', $request->email)->first();
-        if ($users->status == 2){
-            return response()->json(['message' => 'Tài khoản chưa được kích hoạt'], 401);
-        }else if ($users->status == 0 ){
+        if ($users->status == 0){
             return response()->json(['message' => 'Tài khoản bị vô hiệu hóa'], 401);
         }
         $user = $request->user();
@@ -206,6 +204,7 @@ class AuthController extends Controller
                         'District'=>$user->DistrictID,
                         'longitude'=>$user->longitude,
                         'Certificate'=>$user->Certificate,
+                        'latitude'=>$user->latitude,
                         'avatar'=>'http://127.0.0.1:8000/storage/'.$user->avatar,
                         'name'=>$user->name,
                         'email'=>$user->email,
