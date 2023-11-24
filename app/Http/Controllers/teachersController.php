@@ -307,6 +307,7 @@ class TeachersController extends Controller
                 'avatar' => 'http://127.0.0.1:8000/storage/' . $record->avatar,
                 'class_id' => $newArrayClass,
                 'subject' => $newArraySubject,
+                'district'=>$record->DistrictID
                 // 'DistrictID' => $record->DistrictID ? District::find($record->DistrictID)->name : null,
             ];
         });
