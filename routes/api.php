@@ -241,4 +241,4 @@ Route::prefix('history')->group(function () {
     Route::get('/{id}', [HistoryController::class, 'show']);
 
 });
-// Route::post('testTransfer',[HistoryController::class,'transferMoney']);
+Route::post('add-info',[AuthController::class,'addInfo']);

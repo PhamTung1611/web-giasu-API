@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
+use App\Mail\HTMLMail;
 use App\Models\Province;
+use App\Models\Role;
 use App\Models\Subject;
 use App\Models\TimeSlot;
 use App\Models\User;
@@ -13,6 +16,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Passport\Passport;
 use App\Models\Schools;
 use App\Models\District;
@@ -306,7 +310,7 @@ class AuthController extends Controller
                         'time_tutor'=>$newTimetutor,
                         'coin'=>$user->coin
                     ],
-
+                    'hinhthuc'=>'oke',
                     'access_token' => $accessToken,
                     'refresh_token' => $tokennew->id,
 
@@ -318,13 +322,25 @@ class AuthController extends Controller
                     'email' => $googleUser->email,
                     'name' => $googleUser->name,
                     'google_id'=> $googleUser->id,
-                    'status'=>1,
-                    'role'=>$request->input('role')
+                    'status'=>3,
                 ]
             );
+            $tokenResult = $user->createToken('MyAppToken');
+            $accessToken = $tokenResult->accessToken;
+            $refreshToken = $tokenResult->token->id;
+            $tokennew =Passport::refreshToken()->create([
+                'id' => $refreshToken,
+                'revoked' => false, // Refresh token chưa bị thu hồi (revoke)
+                'expires_at' => now()->addDays(30), // Thời gian hết hạn của refresh token (30 ngày)
+                'user_id'=>$tokenResult->token->user_id,
+                'access_token_id'=> $tokenResult->accessToken
+            ]);
             return response()->json([
                 'status' => __('google sign in successful'),
                 'data' => $user,
+                'hinhthuc'=>'google',
+                'access_token' => $accessToken,
+                'refresh_token' => $tokennew->id,
             ], Response::HTTP_CREATED);
 
         } catch (\Exception $exception) {
@@ -333,6 +349,67 @@ class AuthController extends Controller
                 'error' => $exception,
                 'message' => $exception->getMessage()
             ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+    public function addInfo(UserRequest $request ){
+        try {
+            $user = User::where('google_id',$request->google_id);
+            if ($user){
+                $role = Role::find($request->role);
+                //            dd($role->name);
+                if (!$role) {
+                    return response()->json('Sai quyền', 400);
+                }
+                $user->role = $role->name;
+                $user->gender = $request->gender;
+                $user->date_of_birth = $request->date_of_birth;
+                if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                    $user->avatar = uploadFile('hinh', $request->file('avatar'));
+                } else {
+                    $user->avatar = "hinh/1699622845_avatar.jpg";
+                }
+                $user->password = Hash::make($request->password);
+                $user->address = $request->address;
+                $user->latitude = $request->latitude;
+                $user->longitude = $request->longitude;
+                $user->DistrictID = $request->DistrictID;
+                $user->phone = $request->phone;
+                if ($request->role == 3) {
+                    $user->exp = $request->exp;
+                    $user->current_role = $request->current_role;
+                    $user->school_id = $request->school_id;
+                    $user->Citizen_card = $request->citizen_card;
+                    $user->education_level = $request->education_level;
+                    $user->class_id = $request->class_id;
+                    $user->subject = $request->subject;
+                    $user->salary_id = $request->salary_id;
+                    if ($request->hasFile('Certificate')) {
+                        $certificates = [];
+                        foreach ($request->file('Certificate') as $file) {
+                            $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
+                        }
+                        $user->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
+                    } else {
+                        $user->Certificate = null;
+                    }
+                    $user->description = $request->description;
+                    $time_tutor = $request->time_tutor_id;
+                    $user->time_tutor_id = $time_tutor;
+                }
+                $user->status = 3;
+                $user->save();
+                $htmlContent = "<form action='http://localhost:8000/api/users/status' method='post'>
+        <input type='hidden' name='email' value='$request->email'>
+        <button type='submit'>Xác nhận tài khoản</button>
+        </form>";
+                Mail::to($request->email)->send(new HTMLMail($htmlContent));
+                return response()->json("success", 201);
+            }
+            else{
+                return response()->json(['error' => "Không tồn tại user"], 400);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => "Thêm không thành công,$e"], 400);
         }
     }
     public function getGoogleSignInUrl()
