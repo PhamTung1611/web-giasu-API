@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClassLevelController;
 use App\Http\Controllers\Dashboard;
+use App\Http\Controllers\DashBoradController;
 use App\Http\Controllers\FeedBackController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\JobController;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('test', [DashBoradController::class, 'countTeacher']);
 Route::match(['get', 'post'], '/login',[UsersController::class, 'signin'])->name('login');
 Route::get('/logout',[UsersController::class, 'logout'])->name('logout');
 Route::get('vnpay', [UsersController::class, 'showvnpay']);

@@ -107,6 +107,7 @@
               <input type="text" class="form-control" value="{{$teacher->current_role}}" placeholder="Nhập vai trò hiện tại" name="current_role">
             <label>Môn học muốn dạy</label><br>
             <select name="subject" id="" class="form-control">
+
               @foreach($subject as $s)
               <option class="form-control" value="{{$s->id}}" {{$teacher->subject == $s->id ?"selected":""}}>{{$s->name}}</option>
               @endforeach
@@ -118,11 +119,7 @@
               @endforeach
             </select>
             <label>Quận/Huyện muốn dạy</label><br>
-            <select name="DistrictID" id="" class="form-control">
-              @foreach($district as $s)
-              <option class="form-control" value="{{$s->id}}" {{$teacher->DistrictID == $s->id ?"selected":""}}>{{$s->name}}</option>
-              @endforeach
-            </select>
+            <input type="text" class="form-control" value="{{$teacher->DistrictID}}" placeholder="Quận HUyện muốn dạy" name="DistrictID">
             <label>Chọn thời gian dạy</label><br>
             <select name="time_tutor_id" id="" class="form-control">
               @foreach($timeTutor as $s)
