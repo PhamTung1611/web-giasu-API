@@ -255,22 +255,29 @@ public function updatestatusSendMail(Request $request){
         $records = User::where('id', $id)
             ->first();
 
-        $newArraySubject = [];
-        if ($records->subject != null) {
-            $makeSubject = explode(',', $records->subject);
-            foreach ($makeSubject as $item) {
-                $subjectNew = Subject::find($item);
-                array_push($newArraySubject, $subjectNew->name);
+            $newArraySubject = [];
+            if ($records->subject != null) {
+                $makeSubject = explode(',', $records->subject);
+                foreach ($makeSubject as $item) {
+                    $subjectNew = Subject::find($item);
+                    // Kiểm tra xem $subjectNew có tồn tại không
+                    if ($subjectNew) {
+                        array_push($newArraySubject, ['id' => $subjectNew->id, 'name' => $subjectNew->name]);
+                    }
+                }
             }
-        }
-        $newArrayClass = [];
-        if ($records->class_id != null) {
-            $makeClass = explode(',', $records->class_id);
-            foreach ($makeClass as $item) {
-                $classNew = ClassLevel::find($item);
-                array_push($newArrayClass, $classNew->class);
+    
+            $newArrayClass = [];
+            if ($records->class_id != null) {
+                $makeClass = explode(',', $records->class_id);
+                foreach ($makeClass as $item) {
+                    $classNew = ClassLevel::find($item);
+                    // Kiểm tra xem $classNew có tồn tại không
+                    if ($classNew) {
+                        array_push($newArrayClass, ['id' => $classNew->id, 'class' => $classNew->class]);
+                    }
+                }
             }
-        }
         $newArrayTime = [];
         if ($records->time_tutor_id != null) {
             $makeTimetutor = explode(',', $records->time_tutor_id);
