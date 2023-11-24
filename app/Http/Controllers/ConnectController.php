@@ -70,26 +70,22 @@ class ConnectController extends Controller
                     $nameTeacher = $this->findNameByID($connect->idTeacher);
                     $nameUser = $this->findNameByID($connect->idUser);
                     $user = User::find($connect->idUser);
-                    $balanceOfUser = floatval($user->coin);
                     $teacher = User::find($connect->idTeacher);
-                    $balanceOfTeacher = floatval($teacher->coin);
                     if ($user && $teacher) {
-                        $user->coin = strval($balanceOfUser + 25000);
-                        $teacher->coin = strval($balanceOfTeacher + 25000);
-                        $user->save();
-                        $teacher->save();
-                        $title = 'Hoàn tiền kết nối';
-                        $historyController->createHistory($connect->idTeacher, +25000, $title);
-                        $historyController->createHistory($connect->idUser, +25000, $title);
-                        $titleForUser = 'Gia sư ' . $nameTeacher . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
-                        $titleForTeacher = 'Người dùng ' . $nameUser . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
-                        $mailController->sendMail($emailUser, $titleForUser);
-                        $mailController->sendMail($emailTeacher, $titleForTeacher);
-                        return response()->json(['message' => 'Success'], 200);
+                        $refundMoney = $historyController->refundMoneyUserTeacher($connect->idUser, $connect->idTeacher, 25000);
+                        if (!$refundMoney) {
+                            return response()->json(['message' => 'Admin not enough coin'], 404);
+                        } else {
+                            $titleForUser = 'Gia sư ' . $nameTeacher . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
+                            $titleForTeacher = 'Người dùng ' . $nameUser . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
+                            $mailController->sendMail($emailUser, $titleForUser);
+                            $mailController->sendMail($emailTeacher, $titleForTeacher);
+                            return response()->json(['message' => 'Success'], 200);
+                        }
                     } else {
                         return response()->json(['message' => 'Error'], 404);
                     }
-                } else if($checkPoint !== $confirmUser){
+                } else if ($checkPoint !== $confirmUser) {
                     $connect->update($request->all());
                     return response()->json(['message' => 'Success'], 200);
                 }
@@ -102,22 +98,18 @@ class ConnectController extends Controller
                     $nameTeacher = $this->findNameByID($connect->idTeacher);
                     $nameUser = $this->findNameByID($connect->idUser);
                     $user = User::find($connect->idUser);
-                    $balanceOfUser = floatval($user->coin);
                     $teacher = User::find($connect->idTeacher);
-                    $balanceOfTeacher = floatval($teacher->coin);
                     if ($user && $teacher) {
-                        $user->coin = strval($balanceOfUser + 25000);
-                        $teacher->coin = strval($balanceOfTeacher + 25000);
-                        $user->save();
-                        $teacher->save();
-                        $title = 'Hoàn tiền kết nối';
-                        $historyController->createHistory($connect->idTeacher, +25000, $title);
-                        $historyController->createHistory($connect->idUser, +25000, $title);
-                        $titleForUser = 'Gia sư ' . $nameTeacher . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
-                        $titleForTeacher = 'Người dùng ' . $nameUser . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
-                        $mailController->sendMail($emailUser, $titleForUser);
-                        $mailController->sendMail($emailTeacher, $titleForTeacher);
-                        return response()->json(['message' => 'Success'], 200);
+                        $refundMoney = $historyController->refundMoneyUserTeacher($connect->idUser, $connect->idTeacher, 25000);
+                        if (!$refundMoney) {
+                            return response()->json(['message' => 'Admin not enough coin'], 404);
+                        } else {
+                            $titleForUser = 'Gia sư ' . $nameTeacher . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
+                            $titleForTeacher = 'Người dùng ' . $nameUser . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
+                            $mailController->sendMail($emailUser, $titleForUser);
+                            $mailController->sendMail($emailTeacher, $titleForTeacher);
+                            return response()->json(['message' => 'Success'], 200);
+                        }
                     } else {
                         return response()->json(['message' => 'Error'], 404);
                     }
@@ -132,22 +124,18 @@ class ConnectController extends Controller
                 $nameTeacher = $this->findNameByID($connect->idTeacher);
                 $nameUser = $this->findNameByID($connect->idUser);
                 $user = User::find($connect->idUser);
-                $balanceOfUser = floatval($user->coin);
                 $teacher = User::find($connect->idTeacher);
-                $balanceOfTeacher = floatval($teacher->coin);
                 if ($user && $teacher) {
-                    $user->coin = strval($balanceOfUser + 10000);
-                    $teacher->coin = strval($balanceOfTeacher + 10000);
-                    $user->save();
-                    $teacher->save();
-                    $title = 'Hoàn tiền hủy kết nối';
-                    $historyController->createHistory($connect->idTeacher, +10000, $title);
-                    $historyController->createHistory($connect->idUser, +10000, $title);
-                    $titleForUser = 'Gia sư ' . $nameTeacher . ' đã hủy kết nối với lí do' . $noteTeacher . ' Bạn được hoàn lại 80% tiền cọc';
-                    $titleForTeacher = 'Bạn đã ấn hủy kết nối với ' . $nameUser . ' với lí do' . $noteTeacher . ' Bạn được hoàn lại 80% tiền cọc';
-                    $mailController->sendMail($emailUser, $titleForUser);
-                    $mailController->sendMail($emailTeacher, $titleForTeacher);
-                    return response()->json(['message' => 'Success'], 200);
+                    $refundMoney = $historyController->refundMoneyUserTeacher($connect->idUser, $connect->idTeacher, 10000);
+                    if (!$refundMoney) {
+                        return response()->json(['message' => 'Admin not enough coin'], 404);
+                    } else {
+                        $titleForUser = 'Gia sư ' . $nameTeacher . ' đã hủy kết nối với lí do' . $noteTeacher . ' Bạn được hoàn lại 80% tiền cọc';
+                        $titleForTeacher = 'Bạn đã ấn hủy kết nối với ' . $nameUser . ' với lí do' . $noteTeacher . ' Bạn được hoàn lại 80% tiền cọc';
+                        $mailController->sendMail($emailUser, $titleForUser);
+                        $mailController->sendMail($emailTeacher, $titleForTeacher);
+                        return response()->json(['message' => 'Success'], 200);
+                    }
                 } else {
                     return response()->json(['message' => 'Error'], 404);
                 }
@@ -158,22 +146,18 @@ class ConnectController extends Controller
                 $nameTeacher = $this->findNameByID($connect->idTeacher);
                 $nameUser = $this->findNameByID($connect->idUser);
                 $user = User::find($connect->idUser);
-                $balanceOfUser = floatval($user->coin);
                 $teacher = User::find($connect->idTeacher);
-                $balanceOfTeacher = floatval($teacher->coin);
                 if ($user && $teacher) {
-                    $user->coin = strval($balanceOfUser + 10000);
-                    $teacher->coin = strval($balanceOfTeacher + 10000);
-                    $user->save();
-                    $teacher->save();
-                    $title = 'Hoàn tiền hủy kết nối';
-                    $historyController->createHistory($connect->idTeacher, +10000, $title);
-                    $historyController->createHistory($connect->idUser, +10000, $title);
-                    $titleForTeacher = 'Người dùng ' . $nameUser . ' đã hủy kết nối với lí do' . $noteUser . ' Bạn được hoàn lại 80% tiền cọc';
-                    $titleForUser = 'Bạn đã ấn hủy kết nối với ' . $nameTeacher . ' với lí do' . $noteUser . ' Bạn được hoàn lại 80% tiền cọc';
-                    $mailController->sendMail($emailUser, $titleForUser);
-                    $mailController->sendMail($emailTeacher, $titleForTeacher);
-                    return response()->json(['message' => 'Success'], 200);
+                    $refundMoney = $historyController->refundMoneyUserTeacher($connect->idUser, $connect->idTeacher, 10000);
+                    if (!$refundMoney) {
+                        return response()->json(['message' => 'Admin not enough coin'], 404);
+                    } else {
+                        $titleForTeacher = 'Người dùng ' . $nameUser . ' đã hủy kết nối với lí do' . $noteUser . ' Bạn được hoàn lại 80% tiền cọc';
+                        $titleForUser = 'Bạn đã ấn hủy kết nối với ' . $nameTeacher . ' với lí do' . $noteUser . ' Bạn được hoàn lại 80% tiền cọc';
+                        $mailController->sendMail($emailUser, $titleForUser);
+                        $mailController->sendMail($emailTeacher, $titleForTeacher);
+                        return response()->json(['message' => 'Success'], 200);
+                    }
                 } else {
                     return response()->json(['message' => 'Error'], 404);
                 }

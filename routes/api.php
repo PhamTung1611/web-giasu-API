@@ -242,3 +242,5 @@ Route::prefix('history')->group(function () {
 
 });
 Route::post('add-info',[AuthController::class,'addInfo']);
+
+Route::post('testTransfer',[HistoryController::class,'transferMoney']);
