@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\PasswordReset;
 use App\Notifications\ResetPasswordRequest;
-use phpseclib3\Crypt\Hash;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class ResetPasswordController extends Controller
 {
@@ -55,11 +56,15 @@ class ResetPasswordController extends Controller
                 ], 422);
             }
             $user = User::where('email', $passwordReset->email)->firstOrFail();
-            $updatePasswordUser = $user->update(Hash::make($request->only('password')));
-            $passwordReset->delete();
-            return response()->json([
-                'success' => $updatePasswordUser,
-            ]);
+
+            if($user){
+                $user->password = Hash::make($request->password);
+                $user->save();
+                $passwordReset->delete();
+                return response()->json([
+                    'success' => "oke",
+                ]);
+            }
         }catch (\Exception $e) {
             // Handle other exceptions here
             return response()->json([

@@ -243,3 +243,4 @@ Route::prefix('history')->group(function () {
 });
 Route::post('users/editpassword',[AuthController::class,'updatePassword']);
 Route::post('add-info',[AuthController::class,'addInfo']);
+Route::post('searchDistric',[UsersController::class,'searchDistrict']);

@@ -398,7 +398,7 @@ class AuthController extends Controller
     public function updatePassword(Request $request){
         $user = User::find($request->id);
         if($user){
-            if (Hash::check($request->password,$user->password)){
+            if (Hash::check($request->passwordlast,$user->password)){
                 $user->password = Hash::make($request->password);
                 $user->save();
             }else{

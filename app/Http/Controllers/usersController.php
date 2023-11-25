@@ -500,6 +500,16 @@ public function updatestatusSendMail(Request $request){
             }
         }
     }
+    public function searchDistrict (Request $request){
+        $user = User::where('DistrictID', 'LIKE', '%' . $request->DistrictID . '%')->get();
+        if($user){
+            return response()->json([
+                'data'=>$user
+            ]);
+        }else{
+            return response()->json("không tồn tại");
+        }
+    }
     public function getAllTeacher()
     {
         $teachers = DB::table('users')

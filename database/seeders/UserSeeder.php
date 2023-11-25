@@ -297,7 +297,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'role'=>'user',
             'name' => 'Phạm Văn Sơn',
-            'email'=>'sonpham@gmail.com',
+            'email'=>'sonpvph27505@fpt.edu.vn',
             'avatar' => 'https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg',
             'phone'=>'0342757411',
             'password'=>Hash::make('123'),
