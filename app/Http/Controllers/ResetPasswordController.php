@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\PasswordReset;
 use App\Notifications\ResetPasswordRequest;
-use Illuminate\Testing\Fluent\Concerns\Has;
+
 
 class ResetPasswordController extends Controller
 {
