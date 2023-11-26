@@ -107,7 +107,7 @@ class ApiJobController extends Controller
      */
     public function show($id)
     {
-        $test = Job::select('jobs.*', 'user1.name as idUser', 'user2.name as idTeacher')
+        $jobs = Job::select('jobs.*', 'user1.id as idUser', 'user1.name as userName', 'user2.id as idTeacher', 'user2.name as teacherName')
             ->leftJoin('users as user1', 'jobs.idUser', '=', 'user1.id')
             ->leftJoin('users as user2', 'jobs.idTeacher', '=', 'user2.id')
             ->where(function ($query) use ($id) {
@@ -115,26 +115,25 @@ class ApiJobController extends Controller
                     ->orWhere('jobs.idTeacher', $id);
             })
             ->get();
-
-        if ($test->isEmpty()) {
+    
+        if ($jobs->isEmpty()) {
             return response()->json(['message' => 'Jobs not found'], 404);
         }
-
+    
         $result = [];
-        foreach ($test as $item) {
-            // dd($item->subject);
-            $dataSubject = explode(',', $item->subject);
+        foreach ($jobs as $job) {
+            $dataSubject = explode(',', $job->subject);
             $subjectNames = [];
-
+    
             foreach ($dataSubject as $subjectId) {
                 $subject = DB::table('subjects')->where('id', $subjectId)->value('name');
                 if ($subject) {
                     $subjectNames[] = $subject;
                 }
             }
-            $item->subject = $subjectNames;
-
-            $dataClass = explode(',', $item->class);
+            $job->subject = $subjectNames;
+    
+            $dataClass = explode(',', $job->class);
             $classNames = [];
             foreach ($dataClass as $classId) {
                 $class = DB::table('class_levels')->where('id', $classId)->value('class');
@@ -142,13 +141,27 @@ class ApiJobController extends Controller
                     $classNames[] = $class;
                 }
             }
-            $item->class = $classNames;
-
-            $result[] = $item;
+            $job->class = $classNames;
+    
+            // Lấy thông tin từ bảng users
+            $user = DB::table('users')->where('id', $job->idUser)->first();
+            $teacher = DB::table('users')->where('id', $job->idTeacher)->first();
+    
+            // Thêm id cho idUser và idTeacher
+            $job->idUser = $user->id;
+            $job->idTeacher = $teacher->id;
+    
+            // Thêm tên cho idUser và idTeacher
+            $job->userName = $user->name;
+            $job->teacherName = $teacher->name;
+    
+            $result[] = $job;
         }
-
+    
         return response()->json($result, 200);
     }
+    
+
     /**
      * Update the specified resource in storage.
      *
