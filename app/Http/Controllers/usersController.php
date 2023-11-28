@@ -303,6 +303,8 @@ public function updatestatusSendMail(Request $request){
         } else {
             $Certificate = [];
         }
+        $renter = DB::table('jobs')->where('idTeacher',$id)->count();
+        // dd($renter);
         return  response()->json([
             'role' => $records->role,
             'gender' => $records->gender,
@@ -327,7 +329,8 @@ public function updatestatusSendMail(Request $request){
             'Certificate' => $Certificate,
             'exp' => $records->exp,
             'current_role' => $records->current_role,
-            'coin'=>$records->coin
+            'coin'=>$records->coin,
+            'renter'=>$renter
         ], 200);
     }
 
