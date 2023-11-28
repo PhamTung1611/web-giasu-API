@@ -330,7 +330,8 @@ public function updatestatusSendMail(Request $request){
             'exp' => $records->exp,
             'current_role' => $records->current_role,
             'coin'=>$records->coin,
-            'renter'=>$renter
+            'renter'=>$renter,
+            'created_date'=>$records->created_at
         ], 200);
     }
 
