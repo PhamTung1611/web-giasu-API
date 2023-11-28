@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('coin');
             $table->string('bank');
             $table->string('code');
-            $table->integer('status');
+            $table->string('status');
             $table->timestamps();
         });
     }
