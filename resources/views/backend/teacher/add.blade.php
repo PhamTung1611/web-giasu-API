@@ -117,11 +117,7 @@
               @endforeach
             </select>
             <label>Quận/Huyện muốn dạy</label><br>
-            <select name="DistrictID" id="" class="form-control">
-              @foreach($district as $s)
-              <option class="form-control" name="DistrictID" value="{{$s->id}}">{{$s->name}}</option>
-              @endforeach
-            </select>
+            <input type="text" class="form-control" placeholder="Nhập quận huyện muốn dạy" name="DistrictID">
             <label>Chọn thời gian dạy</label><br>
             <select name="time_tutor" id="" class="form-control">
               @foreach($timeTutor as $s)
