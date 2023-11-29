@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Role;
 use App\Models\Province;
 use App\Models\Ward;
+use Illuminate\Support\Facades\DB;
 
 class TeachersController extends Controller
 {
@@ -116,9 +117,9 @@ class TeachersController extends Controller
         }
     }
 
-    public function getAllTeacher()
+    public function getAllTeacher(Request $request)
     {
-        $title = "List";
+        $title = "Danh sách giáo viên";
         $view = 1;
         $teachers = User::where('role', 'teacher')->whereIn('status', [0, 1])->get();
         return view('backend.teacher.index', compact('teachers', 'title', 'view'));

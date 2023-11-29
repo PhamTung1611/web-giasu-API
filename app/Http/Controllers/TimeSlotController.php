@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TimeSlotRequest;
 use App\Models\TimeSlot;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class TimeSlotController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         $title = 'Danh sách ca học';
         $timeslots = TimeSlot::all();
+        if ($request->post() && $request->search) {
+            $timeslots = DB::table('time_slots')
+                ->where('id', 'like', '%'.$request->search.'%')->get();
+        }
         return view('backend.timeslot.index', compact('title', 'timeslots'));
     }
     public function add(TimeSlotRequest $request){
