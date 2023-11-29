@@ -24,7 +24,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->String('address')->nullable();
-            $table->String('coin')->nullable();
+            $table->String('coin')->default(0);
             $table->integer('school_id')->nullable();
             $table->String('Citizen_card')->nullable();
             $table->String('education_level')->nullable();
