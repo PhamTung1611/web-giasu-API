@@ -70,18 +70,14 @@ class ApiJobController extends Controller
                 return response()->json(['message' => 'Not enough coin'], 404);
             } else {
                 Job::create($request->all());
-                $title = 'Đặt cọc thuê gia sư';
-                $createHistory = $historyController->createHistory($idUser, -50000, $title);
-                if ($createHistory) {
-                    $titleForUser = 'Bạn đã thuê thành công gia sư.';
-                    $titleForTeacher = 'Bạn có người muốn thuê hãy truy cập vào ngay trang web để biết thông tin chi tiết';
-                    $sendUser = $mailController->sendMail($emailUser, $titleForUser);
-                    $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
-                    if ($sendUser && $sendTeacher) {
-                        return response()->json(['message' => 'Success'], 200);
-                    } else {
-                        return response()->json(['message' => 'Error'], 404);
-                    }
+                $titleForUser = 'Bạn đã thuê thành công gia sư.';
+                $titleForTeacher = 'Bạn có người muốn thuê hãy truy cập vào ngay trang web để biết thông tin chi tiết';
+                $sendUser = $mailController->sendMail($emailUser, $titleForUser);
+                $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
+                if ($sendUser && $sendTeacher) {
+                    return response()->json(['message' => 'Success'], 200);
+                } else {
+                    return response()->json(['message' => 'Error'], 404);
                 }
             }
         } else {
@@ -115,16 +111,16 @@ class ApiJobController extends Controller
                     ->orWhere('jobs.idTeacher', $id);
             })
             ->get();
-    
+
         if ($jobs->isEmpty()) {
             return response()->json(['message' => 'Jobs not found'], 404);
         }
-    
+
         $result = [];
         foreach ($jobs as $job) {
             $dataSubject = explode(',', $job->subject);
             $subjectNames = [];
-    
+
             foreach ($dataSubject as $subjectId) {
                 $subject = DB::table('subjects')->where('id', $subjectId)->value('name');
                 if ($subject) {
@@ -132,7 +128,7 @@ class ApiJobController extends Controller
                 }
             }
             $job->subject = $subjectNames;
-    
+
             $dataClass = explode(',', $job->class);
             $classNames = [];
             foreach ($dataClass as $classId) {
@@ -142,25 +138,25 @@ class ApiJobController extends Controller
                 }
             }
             $job->class = $classNames;
-    
+
             // Lấy thông tin từ bảng users
             $user = DB::table('users')->where('id', $job->idUser)->first();
             $teacher = DB::table('users')->where('id', $job->idTeacher)->first();
-    
+
             // Thêm id cho idUser và idTeacher
             $job->idUser = $user->id;
             $job->idTeacher = $teacher->id;
-    
+
             // Thêm tên cho idUser và idTeacher
             $job->userName = $user->name;
             $job->teacherName = $teacher->name;
-    
+
             $result[] = $job;
         }
-    
+
         return response()->json($result, 200);
     }
-    
+
 
     /**
      * Update the specified resource in storage.
