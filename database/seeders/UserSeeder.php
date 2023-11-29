@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
             'latitude'=>"21.031028545000026",
             'Certificate'=>'none',
             'date_of_birth'=>'2003-09-30',
-            'gender'=>'Nam'
+            'gender'=>'Nam', 'coin'=>1
 
         ]);
         DB::table('users')->insert([
@@ -64,7 +64,7 @@ class UserSeeder extends Seeder
             'latitude'=>"21.010176768000065",
             'Certificate'=>null,
             'date_of_birth'=>'2003-02-23',
-            'gender'=>'Nữ'
+            'gender'=>'Nữ', 'coin'=>1
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -90,7 +90,7 @@ class UserSeeder extends Seeder
             'latitude'=>"21.019302192000055",
             'Certificate'=>null,
             'date_of_birth'=>'2003-09-30',
-            'gender'=>'Nam'
+            'gender'=>'Nam', 'coin'=>1
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -116,7 +116,7 @@ class UserSeeder extends Seeder
             'latitude'=>"20.971334803000047",
             'Certificate'=>null,
             'date_of_birth'=>'2003-09-30',
-            'gender'=>'Nam'
+            'gender'=>'Nam', 'coin'=>1
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -142,7 +142,7 @@ class UserSeeder extends Seeder
             'latitude'=>"20.99477765200004",
             'Certificate'=>null,
             'date_of_birth'=>'2002-09-03',
-            'gender'=>'Nam'
+            'gender'=>'Nam', 'coin'=>1
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -168,7 +168,7 @@ class UserSeeder extends Seeder
             'latitude'=>"20.97535979500003",
             'Certificate'=>null,
             'date_of_birth'=>'2000-09-03',
-            'gender'=>'Nam'
+            'gender'=>'Nam', 'coin'=>1
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -194,7 +194,7 @@ class UserSeeder extends Seeder
             'latitude'=>"20.97535979500003",
             'Certificate'=>null,
             'date_of_birth'=>'1992-11-22',
-            'gender'=>'Nam'
+            'gender'=>'Nam', 'coin'=>1
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -220,7 +220,7 @@ class UserSeeder extends Seeder
             'latitude'=>"20.97535979500003",
             'Certificate'=>null,
             'date_of_birth'=>'2001-11-22',
-            'gender'=>'Nữ'
+            'gender'=>'Nữ', 'coin'=>1
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -246,7 +246,8 @@ class UserSeeder extends Seeder
             'latitude'=>"20.97535979500003",
             'Certificate'=>null,
             'date_of_birth'=>'2001-11-22',
-            'gender'=>'Nam'
+            'gender'=>'Nam',
+            'coin'=>1
         ]);
         DB::table('users')->insert([
             'role'=>'user',
@@ -261,7 +262,8 @@ class UserSeeder extends Seeder
             'latitude'=>"20.97535979500003",
             'date_of_birth'=>'2003-09-30',
             'gender'=>'Nam',
-            'status'=>"1"
+            'status'=>"1",
+            'coin'=>1
         ]);
         DB::table('users')->insert([
             'role'=>'user',
@@ -276,7 +278,8 @@ class UserSeeder extends Seeder
             'latitude'=>"20.97535979500003",
             'date_of_birth'=>'2003-05-26',
             'gender'=>'Nam',
-            'status'=>"1"
+            'status'=>"1",
+            'coin'=>1
         ]);
         DB::table('users')->insert([
             'role'=>'user',
@@ -291,7 +294,8 @@ class UserSeeder extends Seeder
             'latitude'=>"20.97535979500003",
             'date_of_birth'=>'2003-04-27',
             'gender'=>'Nam',
-            'status'=>"1"
+            'status'=>"1",
+            'coin'=>1
 
         ]);
         DB::table('users')->insert([
@@ -307,7 +311,8 @@ class UserSeeder extends Seeder
             'latitude'=>"21.028530775000036",
             'date_of_birth'=>'1992-02-02',
             'gender'=>'Nam',
-            'status'=>"1"
+            'status'=>"1",
+            'coin'=>1
         ]);
     }
 }
