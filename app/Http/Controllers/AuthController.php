@@ -115,8 +115,9 @@ class AuthController extends Controller
                 'name'=>$user->name,
                 'email'=>$user->email,
                 'phone'=>$user->phone,
-                'time_tutor'=>$newTimetutor],
-                'coin'=>$user->coin,
+                'time_tutor'=>$newTimetutor,
+                'coin'=>$users->coin
+            ],
             'access_token' => $tokenResult->accessToken,
             'refresh_token' => $refreshToken->id,
 

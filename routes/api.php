@@ -48,9 +48,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     });
     //user route
     Route::prefix('users')->group(function () {
-
-
-
         Route::put('/{id}', [UsersController::class, 'updateApi']);
         Route::delete('/{id}', [UsersController::class, 'destroy']);
     });
