@@ -404,12 +404,12 @@ class AuthController extends Controller
                 $user->password = Hash::make($request->password);
                 $user->save();
             }else{
-                return response()->json('Sai password');
+                return response()->json('Sai password', 400);
             }
 
             return response()->json('edit password success');
         }else {
-            return response()->json('edit password error');
+            return response()->json('edit password error',400);
         }
     }
 }
