@@ -303,6 +303,8 @@ public function updatestatusSendMail(Request $request){
         } else {
             $Certificate = [];
         }
+        $renter = DB::table('jobs')->where('idTeacher',$id)->count();
+        // dd($renter);
         return  response()->json([
             'role' => $records->role,
             'gender' => $records->gender,
@@ -327,7 +329,9 @@ public function updatestatusSendMail(Request $request){
             'Certificate' => $Certificate,
             'exp' => $records->exp,
             'current_role' => $records->current_role,
-            'coin'=>$records->coin
+            'coin'=>$records->coin,
+            'renter'=>$renter,
+            'created_date'=>$records->created_at
         ], 200);
     }
 
@@ -336,7 +340,7 @@ public function updatestatusSendMail(Request $request){
     {
         try {
             $user = User::find($id);
-            $role = Role::find($request->role);
+            $role = Role::where('name',$request->role);
             if (!$role) {
                 return response()->json('Sai quyền', 400);
             }

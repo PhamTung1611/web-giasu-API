@@ -29,8 +29,13 @@ class ConnectController extends Controller
      */
     public function show(string $id)
     {
-        //
-        $connect = Connect::select('connect.*', 'user1.name as idUser', 'user2.name as idTeacher')
+        $connect = Connect::select(
+            'connect.*',
+            'user1.id as idUser',
+            'user1.name as userName',
+            'user2.id as idTeacher',
+            'user2.name as teacherName'
+        )
             ->leftJoin('users as user1', 'connect.idUser', '=', 'user1.id')
             ->leftJoin('users as user2', 'connect.idTeacher', '=', 'user2.id')
             ->where(function ($query) use ($id) {
@@ -38,13 +43,21 @@ class ConnectController extends Controller
                     ->orWhere('connect.idTeacher', $id);
             })
             ->get();
-
+    
         if ($connect->isEmpty()) {
             return response()->json(['message' => 'Connect not found'], 404);
         }
-        // dd($connect->idUser);
+
+        foreach ($connect as $item) {
+            $item->idUser = $item->idUser;
+            $item->idTeacher = $item->idTeacher;
+            $item->userName = $item->userName;
+            $item->teacherName = $item->teacherName;
+        }
+    
         return response()->json($connect, 200);
     }
+    
 
     /**
      * Update the specified resource in storage.
