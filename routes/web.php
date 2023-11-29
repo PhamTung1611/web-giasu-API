@@ -44,8 +44,10 @@ Route::middleware('auth')->group(function() {
     Route::post('subject',[SubjectController::class,'index'])->name('search_subject');
     Route::get('classLevel',[ClassLevelController::class,'index']);
     Route::post('classLevel',[ClassLevelController::class,'index'])->name('search_class');
-    Route::get('teacher',[TeachersController::class,'getAllTeacher'])->name('search_teacher');
-    Route::get('user',[UsersController::class,'getAllUser'])->name('search_user');
+    Route::get('teacher',[TeachersController::class,'getAllTeacher']);
+    Route::post('teacher',[TeachersController::class,'getAllTeacher'])->name('search_teacher');
+    Route::post('user',[UsersController::class,'getAllUser'])->name('search_user');
+    Route::get('user',[UsersController::class,'getAllUser']);
     Route::get('teacher/waiting',[UsersController::class,'getAllTeacher'])->name('waiting');
     Route::post('waiting_teacher',[UsersController::class,'agree'])->name('waiting_teacher');
     //salary rank

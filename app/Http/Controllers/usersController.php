@@ -415,15 +415,20 @@ public function updatestatusSendMail(Request $request){
             return response()->json(['error' => $e], 500);
         }
     }
-    public function getAllUser()
+    public function getAllUser(Request $request)
     {
-        $title = 'List';
+        $title = 'Danh sách người dùng';
         $users = User::where('role', 'user')->get();
+        if ($request->post() && $request->search) {
+            $users = DB::table('users')
+                ->where('id', 'like', '%'.$request->search.'%')->get();
+        }
+        
         return view('backend.users.index', compact('users', 'title'));
     }
     public function addNewUser(UserRequest $request)
     {
-        $title = 'Thêm mới user';
+        $title = 'Thêm mới người dùng';
         if ($request->isMethod('post')) {
             // dd($request);
             // $params = $request->post();
@@ -458,7 +463,7 @@ public function updatestatusSendMail(Request $request){
     }
     public function updateUser(UserRequest $request, $id)
     {
-        $title = 'Sửa User';
+        $title = 'Sửa người dùng';
         $user = User::findOrFail($id);
         if ($request->isMethod('post')) {
             $user = User::find($id);
@@ -497,7 +502,7 @@ public function updatestatusSendMail(Request $request){
             $user = User::find($id);
             $deleted = $user->delete();
             if ($deleted) {
-                Session::flash('success', 'Xoa thanh cong');
+                Session::flash('success', 'Xóa thành công');
                 return redirect()->route('search_user');
             } else {
                 Session::flash('error', 'xoa that bai');
