@@ -64,7 +64,8 @@ class UserSeeder extends Seeder
             'latitude'=>"21.010176768000065",
             'Certificate'=>null,
             'date_of_birth'=>'2003-02-23',
-            'gender'=>'Nữ', 'coin'=>1
+            'gender'=>'Nữ', 
+            'coin'=>1
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',

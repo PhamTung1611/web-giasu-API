@@ -14,7 +14,7 @@ class JobController extends Controller
 {
     public function index(Request $request) {
         $title = 'Danh sách công việc';
-        $tests = DB::table('jobs')->get();
+        $tests = Job::orderBy('id', 'desc')->get();
         if ($request->post() && $request->search) {
             $tests = DB::table('jobs')
                 ->where('id', 'like', '%'.$request->search.'%')->get();
@@ -50,35 +50,6 @@ class JobController extends Controller
             $results[] = $test;
         }
         return view('backend.job.index', compact('results','title'));
-    }
-    public function create(JobRequest $request) {
-        $title = 'Thêm mới công việc';
-        $salary = RankSalary::all();
-        $date = TimeSlot::all();
-        if($request->post()) {
-            $params = $request->post();
-            unset($params['_token']);
-            $job = new Job();
-            // $job->title = $request->title;
-            // $job->name = $request->name;
-            // $job->address = $request->address;
-            $job->date_time = $request->date_time;
-            // $job->phone = $request->phone;
-            // $job->email = $request->email;
-            $job->subjects_need = $request->subjects_need;
-            $job->education_level = $request->education_level;
-            $job->salary = $request->salary;
-            $job->requirements = $request->requirements;
-            $job->save();
-            if($job->save()){
-                Session::flash('success', 'Thêm thành công!');
-                return redirect()->to('job');
-            }
-            else {
-                Session::flash('error', 'Error!');
-            }
-        }
-        return view('backend.job.add', compact('title', 'salary', 'date'));
     }
     public function update(JobRequest $request, $id){
         $title = 'Sửa công việc';
