@@ -34,18 +34,6 @@ use App\Http\Controllers\TransactionController;
 //     return $request->user();
 // });
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::prefix('TeacherSubject')->group(function () {
-        // lấy ra danh sách
-
-        //thêm
-        Route::post('/', [TeacherSubjectController::class, 'store']);
-        //chi tiết
-
-        //chỉnh sửa
-        Route::put('/{id}', [TeacherSubjectController::class, 'update']);
-        //xóa
-        Route::delete('/{id}', [TeacherSubjectController::class, 'destroy']);
-    });
     //user route
     Route::prefix('users')->group(function () {
         Route::put('/{id}', [UsersController::class, 'updateApi']);
@@ -65,18 +53,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::delete('/{id}', [schoolsController::class, 'destroy']);
     });
 
-    Route::prefix('TeacherClass')->group(function () {
-        // lấy ra danh sách
-        Route::get('/', [TeacherClassController::class, 'index']);
-        //thêm
-        Route::post('/', [TeacherClassController::class, 'store']);
-        //chi tiết
-        Route::get('/{id}', [TeacherClassController::class, 'show']);
-        //chỉnh sửa
-        Route::put('/{id}', [TeacherClassController::class, 'update']);
-        //xóa
-        Route::delete('/{id}', [TeacherClassController::class, 'destroy']);
-    });
 
     Route::prefix('subject')->group(function () {
 

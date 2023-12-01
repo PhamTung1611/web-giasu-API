@@ -36,6 +36,7 @@ class TeachersController extends Controller
                 ->leftJoin('time_slots', 'users.time_tutor_id', '=', 'time_slots.id')
                 ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
                 ->where('users.role', 'teacher')
+                ->where('status', '1')
                 ->get();
             $teachers->transform(function ($teacher) {
                 if ($teacher->avatar) {
