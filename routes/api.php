@@ -174,8 +174,6 @@ Route::prefix('vnpay')->group(function () {
     Route::get('/{id}', [TransactionController::class, 'show']);
 });
 Route::prefix('feedback')->group(function () {
-        // lấy ra danh sách
-
         Route::get('/{id}', [FeedBackController::class, 'show']);
         Route::get('/avgPoint/{id}', [FeedBackController::class, 'averagePoint']);
     });
@@ -184,22 +182,7 @@ Route::prefix('feedback')->group(function () {
         Route::get('/', [UsersController::class, 'index']);
         Route::get('/{id}', [UsersController::class, 'show']);
     });
-//transaction
 Route::post('contact',[ContactController::class,'store']);
-//Route::post('test',function(Request $request){
-//    $certificates = [];
-//    if ($request->has('Certificate')) {
-//
-//            foreach ($request->file('Certificate') as $file) {
-//                    $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
-//            }
-//           $certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
-//    } else {
-//        $Certificate = null;
-//    }
-//
-//    return $certificate;
-//});
 Route::prefix('feedback')->group(function () {
     // lấy ra danh sách
     Route::post('/', [FeedBackController::class, 'store']);
