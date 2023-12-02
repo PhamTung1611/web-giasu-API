@@ -10,6 +10,7 @@ use App\Models\Subject;
 use App\Models\TimeSlot;
 use App\Models\User;
 use App\Models\Ward;
+use Google_Client;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
@@ -23,7 +24,7 @@ use App\Models\District;
 use App\Models\ClassLevel;
 use App\Models\RankSalary;
 use Laravel\Socialite\Facades\Socialite;
-
+require_once '../vendor/autoload.php';
 class AuthController extends Controller
 {
     public function login(Request $request)
@@ -224,7 +225,7 @@ class AuthController extends Controller
             'message'=>'refreshtoken không tồn tại'
         ],400);
     }
-    public function loginCallback(Request $request,$role)
+    public function loginCallback(Request $request)
     {
 
         try {
@@ -318,32 +319,63 @@ class AuthController extends Controller
                 ]);
 
             }
-            $user = User::create(
+            $usernew = User::create(
                 [
                     'email' => $googleUser->email,
                     'name' => $googleUser->name,
                     'google_id'=> $googleUser->id,
+                    'role' => 'user',
                     'status'=>1,
                 ]
             );
-            $tokenResult = $user->createToken('MyAppToken');
-            $accessToken = $tokenResult->accessToken;
-            $refreshToken = $tokenResult->token->id;
-            $tokennew =Passport::refreshToken()->create([
-                'id' => $refreshToken,
-                'revoked' => false, // Refresh token chưa bị thu hồi (revoke)
-                'expires_at' => now()->addDays(30), // Thời gian hết hạn của refresh token (30 ngày)
-                'user_id'=>$tokenResult->token->user_id,
-                'access_token_id'=> $tokenResult->accessToken
-            ]);
-            return response()->json([
-                'status' => __('google sign in successful'),
-                'data' => $user,
-                'tinhtrang'=>'thieuthongtin',
-                'access_token' => $accessToken,
-                'refresh_token' => $tokennew->id,
-            ], Response::HTTP_CREATED);
+            $client = new Google_Client();
+//            $client->setAuthConfig('../client_credentials.json');
+//            $client->addScope('https://www.googleapis.com/auth/user.addresses.read');
+//            $client->setRedirectUri('http://localhost:8000/api/callback');
+//            $client->setAccessToken($googleUser->token);
+//            $service = new \Google\Service\PeopleService($client);
+//            $connections = $service->people_connections->listPeopleConnections('people/me', [
+//                'personFields' => 'addresses',
+//            ]);
+//
+//            $addresses = $connections->getAddresses();
+//            if ($addresses) {
+//                // Lấy địa chỉ từ kết quả
+//                $address = $addresses[0]['formattedValue']; // Lấy địa chỉ từ kết quả đầu tiên
+//
+//                // Sử dụng Google Maps Geocoding API để lấy tọa độ từ địa chỉ
+//                $geocodeResponse = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=YOUR_API_KEY');
+//                $geocodeData = json_decode($geocodeResponse);
+//
+//                if ($geocodeData && $geocodeData->status === 'OK') {
+//                    $latitude = $geocodeData->results[0]->geometry->location->lat;
+//                    $longitude = $geocodeData->results[0]->geometry->location->lng;
+//
+//                    // Cập nhật thông tin người dùng với địa chỉ và tọa độ mới
+//                    $user->address = $address;
+//                    $user->latitude = $latitude;
+//                    $user->longitude = $longitude;
+//                    $user->save();
+//                }
+                $tokenResult = $usernew->createToken('MyAppToken');
 
+                $accessToken = $tokenResult->accessToken;
+                $refreshToken = $tokenResult->token->id;
+                $tokennew = Passport::refreshToken()->create([
+                    'id' => $refreshToken,
+                    'revoked' => false, // Refresh token chưa bị thu hồi (revoke)
+                    'expires_at' => now()->addDays(30), // Thời gian hết hạn của refresh token (30 ngày)
+                    'user_id' => $tokenResult->token->user_id,
+                    'access_token_id' => $tokenResult->accessToken
+                ]);
+                return response()->json([
+                    'status' => __('google sign in successful'),
+                    'data' => $usernew,
+                    'tinhtrang' => 'thieuthongtin',
+                    'access_token' => $accessToken,
+                    'refresh_token' => $tokennew->id,
+                ], Response::HTTP_CREATED);
+//            }
         } catch (\Exception $exception) {
             return response()->json([
                 'status' => __('google sign in failed'),
