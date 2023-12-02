@@ -6,7 +6,7 @@
       <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
         <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
           <li class="breadcrumb-item">
-            <a href="{{route('dashboard')}}">
+            <a href="#">
               <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -20,22 +20,21 @@
       <h2 class="h4">{{$title}}</h2>
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
-      <a href="{{route('add_subject')}}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
-        <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-        </svg>
-        Thêm mới môn học
-      </a>
     </div>
   </div>
   <div class="table-settings mb-4">
     <div class="row align-items-center justify-content-between">
       <div class="col col-md-6 col-lg-3 col-xl-4">
-        <form class="input-group me-2 me-lg-3 fmxw-400" action="{{route('search_subject')}}" method="POST">
-          @csrf
-          <input type="text" class="form-control" name="search" placeholder="Tìm kiếm ...">
-            <input type="submit" value="Lọc" class="btn btn-secondary">  
+        <form class="input-group me-2 me-lg-3 fmxw-400" action="">
+          <span class="input-group-text">
+            <svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </span>
+          <input type="text" class="form-control" placeholder="Search subject">
         </form>
       </div>
       <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
@@ -68,20 +67,28 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Tên môn học</th>
-                <th>Hành động</th>
+                <th>IDUser</th>
+                <th>IDTeacher</th>
+                <th>Username</th>
+                <th>TeacherName</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
         <!-- Item -->
-        @foreach($subject as $subjects)
+        @foreach($connect as $item)
             <tr>
                 <td>
-                    <a href="" class="fw-bold">{{$subjects->id}}</a>
+                    <a href="" class="fw-bold">{{$item->idUser}}</a>
                 </td>
                 <td>
-                    <span class="fw-normal">{{$subjects->name}}</span>
+                    <span class="fw-normal">{{$item->idTeacher}}</span>
+                </td>
+                <td>
+                    <span class="fw-normal">{{$item->userName}}</span>
+                </td>
+                <td>
+                    <span class="fw-normal">{{$item->teacherName}}</span>
                 </td>
                 <td>
                     <div class="btn-group">
@@ -90,14 +97,14 @@
                             <span class="fas fa-ellipsis-h icon-dark"></span>
                         </span>
                         <span>
-                          Views
-                  
+                        views
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.005 11.995v.01m0-4.01v.01m0 7.99v.01"/></svg>
                         </span>
                         </button>
                         <div class="dropdown-menu py-0">
                         
-                        <a class="dropdown-item" href="{{ route('edit_subject', ['id' => $subjects->id])}}"><span class="fas fa-edit me-2"></span>Edit</a>
-                        <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_subject', ['id' => $subjects->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
+                        {{-- <a class="dropdown-item" href=""><span class="fas fa-edit me-2"></span>Edit</a> --}}
+                        <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_feedback', ['id' => $feedbacks->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
                         </div>
                     </div>
                 </td>

@@ -13,7 +13,9 @@ class ConnectController extends Controller
      */
     public function index()
     {
-        //
+        $title = 'Liên hệ';
+        $connect = Connect::all();
+        return view('backend.connect.index', compact('connect', 'title'));
     }
 
     /**

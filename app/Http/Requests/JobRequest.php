@@ -28,7 +28,7 @@ class JobRequest extends FormRequest
                 switch ($currentAction) {
                     case 'create':
                         $rules = [
-                            'name' => 'required'
+                            'name' => 'required',
                         ];
                         break;
                     case 'edit':
