@@ -34,18 +34,6 @@ use App\Http\Controllers\TransactionController;
 //     return $request->user();
 // });
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::prefix('TeacherSubject')->group(function () {
-        // lấy ra danh sách
-
-        //thêm
-        Route::post('/', [TeacherSubjectController::class, 'store']);
-        //chi tiết
-
-        //chỉnh sửa
-        Route::put('/{id}', [TeacherSubjectController::class, 'update']);
-        //xóa
-        Route::delete('/{id}', [TeacherSubjectController::class, 'destroy']);
-    });
     //user route
     Route::prefix('users')->group(function () {
         Route::put('/{id}', [UsersController::class, 'updateApi']);
@@ -65,18 +53,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::delete('/{id}', [schoolsController::class, 'destroy']);
     });
 
-    Route::prefix('TeacherClass')->group(function () {
-        // lấy ra danh sách
-        Route::get('/', [TeacherClassController::class, 'index']);
-        //thêm
-        Route::post('/', [TeacherClassController::class, 'store']);
-        //chi tiết
-        Route::get('/{id}', [TeacherClassController::class, 'show']);
-        //chỉnh sửa
-        Route::put('/{id}', [TeacherClassController::class, 'update']);
-        //xóa
-        Route::delete('/{id}', [TeacherClassController::class, 'destroy']);
-    });
 
     Route::prefix('subject')->group(function () {
 
@@ -174,8 +150,6 @@ Route::prefix('vnpay')->group(function () {
     Route::get('/{id}', [TransactionController::class, 'show']);
 });
 Route::prefix('feedback')->group(function () {
-        // lấy ra danh sách
-
         Route::get('/{id}', [FeedBackController::class, 'show']);
         Route::get('/avgPoint/{id}', [FeedBackController::class, 'averagePoint']);
     });
@@ -184,22 +158,7 @@ Route::prefix('feedback')->group(function () {
         Route::get('/', [UsersController::class, 'index']);
         Route::get('/{id}', [UsersController::class, 'show']);
     });
-//transaction
 Route::post('contact',[ContactController::class,'store']);
-//Route::post('test',function(Request $request){
-//    $certificates = [];
-//    if ($request->has('Certificate')) {
-//
-//            foreach ($request->file('Certificate') as $file) {
-//                    $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
-//            }
-//           $certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
-//    } else {
-//        $Certificate = null;
-//    }
-//
-//    return $certificate;
-//});
 Route::prefix('feedback')->group(function () {
     // lấy ra danh sách
     Route::post('/', [FeedBackController::class, 'store']);
