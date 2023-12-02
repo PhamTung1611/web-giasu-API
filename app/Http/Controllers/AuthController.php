@@ -311,7 +311,7 @@ class AuthController extends Controller
                         'time_tutor'=>$newTimetutor,
                         'coin'=>$user->coin
                     ],
-                    'hinhthuc'=>'oke',
+                    'tinhtrang'=>'oke',
                     'access_token' => $accessToken,
                     'refresh_token' => $tokennew->id,
 
@@ -323,7 +323,7 @@ class AuthController extends Controller
                     'email' => $googleUser->email,
                     'name' => $googleUser->name,
                     'google_id'=> $googleUser->id,
-                    'status'=>3,
+                    'status'=>1,
                 ]
             );
             $tokenResult = $user->createToken('MyAppToken');
@@ -339,7 +339,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => __('google sign in successful'),
                 'data' => $user,
-                'hinhthuc'=>'google',
+                'tinhtrang'=>'thieuthongtin',
                 'access_token' => $accessToken,
                 'refresh_token' => $tokennew->id,
             ], Response::HTTP_CREATED);
