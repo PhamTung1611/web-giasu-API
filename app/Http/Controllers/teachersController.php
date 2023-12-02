@@ -252,7 +252,7 @@ class TeachersController extends Controller
 
     public function getTeacherByFilter(Request $request)
     {
-        $results = User::with('district:id,name', 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
+        $results = User::with( 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
             ->where('role', 'teacher')
             ->where('status', '1')
             ->when($request->filled('DistrictID'), function ($query) use ($request) {
