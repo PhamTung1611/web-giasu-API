@@ -28,12 +28,12 @@ class RankSalaryRequest extends FormRequest
                 switch ($currentAction) {
                     case 'create':
                         $rules = [
-                            'value' => 'required'
+                            'name' => 'required'
                         ];
                         break;
                     case 'edit':
                         $rules = [
-                            'value' => 'required'
+                            'name' => 'required'
                         ];
                         break;
                     

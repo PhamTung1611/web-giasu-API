@@ -13,7 +13,9 @@ class ConnectController extends Controller
      */
     public function index()
     {
-        //
+        $title = 'Liên hệ';
+        $connect = Connect::all();
+        return view('backend.connect.index', compact('connect', 'title'));
     }
 
     /**
@@ -43,7 +45,7 @@ class ConnectController extends Controller
                     ->orWhere('connect.idTeacher', $id);
             })
             ->get();
-    
+
         if ($connect->isEmpty()) {
             return response()->json(['message' => 'Connect not found'], 404);
         }
@@ -54,10 +56,10 @@ class ConnectController extends Controller
             $item->userName = $item->userName;
             $item->teacherName = $item->teacherName;
         }
-    
+
         return response()->json($connect, 200);
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -91,8 +93,8 @@ class ConnectController extends Controller
                         } else {
                             $titleForUser = 'Gia sư ' . $nameTeacher . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
                             $titleForTeacher = 'Người dùng ' . $nameUser . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
-                            $mailController->sendMail($emailUser, $titleForUser);
-                            $mailController->sendMail($emailTeacher, $titleForTeacher);
+                            // $mailController->sendMail($emailUser, $titleForUser);
+                            // $mailController->sendMail($emailTeacher, $titleForTeacher);
                             return response()->json(['message' => 'Success'], 200);
                         }
                     } else {
@@ -119,60 +121,72 @@ class ConnectController extends Controller
                         } else {
                             $titleForUser = 'Gia sư ' . $nameTeacher . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
                             $titleForTeacher = 'Người dùng ' . $nameUser . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
-                            $mailController->sendMail($emailUser, $titleForUser);
-                            $mailController->sendMail($emailTeacher, $titleForTeacher);
+                            // $mailController->sendMail($emailUser, $titleForUser);
+                            // $mailController->sendMail($emailTeacher, $titleForTeacher);
                             return response()->json(['message' => 'Success'], 200);
                         }
                     } else {
                         return response()->json(['message' => 'Error'], 404);
                     }
-                } else {
+                } else if ($checkPoint !== $confirmUser) {
                     $connect->update($request->all());
                     return response()->json(['message' => 'Success'], 200);
                 }
             } else if ($confirmTeacher == 2) {
                 $connect->update($request->all());
-                $connect->status = 2;
-                $connect->save();
-                $nameTeacher = $this->findNameByID($connect->idTeacher);
-                $nameUser = $this->findNameByID($connect->idUser);
-                $user = User::find($connect->idUser);
-                $teacher = User::find($connect->idTeacher);
-                if ($user && $teacher) {
-                    $refundMoney = $historyController->refundMoneyUserTeacher($connect->idUser, $connect->idTeacher, 10000);
-                    if (!$refundMoney) {
-                        return response()->json(['message' => 'Admin not enough coin'], 404);
+                $checkPoint = $connect->confirmUser;
+                if ($checkPoint !== $confirmUser) {
+                    $connect->status = 2;
+                    $connect->save();
+                    $nameTeacher = $this->findNameByID($connect->idTeacher);
+                    $nameUser = $this->findNameByID($connect->idUser);
+                    $user = User::find($connect->idUser); 
+                    $teacher = User::find($connect->idTeacher);
+                    if ($user && $teacher) {
+                        $refundMoney = $historyController->refundMoneyUserTeacher($connect->idUser, $connect->idTeacher, 40000);
+                        if (!$refundMoney) {
+                            return response()->json(['message' => 'Admin not enough coin'], 404);
+                        } else {
+                            $titleForUser = 'Gia sư ' . $nameTeacher . ' đã hủy kết nối với lí do' . $noteTeacher . ' Bạn được hoàn lại 80% tiền cọc';
+                            $titleForTeacher = 'Bạn đã ấn hủy kết nối với ' . $nameUser . ' với lí do' . $noteTeacher . ' Bạn được hoàn lại 80% tiền cọc';
+                            // $mailController->sendMail($emailUser, $titleForUser);
+                            // $mailController->sendMail($emailTeacher, $titleForTeacher);
+                            return response()->json(['message' => 'Success'], 200);
+                        }
                     } else {
-                        $titleForUser = 'Gia sư ' . $nameTeacher . ' đã hủy kết nối với lí do' . $noteTeacher . ' Bạn được hoàn lại 80% tiền cọc';
-                        $titleForTeacher = 'Bạn đã ấn hủy kết nối với ' . $nameUser . ' với lí do' . $noteTeacher . ' Bạn được hoàn lại 80% tiền cọc';
-                        $mailController->sendMail($emailUser, $titleForUser);
-                        $mailController->sendMail($emailTeacher, $titleForTeacher);
-                        return response()->json(['message' => 'Success'], 200);
+                        return response()->json(['message' => 'Error'], 404);
                     }
-                } else {
-                    return response()->json(['message' => 'Error'], 404);
+                } else if ($checkPoint == $confirmTeacher ) {
+                    $connect->update($request->all());
+                    return response()->json(['message' => 'Success'], 200);
                 }
             } else if ($confirmUser == 2) {
                 $connect->update($request->all());
-                $connect->status = 2;
-                $connect->save();
-                $nameTeacher = $this->findNameByID($connect->idTeacher);
-                $nameUser = $this->findNameByID($connect->idUser);
-                $user = User::find($connect->idUser);
-                $teacher = User::find($connect->idTeacher);
-                if ($user && $teacher) {
-                    $refundMoney = $historyController->refundMoneyUserTeacher($connect->idUser, $connect->idTeacher, 10000);
-                    if (!$refundMoney) {
-                        return response()->json(['message' => 'Admin not enough coin'], 404);
+                $checkPoint = $connect->confirmTeacher;
+                if ($checkPoint !== $confirmUser) {
+                    $connect->status = 2;
+                    $connect->save();
+                    $nameTeacher = $this->findNameByID($connect->idTeacher);
+                    $nameUser = $this->findNameByID($connect->idUser);
+                    $user = User::find($connect->idUser);
+                    $teacher = User::find($connect->idTeacher);
+                    if ($user && $teacher) {
+                        $refundMoney = $historyController->refundMoneyUserTeacher($connect->idUser, $connect->idTeacher, 40000);
+                        if (!$refundMoney) {
+                            return response()->json(['message' => 'Admin not enough coin'], 404);
+                        } else {
+                            $titleForTeacher = 'Người dùng ' . $nameUser . ' đã hủy kết nối với lí do' . $noteUser . ' Bạn được hoàn lại 80% tiền cọc';
+                            $titleForUser = 'Bạn đã ấn hủy kết nối với ' . $nameTeacher . ' với lí do' . $noteUser . ' Bạn được hoàn lại 80% tiền cọc';
+                            // $mailController->sendMail($emailUser, $titleForUser);
+                            // $mailController->sendMail($emailTeacher, $titleForTeacher);
+                            return response()->json(['message' => 'Success'], 200);
+                        }
                     } else {
-                        $titleForTeacher = 'Người dùng ' . $nameUser . ' đã hủy kết nối với lí do' . $noteUser . ' Bạn được hoàn lại 80% tiền cọc';
-                        $titleForUser = 'Bạn đã ấn hủy kết nối với ' . $nameTeacher . ' với lí do' . $noteUser . ' Bạn được hoàn lại 80% tiền cọc';
-                        $mailController->sendMail($emailUser, $titleForUser);
-                        $mailController->sendMail($emailTeacher, $titleForTeacher);
-                        return response()->json(['message' => 'Success'], 200);
+                        return response()->json(['message' => 'Error'], 404);
                     }
-                } else {
-                    return response()->json(['message' => 'Error'], 404);
+                }else if ($checkPoint == $confirmUser ) {
+                    $connect->update($request->all());
+                    return response()->json(['message' => 'Success'], 200);
                 }
             } else {
                 return response()->json(['message' => 'Error'], 404);

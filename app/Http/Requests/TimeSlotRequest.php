@@ -28,12 +28,12 @@ class TimeSlotRequest extends FormRequest
                 switch ($currentAction) {
                     case 'create':
                         $rules = [
-                            'value' => 'required'
+                            'name' => 'required'
                         ];
                         break;
                     case 'edit':
                         $rules = [
-                            'value' => 'required'
+                            'name' => 'required'
                         ];
                         break;
                     
@@ -52,7 +52,7 @@ class TimeSlotRequest extends FormRequest
     public function messages()
     {
        return [
-            'value.required' => 'Bắt buộc phải nhập giá trị'
+            'name.required' => 'Bắt buộc phải nhập giá trị'
        ];
     }
 }

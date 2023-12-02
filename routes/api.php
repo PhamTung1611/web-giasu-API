@@ -88,12 +88,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         //xóa
         Route::delete('/{id}', [ApiTimeSlotController::class, 'destroy']);
     });
-
-
-
-    // Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
-
-
 });
 Route::prefix('teachers')->group(function () {
     Route::get('/', [TeachersController::class, 'index']);
