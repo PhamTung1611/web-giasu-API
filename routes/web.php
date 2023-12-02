@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClassLevelController;
+use App\Http\Controllers\ConnectController;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\DashBoradController;
 use App\Http\Controllers\FeedBackController;
@@ -33,6 +34,7 @@ Route::match(['get', 'post'], '/register',[UsersController::class, 'register'])-
 Route::middleware('auth')->group(function() {
     Route::middleware('check.role')->group(function() {
     Route::get('/',[Dashboard::class, 'index'])->name('dashboard');
+    Route::get('connect',[ConnectController::class, 'index']);
     Route::get('salary', [RankSalaryController::class, 'index']);
     Route::get('payment', [TransactionController::class, 'index'])->name('vnpay');
     Route::post('salary', [RankSalaryController::class, 'index'])->name('search_salary');

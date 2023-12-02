@@ -127,8 +127,8 @@ class TeachersController extends Controller
 
     public function addNewTeacher(TeacherRequest $request)
     {
-        $title = "List";
-        $district = District::all();
+        $title = "Thêm mới giáo viên";
+        // $district = District::all();
         $school = Schools::all();
         $subject = Subject::all();
         $class = ClassLevel::all();
@@ -185,12 +185,12 @@ class TeachersController extends Controller
             }
         }
 
-        return view('backend.teacher.add', compact('district', 'title', 'school', 'subject', 'class', 'salary', 'timeTutor'));
+        return view('backend.teacher.add', compact('title', 'school', 'subject', 'class', 'salary', 'timeTutor'));
     }
     public function updateTeacher(UserRequest $request, $id)
     {
         $title = "Edit Teacher";
-        $district = District::all();
+        // $district = District::all();
         $school = Schools::all();
         $subject = Subject::all();
         $class = ClassLevel::all();
@@ -247,7 +247,7 @@ class TeachersController extends Controller
                 Session::flash('error', 'Edit subject error');
             }
         }
-        return view('backend.teacher.edit', compact('teacher', 'title', 'district', 'school', 'subject', 'class', 'salary', 'timeTutor'));
+        return view('backend.teacher.edit', compact('teacher', 'title', 'school', 'subject', 'class', 'salary', 'timeTutor'));
     }
 
     public function getTeacherByFilter(Request $request)
