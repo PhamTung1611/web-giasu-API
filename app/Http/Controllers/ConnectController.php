@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Connect;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ConnectController extends Controller
 {
@@ -223,7 +224,18 @@ class ConnectController extends Controller
     {
         //
     }
-
+    public function delete($id){
+        if($id){
+            $class_levels = Connect::find($id);
+            $deleted = $class_levels->delete();
+            if($deleted){
+                Session::flash('success','Xóa thành công');
+                return redirect()->route('search_connect');
+            }else{
+                Session::flash('error','xoa that bai');
+            }
+        }
+    }
     public function createConnect($idJob, $idUser, $idTeacher)
     {
         $connect = new Connect();
