@@ -12,7 +12,7 @@
             </svg>
           </a>
         </li>
-        <li class="breadcrumb-item"><a href="#">Tables</a></li>
+        {{-- <li class="breadcrumb-item"><a href="#">Tables</a></li> --}}
       </ol>
     </nav>
     <h2 class="h4">{{$title}}</h2>
@@ -82,8 +82,8 @@
               <option class="form-control" name="school_id" value="{{$s->id}}">{{$s->name}}</option>
               @endforeach
             </select>
-            <label>Số căn cước hoặc chứng minh thư</label><br>
-            <input type="text" class="form-control" placeholder="Nhập Số căn cước hoặc chứng minh thư" name="Citizen_card">
+            {{-- <label>Số căn cước hoặc chứng minh thư</label><br>
+            <input type="text" class="form-control" placeholder="Nhập Số căn cước hoặc chứng minh thư" name="Citizen_card"> --}}
             <label>Trình độ học vấn</label><br>
             <input type="text" class="form-control" placeholder="Nhập trình độ học vấn" name="education_level">
             <label>Lớp muốn dạy</label><br>
