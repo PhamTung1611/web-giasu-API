@@ -386,28 +386,12 @@ class AuthController extends Controller
     }
     public function addInfo(UserRequest $request ){
         try {
-            $user = User::where('google_id',$request->google_id);
+            $user = User::where('id',$request->id);
             if ($user){
-                $role = Role::find($request->role);
-                //            dd($role->name);
-                if (!$role) {
-                    return response()->json('Sai quyền', 400);
-                }
-                $user->role = 'user';
-                $user->gender = $request->gender;
-                $user->date_of_birth = $request->date_of_birth;
-                if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
-                    $user->avatar = uploadFile('hinh', $request->file('avatar'));
-                } else {
-                    $user->avatar = "hinh/1699622845_avatar.jpg";
-                }
                 $user->password = Hash::make($request->password);
                 $user->address = $request->address;
                 $user->latitude = $request->latitude;
                 $user->longitude = $request->longitude;
-                $user->DistrictID = $request->DistrictID;
-                $user->phone = $request->phone;
-                $user->status = 1;
                 $user->save();
             }
             else{
