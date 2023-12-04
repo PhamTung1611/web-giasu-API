@@ -12,6 +12,7 @@ use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\TimeSlotController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UsersController;
+use App\Models\Connect;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,7 +35,8 @@ Route::match(['get', 'post'], '/register',[UsersController::class, 'register'])-
 Route::middleware('auth')->group(function() {
     Route::middleware('check.role')->group(function() {
     Route::get('/',[Dashboard::class, 'index'])->name('dashboard');
-    Route::get('connect',[ConnectController::class, 'index']);
+    Route::get('connect',[ConnectController::class, 'index'])->name('search_connect');
+    Route::get('connect/delete/{id}',[ConnectController::class,'delete'])->name('connect.delete');
     Route::get('salary', [RankSalaryController::class, 'index']);
     Route::get('payment', [TransactionController::class, 'index'])->name('vnpay');
     Route::post('salary', [RankSalaryController::class, 'index'])->name('search_salary');

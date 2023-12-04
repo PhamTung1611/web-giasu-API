@@ -352,7 +352,7 @@ public function updatestatusSendMail(Request $request){
     {
         try {
             $user = User::find($id);
-            $role = Role::where('name',$request->role);
+            $role = Role::find($request->role);
             if (!$role) {
                 return response()->json('Sai quyền', 400);
             }
