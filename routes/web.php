@@ -81,5 +81,7 @@ Route::middleware('auth')->group(function() {
         Route::match(['get','post'],'teacher/edit/{id}',[TeachersController::class,'updateTeacher'])->name('edit_teacher');
         Route::get('teacher/delete/{id}/{view}',[TeachersController::class,'delete'])->name('delete_teacher');
         Route::get('detailTeacher/{id}',[UsersController::class,'getOneTeacherWaiting'])->name('deatailWaitingTeacher');
+
+        Route::get('ctv',[UsersController::class,'getAllCtv'])->name('allctv');
     });
 });

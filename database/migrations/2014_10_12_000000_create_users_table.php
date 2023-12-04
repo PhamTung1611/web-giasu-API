@@ -36,11 +36,12 @@ return new class extends Migration
             $table->String('description')->nullable();
             $table->string('time_tutor_id')->nullable();
             $table->integer('status')->nullable();
-            $table->string('DistrictID')->nullable();
+            $table->string('District_ID')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('google_id')->nullable();
             $table->String('Certificate',1000)->nullable();
+            $table->string('assign_user')->nullable();
             $table->rememberToken()->nullable();
             $table->timestamps();
             $table->softDeletes();

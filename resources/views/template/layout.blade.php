@@ -156,6 +156,7 @@
                         <span class="mt-1 ms-1 sidebar-text">GS7</span>
                     </a>
                 </li>
+
                 <li class="nav-item ">
                     <a href="{{route('dashboard')}}" class="nav-link">
                         <span class="sidebar-icon">
@@ -272,6 +273,17 @@
                             </li>
                         </ul>
                     </div>
+                    @if(Session::get('role')==1)
+                        <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                            <ul class="flex-column nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('allctv')}}">
+                                        <span class="sidebar-text">Cộng tác viên</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    @endif
                     {{-- <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">

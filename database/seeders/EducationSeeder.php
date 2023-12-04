@@ -6,26 +6,27 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class RoleSeeder extends Seeder
+class EducationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('roles')->insert([
+        DB::table('education_level')->insert([
             [
-                'name' => 'admin'
+                'name' => 'Đại học Bách Khoa'
             ],
             [
-                'name' => 'user'
+                'name' => 'Đại học FPT'
             ],
             [
-                'name' => 'teacher'
+                'name' => 'Đại học Thương Mại'
             ],
             [
-                'name'=>'ctv'
+                'name' => 'Đại học Quốc gia Hà Nội'
             ]
+
         ]);
     }
 }

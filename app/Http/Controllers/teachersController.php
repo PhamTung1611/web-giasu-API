@@ -121,7 +121,7 @@ class TeachersController extends Controller
     {
         $title = "Danh sách giáo viên";
         $view = 1;
-        $teachers = User::where('role', 'teacher')->whereIn('status', [0, 1])->get();
+        $teachers = User::where('role', 3)->whereIn('status', [0, 1])->get();
         return view('backend.teacher.index', compact('teachers', 'title', 'view'));
     }
 
@@ -353,7 +353,7 @@ class TeachersController extends Controller
                     }
                 }
             }
-    
+
             $newArrayClass = [];
             if ($records->class_id != null) {
                 $makeClass = explode(',', $records->class_id);
@@ -365,7 +365,7 @@ class TeachersController extends Controller
                     }
                 }
             }
-    
+
             return response()->json([
                 'class_id' => $newArrayClass,
                 'subject' => $newArraySubject,
