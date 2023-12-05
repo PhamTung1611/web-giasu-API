@@ -40,15 +40,16 @@ class JobController extends Controller
                 }
             }
 
-            $idUser = DB::table('users')->where('id', $test->idUser)->value('name');
-            $idTeacher = DB::table('users')->where('id', $test->idTeacher)->value('name');
+            $idUser = DB::table('users')->where('id', $test->id_user)->value('name');
+            $idTeacher = DB::table('users')->where('id', $test->id_teacher)->value('name');
 
-            $test->idUser = $idUser;
-            $test->idTeacher = $idTeacher;
+            $test->id_user = $idUser;
+            $test->id_teacher = $idTeacher;
             $test->subject = implode(', ', $subjectNames); // Chuyển mảng thành chuỗi bằng hàm implode
             $test->class = implode(', ', $classNames); // Chuyển mảng thành chuỗi bằng hàm implode
             $results[] = $test;
         }
+        // dd($results);
         return view('backend.job.index', compact('results','title'));
     }
     public function update(JobRequest $request, $id){

@@ -69,10 +69,10 @@
           <a href="" class="fw-bold">{{$item->id}}</a>
         </td>
         <td>
-          <span class="fw-normal">{{$item->idUser}}</span>
+          <span class="fw-normal">{{$item->id_user}}</span>
         </td>
         <td>
-          <span class="fw-normal">{{$item->idTeacher}}</span>
+          <span class="fw-normal">{{$item->id_teacher}}</span>
         </td>
         <td>
           <span class="fw-normal">{{$item->subject}}</span>
