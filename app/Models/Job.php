@@ -14,4 +14,9 @@ class Job extends Model
     // ];
     protected $table = 'jobs';
     protected $fillable = ['id_user', 'subject', 'id_teacher', 'class', 'status','description'];
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject');
+    }
 }

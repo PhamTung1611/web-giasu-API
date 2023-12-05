@@ -38,11 +38,12 @@
                     <a href="http://127.0.0.1:8000/teacher/waiting">
                         <div class="row d-block d-xl-flex align-items-center">
                             <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                                <div class="icon-shape icon-shape-tertiary rounded me-4 me-sm-0">
+                                <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
                                     <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                        <path d="M10 0a5 5 0 0 0-5 5v6a5 5 0 0 0 10 0V5a5 5 0 0 0-5-5zm0 18h4v2h-4v-2zM4 11a2 2 0 0 1-2-2V6a2 2 0 1 1 4 0v3a2 2 0 0 1-2 2zm12 0a2 2 0 0 1-2-2V6a2 2 0 1 1 4 0v3a2 2 0 0 1-2 2z" />
                                     </svg>
                                 </div>
+
                                 <div class="d-sm-none">
                                     <h2 class="fw-extrabold h5"> Bounce Rate</h2>
                                     <h3 class="mb-1">50.88%</h3>
@@ -50,7 +51,7 @@
                             </div>
                             <div class="col-12 col-xl-7 px-xl-0">
                                 <div class="d-none d-sm-block">
-                                    <h2 class="h6 text-gray-400 mb-0">Số người chờ phê duyệt</h2>
+                                    <h2 class="h6 text-gray-400 mb-0">Số gia sư chờ phê duyệt</h2>
                                     <h3 class="fw-extrabold mb-2">{{$countTeacherWait}} người</h3>
                                 </div>
                             </div>
@@ -66,11 +67,16 @@
                     <a href="http://127.0.0.1:8000/history-admin">
                         <div class="row d-block d-xl-flex align-items-center">
                             <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                                <div class="icon-shape icon-shape-secondary rounded me-4 me-sm-0">
+                                <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
                                     <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"></path>
+                                        <rect width="18" height="18" rx="2" ry="2" transform="translate(1 1)" stroke="#000" stroke-width="2" fill="none"></rect>
+                                        <line x1="2" y1="6" x2="18" y2="6" stroke="#000" stroke-width="2"></line>
+                                        <line x1="2" y1="12" x2="18" y2="12" stroke="#000" stroke-width="2"></line>
+                                        <circle cx="6" cy="10" r="2" fill="#000"></circle>
+                                        <circle cx="14" cy="10" r="2" fill="#000"></circle>
                                     </svg>
                                 </div>
+
                                 <div class="d-sm-none">
                                     <h2 class="fw-extrabold h5">Revenue</h2>
                                     <h3 class="mb-1">$43,594</h3>
@@ -94,9 +100,10 @@
                     <a href="http://127.0.0.1:8000/user">
                         <div class="row d-block d-xl-flex align-items-center">
                             <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                                <div class="icon-shape icon-shape-secondary rounded me-4 me-sm-0">
+                                <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
                                     <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"></path>
+                                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
+                                        </path>
                                     </svg>
                                 </div>
                                 <div class="d-sm-none">
@@ -171,7 +178,7 @@
                                         <div class="col-auto">
                                             <!-- Avatar -->
                                             <a href="#" class="avatar">
-                                                <img class="rounded" alt="Image placeholder" src="{{$item->user_avatar?''.Storage::url($item->user_avatar):''}}">
+                                                <img class="rounded" alt="Image placeholder" src="{{$item->user_avatar ? '' .Storage::url($item->user_avatar):''}}">
                                             </a>
                                         </div>
                                         <div class="col-auto ms--2">
@@ -193,35 +200,72 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="col-12 col-xl-4">
+        <div class="col-12 col-xl-4">
             <div class="col-12 px-0 mb-4">
                 <div class="card border-0 shadow">
                     <div class="card-header d-flex flex-row align-items-center flex-0 border-bottom">
-                        <div class="d-block">
-                            <div class="h6 fw-normal text-gray mb-2">Total orders</div>
-                            <h2 class="h3 fw-extrabold">452</h2>
-                            <div class="small mt-2">
-                                <span class="fas fa-angle-up text-success"></span>
-                                <span class="text-success fw-bold">18.2%</span>
-                            </div>
-                        </div>
-                        <div class="d-block ms-auto">
-                            <div class="d-flex align-items-center text-end mb-2">
-                                <span class="dot rounded-circle bg-gray-800 me-2"></span>
-                                <span class="fw-normal small">July</span>
-                            </div>
-                            <div class="d-flex align-items-center text-end">
-                                <span class="dot rounded-circle bg-secondary me-2"></span>
-                                <span class="fw-normal small">August</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body p-2">
-                        <div class="ct-chart-ranking ct-golden-section ct-series-a"></div>
+                        <div class="d-block ms-auto" id="myChart" style="width:100%; max-width:10000px; height:500px;"></div>
+                        <div id="myElement" data-data-from-php="{{ json_encode($mostHiredSubjects) }}"></div>
+
+                        <script>
+                            google.charts.load('current', {
+                                'packages': ['corechart']
+                            });
+                            google.charts.setOnLoadCallback(drawChart);
+                            // Trong JavaScript
+                            var dataFromPHP = document.getElementById('myElement').dataset.dataFromPhp;
+                            console.log(JSON.parse(dataFromPHP));
+
+                            function drawChart() {
+                                var dataFromPHP = document.getElementById('myElement').dataset.dataFromPhp;
+
+                                // Kiểm tra xem dữ liệu từ PHP có tồn tại không
+                                if (!dataFromPHP) {
+                                    console.error('Không có dữ liệu từ PHP.');
+                                    return;
+                                }
+
+                                // Chuyển đổi dữ liệu từ chuỗi JSON thành mảng JavaScript
+                                var parsedData;
+                                try {
+                                    parsedData = JSON.parse(dataFromPHP);
+                                } catch (error) {
+                                    console.error('Lỗi khi parse dữ liệu từ PHP:', error);
+                                    return;
+                                }
+
+                                // Kiểm tra xem dữ liệu từ PHP có đúng định dạng không
+                                if (!Array.isArray(parsedData) || parsedData.length === 0 || !('name' in parsedData[0] && 'hire_count' in parsedData[0])) {
+                                    console.error('Dữ liệu từ PHP không đúng định dạng.');
+                                    return;
+                                }
+
+                                // Chuyển đổi dữ liệu thành định dạng phù hợp
+                                var dataArray = [
+                                    ['name', 'Số lần thuê']
+                                ];
+                                parsedData.forEach(item => {
+                                    dataArray.push([item.name, item.hire_count]);
+                                });
+
+                                // Set Data
+                                const data = google.visualization.arrayToDataTable(dataArray);
+
+                                // Set Options
+                                const options = {
+                                    title: 'Số môn học được thuê nhiều'
+                                };
+
+                                // Draw
+                                const chart = new google.visualization.BarChart(document.getElementById('myChart'));
+                                chart.draw(data, options);
+
+                            }
+                        </script>
                     </div>
                 </div>
             </div>
-            <div class="col-12 px-0 mb-4">
+            <!-- <div class="col-12 px-0 mb-4">
                 <div class="card border-0 shadow">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
@@ -294,8 +338,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12 px-0">
+            </div> -->
+            <!-- <div class="col-12 px-0">
                 <div class="card border-0 shadow">
                     <div class="card-body">
                         <h2 class="fs-5 fw-bold mb-1">Acquisition</h2>
@@ -328,8 +372,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div> -->
+            </div> -->
+        </div>
     </div>
     <div class="theme-settings card bg-gray-800 pt-2 collapse" id="theme-settings">
         <div class="card-body bg-gray-800 text-white pt-4">

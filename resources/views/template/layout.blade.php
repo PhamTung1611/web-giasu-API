@@ -23,6 +23,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <title>{{ $title }}</title>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <style>
         .emp-profile {
             padding: 3%;
