@@ -25,7 +25,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('test', [DashBoradController::class, 'countTeacher']);
+Route::get('/history-admin', [DashBoradController::class, 'listHistoryAdmin']);
+Route::get('/feedback', [DashBoradController::class, 'feedbackTeacher']);
+Route::get('feedback/{id}',[DashBoradController::class,'starTeacher'])->name('starTeacher');
+Route::get('/rent', [DashBoradController::class, 'rent'])->name('rent');
+Route::get('/rentID', [DashBoradController::class, 'rentID'])->name('rentID');
+
+
 Route::match(['get', 'post'], '/login',[UsersController::class, 'signin'])->name('login');
 Route::get('/logout',[UsersController::class, 'logout'])->name('logout');
 Route::get('vnpay', [UsersController::class, 'showvnpay']);
@@ -34,9 +40,9 @@ Route::post('deposit', [UsersController::class, 'deposit']);
 Route::match(['get', 'post'], '/register',[UsersController::class, 'register'])->name('register');
 Route::middleware('auth')->group(function() {
     Route::middleware('check.role')->group(function() {
-    Route::get('/',[Dashboard::class, 'index'])->name('dashboard');
+    Route::get('/',[DashBoradController::class, 'Statistical'])->name('dashboard');
     Route::get('connect',[ConnectController::class, 'index'])->name('search_connect');
-    Route::get('connect/delete/{id}',[ConnectController::class,'delete'])->name('connect.delete');
+
     Route::get('salary', [RankSalaryController::class, 'index']);
     Route::get('payment', [TransactionController::class, 'index'])->name('vnpay');
     Route::post('salary', [RankSalaryController::class, 'index'])->name('search_salary');
@@ -70,6 +76,8 @@ Route::middleware('auth')->group(function() {
         Route::match(['get','post'],'subject/add',[SubjectController::class,'add'])->name('add_subject');
         Route::match(['get','post'],'subject/edit/{id}',[SubjectController::class,'edit'])->name('edit_subject');
         Route::get('subject/delete/{id}',[SubjectController::class,'delete'])->name('delete_subject');
+        Route::get('subject/{id}/teachers', [SubjectController::class, 'ListTeacher'])->name('subject.teachers');
+        Route::get('detail/{id}', [SubjectController::class, 'DetailTeacher'])->name('detail_teacher');
         //class
         Route::match(['get','post'],'classLevel/add',[ClassLevelController::class,'add'])->name('add_class');
         Route::match(['get','post'],'classLevel/edit/{id}',[ClassLevelController::class,'edit'])->name('edit_class');

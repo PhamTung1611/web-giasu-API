@@ -29,8 +29,7 @@ class HistoryController extends Controller
      */
     public function show(string $id)
     {
-        //
-        $history = History::where('idClient', $id)->get();
+        $history = History::where('id_client', $id)->get();
         if ($history) {
             return response()->json($history, 200);
         } else {
@@ -41,7 +40,7 @@ class HistoryController extends Controller
     public function createHistory($idClient, $coin, $type)
     {
         $history = new History();
-        $history->idClient = $idClient;
+        $history->id_client = $idClient;
         $history->coin = $coin;
         $history->type = $type;
         $history->save();

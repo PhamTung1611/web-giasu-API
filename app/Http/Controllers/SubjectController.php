@@ -3,7 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SubjectRequest;
+use App\Models\ClassLevel;
+use App\Models\FeedBack;
+use App\Models\History;
+use App\Models\Job;
+use App\Models\RankSalary;
+use App\Models\Schools;
 use App\Models\Subject;
+use App\Models\TimeSlot;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -19,6 +27,148 @@ class SubjectController extends Controller
         }
         return view('backend.subject.index', compact('subject', 'title'));
     }
+    public function ListTeacher($id){
+        $title = 'Giáo viên dạy';
+        $subject = Subject::find($id);
+        if (!$subject) {
+            abort(404);
+        }
+        $teachers = User::where('subject', $id)->where('role','3')->where('status','1')->get();
+        // dd($teachers);
+        return view('backend.subject.teacher',compact('title', 'subject', 'teachers'));
+    }
+    public function DetailTeacher($id) {
+        $records = User::where('id', $id)->first();
+    
+        $newArraySubject = $this->getArrayValues($records->subject, Subject::class);
+        $newArrayEducation = $this->getArrayValues($records->education_level, Schools::class);
+        $newArrayClass = $this->getArrayValues($records->class_id, ClassLevel::class);
+        $newArrayTime = $this->getArrayValues($records->time_tutor_id, TimeSlot::class);
+    
+        $newSchool = "";
+        $newSalary = "";
+    
+        if ($records->school_id != null) {
+            $school = Schools::find($records->school_id);
+            $newSchool = $school ? $school->name : "";
+        }
+    
+        if ($records->salary_id != null) {
+            $salary = RankSalary::find($records->salary_id);
+            $newSalary = $salary ? $salary->name : "";
+        }
+    
+        if (!$records->Certificate) {
+            $records->Certificate = [];
+        } else {
+            $records->Certificate = json_decode($records->Certificate);
+        }
+    
+        $data = [
+            'id' => $id,
+            'role' => $records->role,
+            'gender' => $records->gender,
+            'date_of_birth' => $records->date_of_birth,
+            'name' => $records->name,
+            'email' => $records->email,
+            'avatar' => asset('storage/' . $records->avatar),
+            'phone' => $records->phone,
+            'address' => $records->address,
+            'school' => $newSchool,
+            'Citizen_card' => $records->Citizen_card,
+            'education_level' => $newArrayEducation,
+            'class_id' => $newArrayClass,
+            'subject' => $newArraySubject,
+            'salary_id' => $newSalary,
+            'description' => $records->description,
+            'time_tutor_id' => $newArrayTime,
+            'status' => $records->status,
+            'DistrictID' => $records->District_ID,
+            'Certificate' => $records->Certificate,
+            'current_role' => $records->current_role,
+            'exp' => $records->exp
+        ];
+        // dd($data);
+        $title = "Hiển thị chi tiết Giáo viên";
+        $history = History::where('id_client', $id)->get();
+        $jobs = Job::select('jobs.*', 'user1.id as id_user', 'user1.name as userName', 'user2.id as id_teacher', 'user2.name as teacherName')
+        ->leftJoin('users as user1', 'jobs.id_user', '=', 'user1.id')
+        ->leftJoin('users as user2', 'jobs.id_teacher', '=', 'user2.id')
+        ->where(function ($query) use ($id) {
+            $query->where('jobs.id_user', $id)
+                ->orWhere('jobs.id_teacher', $id);
+        })
+        ->get();
+
+    if ($jobs->isEmpty()) {
+        return response()->json(['message' => 'Jobs not found'], 404);
+    }
+
+    $result = [];
+    foreach ($jobs as $job) {
+        $dataSubject = explode(',', $job->subject);
+        $subjectNames = [];
+
+        foreach ($dataSubject as $subjectId) {
+            $subject = DB::table('subjects')->where('id', $subjectId)->value('name');
+            if ($subject) {
+                $subjectNames[] = $subject;
+            }
+        }
+        $job->subject = $subjectNames;
+
+        $dataClass = explode(',', $job->class);
+        $classNames = [];
+        foreach ($dataClass as $classId) {
+            $class = DB::table('class_levels')->where('id', $classId)->value('class');
+            if ($class) {
+                $classNames[] = $class;
+            }
+        }
+        $job->class = $classNames;
+
+        // Lấy thông tin từ bảng users
+        $user = DB::table('users')->where('id', $job->id_user)->first();
+        $teacher = DB::table('users')->where('id', $job->id_teacher)->first();
+
+        // Thêm id cho idUser và idTeacher
+        $job->id_user = $user->id;
+        $job->id_teacher = $teacher->id;
+
+        // Thêm tên cho idUser và idTeacher
+        $job->userName = $user->name;
+        $job->teacherName = $teacher->name;
+
+        $result[] = $job;
+    }
+    $dataFeedback = FeedBack::select('feedback.*', 'users.name as id_sender')
+            // where('idTeacher',$id)
+            ->leftJoin('users', 'feedback.id_sender', '=', 'users.id')
+            ->where('feedback.id_teacher', $id)
+            ->get();
+            dd($data,$history,$result,$dataFeedback);
+        return view('backend.subject.show', compact('title', 'data','history','result','dataFeedback'));
+    }
+    
+    private function getArrayValues($field, $modelClass)
+    {
+        $newArray = [];
+    
+        if ($field != null) {
+            $makeArray = explode(',', $field);
+    
+            foreach ($makeArray as $item) {
+                $model = $modelClass::find($item);
+                
+                if ($model) {
+                    array_push($newArray, $model->name);
+                }
+            }
+        }
+    
+        return $newArray;
+    }
+    
     public function add(SubjectRequest $request){
         $title = 'Thêm mới môn học';
         if($request->post()){

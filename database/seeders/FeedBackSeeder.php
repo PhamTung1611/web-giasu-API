@@ -17,20 +17,20 @@ class FeedBackSeeder extends Seeder
     {
         //
         DB::table('feedback')->insert([[
-            'idSender'=>'5',
-            'idTeacher'=>'1',
+            'id_sender'=>'5',
+            'id_teacher'=>'2',
             'point'=>'5',
             'description'=>'Dạy tốt'
         ],
         [
-            'idSender'=>'6',
-            'idTeacher'=>'2',
+            'id_sender'=>'6',
+            'id_teacher'=>'2',
             'point'=>'4',
             'description'=>'Dạy tốt'
         ],
         [
-            'idSender'=>'5',
-            'idTeacher'=>'1',
+            'id_sender'=>'5',
+            'id_teacher'=>'3',
             'point'=>'5',
             'description'=>'Dạy hay'
         ],

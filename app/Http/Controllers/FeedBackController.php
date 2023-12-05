@@ -36,10 +36,10 @@ class FeedBackController extends Controller
     public function show(string $id)
     {
         //
-        $data = FeedBack::select('feedback.*', 'users.name as idSender')
+        $data = FeedBack::select('feedback.*', 'users.name as id_sender')
             // where('idTeacher',$id)
-            ->leftJoin('users', 'feedback.idSender', '=', 'users.id')
-            ->where('feedback.idTeacher', $id)
+            ->leftJoin('users', 'feedback.id_sender', '=', 'users.id')
+            ->where('feedback.id_teacher', $id)
             ->get();
         if ($data) {
             return response()->json($data, 200);
@@ -50,10 +50,9 @@ class FeedBackController extends Controller
 
     public function averagePoint(string $id)
     {
-        $data = FeedBack::select('feedback.*', 'users.name as idSender')
-            // where('idTeacher',$id)
-            ->leftJoin('users', 'feedback.idSender', '=', 'users.id')
-            ->where('feedback.idTeacher', $id)
+        $data = FeedBack::select('feedback.*', 'users.name as id_sender')
+            ->leftJoin('users', 'feedback.id_sender', '=', 'users.id')
+            ->where('feedback.id_teacher', $id)
             ->get();
         $dataArray = json_decode($data, true);
         $totalPoints = 0;
@@ -72,8 +71,6 @@ class FeedBackController extends Controller
         } else {
             $averagePoint = 0;
         }
-
-        // Trả về kết quả dưới dạng JSON
         return response()->json([
             'avg' => $averagePoint
         ]);

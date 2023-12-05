@@ -23,6 +23,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <title>{{ $title }}</title>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <style>
         .emp-profile {
             padding: 3%;
@@ -158,7 +159,7 @@
                 </li>
 
                 <li class="nav-item ">
-                    <a href="{{route('dashboard')}}" class="nav-link">
+                    <a href="http://127.0.0.1:8000" class="nav-link">
                         <span class="sidebar-icon">
                             <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">

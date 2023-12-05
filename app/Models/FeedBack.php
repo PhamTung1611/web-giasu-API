@@ -11,8 +11,8 @@ class FeedBack extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'feedback';
     protected $fillable=[
-        'idSender',
-        'idTeacher',
+        'id_sender',
+        'id_teacher',
         'point',
         'description'
     ];

@@ -247,7 +247,8 @@ public function updatestatusSendMail(Request $request){
 
            $user->status=2;
            $user->save();
-    return redirect()->away('http://localhost:3000/auth');
+
+    return redirect()->away('http://localhost:3000/auth/teacher');
 }
     /**
      * Display the specified resource.
@@ -315,7 +316,7 @@ public function updatestatusSendMail(Request $request){
         } else {
             $Certificate = [];
         }
-        $renter = DB::table('jobs')->where('idTeacher',$id)->count();
+        $renter = DB::table('jobs')->where('id_teacher',$id)->count();
         // dd($renter);
         return  response()->json([
             'role' => $records->role,

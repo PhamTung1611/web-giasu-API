@@ -142,6 +142,7 @@ Route::prefix('vnpay')->group(function () {
     Route::get('/{id}', [TransactionController::class, 'show']);
 });
 Route::prefix('feedback')->group(function () {
+    Route::post('/', [FeedBackController::class, 'store']);
         Route::get('/{id}', [FeedBackController::class, 'show']);
         Route::get('/avgPoint/{id}', [FeedBackController::class, 'averagePoint']);
     });
@@ -151,11 +152,6 @@ Route::prefix('feedback')->group(function () {
         Route::get('/{id}', [UsersController::class, 'show']);
     });
 Route::post('contact',[ContactController::class,'store']);
-Route::prefix('feedback')->group(function () {
-    // lấy ra danh sách
-    Route::post('/', [FeedBackController::class, 'store']);
-
-});
 Route::prefix('connect')->group(function () {
     // lấy ra danh sách
     Route::get('/{id}', [ConnectController::class, 'show']);
