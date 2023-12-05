@@ -28,6 +28,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/history-admin', [DashBoradController::class, 'listHistoryAdmin']);
 Route::get('/feedback', [DashBoradController::class, 'feedbackTeacher']);
 Route::get('feedback/{id}',[DashBoradController::class,'starTeacher'])->name('starTeacher');
+Route::get('/rent', [DashBoradController::class, 'rent'])->name('rent');
+Route::get('/rentID', [DashBoradController::class, 'rentID'])->name('rentID');
+
 
 Route::match(['get', 'post'], '/login',[UsersController::class, 'signin'])->name('login');
 Route::get('/logout',[UsersController::class, 'logout'])->name('logout');

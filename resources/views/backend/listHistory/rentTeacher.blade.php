@@ -31,12 +31,8 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end pb-0">
                     <span class="small ps-3 fw-bold text-dark">Show</span>
-                    <a class="dropdown-item d-flex align-items-center fw-bold" href="{{ route('starTeacher',1) }}">1 Sao</a>
-                    <a class="dropdown-item fw-bold" href="{{ route('starTeacher',2) }}">2 Sao</a>
-                    <a class="dropdown-item fw-bold rounded-bottom" href="{{ route('starTeacher',3) }}">3 Sao</a>
-                    <a class="dropdown-item fw-bold rounded-bottom" href="{{ route('starTeacher',4) }}">4 Sao</a>
-                    <a class="dropdown-item fw-bold rounded-bottom" href="{{ route('starTeacher',5) }}">5 Sao</a>
-                    <a class="dropdown-item fw-bold rounded-bottom" href="http://127.0.0.1:8000/feedback">Tất cả</a>
+                    <a class="dropdown-item d-flex align-items-center fw-bold" href="{{ route('rent') }}">Nhiều -> Ít</a>
+                    <a class="dropdown-item fw-bold" href="{{ route('rentID') }}">Ít -> Nhiều</a>
                 </div>
             </div>
         </div>
@@ -46,23 +42,22 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Người gửi</th>
                 <th>Gia sư</th>
-                <th>Số sao</th>
-                <th>Nội dung</th>
+                <th>Ảnh đại diện</th>
+                <th>Email</th>
+                <th>Lượt thuê</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($feedbacks as $u)
+            @foreach($topTeachersInfo as $u)
             <tr>
-            <td><a href="">{{$u->sender_name}}</a></td>
-            <td><a href="">{{$u->teacher_name}}</a></td>
-            <td>{{$u->point}} Sao</td>
-            <td>{{$u->description}}</td>
+            <td><a href="">{{$u->user_name}}</a></td>
+            <td><a href=""><img src="{{$u->user_avatar ? '' .Storage::url($u->user_avatar):''}}" alt=""></a></td>
+            <td>{{$u->user_email}}</td>
+            <td>{{$u->teacher_count}}</td>
             </tr>
             @endforeach
         </tbody>
     </table>
-    <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
 </div>
 @endsection

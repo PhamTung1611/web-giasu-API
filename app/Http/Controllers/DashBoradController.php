@@ -30,10 +30,10 @@ class DashBoradController extends Controller
         $results = $query->get();
         // dd($results);
         $topTeachersInfo = DB::table('jobs')
-            ->select('users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar', DB::raw('COUNT(jobs.id_teacher) as teacher_count'))
+            ->select('users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar','users.email as user_email', DB::raw('COUNT(jobs.id_teacher) as teacher_count'))
             ->join('users', 'jobs.id_teacher', '=', 'users.id')
             ->where('jobs.status', 1)  // Chỉ rõ cột 'status' thuộc bảng 'jobs'
-            ->groupBy('users.id', 'users.name', 'users.avatar')
+            ->groupBy('users.id', 'users.name', 'users.avatar','users.email')
             ->orderByDesc('teacher_count')
             ->limit(4)
             ->get();
@@ -49,7 +49,7 @@ class DashBoradController extends Controller
             ->groupBy('subjects.id', 'subjects.name')
             ->orderByDesc('hire_count')
             ->get();
-        // dd($mostHiredSubjects);
+        // dd($topTeachersInfo);
         return view('dashboard', compact('money', 'countTeacher', 'title', 'countTeacherWait', 'countUser', 'results', 'topTeachersInfo','mostHiredSubjects'));
     }
 
@@ -98,5 +98,31 @@ class DashBoradController extends Controller
             ->where('point', $id)->get();
         // dd($feedbacks);
         return view('backend.listHIstory.topstarteacher', compact('title', 'feedbacks'));
+    }
+    public function rent()
+    {
+        $title = 'Những gia sư được thuê';
+        $topTeachersInfo = DB::table('jobs')
+            ->select('users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar','users.email as user_email', DB::raw('COUNT(jobs.id_teacher) as teacher_count'))
+            ->join('users', 'jobs.id_teacher', '=', 'users.id')
+            ->where('jobs.status', 1)  // Chỉ rõ cột 'status' thuộc bảng 'jobs'
+            ->groupBy('users.id', 'users.name', 'users.avatar','users.email')
+            ->orderByDesc('teacher_count')
+            ->get();
+            // dd($topTeachersInfo);
+        return view('backend.listHIstory.rentTeacher', compact('title', 'topTeachersInfo'));
+    }
+    public function rentID(){
+
+        $title = 'Những gia sư được thuê';
+        $topTeachersInfo = DB::table('jobs')
+            ->select('users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar', 'users.email as user_email', DB::raw('COUNT(jobs.id_teacher) as teacher_count'))
+            ->join('users', 'jobs.id_teacher', '=', 'users.id')
+            ->where('jobs.status', 1)
+            ->groupBy('users.id', 'users.name', 'users.avatar', 'users.email')
+            ->orderBy('teacher_count') // Sắp xếp theo thứ tự tăng dần
+            ->get();
+        return view('backend.listHIstory.rentTeacher', compact('title', 'topTeachersInfo'));
+
     }
 }
