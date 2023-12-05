@@ -168,7 +168,7 @@
                     <div class="card border-0 shadow">
                         <div class="card-header border-bottom d-flex align-items-center justify-content-between">
                             <h2 class="fs-5 fw-bold mb-0">Top 4 gia sư được thuê nhiều</h2>
-                            <a href="#" class="btn btn-sm btn-primary">See all</a>
+                            <a href="{{route('rent')}}" class="btn btn-sm btn-primary">Xem tất cả</a>
                         </div>
                         <div class="card-body">
                             <ul class="list-group list-group-flush list my--3">
