@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SubjectRequest;
+use App\Models\ClassLevel;
+use App\Models\RankSalary;
+use App\Models\Schools;
 use App\Models\Subject;
+use App\Models\TimeSlot;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +30,8 @@ class SubjectController extends Controller
         if (!$subject) {
             abort(404);
         }
-        $teachers = User::where('subject', $id)->get();
+        $teachers = User::where('subject', $id)->where('role','3')->where('status','1')->get();
+        // dd($teachers);
         return view('backend.subject.teacher',compact('title', 'subject', 'teachers'));
     }
     public function DetailTeacher(Request $request, $id) {
@@ -74,10 +79,6 @@ class SubjectController extends Controller
             $salary = RankSalary::find($records->salary_id);
             $newSalary = $salary->name;
         }
-//        if ($records->DistrictID != null) {
-//            $district = District::find($records->DistrictID);
-//            $newDistrict = $district->name;
-//        }
 
         if (!$records->Certificate) {
             $records->Certificate = [];
