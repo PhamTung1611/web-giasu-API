@@ -69,20 +69,37 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Tên môn học</th>
+                <th>Tên giáo viên</th>
+                <th>Địa chỉ email</th>
+                <th>Ảnh đại diện</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
                 <th>Hành động</th>
             </tr>
         </thead>
         <tbody>
         <!-- Item -->
-        @foreach($subject as $subjects)
+        @foreach($teachers as $teacher)
             <tr>
                 <td>
-                    <a href="" class="fw-bold">{{$subjects->id}}</a>
+                    <a href="" class="fw-bold">{{$teacher->id}}</a>
                 </td>
                 <td>
-                    <span class="fw-normal">{{$subjects->name}}</span>
+                    <span class="fw-normal">{{$teacher->name}}</span>
                 </td>
+                <td>
+                  <span class="fw-normal">{{$teacher->email}}</span>
+              </td>
+              <td>
+                <img src="{{$teacher->avatar?''.Storage::url($teacher->avatar):''}}" alt="" style="width: 70px; height: auto;">
+                {{-- <span class="fw-normal">{{$teacher->avatar}}</span> --}}
+            </td>
+            <td>
+              <span class="fw-normal">{{$teacher->phone}}</span>
+          </td>
+          <td>
+            <span class="fw-normal">{{$teacher->address}}</span>
+        </td>
                 <td>
                     <div class="btn-group">
                         <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -94,9 +111,7 @@
                         </span>
                         </button>
                         <div class="dropdown-menu py-0">
-                          <a class="dropdown-item" href="{{ route('subject.teachers', ['id' => $subjects->id])}}"><span class="fas fa-edit me-2"></span>Danh sách giáo viên dạy</a>
-                        <a class="dropdown-item" href="{{ route('edit_subject', ['id' => $subjects->id])}}"><span class="fas fa-edit me-2"></span>Sửa môn học</a>
-                        <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_subject', ['id' => $subjects->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Xóa môn học</a>
+                          <a class="dropdown-item ~text-gray-800 rounded-bottom" href="{{ route('detail_teacher', ['id' => $teacher->id])}}" ><span class="fas fa-trash-alt me-2"></span>show</a>
                         </div>
                     </div>
                 </td>

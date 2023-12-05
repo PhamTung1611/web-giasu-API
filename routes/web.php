@@ -38,7 +38,8 @@ Route::match(['get', 'post'], '/register',[UsersController::class, 'register'])-
 Route::middleware('auth')->group(function() {
     Route::middleware('check.role')->group(function() {
     Route::get('/',[DashBoradController::class, 'Statistical'])->name('dashboard');
-    Route::get('connect',[ConnectController::class, 'index']);
+    Route::get('connect',[ConnectController::class, 'index'])->name('search_connect');
+
     Route::get('salary', [RankSalaryController::class, 'index']);
     Route::get('payment', [TransactionController::class, 'index'])->name('vnpay');
     Route::post('salary', [RankSalaryController::class, 'index'])->name('search_salary');
@@ -72,6 +73,8 @@ Route::middleware('auth')->group(function() {
         Route::match(['get','post'],'subject/add',[SubjectController::class,'add'])->name('add_subject');
         Route::match(['get','post'],'subject/edit/{id}',[SubjectController::class,'edit'])->name('edit_subject');
         Route::get('subject/delete/{id}',[SubjectController::class,'delete'])->name('delete_subject');
+        Route::get('subject/{id}/teachers', [SubjectController::class, 'ListTeacher'])->name('subject.teachers');
+        Route::get('detail/{id}', [SubjectController::class, 'DetailTeacher'])->name('detail_teacher');
         //class
         Route::match(['get','post'],'classLevel/add',[ClassLevelController::class,'add'])->name('add_class');
         Route::match(['get','post'],'classLevel/edit/{id}',[ClassLevelController::class,'edit'])->name('edit_class');
