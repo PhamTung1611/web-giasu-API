@@ -316,6 +316,11 @@ public function updatestatusSendMail(Request $request){
         } else {
             $Certificate = [];
         }
+        if ($records->Certificate_public != null) {
+            $Certificate_public = json_decode($records->Certificate_public);
+        } else {
+            $Certificate_public = [];
+        }
         $renter = DB::table('jobs')->where('id_teacher',$id)->count();
         // dd($renter);
         return  response()->json([
@@ -344,6 +349,7 @@ public function updatestatusSendMail(Request $request){
             'current_role' => $records->current_role,
             'coin'=>$records->coin,
             'renter'=>$renter,
+            'Certificate_public'=>$Certificate_public,
             'created_date'=>$records->created_at
         ], 200);
     }
@@ -392,7 +398,6 @@ public function updatestatusSendMail(Request $request){
                 $user->status = 1;
                 if ($request->hasFile('Certificate')) {
                     $certificates = [];
-
                     foreach ($request->file('Certificate') as $file) {
                         if ($file->isValid()) {
                             $certificates = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
@@ -656,5 +661,14 @@ public function updatestatusSendMail(Request $request){
         $view =1;
         $title ="Danh sách cộng tác viên";
         return view('backend.teacher.index',compact('teachers','view','title'));
+    }
+    public function certificate_public(Request $request,$id){
+        $user = User::find($id);
+        if($user){
+            $user->Certificate_public = $request->Certificate_public;
+            $user->save();
+            return response()->json("success");
+        }
+        return response()->json("Không tồn tại user",400);
     }
 }

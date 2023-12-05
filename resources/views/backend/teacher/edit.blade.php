@@ -119,7 +119,7 @@
               @endforeach
             </select>
             <label>Quận/Huyện muốn dạy</label><br>
-            <input type="text" class="form-control" value="{{$teacher->DistrictID}}" placeholder="Quận HUyện muốn dạy" name="DistrictID">
+            <input type="text" class="form-control" value="{{$teacher->District_ID}}" placeholder="Quận HUyện muốn dạy" name="District_ID">
             <label>Chọn thời gian dạy</label><br>
             <select name="time_tutor_id" id="" class="form-control">
               @foreach($timeTutor as $s)
