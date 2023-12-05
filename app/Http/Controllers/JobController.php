@@ -49,7 +49,7 @@ class JobController extends Controller
             $test->class = implode(', ', $classNames); // Chuyển mảng thành chuỗi bằng hàm implode
             $results[] = $test;
         }
-        // dd($results);
+        dd($results);
         return view('backend.job.index', compact('results','title'));
     }
     public function update(JobRequest $request, $id){

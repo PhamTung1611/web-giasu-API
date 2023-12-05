@@ -14,7 +14,7 @@ class ClassLevelController extends Controller
 {
     public function index(Request $request){
         $title = "Danh sách lớp học";
-        
+
         $class_levels = ClassLevel::all();
         if ($request->post() && $request->search) {
             $class_levels = DB::table('class_levels')
@@ -77,4 +77,5 @@ class ClassLevelController extends Controller
             }
         }
     }
+
 }

@@ -18,52 +18,55 @@ use Illuminate\Support\Facades\Session;
 
 class SubjectController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $title = 'Danh sách môn học';
         $subject = Subject::all();
         if ($request->post() && $request->search) {
             $subject = DB::table('subjects')
-                ->where('name', 'like', '%'.$request->search.'%')->get();
+                ->where('name', 'like', '%' . $request->search . '%')->get();
         }
         return view('backend.subject.index', compact('subject', 'title'));
     }
-    public function ListTeacher($id){
+    public function ListTeacher($id)
+    {
         $title = 'Giáo viên dạy';
         $subject = Subject::find($id);
         if (!$subject) {
             abort(404);
         }
-        $teachers = User::where('subject', $id)->where('role','3')->where('status','1')->get();
+        $teachers = User::where('subject', $id)->where('role', '3')->where('status', '1')->get();
         // dd($teachers);
-        return view('backend.subject.teacher',compact('title', 'subject', 'teachers'));
+        return view('backend.subject.teacher', compact('title', 'subject', 'teachers'));
     }
-    public function DetailTeacher($id) {
+    public function DetailTeacher($id)
+    {
         $records = User::where('id', $id)->first();
-    
+
         $newArraySubject = $this->getArrayValues($records->subject, Subject::class);
         $newArrayEducation = $this->getArrayValues($records->education_level, Schools::class);
         $newArrayClass = $this->getArrayValues($records->class_id, ClassLevel::class);
         $newArrayTime = $this->getArrayValues($records->time_tutor_id, TimeSlot::class);
-    
+
         $newSchool = "";
         $newSalary = "";
-    
+
         if ($records->school_id != null) {
             $school = Schools::find($records->school_id);
             $newSchool = $school ? $school->name : "";
         }
-    
+
         if ($records->salary_id != null) {
             $salary = RankSalary::find($records->salary_id);
             $newSalary = $salary ? $salary->name : "";
         }
-    
+
         if (!$records->Certificate) {
             $records->Certificate = [];
         } else {
             $records->Certificate = json_decode($records->Certificate);
         }
-    
+
         $data = [
             'id' => $id,
             'role' => $records->role,
@@ -137,75 +140,87 @@ class SubjectController extends Controller
 
             $result[] = $job;
         }
+<<<<<<< HEAD
     $dataFeedback = FeedBack::select('feedback.*', 'users.name as id_sender')
+=======
+
+        $dataFeedback = FeedBack::select('feedback.*', 'users.name as id_sender')
+>>>>>>> fee65b6972b7aa2af1e227176aee0509494ee568
             // where('idTeacher',$id)
             ->leftJoin('users', 'feedback.id_sender', '=', 'users.id')
             ->where('feedback.id_teacher', $id)
             ->get();
+<<<<<<< HEAD
             // dd($result);
         return view('backend.subject.show', compact('title', 'data','history','result','dataFeedback'));
+=======
+        dd($result);
+        return view('backend.subject.show', compact('title', 'data', 'history', 'result', 'dataFeedback'));
+>>>>>>> fee65b6972b7aa2af1e227176aee0509494ee568
     }
-    
+
     private function getArrayValues($field, $modelClass)
     {
         $newArray = [];
-    
+
         if ($field != null) {
             $makeArray = explode(',', $field);
-    
+
             foreach ($makeArray as $item) {
                 $model = $modelClass::find($item);
-                
+
                 if ($model) {
                     array_push($newArray, $model->name);
                 }
             }
         }
-    
+
         return $newArray;
     }
-    
-    public function add(SubjectRequest $request){
+
+    public function add(SubjectRequest $request)
+    {
         $title = 'Thêm mới môn học';
-        if($request->post()){
+        if ($request->post()) {
             $params = $request->post();
             $subject = new Subject();
             $subject->name = $request->name;
             $subject->save();
-            if($subject->save()) {
+            if ($subject->save()) {
                 Session::flash('success', 'Thêm thành công!');
                 return redirect()->route('search_subject');
-            }
-            else {
+            } else {
                 Session::flash('error', 'Thêm không thành công!');
             }
         }
         return view('backend.subject.add', compact('title'));
     }
-    public function edit(SubjectRequest $request, $id){
+    public function edit(SubjectRequest $request, $id)
+    {
         $title = 'Sửa môn học';
         $subject = Subject::find($id);
-        if($request->isMethod('post')){
+        if ($request->isMethod('post')) {
             $update = Subject::where('id', $id)->update($request->except('_token'));
-            if($update){
+            if ($update) {
                 Session::flash('success', 'Sửa thành công');
                 return redirect()->route('search_subject');
-            }else{
+            } else {
                 Session::flash('error', 'Edit subject error');
             }
         }
-            return view('backend.subject.edit', compact('title','subject'));
-        }
-        public function delete($id){
-            if($id){
-                $subject = Subject::find($id);
-                $deleted = $subject->delete();
-                if($deleted){
-                    Session::flash('success','Xóa thành công!');
-                    return redirect()->route('search_subject');
-                }else{
-                    Session::flash('error','xoa that bai');
-                }
+        return view('backend.subject.edit', compact('title', 'subject'));
+    }
+    public function delete($id)
+    {
+        if ($id) {
+            $subject = Subject::find($id);
+            $deleted = $subject->delete();
+            if ($deleted) {
+                Session::flash('success', 'Xóa thành công!');
+                return redirect()->route('search_subject');
+            } else {
+                Session::flash('error', 'xoa that bai');
             }
         }
+    }
 }

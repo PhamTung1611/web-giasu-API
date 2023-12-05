@@ -42,6 +42,9 @@ Route::middleware('auth')->group(function() {
     Route::middleware('check.role')->group(function() {
     Route::get('/',[DashBoradController::class, 'Statistical'])->name('dashboard');
     Route::get('connect',[ConnectController::class, 'index'])->name('search_connect');
+    Route::get('connect/{id}',[ConnectController::class, 'connectStatus'])->name('connect_status');
+    Route::get('connect/show/{id}',[ConnectController::class, 'showConnect'])->name('connect_show');
+    Route::get('deleteConnect/{id}',[ConnectController::class, 'delete'])->name('delete_connect');
 
     Route::get('salary', [RankSalaryController::class, 'index']);
     Route::get('payment', [TransactionController::class, 'index'])->name('vnpay');
@@ -94,7 +97,9 @@ Route::middleware('auth')->group(function() {
         Route::match(['get','post'],'teacher/edit/{id}',[TeachersController::class,'updateTeacher'])->name('edit_teacher');
         Route::get('teacher/delete/{id}/{view}',[TeachersController::class,'delete'])->name('delete_teacher');
         Route::get('detailTeacher/{id}',[UsersController::class,'getOneTeacherWaiting'])->name('deatailWaitingTeacher');
-
-        Route::get('ctv',[UsersController::class,'getAllCtv'])->name('allctv');
+        Route::match(['get','post'],'ctv/edit/{id}',[UsersController::class,'updateCtv'])->name('edit_ctv');
+        Route::get('ctv/delete/{id}',[UsersController::class,'delete_ctv'])->name('delete_ctv');
+        Route::match(['get','post'],'ctv',[UsersController::class,'getAllCtv'])->name('allctv');
+        Route::match(['get','post'],'ctv/addNew',[UsersController::class,'addNewCtv'])->name('add_ctv');
     });
 });

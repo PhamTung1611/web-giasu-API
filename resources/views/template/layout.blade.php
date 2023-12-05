@@ -193,6 +193,7 @@
                             </svg>
                         </span>
                     </span>
+                    @if(Session::get('role')==1)
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
@@ -274,12 +275,22 @@
                             </li>
                         </ul>
                     </div>
-                    @if(Session::get('role')==1)
+
                         <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                             <ul class="flex-column nav">
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{route('allctv')}}">
                                         <span class="sidebar-text">Cộng tác viên</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    @else
+                        <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                            <ul class="flex-column nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('waiting')}}">
+                                        <span class="sidebar-text">Phê duyệt</span>
                                     </a>
                                 </li>
                             </ul>

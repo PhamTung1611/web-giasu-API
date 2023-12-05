@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Connect;
 use App\Models\History;
 use App\Models\Job;
 use App\Models\Subject;
@@ -17,6 +18,7 @@ class DashBoradController extends Controller
     {
         $title = 'Thống kê';
         $countTeacher = DB::table('users')->where('role', '3')->where('status', '1')->count();
+        $countCollaborators = DB::table('users')->where('role', '4')->where('status', '1')->count();
         $countTeacherWait = DB::table('users')->where('role', '3')->where('status', '2')->count();
         $countUser = DB::table('users')->where('role', '2')->count();
         $user =  User::find(1);
@@ -49,8 +51,12 @@ class DashBoradController extends Controller
             ->groupBy('subjects.id', 'subjects.name')
             ->orderByDesc('hire_count')
             ->get();
+
+            $countConnect = Connect::where('status', 1)->count();
+
+        
         // dd($topTeachersInfo);
-        return view('dashboard', compact('money', 'countTeacher', 'title', 'countTeacherWait', 'countUser', 'results', 'topTeachersInfo','mostHiredSubjects'));
+        return view('dashboard', compact('money', 'countTeacher', 'title', 'countTeacherWait', 'countUser', 'results', 'topTeachersInfo','mostHiredSubjects','countCollaborators','countConnect'));
     }
 
     public function listHistoryAdmin()

@@ -17,18 +17,21 @@
     <h2 class="h4">{{$title}}</h2>
   </div>
   <div class="btn-toolbar mb-2 mb-md-0">
+    <a href="{{ route('add_ctv') }}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+      <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+      </svg>
+      Thêm mới cộng tác viên
+    </a>
   </div>
 </div>
 <div class="table-settings mb-4">
   <div class="row align-items-center justify-content-between">
     <div class="col col-md-6 col-lg-3 col-xl-4">
-      <form class="input-group me-2 me-lg-3 fmxw-400" action="">
-        <span class="input-group-text">
-          <svg class="icon icon-xs" x-description="Heroicon name: solid/search" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-          </svg>
-        </span>
-        <input type="text" class="form-control" placeholder="Search subject">
+      <form class="input-group me-2 me-lg-3 fmxw-400" action="{{route('allctv')}}" method="POST">
+        @csrf
+        <input type="text" class="form-control" placeholder="Tìm kiếm..." name="search">
+        <input type="submit" value="Lọc" class="btn btn-secondary">
       </form>
     </div>
     <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
@@ -41,10 +44,11 @@
         </button>
         <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end pb-0">
           <span class="small ps-3 fw-bold text-dark">Show</span>
-          <a class="dropdown-item d-flex align-items-center fw-bold" href="{{route('search_connect')}}">Tất cả</a></a>
-          <a class="dropdown-item fw-bold" href="{{route('connect_status',1)}}">Thành công</a>
-          <a class="dropdown-item fw-bold" href="{{route('connect_status',0)}}">Chờ xác nhận</a>
-          <a class="dropdown-item fw-bold rounded-bottom" href="{{route('connect_status',2)}}">Thất bại</a>
+          <a class="dropdown-item d-flex align-items-center fw-bold" href="#">10 <svg class="icon icon-xxs ms-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg></a>
+          <a class="dropdown-item fw-bold" href="#">20</a>
+          <a class="dropdown-item fw-bold rounded-bottom" href="#">30</a>
         </div>
       </div>
     </div>
@@ -54,28 +58,36 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>ID JOB</th>
-        <th>Username</th>
-        <th>TeacherName</th>
-        <th>Status</th>
+        <th>ID</th>
+        <th>Tên</th>
+        <th>Email</th>
+        <th>Ảnh đại diện</th>
+        <th>Số điện thoại</th>
+        <th>Địa chỉ</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      <!-- Item -->
-      @foreach($connect as $item)
+      @foreach($users as $u)
       <tr>
         <td>
-          <span class="fw-normal">{{$item->id_job}}</span>
+          <a href="" class="fw-bold">{{$u->id}}</a>
         </td>
         <td>
-          <span class="fw-normal">{{$item->userName}}</span>
+          <span class="fw-normal">{{$u->name}}</span>
         </td>
         <td>
-          <span class="fw-normal">{{$item->teacherName}}</span>
+          <span class="fw-normal">{{$u->email}}</span>
         </td>
         <td>
-          <span class="fw-normal" style="color: {{ $item->status === 1 ? 'green' : ($item->status == "2" ? 'red' : 'brown') }}">{{$item->status == "1" ? 'Thành công' : ($item->status == "2" ? 'Thất bại' : 'Chờ xác nhận') }}</span>
+          {{-- <img src="{{$u->avatar}}" style="width: 50px;" alt=""> --}}
+          <img src="{{$u->avatar?''.Storage::url($u->avatar):''}}" alt="" style="width: 70px; height: auto;">
+        </td>
+        <td>
+          <span class="fw-normal">{{$u->phone}}</span>
+        </td>
+        <td>
+          <span class="fw-normal">{{$u->address}}</span>
         </td>
         <td>
           <div class="btn-group">
@@ -91,8 +103,9 @@
               </span>
             </button>
             <div class="dropdown-menu py-0">
-              <a class="dropdown-item" href="{{ route('connect_show', ['id' => $item->id])}}"><span class="fas fa-edit me-2"></span>Xem chi tiết</a>
-              <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_connect', ['id' => $item->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
+
+              <a class="dropdown-item" href="{{ route('edit_ctv', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Edit</a>
+              <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_ctv', ['id' => $u->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
             </div>
           </div>
         </td>
@@ -102,6 +115,40 @@
     </tbody>
   </table>
   <div class="card-footer px-3 border-0 d-flex flex-column flex-lg-row align-items-center justify-content-between">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination mb-0">
+        <li class="page-item">
+          <a class="page-link" href="#">Previous</a>
+        </li>
+        <li class="page-item active">
+          <a class="page-link" href="#">1</a>
+        </li>
+        <li class="page-item ">
+          <a class="page-link" href="#">2</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">3</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">4</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">5</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="alert alert-success" role="alert">
+      @if(Session::has('success'))
+      {{Session::get('success')}}
+      @endif
+      @if(Session::has('error'))
+      {{Session::get('error')}}
+      @endif
+    </div>
+    <div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>
   </div>
 </div>
 @endsection
