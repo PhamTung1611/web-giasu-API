@@ -18,7 +18,7 @@ class FeedBackSeeder extends Seeder
         //
         DB::table('feedback')->insert([[
             'id_sender'=>'5',
-            'id_teacher'=>'1',
+            'id_teacher'=>'2',
             'point'=>'5',
             'description'=>'Dạy tốt'
         ],
@@ -30,7 +30,7 @@ class FeedBackSeeder extends Seeder
         ],
         [
             'id_sender'=>'5',
-            'id_teacher'=>'1',
+            'id_teacher'=>'3',
             'point'=>'5',
             'description'=>'Dạy hay'
         ],

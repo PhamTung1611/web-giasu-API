@@ -14,9 +14,9 @@ class DashBoradController extends Controller
     public function Statistical()
     {
         $title = 'Thống kê';
-        $countTeacher = DB::table('users')->where('role', 'teacher')->where('status', '1')->count();
-        $countTeacherWait = DB::table('users')->where('role', 'teacher')->where('status', '2')->count();
-        $countUser = DB::table('users')->where('role', 'user')->count();
+        $countTeacher = DB::table('users')->where('role', '3')->where('status', '1')->count();
+        $countTeacherWait = DB::table('users')->where('role', '3')->where('status', '2')->count();
+        $countUser = DB::table('users')->where('role', '2')->count();
         $user =  User::find(1);
         $money = $user->coin;
         $query = DB::table('feedback')
