@@ -93,7 +93,7 @@
                         </span>
                         </button>
                         <div class="dropdown-menu py-0">
-                        
+                        <a class="dropdown-item" href="{{ route('subject.teachers', ['id' => $class_level->id])}}"><span class="fas fa-edit me-2"></span>Danh sách giáo viên dạy</a>
                         <a class="dropdown-item" href="{{ route('edit_class', ['id' => $class_level->id])}}"><span class="fas fa-edit me-2"></span>Sửa</a>
                         <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_class', ['id' => $class_level->id])}}" onclick="return confirm(' Bạn có chắc muốn xóa?');"><span
                             class="fas fa-trash-alt me-2"></span>Xóa</a>
