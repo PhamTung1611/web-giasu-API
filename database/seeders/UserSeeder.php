@@ -65,7 +65,7 @@ class UserSeeder extends Seeder
             'Certificate'=>null,
             'date_of_birth'=>'2003-02-23',
             'gender'=>'Nữ', 
-            'coin'=>1
+            'coin'=>1000000
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -91,7 +91,7 @@ class UserSeeder extends Seeder
             'latitude'=>"21.019302192000055",
             'Certificate'=>null,
             'date_of_birth'=>'2003-09-30',
-            'gender'=>'Nam', 'coin'=>1
+            'gender'=>'Nam', 'coin'=>1000000
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -117,7 +117,7 @@ class UserSeeder extends Seeder
             'latitude'=>"20.971334803000047",
             'Certificate'=>null,
             'date_of_birth'=>'2003-09-30',
-            'gender'=>'Nam', 'coin'=>1
+            'gender'=>'Nam', 'coin'=>1000000
         ]);
         DB::table('users')->insert([
             'role'=>'teacher',
@@ -264,7 +264,7 @@ class UserSeeder extends Seeder
             'date_of_birth'=>'2003-09-30',
             'gender'=>'Nam',
             'status'=>"1",
-            'coin'=>1
+            'coin'=>1000000
         ]);
         DB::table('users')->insert([
             'role'=>'user',

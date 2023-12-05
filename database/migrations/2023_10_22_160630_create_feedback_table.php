@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('feedback', function (Blueprint $table) {
             $table->id();
-            $table->string('idSender');
-            $table->string('idTeacher');
+            $table->string('id_sender');
+            $table->string('id_teacher');
             $table->string('point');
             $table->string('description')->nullable();
             $table->softDeletes();

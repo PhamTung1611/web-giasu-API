@@ -24,7 +24,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('test', [DashBoradController::class, 'countTeacher']);
+Route::get('/history-admin', [DashBoradController::class, 'listHistoryAdmin']);
+Route::get('/feedback', [DashBoradController::class, 'feedbackTeacher']);
+Route::get('feedback/{id}',[DashBoradController::class,'starTeacher'])->name('starTeacher');
+
 Route::match(['get', 'post'], '/login',[UsersController::class, 'signin'])->name('login');
 Route::get('/logout',[UsersController::class, 'logout'])->name('logout');
 Route::get('vnpay', [UsersController::class, 'showvnpay']);
@@ -33,7 +36,7 @@ Route::post('deposit', [UsersController::class, 'deposit']);
 Route::match(['get', 'post'], '/register',[UsersController::class, 'register'])->name('register');
 Route::middleware('auth')->group(function() {
     Route::middleware('check.role')->group(function() {
-    Route::get('/',[Dashboard::class, 'index'])->name('dashboard');
+    Route::get('/',[DashBoradController::class, 'Statistical'])->name('dashboard');
     Route::get('connect',[ConnectController::class, 'index']);
     Route::get('salary', [RankSalaryController::class, 'index']);
     Route::get('payment', [TransactionController::class, 'index'])->name('vnpay');

@@ -33,16 +33,16 @@ class ConnectController extends Controller
     {
         $connect = Connect::select(
             'connect.*',
-            'user1.id as idUser',
+            'user1.id as id_user',
             'user1.name as userName',
-            'user2.id as idTeacher',
+            'user2.id as id_teacher',
             'user2.name as teacherName'
         )
-            ->leftJoin('users as user1', 'connect.idUser', '=', 'user1.id')
-            ->leftJoin('users as user2', 'connect.idTeacher', '=', 'user2.id')
+            ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
+            ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
             ->where(function ($query) use ($id) {
-                $query->where('connect.idUser', $id)
-                    ->orWhere('connect.idTeacher', $id);
+                $query->where('connect.id_user', $id)
+                    ->orWhere('connect.id_teacher', $id);
             })
             ->get();
 
@@ -67,34 +67,39 @@ class ConnectController extends Controller
     public function update(Request $request, string $id, MailController $mailController, HistoryController $historyController)
     {
         //
+        // dd(1);
+        // dd($request->all());
         $connect = Connect::find($id);
-        $noteUser = $request->input('noteUser');
-        $noteTeacher = $request->input('noteTeacher');
-        $confirmUser = $request->input('confirmUser');
-        $confirmTeacher = $request->input('confirmTeacher');
-        $emailUser = $this->findEmailById($connect->idUser);
-        $emailTeacher = $this->findEmailById($connect->idTeacher);
+        // dd($connect);
+        $noteUser = $request->input('note_user');
+        $noteTeacher = $request->input('note_teacher');
+        $confirmUser = $request->input('confirm_user');
+        $confirmTeacher = $request->input('confirm_teacher');
+        // dd($confirmTeacher,$confirmUser);
+        $emailUser = $this->findEmailById($connect->id_user);
+        $emailTeacher = $this->findEmailById($connect->id_teacher);
         if ($connect) {
             if ($confirmTeacher == 1) {
                 $connect->update($request->all());
-                $checkPoint = $connect->confirmUser;
-                // dd($checkPoint);
+                $checkPoint = $connect->confirm_user;
+                // dd($checkPoint ,);
                 if ($checkPoint == $confirmTeacher) {
                     $connect->status = 1;
                     $connect->save();
-                    $nameTeacher = $this->findNameByID($connect->idTeacher);
-                    $nameUser = $this->findNameByID($connect->idUser);
-                    $user = User::find($connect->idUser);
-                    $teacher = User::find($connect->idTeacher);
+                    $nameTeacher = $this->findNameByID($connect->id_teacher);
+                    $nameUser = $this->findNameByID($connect->id_user);
+                    $user = User::find($connect->id_user);
+                    $teacher = User::find($connect->id_teacher);
+                    // dd($user ,$teacher);
                     if ($user && $teacher) {
-                        $refundMoney = $historyController->refundMoneyUserTeacher($connect->idUser, $connect->idTeacher, 25000);
+                        $refundMoney = $historyController->refundMoneyUserTeacher($connect->id_user, $connect->id_teacher, 25000);
                         if (!$refundMoney) {
                             return response()->json(['message' => 'Admin not enough coin'], 404);
                         } else {
                             $titleForUser = 'Gia sư ' . $nameTeacher . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
                             $titleForTeacher = 'Người dùng ' . $nameUser . ' đã xác nhận kết nối với bạn. Bạn được hoàn lại 50% tiền cọc';
-                            // $mailController->sendMail($emailUser, $titleForUser);
-                            // $mailController->sendMail($emailTeacher, $titleForTeacher);
+                            $mailController->sendMail($emailUser, $titleForUser);
+                            $mailController->sendMail($emailTeacher, $titleForTeacher);
                             return response()->json(['message' => 'Success'], 200);
                         }
                     } else {
@@ -106,16 +111,16 @@ class ConnectController extends Controller
                 }
             } else if ($confirmUser == 1) {
                 $connect->update($request->all());
-                $checkPoint = $connect->confirmTeacher;
+                $checkPoint = $connect->confirm_teacher;
                 if ($checkPoint == $confirmUser) {
                     $connect->status = 1;
                     $connect->save();
-                    $nameTeacher = $this->findNameByID($connect->idTeacher);
-                    $nameUser = $this->findNameByID($connect->idUser);
-                    $user = User::find($connect->idUser);
-                    $teacher = User::find($connect->idTeacher);
+                    $nameTeacher = $this->findNameByID($connect->id_teacher);
+                    $nameUser = $this->findNameByID($connect->id_user);
+                    $user = User::find($connect->id_user);
+                    $teacher = User::find($connect->id_teacher);
                     if ($user && $teacher) {
-                        $refundMoney = $historyController->refundMoneyUserTeacher($connect->idUser, $connect->idTeacher, 25000);
+                        $refundMoney = $historyController->refundMoneyUserTeacher($connect->id_user, $connect->id_teacher, 25000);
                         if (!$refundMoney) {
                             return response()->json(['message' => 'Admin not enough coin'], 404);
                         } else {
@@ -134,16 +139,16 @@ class ConnectController extends Controller
                 }
             } else if ($confirmTeacher == 2) {
                 $connect->update($request->all());
-                $checkPoint = $connect->confirmUser;
+                $checkPoint = $connect->confirm_user;
                 if ($checkPoint !== $confirmUser) {
                     $connect->status = 2;
                     $connect->save();
-                    $nameTeacher = $this->findNameByID($connect->idTeacher);
-                    $nameUser = $this->findNameByID($connect->idUser);
-                    $user = User::find($connect->idUser); 
-                    $teacher = User::find($connect->idTeacher);
+                    $nameTeacher = $this->findNameByID($connect->id_teacher);
+                    $nameUser = $this->findNameByID($connect->id_user);
+                    $user = User::find($connect->id_user); 
+                    $teacher = User::find($connect->id_teacher);
                     if ($user && $teacher) {
-                        $refundMoney = $historyController->refundMoneyUserTeacher($connect->idUser, $connect->idTeacher, 40000);
+                        $refundMoney = $historyController->refundMoneyUserTeacher($connect->id_user, $connect->id_teacher, 40000);
                         if (!$refundMoney) {
                             return response()->json(['message' => 'Admin not enough coin'], 404);
                         } else {
@@ -162,16 +167,16 @@ class ConnectController extends Controller
                 }
             } else if ($confirmUser == 2) {
                 $connect->update($request->all());
-                $checkPoint = $connect->confirmTeacher;
+                $checkPoint = $connect->confirm_teacher;
                 if ($checkPoint !== $confirmUser) {
                     $connect->status = 2;
                     $connect->save();
-                    $nameTeacher = $this->findNameByID($connect->idTeacher);
-                    $nameUser = $this->findNameByID($connect->idUser);
-                    $user = User::find($connect->idUser);
-                    $teacher = User::find($connect->idTeacher);
+                    $nameTeacher = $this->findNameByID($connect->id_teacher);
+                    $nameUser = $this->findNameByID($connect->id_user);
+                    $user = User::find($connect->id_user);
+                    $teacher = User::find($connect->id_teacher);
                     if ($user && $teacher) {
-                        $refundMoney = $historyController->refundMoneyUserTeacher($connect->idUser, $connect->idTeacher, 40000);
+                        $refundMoney = $historyController->refundMoneyUserTeacher($connect->id_user, $connect->id_teacher, 40000);
                         if (!$refundMoney) {
                             return response()->json(['message' => 'Admin not enough coin'], 404);
                         } else {
@@ -189,7 +194,7 @@ class ConnectController extends Controller
                     return response()->json(['message' => 'Success'], 200);
                 }
             } else {
-                return response()->json(['message' => 'Error'], 404);
+                return response()->json(['message' => 'Error request'], 404);
             }
         }
     }
@@ -227,9 +232,9 @@ class ConnectController extends Controller
     public function createConnect($idJob, $idUser, $idTeacher)
     {
         $connect = new Connect();
-        $connect->idJob = $idJob;
-        $connect->idUser = $idUser;
-        $connect->idTeacher = $idTeacher;
+        $connect->id_job = $idJob;
+        $connect->id_user = $idUser;
+        $connect->id_teacher = $idTeacher;
         $connect->save();
         return true;
     }

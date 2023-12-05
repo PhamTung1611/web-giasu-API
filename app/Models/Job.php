@@ -13,5 +13,5 @@ class Job extends Model
     //     'title', 'name', 'address', 'date_time', 'phone', 'email', 'subjects_need', 'education_level', 'salary', 'requirements'
     // ];
     protected $table = 'jobs';
-    protected $fillable = ['idUser', 'subject', 'idTeacher', 'class', 'status','description'];
+    protected $fillable = ['id_user', 'subject', 'id_teacher', 'class', 'status','description'];
 }

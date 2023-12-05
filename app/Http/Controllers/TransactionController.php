@@ -38,14 +38,14 @@ class TransactionController extends Controller
             $user->save();
             try{
                 DB::table('transaction')->insert([
-                    'userId'=>$userId,
+                    'user_id'=>$userId,
                     'coin' => $coin,
                     'bank' => $bank,
                     'code' => $code,
                     'status' => $status,
                 ]);
                 $history = new History();
-                $history->idClient = $userId;
+                $history->id_client = $userId;
                 $history->coin = $coin;
                 $history->type = $bank;
                 $history->save();

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('history', function (Blueprint $table) {
             $table->id();
-            $table->string('idClient');
+            $table->string('id_client');
             $table->string('coin');
             $table->string('type');
             $table->timestamps();

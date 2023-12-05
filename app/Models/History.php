@@ -9,5 +9,5 @@ class History extends Model
 {
     use HasFactory;
     protected $table = 'history';
-    protected $fillable = ['idClient', 'coin', 'type'];
+    protected $fillable = ['id_client', 'coin', 'type'];
 }
