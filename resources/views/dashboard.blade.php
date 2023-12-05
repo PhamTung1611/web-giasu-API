@@ -1,7 +1,6 @@
 @extends('template.layout')
 @section('content')
 <main class="">
-
     <div class="row">
         <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
@@ -40,7 +39,8 @@
                             <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                                 <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
                                     <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M10 0a5 5 0 0 0-5 5v6a5 5 0 0 0 10 0V5a5 5 0 0 0-5-5zm0 18h4v2h-4v-2zM4 11a2 2 0 0 1-2-2V6a2 2 0 1 1 4 0v3a2 2 0 0 1-2 2zm12 0a2 2 0 0 1-2-2V6a2 2 0 1 1 4 0v3a2 2 0 0 1-2 2z" />
+                                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
+                                        </path>
                                     </svg>
                                 </div>
 
@@ -53,6 +53,65 @@
                                 <div class="d-none d-sm-block">
                                     <h2 class="h6 text-gray-400 mb-0">Số gia sư chờ phê duyệt</h2>
                                     <h3 class="fw-extrabold mb-2">{{$countTeacherWait}} người</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl-4 mb-4">
+            <div class="card border-0 shadow">
+                <div class="card-body">
+                    <a href="http://127.0.0.1:8000/teacher">
+                        <div class="row d-block d-xl-flex align-items-center">
+                            <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                                <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
+                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M10 0a5 5 0 0 0-5 5v6a5 5 0 0 0 10 0V5a5 5 0 0 0-5-5zm0 18h4v2h-4v-2zM4 11a2 2 0 0 1-2-2V6a2 2 0 1 1 4 0v3a2 2 0 0 1-2 2zm12 0a2 2 0 0 1-2-2V6a2 2 0 1 1 4 0v3a2 2 0 0 1-2 2z" />
+                                    </svg>
+
+                                </div>
+                                <div class="d-sm-none">
+                                    <h2 class="h5">Gia Sư</h2>
+                                    <h3 class="fw-extrabold mb-1">345,678</h3>
+                                </div>
+                            </div>
+                            <div class="col-12 col-xl-7 px-xl-0">
+                                <div class="d-none d-sm-block">
+                                    <h2 class="h6 text-gray-400 mb-0">Cộng tác viên</h2>
+                                    <h3 class="fw-extrabold mb-2">{{$countCollaborators}} người</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-4 mb-4">
+            <div class="card border-0 shadow">
+                <div class="card-body">
+                    <a href="http://127.0.0.1:8000/user">
+                        <div class="row d-block d-xl-flex align-items-center">
+                            <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
+                                <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
+                                    <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div class="d-sm-none">
+                                    <h2 class="fw-extrabold h5">Revenue</h2>
+                                    <h3 class="mb-1">$43,594</h3>
+                                </div>
+                            </div>
+                            <div class="col-12 col-xl-7 px-xl-0">
+                                <div class="d-none d-sm-block">
+                                    <h2 class="h6 text-gray-400 mb-0">Phụ Huynh</h2>
+                                    <h3 class="fw-extrabold mb-2">{{$countUser}} người</h3>
                                 </div>
                             </div>
                         </div>
@@ -97,15 +156,18 @@
         <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
-                    <a href="http://127.0.0.1:8000/user">
+                    <a href="http://127.0.0.1:8000/history-admin">
                         <div class="row d-block d-xl-flex align-items-center">
                             <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                                 <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
                                     <svg class="icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z">
-                                        </path>
+                                        <path d="M10 2C14.41 2 18 5.59 18 10s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8zm0-2C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0z" />
+                                        <circle cx="7" cy="10" r="2" fill="#000" />
+                                        <circle cx="13" cy="10" r="2" fill="#000" />
                                     </svg>
+
                                 </div>
+
                                 <div class="d-sm-none">
                                     <h2 class="fw-extrabold h5">Revenue</h2>
                                     <h3 class="mb-1">$43,594</h3>
@@ -113,8 +175,8 @@
                             </div>
                             <div class="col-12 col-xl-7 px-xl-0">
                                 <div class="d-none d-sm-block">
-                                    <h2 class="h6 text-gray-400 mb-0">Phụ Huynh</h2>
-                                    <h3 class="fw-extrabold mb-2">{{$countUser}} người</h3>
+                                    <h2 class="h6 text-gray-400 mb-0">Kết nối thành công</h2>
+                                    <h3 class="fw-extrabold mb-2">{{$countConnect}} trường hợp</h3>
                                 </div>
                             </div>
                         </div>
