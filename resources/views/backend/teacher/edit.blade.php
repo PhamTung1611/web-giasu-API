@@ -119,7 +119,7 @@
               @endforeach
             </select>
             <label>Quận/Huyện muốn dạy</label><br>
-            <input type="text" class="form-control" value="{{$teacher->DistrictID}}" placeholder="Quận HUyện muốn dạy" name="DistrictID">
+            <input type="text" class="form-control" value="{{$teacher->District_ID}}" placeholder="Quận HUyện muốn dạy" name="District_ID">
             <label>Chọn thời gian dạy</label><br>
             <select name="time_tutor_id" id="" class="form-control">
               @foreach($timeTutor as $s)
@@ -132,8 +132,8 @@
             <label>Nhập mô tả về gia sư</label><br>
             <textarea type="text" class="form-control" value="{{$teacher->description}}" placeholder="Nhập mô tả về gia sư" name="description"></textarea>
               <label for="">Giới tính</label><br>
-              Nam: <input type="radio" @if($teacher->gender == 'Nam') checked @endif name="gender" id="" value="1">
-              Nữ: <input type="radio" name="gender" @if($teacher->gender == 'Nữ') checked @endif id="" value="0"><br>
+              Nam: <input type="radio" @if($teacher->gender == 1) checked @endif name="gender" id="" value="1">
+              Nữ: <input type="radio" name="gender" @if($teacher->gender == 0) checked @endif id="" value="0"><br>
               <label for="" class="mt-2">Ngày sinh</label><br>
               <input type="date" class="form-control" value="{{$teacher->date_of_birth}}" name="date_of_birth">
             <label class="mt-2">Trạng thái</label><br>
