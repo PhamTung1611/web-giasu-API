@@ -250,7 +250,7 @@
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="">
+                                <a class="nav-link" href="{{route('search_connect')}}">
                                     <span class="sidebar-text">Kết nối</span>
                                 </a>
                             </li>
