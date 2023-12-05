@@ -77,6 +77,9 @@ Route::middleware('auth')->group(function() {
         Route::match(['get','post'],'subject/edit/{id}',[SubjectController::class,'edit'])->name('edit_subject');
         Route::get('subject/delete/{id}',[SubjectController::class,'delete'])->name('delete_subject');
         Route::get('subject/{id}/teachers', [SubjectController::class, 'ListTeacher'])->name('subject.teachers');
+        Route::get('class/{id}/teachers', [ClassLevelController::class, 'ListTeacher'])->name('class.teachers');
+        Route::get('salary/{id}/teachers', [RankSalaryController::class, 'ListTeacher'])->name('salary.teachers');
+        Route::get('timeslot/{id}/teachers', [TimeSlotController::class, 'ListTeacher'])->name('timeslot.teachers');
         Route::get('detail/{id}', [SubjectController::class, 'DetailTeacher'])->name('detail_teacher');
         //class
         Route::match(['get','post'],'classLevel/add',[ClassLevelController::class,'add'])->name('add_class');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ClassLevelRequest;
 use App\Models\ClassLevel;
 use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -20,6 +21,16 @@ class ClassLevelController extends Controller
                 ->where('class', 'like', '%'.$request->search.'%')->get();
         }
         return view('backend.class.index', compact('class_levels', 'title'));
+    }
+    public function ListTeacher($id){
+        $title = 'Giáo viên dạy';
+        $class = ClassLevel::find($id);
+        if (!$class) {
+            abort(404);
+        }
+        $teachers = User::where('class_id', $id)->where('role','3')->where('status','1')->get();
+        // dd($teachers);
+        return view('backend.subject.teacher',compact('title', 'class', 'teachers'));
     }
     public function add(ClassLevelRequest $request){
         $title = 'Thêm mới lớp học';

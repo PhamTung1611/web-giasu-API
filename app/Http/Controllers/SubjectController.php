@@ -92,61 +92,57 @@ class SubjectController extends Controller
         $title = "Hiển thị chi tiết Giáo viên";
         $history = History::where('id_client', $id)->get();
         $jobs = Job::select('jobs.*', 'user1.id as id_user', 'user1.name as userName', 'user2.id as id_teacher', 'user2.name as teacherName')
-        ->leftJoin('users as user1', 'jobs.id_user', '=', 'user1.id')
-        ->leftJoin('users as user2', 'jobs.id_teacher', '=', 'user2.id')
-        ->where(function ($query) use ($id) {
-            $query->where('jobs.id_user', $id)
-                ->orWhere('jobs.id_teacher', $id);
-        })
-        ->get();
+            ->leftJoin('users as user1', 'jobs.id_user', '=', 'user1.id')
+            ->leftJoin('users as user2', 'jobs.id_teacher', '=', 'user2.id')
+            ->where(function ($query) use ($id) {
+                $query->where('jobs.id_user', $id)
+                    ->orWhere('jobs.id_teacher', $id);
+            })
+            ->get();
 
-    if ($jobs->isEmpty()) {
-        return response()->json(['message' => 'Jobs not found'], 404);
-    }
-
-    $result = [];
-    foreach ($jobs as $job) {
-        $dataSubject = explode(',', $job->subject);
-        $subjectNames = [];
-
-        foreach ($dataSubject as $subjectId) {
-            $subject = DB::table('subjects')->where('id', $subjectId)->value('name');
-            if ($subject) {
-                $subjectNames[] = $subject;
+        $result = [];
+        foreach ($jobs as $job) {
+            // Xử lý subjects
+            $dataSubject = explode(',', $job->subject);
+            $subjectNames = [];
+            foreach ($dataSubject as $subjectId) {
+                $subject = DB::table('subjects')->where('id', $subjectId)->value('name');
+                if ($subject) {
+                    $subjectNames[] = $subject;
+                }
             }
-        }
-        $job->subject = $subjectNames;
+            $job->subject = $subjectNames;
 
-        $dataClass = explode(',', $job->class);
-        $classNames = [];
-        foreach ($dataClass as $classId) {
-            $class = DB::table('class_levels')->where('id', $classId)->value('class');
-            if ($class) {
-                $classNames[] = $class;
+            // Xử lý classes
+            $dataClass = explode(',', $job->class);
+            $classNames = [];
+            foreach ($dataClass as $classId) {
+                $class = DB::table('class_levels')->where('id', $classId)->value('class');
+                if ($class) {
+                    $classNames[] = $class;
+                }
             }
+            $job->class = $classNames;
+
+            $user = DB::table('users')->where('id', $job->id_user)->first();
+            $teacher = DB::table('users')->where('id', $job->id_teacher)->first();
+
+            $job->id_user = $user->id;
+            $job->id_teacher = $teacher->id;
+
+            $job->userName = $user->name;
+            $job->teacherName = $teacher->name;
+            $job->subject = implode(', ', $subjectNames);
+            $job->class = implode(', ', $classNames);
+
+            $result[] = $job;
         }
-        $job->class = $classNames;
-
-        // Lấy thông tin từ bảng users
-        $user = DB::table('users')->where('id', $job->id_user)->first();
-        $teacher = DB::table('users')->where('id', $job->id_teacher)->first();
-
-        // Thêm id cho idUser và idTeacher
-        $job->id_user = $user->id;
-        $job->id_teacher = $teacher->id;
-
-        // Thêm tên cho idUser và idTeacher
-        $job->userName = $user->name;
-        $job->teacherName = $teacher->name;
-
-        $result[] = $job;
-    }
     $dataFeedback = FeedBack::select('feedback.*', 'users.name as id_sender')
             // where('idTeacher',$id)
             ->leftJoin('users', 'feedback.id_sender', '=', 'users.id')
             ->where('feedback.id_teacher', $id)
             ->get();
-            dd($data,$history,$result,$dataFeedback);
+            // dd($result);
         return view('backend.subject.show', compact('title', 'data','history','result','dataFeedback'));
     }
     
