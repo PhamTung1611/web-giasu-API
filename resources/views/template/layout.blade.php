@@ -23,6 +23,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <title>{{ $title }}</title>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <style>
         .emp-profile {
             padding: 3%;
@@ -249,7 +250,7 @@
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{route('search_connect')}}">
+                                <a class="nav-link" href="">
                                     <span class="sidebar-text">Kết nối</span>
                                 </a>
                             </li>

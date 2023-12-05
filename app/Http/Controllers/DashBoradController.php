@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\History;
+use App\Models\Job;
+use App\Models\Subject;
 use App\Models\User;
 use Google\Service\Forms\Feedback;
 use Illuminate\Http\Request;
@@ -14,9 +16,9 @@ class DashBoradController extends Controller
     public function Statistical()
     {
         $title = 'Thống kê';
-        $countTeacher = DB::table('users')->where('role', 'teacher')->where('status', '1')->count();
-        $countTeacherWait = DB::table('users')->where('role', 'teacher')->where('status', '2')->count();
-        $countUser = DB::table('users')->where('role', 'user')->count();
+        $countTeacher = DB::table('users')->where('role', '3')->where('status', '1')->count();
+        $countTeacherWait = DB::table('users')->where('role', '3')->where('status', '2')->count();
+        $countUser = DB::table('users')->where('role', '2')->count();
         $user =  User::find(1);
         $money = $user->coin;
         $query = DB::table('feedback')
@@ -36,9 +38,19 @@ class DashBoradController extends Controller
             ->limit(4)
             ->get();
 
-
-        // dd($topTeachersInfo);
-        return view('dashboard', compact('money', 'countTeacher', 'title', 'countTeacherWait', 'countUser', 'results', 'topTeachersInfo'));
+        $mostHiredSubjects = Subject::select('subjects.id', 'subjects.name', DB::raw('COALESCE(COUNT(jobs.id), 0) as hire_count'))
+            ->leftJoin('jobs', function ($join) {
+                $join->on('jobs.subject', 'like', DB::raw("CONCAT('%,', subjects.id, ',%')"))
+                    ->orWhere('jobs.subject', 'like', DB::raw("CONCAT(subjects.id, ',%')"))
+                    ->orWhere('jobs.subject', 'like', DB::raw("CONCAT('%,', subjects.id)"))
+                    ->orWhere('jobs.subject', 'like', DB::raw("CONCAT(subjects.id)"))
+                    ->orWhereRaw("jobs.subject = CAST(subjects.id AS CHAR)");
+            })
+            ->groupBy('subjects.id', 'subjects.name')
+            ->orderByDesc('hire_count')
+            ->get();
+        // dd($mostHiredSubjects);
+        return view('dashboard', compact('money', 'countTeacher', 'title', 'countTeacherWait', 'countUser', 'results', 'topTeachersInfo','mostHiredSubjects'));
     }
 
     public function listHistoryAdmin()
