@@ -36,10 +36,7 @@ use App\Http\Controllers\TransactionController;
 // });
 Route::group(['middleware' => 'auth:api'], function () {
     //user route
-    Route::prefix('users')->group(function () {
-        Route::put('/{id}', [UsersController::class, 'updateApi']);
-        Route::delete('/{id}', [UsersController::class, 'destroy']);
-    });
+
 
     //route teacher
     Route::prefix('teachers')->group(function () {
@@ -196,3 +193,7 @@ Route::post('users/editpassword',[AuthController::class,'updatePassword']);
 Route::post('add-info',[AuthController::class,'addInfo']);
 Route::put('update-status-teacher/{id}',[UsersController::class,'updatestatus']);
 Route::get('education-level',[EducationLevel::class,'index']);
+Route::prefix('users')->group(function () {
+    Route::put('/{id}', [UsersController::class, 'updateApi']);
+    Route::delete('/{id}', [UsersController::class, 'destroy']);
+});
