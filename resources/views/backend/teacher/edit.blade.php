@@ -83,8 +83,8 @@
               <option class="form-control"  value="{{$s->id}}" {{$teacher->school_id == $s->id ?"selected":""}}>{{$s->name}}</option>
               @endforeach
             </select>
-            <label>Số căn cước hoặc chứng minh thư</label><br>
-            <input type="text" class="form-control" value="{{$teacher->Citizen_card}}" placeholder="Nhập Số căn cước hoặc chứng minh thư" name="Citizen_card">
+{{--            <label>Số căn cước hoặc chứng minh thư</label><br>--}}
+{{--            <input type="text" class="form-control" value="{{$teacher->Citizen_card}}" placeholder="Nhập Số căn cước hoặc chứng minh thư" name="Citizen_card">--}}
             <label>Trình độ học vấn</label><br>
             <input type="text" class="form-control" value="{{$teacher->education_level}}" placeholder="Nhập trình độ học vấn" name="education_level">
             <label>Lớp muốn dạy</label><br>

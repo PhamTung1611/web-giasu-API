@@ -41,9 +41,9 @@ class UserSeeder extends Seeder
 
         ]);
         DB::table('users')->insert([
-            'role'=>3,
+            'role'=>4,
             'name' => 'Ngọc Ánh',
-            'email'=>'anh@gmail.com',
+            'email'=>'ctv@gmail.com',
             'avatar' => 'hinh/default.jpg',
             'phone'=>'0832455611',
             'password'=>Hash::make('123'),
@@ -64,7 +64,7 @@ class UserSeeder extends Seeder
             'latitude'=>"21.010176768000065",
             'Certificate'=>null,
             'date_of_birth'=>'2003-02-23',
-            'gender'=>'Nữ', 
+            'gender'=>'Nữ',
             'coin'=>1000000
         ]);
         DB::table('users')->insert([
