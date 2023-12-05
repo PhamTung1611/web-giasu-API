@@ -42,6 +42,9 @@ Route::middleware('auth')->group(function() {
     Route::middleware('check.role')->group(function() {
     Route::get('/',[DashBoradController::class, 'Statistical'])->name('dashboard');
     Route::get('connect',[ConnectController::class, 'index'])->name('search_connect');
+    Route::get('connect/{id}',[ConnectController::class, 'connectStatus'])->name('connect_status');
+    Route::get('connect/show/{id}',[ConnectController::class, 'showConnect'])->name('connect_show');
+    Route::get('deleteConnect/{id}',[ConnectController::class, 'delete'])->name('delete_connect');
 
     Route::get('salary', [RankSalaryController::class, 'index']);
     Route::get('payment', [TransactionController::class, 'index'])->name('vnpay');
