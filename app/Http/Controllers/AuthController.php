@@ -312,7 +312,6 @@ class AuthController extends Controller
                         'time_tutor'=>$newTimetutor,
                         'coin'=>$user->coin
                     ],
-                    'tinhtrang'=>'oke',
                     'access_token' => $accessToken,
                     'refresh_token' => $tokennew->id,
 
@@ -328,35 +327,6 @@ class AuthController extends Controller
                     'status'=>1,
                 ]
             );
-            $client = new Google_Client();
-//            $client->setAuthConfig('../client_credentials.json');
-//            $client->addScope('https://www.googleapis.com/auth/user.addresses.read');
-//            $client->setRedirectUri('http://localhost:8000/api/callback');
-//            $client->setAccessToken($googleUser->token);
-//            $service = new \Google\Service\PeopleService($client);
-//            $connections = $service->people_connections->listPeopleConnections('people/me', [
-//                'personFields' => 'addresses',
-//            ]);
-//
-//            $addresses = $connections->getAddresses();
-//            if ($addresses) {
-//                // Lấy địa chỉ từ kết quả
-//                $address = $addresses[0]['formattedValue']; // Lấy địa chỉ từ kết quả đầu tiên
-//
-//                // Sử dụng Google Maps Geocoding API để lấy tọa độ từ địa chỉ
-//                $geocodeResponse = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($address) . '&key=YOUR_API_KEY');
-//                $geocodeData = json_decode($geocodeResponse);
-//
-//                if ($geocodeData && $geocodeData->status === 'OK') {
-//                    $latitude = $geocodeData->results[0]->geometry->location->lat;
-//                    $longitude = $geocodeData->results[0]->geometry->location->lng;
-//
-//                    // Cập nhật thông tin người dùng với địa chỉ và tọa độ mới
-//                    $user->address = $address;
-//                    $user->latitude = $latitude;
-//                    $user->longitude = $longitude;
-//                    $user->save();
-//                }
                 $tokenResult = $usernew->createToken('MyAppToken');
 
                 $accessToken = $tokenResult->accessToken;
@@ -371,7 +341,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => __('google sign in successful'),
                     'data' => $usernew,
-                    'tinhtrang' => 'thieuthongtin',
+
                     'access_token' => $accessToken,
                     'refresh_token' => $tokennew->id,
                 ], Response::HTTP_CREATED);

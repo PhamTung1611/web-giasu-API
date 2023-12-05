@@ -104,7 +104,7 @@
                         <div class="dropdown-menu py-0">
                         
                         {{-- <a class="dropdown-item" href=""><span class="fas fa-edit me-2"></span>Edit</a> --}}
-                        <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_feedback', ['id' => $feedbacks->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
+                        <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_connect', ['id' => $item->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
                         </div>
                     </div>
                 </td>

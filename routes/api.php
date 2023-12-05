@@ -5,6 +5,7 @@ use App\Http\Controllers\ApiSubjectController;
 use App\Http\Controllers\ApiJobController;
 use App\Http\Controllers\ApiRankSalaryController;
 use App\Http\Controllers\ApiTimeSlotController;
+use App\Http\Controllers\EducationLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
@@ -189,4 +190,5 @@ Route::prefix('history')->group(function () {
 });
 Route::post('users/editpassword',[AuthController::class,'updatePassword']);
 Route::post('add-info',[AuthController::class,'addInfo']);
-Route::post('searchDistric',[UsersController::class,'searchDistrict']);
+Route::put('update-status-teacher/{id}',[UsersController::class,'updatestatus']);
+Route::get('education-level',[EducationLevel::class,'index']);

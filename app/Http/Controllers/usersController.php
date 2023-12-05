@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use phpseclib3\File\ASN1\Maps\UserNotice;
-
+use App\Models\Education;
 class UsersController extends Controller
 {
     /**
@@ -40,8 +40,11 @@ class UsersController extends Controller
             // dd($request);
             // try {
             // dd(123);
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password,'role'=>[1,4]])) {
                 // dd(123);
+                $user = User::where('email',$request->email)->first();
+                Session::put('email', $user->email);
+                Session::put('role', $user->role);
                 //  return view('dashboard');
                 return redirect()->route('dashboard');
             } else {
@@ -185,7 +188,7 @@ class UsersController extends Controller
             if (!$role) {
                 return response()->json('Sai quyền', 400);
             }
-            $user->role = $role->name;
+            $user->role = $request->role;
             $user->gender = $request->gender;
             $user->date_of_birth = $request->date_of_birth;
             $user->name = $request->name;
@@ -199,7 +202,7 @@ class UsersController extends Controller
             $user->address = $request->address;
             $user->latitude = $request->latitude;
             $user->longitude = $request->longitude;
-            $user->DistrictID = $request->DistrictID;
+            $user->District_ID = $request->DistrictID;
             $user->phone = $request->phone;
             if ($request->role == 3) {
                 $user->exp = $request->exp;
@@ -266,7 +269,17 @@ public function updatestatusSendMail(Request $request){
                     }
                 }
             }
-
+        $newArrayEducation = [];
+        if ($records->education_level != null) {
+            $makeEducation = explode(',', $records->education_level);
+            foreach ($makeEducation as $item) {
+                $educationNew = Education::find($item);
+                // Kiểm tra xem $subjectNew có tồn tại không
+                if ($educationNew) {
+                    array_push($newArrayEducation, ['id' => $educationNew->id, 'name' => $educationNew->name]);
+                }
+            }
+        }
             $newArrayClass = [];
             if ($records->class_id != null) {
                 $makeClass = explode(',', $records->class_id);
@@ -316,7 +329,7 @@ public function updatestatusSendMail(Request $request){
             'address' => $records->address,
             'school_id' => $newSchool,
             'Citizen_card' => $records->Citizen_card,
-            'education_level' => $records->education_level,
+            'education_level' => $newArrayEducation,
             'class_id' => $newArrayClass,
             'subject' => $newArraySubject,
             'salary_id' => $newSalary,
@@ -325,7 +338,7 @@ public function updatestatusSendMail(Request $request){
             'status' => $records->status,
             'longitude'=>$records->longitude,
             'latitude'=>$records->latitude,
-            'district'=>$records->DistrictID,
+            'district'=>$records->District_ID,
             'Certificate' => $Certificate,
             'exp' => $records->exp,
             'current_role' => $records->current_role,
@@ -340,7 +353,7 @@ public function updatestatusSendMail(Request $request){
     {
         try {
             $user = User::find($id);
-            $role = Role::where('name',$request->role);
+            $role = Role::find($request->role);
             if (!$role) {
                 return response()->json('Sai quyền', 400);
             }
@@ -357,16 +370,17 @@ public function updatestatusSendMail(Request $request){
             }
             $user->password = Hash::make($request->password);
             $user->address = $request->address;
-            $user->DistrictID = $request->districtID;
+            $user->District_ID = $request->districtID;
             $user->phone = $request->phone;
             $user->longitude = $request->longitude;
             $user->latitude = $request->latitude;
             if ($request->role == 3) {
                 $user->school_id = $request->school_id;
                 $user->Citizen_card = $request->citizen_card;
-                $user->education_level = $request->education_level;
+                $education = implode(",", $request->education_level);
+                $user->education_level = $education;
                 $class = implode(",", $request->class_id);
-                $user->class_id = $request->$class;
+                $user->class_id = $class;
                 $subject = implode(",", $request->subject);
                 $user->subject = $subject;
                 $user->salary_id = $request->salary_id;
@@ -418,12 +432,12 @@ public function updatestatusSendMail(Request $request){
     public function getAllUser(Request $request)
     {
         $title = 'Danh sách người dùng';
-        $users = User::where('role', 'user')->get();
+        $users = User::where('role', '2')->get();
         if ($request->post() && $request->search) {
             $users = DB::table('users')
                 ->where('id', 'like', '%'.$request->search.'%')->get();
         }
-        
+
         return view('backend.users.index', compact('users', 'title'));
     }
     public function addNewUser(UserRequest $request)
@@ -471,7 +485,7 @@ public function updatestatusSendMail(Request $request){
             if (!$role) {
                 return response()->json('Sai quyền', 400);
             }
-            $user->role = $role->name;
+            $user->role = 2;
             $user->gender = $request->gender;
             $user->date_of_birth = $request->date_of_birth;
             $user->name = $request->name;
@@ -484,7 +498,7 @@ public function updatestatusSendMail(Request $request){
             }
             $user->password = Hash::make($request->password);
             $user->address = $request->address;
-            $user->DistrictID = $request->districtID;
+            $user->District_ID = $request->districtID;
             $user->phone = $request->phone;
 
             if ($user->save()) {
@@ -509,21 +523,11 @@ public function updatestatusSendMail(Request $request){
             }
         }
     }
-    public function searchDistrict (Request $request){
-        $user = User::where('DistrictID', 'LIKE', '%' . $request->DistrictID . '%')->get();
-        if($user){
-            return response()->json([
-                'data'=>$user
-            ]);
-        }else{
-            return response()->json("không tồn tại");
-        }
-    }
+
     public function getAllTeacher()
     {
         $teachers = DB::table('users')
-            ->where('role', 'teacher')
-            ->where('status', '2')
+            ->where('status', 2)
             ->whereNull('deleted_at')
             ->get();
         if ($teachers) {
@@ -537,7 +541,11 @@ public function updatestatusSendMail(Request $request){
         $user = User::find($request->id);
         if ($user) {
             Session::flash('success', 'success');
-            $user->update(['status' => '1']);
+            $email = Session::get('email');
+            $user->status =1;
+            $user->assign_user = $email;
+            $user->save();
+
             return redirect()->route('waiting');
         } else {
             Session::flash('error', 'error');
@@ -554,6 +562,14 @@ public function updatestatusSendMail(Request $request){
             foreach ($makeSubject as $item) {
                 $subjectNew = Subject::find($item);
                 array_push($newArraySubject, $subjectNew->name);
+            }
+        }
+        $newArrayEduaction = [];
+        if ($records->education_level != null) {
+            $makeEducation = explode(',', $records->education_level);
+            foreach ($makeEducation as $item) {
+                $educationNew = Subject::find($item);
+                array_push($newArrayEduaction, $educationNew->name);
             }
         }
         $newArrayClass = [];
@@ -605,14 +621,14 @@ public function updatestatusSendMail(Request $request){
             'address' => $records->address,
             'school' => $newSchool,
             'Citizen_card' => $records->Citizen_card,
-            'education_level' => $records->education_level,
+            'education_level' => $newArrayEduaction,
             'class_id' => $newArrayClass,
             'subject' => $newArraySubject,
             'salary_id' => $newSalary,
             'description' => $records->description,
             'time_tutor_id' => $newArrayTime,
             'status' => $records->status,
-            'DistrictID'=>$records->DistrictID,
+            'DistrictID'=>$records->District_ID,
             'longitude'=>$records->longitude,
             'latitude'=>$records->latitude,
             'Certificate' => $records->Certificate,
@@ -623,5 +639,22 @@ public function updatestatusSendMail(Request $request){
 //        return $data;
             $title = "show Detail Teacher";
             return view('backend.teacher.show',compact('title','data'));
+    }
+    public function updatestatus(Request $request,$id){
+        $user = User::find($id);
+        if($user){
+            $user->status = $request->status;
+            $user->save();
+            return response()->json("success");
+        }
+        else{
+            return response()->json('error',400);
+        }
+    }
+    public function getAllCtv(){
+        $teachers = User::where('role',4)->get();
+        $view =1;
+        $title ="Danh sách cộng tác viên";
+        return view('backend.teacher.index',compact('teachers','view','title'));
     }
 }

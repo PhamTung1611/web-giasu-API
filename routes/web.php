@@ -12,6 +12,7 @@ use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\TimeSlotController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UsersController;
+use App\Models\Connect;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -84,5 +85,7 @@ Route::middleware('auth')->group(function() {
         Route::match(['get','post'],'teacher/edit/{id}',[TeachersController::class,'updateTeacher'])->name('edit_teacher');
         Route::get('teacher/delete/{id}/{view}',[TeachersController::class,'delete'])->name('delete_teacher');
         Route::get('detailTeacher/{id}',[UsersController::class,'getOneTeacherWaiting'])->name('deatailWaitingTeacher');
+
+        Route::get('ctv',[UsersController::class,'getAllCtv'])->name('allctv');
     });
 });
