@@ -35,18 +35,29 @@ class FeedBackController extends Controller
      */
     public function show(string $id)
     {
-        //
-        $data = FeedBack::select('feedback.*', 'users.name as id_sender')
-            // where('idTeacher',$id)
+        $data = FeedBack::select(
+                'feedback.*',
+                'users.name as id_sender',
+                'users.avatar as sender_avatar' // Thêm cột avatar cho id_sender
+            )
             ->leftJoin('users', 'feedback.id_sender', '=', 'users.id')
             ->where('feedback.id_teacher', $id)
             ->get();
-        if ($data) {
-            return response()->json($data, 200);
-        } else {
+    
+        if ($data->isEmpty()) {
             return response()->json(['message' => 'Not Found'], 404);
         }
+    
+        foreach ($data as $item) {
+            // Có thể xử lý các thông tin khác ở đây nếu cần
+    
+            $item->id_sender = $item->id_sender;
+            $item->sender_avatar = $item->sender_avatar;
+        }
+    
+        return response()->json($data, 200);
     }
+    
 
     public function averagePoint(string $id)
     {
