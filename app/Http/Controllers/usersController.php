@@ -680,6 +680,7 @@ public function updatestatusSendMail(Request $request){
             $user->date_of_birth = $request->date_of_birth;
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->status = $request->status;
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                 $deleteImage = Storage::delete('/public/' . $user->avatar);
                 if ($deleteImage) {

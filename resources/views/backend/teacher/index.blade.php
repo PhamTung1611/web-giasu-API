@@ -98,7 +98,7 @@
         </td>
         <td>
             @if($view!=2)
-          <span class="fw-normal">{{ $u->status == "1" ? 'active':'non-active' }}</span>
+            <span class="fw-normal" style="color: {{ $u->status == 1 ? 'green' : 'red' }}">{{$u->status == "1" ? 'Hoạt động' : 'Không hoạt động' }}</span>
             @else
             <span class="fw-normal">wating</span>
             @endif
