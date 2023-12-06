@@ -363,7 +363,7 @@ public function updatestatusSendMail(Request $request){
             if (!$role) {
                 return response()->json('Sai quyền', 400);
             }
-            $user->role = $role->name;
+            $user->role = $request->role;
             $user->gender = $request->gender;
             $user->date_of_birth = $request->date_of_birth;
             $user->name = $request->name;

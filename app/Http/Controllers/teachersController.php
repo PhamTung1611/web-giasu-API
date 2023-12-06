@@ -35,7 +35,7 @@ class TeachersController extends Controller
                 ->leftJoin('rank_salaries', 'users.salary_id', '=', 'rank_salaries.id')
                 ->leftJoin('time_slots', 'users.time_tutor_id', '=', 'time_slots.id')
                 ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
-                ->where('users.role', 'teacher')
+                ->where('users.role', 3)
                 ->where('status', '1')
                 ->get();
             $teachers->transform(function ($teacher) {
@@ -62,7 +62,7 @@ class TeachersController extends Controller
             ->leftJoin('rank_salaries', 'users.salary_id', '=', 'rank_salaries.id')
             ->leftJoin('time_slots', 'users.time_tutor_id', '=', 'time_slots.id')
             ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
-            ->where('users.role', 'teacher')
+            ->where('users.role', 3)
             ->where('users.class_id', $class)
             ->get();
 
@@ -253,7 +253,7 @@ class TeachersController extends Controller
     public function getTeacherByFilter(Request $request)
     {
         $results = User::with( 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
-            ->where('role', 'teacher')
+            ->where('role', 3)
             ->where('status', '1')
             ->when($request->filled('DistrictID'), function ($query) use ($request) {
                 $query->where(function ($query) use ($request) {
