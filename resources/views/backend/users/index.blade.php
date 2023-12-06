@@ -96,16 +96,12 @@
                 <span class="fas fa-ellipsis-h icon-dark"></span>
               </span>
               <span>
-                views
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.005 11.995v.01m0-4.01v.01m0 7.99v.01" />
-                </svg>
+                Xem chi tiết
               </span>
             </button>
             <div class="dropdown-menu py-0">
-
-              <a class="dropdown-item" href="{{ route('edit_user', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Edit</a>
-              <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_user', ['id' => $u->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
+              <a class="dropdown-item" href="{{ route('edit_user', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Sửa</a>
+              <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_user', ['id' => $u->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Xóa</a>
             </div>
           </div>
         </td>

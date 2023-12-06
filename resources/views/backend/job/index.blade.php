@@ -95,7 +95,7 @@
                 <span class="fas fa-ellipsis-h icon-dark"></span>
               </span>
               <span>
-                Views
+                Xem chi tiết
               </span>
             </button>
             <div class="dropdown-menu py-0">

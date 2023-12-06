@@ -158,7 +158,7 @@ class TeachersController extends Controller
             $teacher->description = $request->description;
             $teacher->time_tutor_id = $request->time_tutor;
             $teacher->status = $request->status;
-            $teacher->DistrictID = $request->DistrictID;
+            // $teacher->DistrictID = $request->DistrictID;
             $teacher->current_role = $request->current_role;
             $teacher->exp = $request->exp;
             if ($request->hasFile('Certificate')) {
