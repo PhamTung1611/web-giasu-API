@@ -189,7 +189,7 @@ class TeachersController extends Controller
     }
     public function updateTeacher(UserRequest $request, $id)
     {
-        $title = "Edit Teacher";
+        $title = "Sửa thông tin giáo viên";
         // $district = District::all();
         $school = Schools::all();
         $subject = Subject::all();
@@ -241,7 +241,7 @@ class TeachersController extends Controller
             // $update = User::where('id', $id)->update($request->except('_token'));
             $update = User::where('id', $id)->update($data);
             if ($update) {
-                Session::flash('success', 'Edit teacher success');
+                Session::flash('success', 'Sửa thông tin giáo viên thành công');
                 return redirect()->route('search_teacher');
             } else {
                 Session::flash('error', 'Edit subject error');

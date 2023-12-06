@@ -129,6 +129,9 @@
             <label>Ảnh bằng cấp</label><br>
             <input type="hidden" placeholder="Ảnh bằng cấp" class="form-control" value="{{$teacher->Certificate}}" name="Certificatelast">
               <input type="file" name="Certificate[]" class="form-control" multiple>
+              <div>
+                <img src="{{$teacher->Certificate ? ''.Storage::url($teacher->Certificate) : ''}}" alt="" id="image_preview" width="100" value="{{$teacher->avatar}}">
+              </div>
             <label>Nhập mô tả về gia sư</label><br>
             <textarea type="text" class="form-control" value="{{$teacher->description}}" placeholder="Nhập mô tả về gia sư" name="description"></textarea>
               <label for="">Giới tính</label><br>

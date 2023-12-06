@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->integer('school_id');
-            $table->String('Citizen_card');
+            // $table->String('Citizen_card');
             $table->String('education_level');
             $table->String('description');
             $table->String('time_tutor');
             $table->integer('status');
-            $table->integer('DistrictID');
+            // $table->integer('DistrictID');
             $table->String('Certificate');
             $table->softDeletes();
         });

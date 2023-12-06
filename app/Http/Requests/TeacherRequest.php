@@ -34,11 +34,11 @@ class TeacherRequest extends FormRequest
                             'address' => 'required|string',
                             'email' => 'required|email|unique:users,email',
                             'school_id' => 'required|integer',
-                            'Citizen_card' => 'required',
+                            // 'Citizen_card' => 'required',
                             'education_level' => 'required',
                             'time_tutor' => 'required',
                             'status' => 'required|integer',
-                            'DistrictID' => 'required|integer',
+                            // 'DistrictID' => 'required|integer',
 
                         ];
                         break;
@@ -50,11 +50,11 @@ class TeacherRequest extends FormRequest
                             'address' => 'required|string',
                             'email' => 'required|email',
                             'school_id' => 'required|integer',
-                            'Citizen_card' => 'required',
+                            // 'Citizen_card' => 'required',
                             'education_level' => 'required',
                             'time_tutor' => 'required',
                             'status' => 'required|integer',
-                            'DistrictID' => 'required|integer',
+                            // 'DistrictID' => 'required|integer',
                             'Certificate' => 'required|string',
                         ];
                         break;
@@ -97,13 +97,13 @@ class TeacherRequest extends FormRequest
             'email.unique' => 'Email đã được sử dụng.',
             'school_id.required' => 'Vui lòng nhập school_id.',
             'school_id.integer' => 'School_id phải là một số nguyên.',
-            'Citizen_card.required' => 'Vui lòng nhập số CMND.',
+            // 'Citizen_card.required' => 'Vui lòng nhập số CMND.',
             'education_level.required' => 'Vui lòng nhập education_level.',
             'time_tutor.required' => 'Vui lòng nhập time_tutor.',
             'status.required' => 'Vui lòng nhập status.',
             'status.integer' => 'Status phải là một số nguyên.',
-            'DistrictID.required' => 'Vui lòng nhập DistrictID.',
-            'DistrictID.integer' => 'DistrictID phải là một số nguyên.',
+            // 'DistrictID.required' => 'Vui lòng nhập DistrictID.',
+            // 'DistrictID.integer' => 'DistrictID phải là một số nguyên.',
             'Certificate.required' => 'Vui lòng nhập Certificate.',
 
             // Thêm các messages khác nếu cần
