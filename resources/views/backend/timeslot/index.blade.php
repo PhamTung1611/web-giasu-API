@@ -90,12 +90,12 @@
                             <span class="fas fa-ellipsis-h icon-dark"></span>
                         </span>
                         <span>
-                        Views
-  
+                          Xem chi tiết
                         </span>
                         </button>
                         <div class="dropdown-menu py-0">
                         
+                        <a class="dropdown-item" href="{{ route('timeslot.teachers', ['id' => $item->id])}}"><span class="fas fa-edit me-2"></span>Danh sách giáo viên</a>
                         <a class="dropdown-item" href="{{ route('timeslot.edit', ['id' => $item->id])}}"><span class="fas fa-edit me-2"></span>Sửa</a>
                         <a class="dropdown-item text-danger rounded-bottom" href="{{ route('timeslot.delete', ['id' => $item->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span
                             class="fas fa-trash-alt me-2"></span>Xóa</a>

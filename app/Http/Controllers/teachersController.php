@@ -35,7 +35,7 @@ class TeachersController extends Controller
                 ->leftJoin('rank_salaries', 'users.salary_id', '=', 'rank_salaries.id')
                 ->leftJoin('time_slots', 'users.time_tutor_id', '=', 'time_slots.id')
                 ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
-                ->where('users.role', 'teacher')
+                ->where('users.role', 3)
                 ->where('status', '1')
                 ->get();
             $teachers->transform(function ($teacher) {
@@ -62,7 +62,7 @@ class TeachersController extends Controller
             ->leftJoin('rank_salaries', 'users.salary_id', '=', 'rank_salaries.id')
             ->leftJoin('time_slots', 'users.time_tutor_id', '=', 'time_slots.id')
             ->leftJoin('schools', 'users.school_id', '=', 'schools.id')
-            ->where('users.role', 'teacher')
+            ->where('users.role', 3)
             ->where('users.class_id', $class)
             ->get();
 
@@ -121,7 +121,7 @@ class TeachersController extends Controller
     {
         $title = "Danh sách giáo viên";
         $view = 1;
-        $teachers = User::where('role', 'teacher')->whereIn('status', [0, 1])->get();
+        $teachers = User::where('role', 3)->whereIn('status', [0, 1])->get();
         return view('backend.teacher.index', compact('teachers', 'title', 'view'));
     }
 
@@ -252,8 +252,8 @@ class TeachersController extends Controller
 
     public function getTeacherByFilter(Request $request)
     {
-        $results = User::with('district:id,name', 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
-            ->where('role', 'teacher')
+        $results = User::with( 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
+            ->where('role', 3)
             ->where('status', '1')
             ->when($request->filled('DistrictID'), function ($query) use ($request) {
                 $query->where(function ($query) use ($request) {
@@ -353,7 +353,7 @@ class TeachersController extends Controller
                     }
                 }
             }
-    
+
             $newArrayClass = [];
             if ($records->class_id != null) {
                 $makeClass = explode(',', $records->class_id);
@@ -365,7 +365,7 @@ class TeachersController extends Controller
                     }
                 }
             }
-    
+
             return response()->json([
                 'class_id' => $newArrayClass,
                 'subject' => $newArraySubject,

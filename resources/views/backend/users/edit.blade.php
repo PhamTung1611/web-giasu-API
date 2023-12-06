@@ -62,7 +62,7 @@
             <div class="row">
                 <div class="col-md-12 mb-3">
 
-                    <input type="text" value="user" name="role" hidden>
+                    <input type="text" value="2" name="role" hidden>
                     <label>Họ và Tên</label><br>
                     <input type="text" class="form-control" placeholder="Nhập tên user" name="name" value="{{$user->name}}">
                     <label>Email</label><br>

@@ -22,6 +22,9 @@ class RoleSeeder extends Seeder
             ],
             [
                 'name' => 'teacher'
+            ],
+            [
+                'name'=>'ctv'
             ]
         ]);
     }

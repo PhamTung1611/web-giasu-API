@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('connect', function (Blueprint $table) {
             $table->id();
-            $table->string('idJob');
-            $table->string('idUser');
-            $table->string('idTeacher');
-            $table->string('noteUser')->nullable();
-            $table->string('noteTeacher')->nullable();
-            $table->integer('confirmUser')->default(0);
-            $table->integer('confirmTeacher')->default(0);
+            $table->string('id_job');
+            $table->string('id_user');
+            $table->string('id_teacher');
+            $table->string('note_user')->nullable();
+            $table->string('note_teacher')->nullable();
+            $table->integer('confirm_user')->default(0);
+            $table->integer('confirm_teacher')->default(0);
             $table->integer('status')->default(0);
             $table->timestamps();
         });

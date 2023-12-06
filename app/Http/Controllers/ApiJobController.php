@@ -12,44 +12,44 @@ class ApiJobController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $tests = DB::table('jobs')->get();
-        $results = [];
+    // public function index()
+    // {
+    //     $tests = DB::table('jobs')->get();
+    //     $results = [];
 
-        foreach ($tests as $test) {
-            $dataArray = json_decode($test->subject, true);
+    //     foreach ($tests as $test) {
+    //         $dataArray = json_decode($test->subject, true);
 
-            $subjectNames = [];
-            foreach ($dataArray as $id) {
-                $subject = DB::table('subjects')->where('id', $id)->value('name');
-                if ($subject) {
-                    $subjectNames[] = $subject;
-                }
-            }
+    //         $subjectNames = [];
+    //         foreach ($dataArray as $id) {
+    //             $subject = DB::table('subjects')->where('id', $id)->value('name');
+    //             if ($subject) {
+    //                 $subjectNames[] = $subject;
+    //             }
+    //         }
 
-            $classNames = [];
-            foreach ($dataArray as $id) {
-                $class = DB::table('class_levels')->where('id', $id)->value('class');
-                if ($class) {
-                    $classNames[] = $class;
-                }
-            }
+    //         $classNames = [];
+    //         foreach ($dataArray as $id) {
+    //             $class = DB::table('class_levels')->where('id', $id)->value('class');
+    //             if ($class) {
+    //                 $classNames[] = $class;
+    //             }
+    //         }
 
-            $idUser = DB::table('users')->where('id', $test->idUser)->value('name');
-            $idTeacher = DB::table('users')->where('id', $test->idTeacher)->value('name');
+    //         $idUser = DB::table('users')->where('id', $test->idUser)->value('name');
+    //         $idTeacher = DB::table('users')->where('id', $test->idTeacher)->value('name');
 
-            $test->idUser = $idUser;
-            $test->idTeacher = $idTeacher;
-            $test->subject = $subjectNames;
-            $test->class = $classNames;
-            $results[] = $test;
-        }
+    //         $test->idUser = $idUser;
+    //         $test->idTeacher = $idTeacher;
+    //         $test->subject = $subjectNames;
+    //         $test->class = $classNames;
+    //         $results[] = $test;
+    //     }
 
-        // Chuyển đổi mảng thành JSON
-        $result = json_encode($results, JSON_UNESCAPED_UNICODE);
-        return $result;
-    }
+    //     // Chuyển đổi mảng thành JSON
+    //     $result = json_encode($results, JSON_UNESCAPED_UNICODE);
+    //     return $result;
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -59,8 +59,8 @@ class ApiJobController extends Controller
      */
     public function store(Request $request, MailController $mailController, HistoryController $historyController)
     {
-        $idUser = $request->input('idUser');
-        $idTeacher = $request->input('idTeacher');
+        $idUser = $request->input('id_user');
+        $idTeacher = $request->input('id_teacher');
         $emailUser = $this->findEmailById($idUser);
         $emailTeacher = $this->findEmailById($idTeacher);
         $user = User::find($idUser);
@@ -103,12 +103,12 @@ class ApiJobController extends Controller
      */
     public function show($id)
     {
-        $jobs = Job::select('jobs.*', 'user1.id as idUser', 'user1.name as userName', 'user2.id as idTeacher', 'user2.name as teacherName')
-            ->leftJoin('users as user1', 'jobs.idUser', '=', 'user1.id')
-            ->leftJoin('users as user2', 'jobs.idTeacher', '=', 'user2.id')
+        $jobs = Job::select('jobs.*', 'user1.id as id_user', 'user1.name as userName', 'user2.id as id_teacher', 'user2.name as teacherName')
+            ->leftJoin('users as user1', 'jobs.id_user', '=', 'user1.id')
+            ->leftJoin('users as user2', 'jobs.id_teacher', '=', 'user2.id')
             ->where(function ($query) use ($id) {
-                $query->where('jobs.idUser', $id)
-                    ->orWhere('jobs.idTeacher', $id);
+                $query->where('jobs.id_user', $id)
+                    ->orWhere('jobs.id_teacher', $id);
             })
             ->get();
 
@@ -140,12 +140,12 @@ class ApiJobController extends Controller
             $job->class = $classNames;
 
             // Lấy thông tin từ bảng users
-            $user = DB::table('users')->where('id', $job->idUser)->first();
-            $teacher = DB::table('users')->where('id', $job->idTeacher)->first();
+            $user = DB::table('users')->where('id', $job->id_user)->first();
+            $teacher = DB::table('users')->where('id', $job->id_teacher)->first();
 
             // Thêm id cho idUser và idTeacher
-            $job->idUser = $user->id;
-            $job->idTeacher = $teacher->id;
+            $job->id_user = $user->id;
+            $job->id_teacher = $teacher->id;
 
             // Thêm tên cho idUser và idTeacher
             $job->userName = $user->name;
@@ -168,8 +168,8 @@ class ApiJobController extends Controller
     public function update(Request $request, $id, MailController $mailController, HistoryController $historyController, ConnectController $connectController)
     {
         $job = Job::find($id);
-        $idUser = $job->idUser;
-        $idTeacher = $job->idTeacher;
+        $idUser = $job->id_user;
+        $idTeacher = $job->id_teacher;
         $status = $request->input('status');
         $description = $request->input('description');
         $emailUser = $this->findEmailById($idUser);
@@ -183,6 +183,7 @@ class ApiJobController extends Controller
                         return response()->json(['message' => 'Not enough coin'], 404);
                     } else {
                         $job->update($request->all());
+                        // dd($id, $idUser, $idTeacher);
                         $connectController->createConnect($id, $idUser, $idTeacher);
                         $nameTeacher = $this->findNameByID($idTeacher);
                         $titleForUser = 'Gia sư ' . $nameTeacher . ' đã đồng ý dạy. Vui lòng truy cập vào website để lấy thông tin liên lạc';
@@ -255,8 +256,8 @@ class ApiJobController extends Controller
     {
         $job = Job::find($id);
         if ($job && $job->status == 1) {
-            $user = User::find($job->idUser);
-            $teacher = User::find($job->idTeacher);
+            $user = User::find($job->id_user);
+            $teacher = User::find($job->id_teacher);
             return response()->json([
                 'nameUser' => $user->name,
                 'nameTeacher' => $teacher->name,

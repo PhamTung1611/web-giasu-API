@@ -10,6 +10,7 @@ use App\Models\Subject;
 use App\Models\TimeSlot;
 use App\Models\User;
 use App\Models\Ward;
+use Google_Client;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
@@ -23,7 +24,7 @@ use App\Models\District;
 use App\Models\ClassLevel;
 use App\Models\RankSalary;
 use Laravel\Socialite\Facades\Socialite;
-
+require_once '../vendor/autoload.php';
 class AuthController extends Controller
 {
     public function login(Request $request)
@@ -99,6 +100,8 @@ class AuthController extends Controller
             'user'=>[
                 'id'=>$user->id,
                 'role'=>$user->role,
+                'gender'=>$user->gender,
+                'date_of_birth'=>$user->date_of_birth,
                 'address'=>$user->address,
                 'school' => $schoolName,
                 'citizen_card'=>$user->Citizen_card,
@@ -116,7 +119,13 @@ class AuthController extends Controller
                 'email'=>$user->email,
                 'phone'=>$user->phone,
                 'time_tutor'=>$newTimetutor,
-                'coin'=>$users->coin
+                'coin'=>$user->coin,
+                'exp'=>$user->exp,
+                'current_role'=>$user->current_role,
+                "time_tutor_id"=>$user->time_tutor_id,
+                'status'=>$user->status,
+                'assign_user'=>$user->assign_user,
+                'Certificate_public'=>$user->Certificate_public
             ],
             'access_token' => $tokenResult->accessToken,
             'refresh_token' => $refreshToken->id,
@@ -194,6 +203,8 @@ class AuthController extends Controller
                     'user'=>[
                         'id'=>$user->id,
                         'role'=>$user->role,
+                        'gender'=>$user->gender,
+                        'date_of_birth'=>$user->date_of_birth,
                         'address'=>$user->address,
                         'school' => $schoolName,
                         'citizen_card'=>$user->Citizen_card,
@@ -204,14 +215,20 @@ class AuthController extends Controller
                         'description'=>$user->description,
                         'District'=>$user->DistrictID,
                         'longitude'=>$user->longitude,
-                        'Certificate'=>$user->Certificate,
                         'latitude'=>$user->latitude,
+                        'Certificate'=>$user->Certificate,
                         'avatar'=>'http://127.0.0.1:8000/storage/'.$user->avatar,
                         'name'=>$user->name,
                         'email'=>$user->email,
                         'phone'=>$user->phone,
                         'time_tutor'=>$newTimetutor,
                         'coin'=>$user->coin,
+                        'exp'=>$user->exp,
+                        'current_role'=>$user->current_role,
+                        "time_tutor_id"=>$user->time_tutor_id,
+                        'status'=>$user->status,
+                        'assign_user'=>$user->assign_user,
+                        'Certificate_public'=>$user->Certificate_public
                     ],
                     'access_token' => $tokenResult->accessToken,
                     'refresh_token' => $tokennew->id,
@@ -224,7 +241,7 @@ class AuthController extends Controller
             'message'=>'refreshtoken không tồn tại'
         ],400);
     }
-    public function loginCallback(Request $request,$role)
+    public function loginCallback(Request $request)
     {
 
         try {
@@ -292,6 +309,8 @@ class AuthController extends Controller
                     'user'=>[
                         'id'=>$user->id,
                         'role'=>$user->role,
+                        'gender'=>$user->gender,
+                        'date_of_birth'=>$user->date_of_birth,
                         'address'=>$user->address,
                         'school' => $schoolName,
                         'citizen_card'=>$user->Citizen_card,
@@ -309,41 +328,48 @@ class AuthController extends Controller
                         'email'=>$user->email,
                         'phone'=>$user->phone,
                         'time_tutor'=>$newTimetutor,
-                        'coin'=>$user->coin
+                        'coin'=>$user->coin,
+                        'exp'=>$user->exp,
+                        'current_role'=>$user->current_role,
+                        "time_tutor_id"=>$user->time_tutor_id,
+                        'status'=>$user->status,
+                        'assign_user'=>$user->assign_user,
+                        'Certificate_public'=>$user->Certificate_public
                     ],
-                    'hinhthuc'=>'oke',
                     'access_token' => $accessToken,
                     'refresh_token' => $tokennew->id,
 
                 ]);
 
             }
-            $user = User::create(
+            $usernew = User::create(
                 [
                     'email' => $googleUser->email,
                     'name' => $googleUser->name,
                     'google_id'=> $googleUser->id,
-                    'status'=>3,
+                    'role' => 'user',
+                    'status'=>1,
                 ]
             );
-            $tokenResult = $user->createToken('MyAppToken');
-            $accessToken = $tokenResult->accessToken;
-            $refreshToken = $tokenResult->token->id;
-            $tokennew =Passport::refreshToken()->create([
-                'id' => $refreshToken,
-                'revoked' => false, // Refresh token chưa bị thu hồi (revoke)
-                'expires_at' => now()->addDays(30), // Thời gian hết hạn của refresh token (30 ngày)
-                'user_id'=>$tokenResult->token->user_id,
-                'access_token_id'=> $tokenResult->accessToken
-            ]);
-            return response()->json([
-                'status' => __('google sign in successful'),
-                'data' => $user,
-                'hinhthuc'=>'google',
-                'access_token' => $accessToken,
-                'refresh_token' => $tokennew->id,
-            ], Response::HTTP_CREATED);
+                $tokenResult = $usernew->createToken('MyAppToken');
 
+                $accessToken = $tokenResult->accessToken;
+                $refreshToken = $tokenResult->token->id;
+                $tokennew = Passport::refreshToken()->create([
+                    'id' => $refreshToken,
+                    'revoked' => false, // Refresh token chưa bị thu hồi (revoke)
+                    'expires_at' => now()->addDays(30), // Thời gian hết hạn của refresh token (30 ngày)
+                    'user_id' => $tokenResult->token->user_id,
+                    'access_token_id' => $tokenResult->accessToken
+                ]);
+                return response()->json([
+                    'status' => __('google sign in successful'),
+                    'data' => $usernew,
+
+                    'access_token' => $accessToken,
+                    'refresh_token' => $tokennew->id,
+                ], Response::HTTP_CREATED);
+//            }
         } catch (\Exception $exception) {
             return response()->json([
                 'status' => __('google sign in failed'),
@@ -354,28 +380,12 @@ class AuthController extends Controller
     }
     public function addInfo(UserRequest $request ){
         try {
-            $user = User::where('google_id',$request->google_id);
+            $user = User::where('id',$request->id);
             if ($user){
-                $role = Role::find($request->role);
-                //            dd($role->name);
-                if (!$role) {
-                    return response()->json('Sai quyền', 400);
-                }
-                $user->role = 'user';
-                $user->gender = $request->gender;
-                $user->date_of_birth = $request->date_of_birth;
-                if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
-                    $user->avatar = uploadFile('hinh', $request->file('avatar'));
-                } else {
-                    $user->avatar = "hinh/1699622845_avatar.jpg";
-                }
                 $user->password = Hash::make($request->password);
                 $user->address = $request->address;
                 $user->latitude = $request->latitude;
                 $user->longitude = $request->longitude;
-                $user->DistrictID = $request->DistrictID;
-                $user->phone = $request->phone;
-                $user->status = 1;
                 $user->save();
             }
             else{

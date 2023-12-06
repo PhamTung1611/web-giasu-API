@@ -26,7 +26,6 @@ return new class extends Migration
             $table->String('address')->nullable();
             $table->String('coin')->default(0);
             $table->integer('school_id')->nullable();
-            $table->String('Citizen_card')->nullable();
             $table->String('education_level')->nullable();
             $table->string('class_id')->nullable();
             $table->string('subject')->nullable();
@@ -36,11 +35,13 @@ return new class extends Migration
             $table->String('description')->nullable();
             $table->string('time_tutor_id')->nullable();
             $table->integer('status')->nullable();
-            $table->string('DistrictID')->nullable();
+            $table->string('District_ID')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('google_id')->nullable();
             $table->String('Certificate',1000)->nullable();
+            $table->string('assign_user')->nullable();
+            $table->string('Certificate_public')->nullable();
             $table->rememberToken()->nullable();
             $table->timestamps();
             $table->softDeletes();

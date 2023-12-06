@@ -15,3 +15,4 @@ class TransactionSeeder extends Seeder
         //
     }
 }
+    

@@ -29,8 +29,7 @@ class HistoryController extends Controller
      */
     public function show(string $id)
     {
-        //
-        $history = History::where('idClient', $id)->get();
+        $history = History::where('id_client', $id)->get();
         if ($history) {
             return response()->json($history, 200);
         } else {
@@ -41,7 +40,7 @@ class HistoryController extends Controller
     public function createHistory($idClient, $coin, $type)
     {
         $history = new History();
-        $history->idClient = $idClient;
+        $history->id_client = $idClient;
         $history->coin = $coin;
         $history->type = $type;
         $history->save();
@@ -96,32 +95,37 @@ class HistoryController extends Controller
         }
     }
     public function refundMoneyUserTeacher($userID,$teacherID,$coin){
-        $user = User::find($userID);
-        $teacher = User::find($teacherID);
-        $admin = User::find(1);
-        if ($user && $teacher) {
-            $balanceOfSender = floatval($user->coin);
-            $balanceOfReceiver = floatval($teacher->coin);
-            $balanceOfAdmin = floatval($admin->coin);
-            $user->coin = strval($balanceOfSender + $coin);
-            $teacher->coin = strval($balanceOfReceiver + $coin);
-            $admin->coin = strval($balanceOfAdmin - $coin - $coin);
-            // dd($sender->coin);
-            if (floatval($admin->coin) < 0) {
-                return false;
-            } else {
-                $user->save();
-                $teacher->save();
-                $admin->save();
-                $title = 'Hoàn tiền 50% cọc kết nối được với nhau';
-                $this->createHistory($user->id, +25000, $title);
-                $this->createHistory($teacher->id, +25000, $title);
-                $this->createHistory($admin->id, - strval($coin *2 ), $title);
-                return true;
+            $user = User::find($userID);
+            $teacher = User::find($teacherID);
+            $admin = User::find(1);
+            if ($user && $teacher) {
+                $balanceOfSender = floatval($user->coin);
+                $balanceOfReceiver = floatval($teacher->coin);
+                $balanceOfAdmin = floatval($admin->coin);
+                $user->coin = strval($balanceOfSender + $coin);
+                $teacher->coin = strval($balanceOfReceiver + $coin);
+                $admin->coin = strval($balanceOfAdmin - $coin - $coin);
+                // dd($sender->coin);
+                if (floatval($admin->coin) < 0) {
+                    return false;
+                } else {
+                    $user->save();
+                    $teacher->save();
+                    $admin->save();
+                    if(strval($coin) == 25000){
+                        $title = 'Hoàn tiền 50% cọc kết nối được với nhau';
+                        $this->createHistory($user->id, $coin, $title);
+                        $this->createHistory($teacher->id, $coin, $title);
+                        $this->createHistory($admin->id, - strval($coin *2 ), $title);
+                    }else if(strval($coin) == 40000){
+                        $title = 'Hoàn tiền 80% cọc không kết nối được với nhau';
+                        $this->createHistory($user->id, $coin, $title);
+                        $this->createHistory($teacher->id, $coin, $title);
+                        $this->createHistory($admin->id, - strval($coin *2 ), $title);
+                    }
+                    return true;
+                }
             }
-        } else {
-            return false;
-        }
     }
     /**
      * Update the specified resource in storage.

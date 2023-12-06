@@ -23,6 +23,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <title>{{ $title }}</title>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <style>
         .emp-profile {
             padding: 3%;
@@ -156,8 +157,9 @@
                         <span class="mt-1 ms-1 sidebar-text">GS7</span>
                     </a>
                 </li>
+
                 <li class="nav-item ">
-                    <a href="{{route('dashboard')}}" class="nav-link">
+                    <a href="http://127.0.0.1:8000" class="nav-link">
                         <span class="sidebar-icon">
                             <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -191,6 +193,7 @@
                             </svg>
                         </span>
                     </span>
+                    @if(Session::get('role')==1)
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
@@ -272,6 +275,27 @@
                             </li>
                         </ul>
                     </div>
+
+                        <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                            <ul class="flex-column nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('allctv')}}">
+                                        <span class="sidebar-text">Cộng tác viên</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    @else
+                        <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                            <ul class="flex-column nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('waiting')}}">
+                                        <span class="sidebar-text">Phê duyệt</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    @endif
                     {{-- <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TimeSlotRequest;
 use App\Models\TimeSlot;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -18,6 +19,16 @@ class TimeSlotController extends Controller
                 ->where('id', 'like', '%'.$request->search.'%')->get();
         }
         return view('backend.timeslot.index', compact('title', 'timeslots'));
+    }
+    public function ListTeacher($id){
+        $title = 'Giáo viên dạy';
+        $timeslot = TimeSlot::find($id);
+        if (!$timeslot) {
+            abort(404);
+        }
+        $teachers = User::where('subject', $id)->where('role','3')->where('status','1')->get();
+        // dd($teachers);
+        return view('backend.timeslot.teacher',compact('title', 'timeslot', 'teachers'));
     }
     public function add(TimeSlotRequest $request){
         $title = 'Thêm mới';

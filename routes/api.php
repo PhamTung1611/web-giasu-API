@@ -5,6 +5,7 @@ use App\Http\Controllers\ApiSubjectController;
 use App\Http\Controllers\ApiJobController;
 use App\Http\Controllers\ApiRankSalaryController;
 use App\Http\Controllers\ApiTimeSlotController;
+use App\Http\Controllers\EducationLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
@@ -35,11 +36,11 @@ use App\Http\Controllers\TransactionController;
 // });
 Route::group(['middleware' => 'auth:api'], function () {
     //user route
+
     Route::prefix('users')->group(function () {
-        Route::put('/{id}', [UsersController::class, 'updateApi']);
+        Route::post('/{id}', [UsersController::class, 'updateApi']);
         Route::delete('/{id}', [UsersController::class, 'destroy']);
     });
-
     //route teacher
     Route::prefix('teachers')->group(function () {
         Route::put('/{id}', [TeachersController::class, 'update']);
@@ -88,12 +89,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         //xóa
         Route::delete('/{id}', [ApiTimeSlotController::class, 'destroy']);
     });
-
-
-
-    // Route::get('filter', [TeachersController::class,'getTeacherByFilter']);
-
-
 });
 Route::prefix('teachers')->group(function () {
     Route::get('/', [TeachersController::class, 'index']);
@@ -150,6 +145,7 @@ Route::prefix('vnpay')->group(function () {
     Route::get('/{id}', [TransactionController::class, 'show']);
 });
 Route::prefix('feedback')->group(function () {
+    Route::post('/', [FeedBackController::class, 'store']);
         Route::get('/{id}', [FeedBackController::class, 'show']);
         Route::get('/avgPoint/{id}', [FeedBackController::class, 'averagePoint']);
     });
@@ -159,11 +155,6 @@ Route::prefix('feedback')->group(function () {
         Route::get('/{id}', [UsersController::class, 'show']);
     });
 Route::post('contact',[ContactController::class,'store']);
-Route::prefix('feedback')->group(function () {
-    // lấy ra danh sách
-    Route::post('/', [FeedBackController::class, 'store']);
-
-});
 Route::prefix('connect')->group(function () {
     // lấy ra danh sách
     Route::get('/{id}', [ConnectController::class, 'show']);
@@ -190,7 +181,7 @@ Route::prefix('feedback')->group(function () {
 });
 Route::post('filterDistrict',[UsersController::class,'filterTeacherByDistrict']);
 Route::post('get-google-sign-in-url', [AuthController::class, 'getGoogleSignInUrl']);
-Route::get('callback/{role}', [AuthController::class, 'loginCallback']);
+Route::get('callback', [AuthController::class, 'loginCallback']);
 //Route::post('ggregister',[AuthController::class,'getInfoGG']);
 Route::prefix('history')->group(function () {
     // lấy ra danh sách
@@ -199,4 +190,6 @@ Route::prefix('history')->group(function () {
 });
 Route::post('users/editpassword',[AuthController::class,'updatePassword']);
 Route::post('add-info',[AuthController::class,'addInfo']);
-Route::post('searchDistric',[UsersController::class,'searchDistrict']);
+Route::put('update-status-teacher/{id}',[UsersController::class,'updatestatus']);
+Route::get('education-level',[EducationLevel::class,'index']);
+Route::put('certificate-public/{id}',[UsersController::class,'certificate_public']);

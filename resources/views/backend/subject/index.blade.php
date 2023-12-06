@@ -90,14 +90,13 @@
                             <span class="fas fa-ellipsis-h icon-dark"></span>
                         </span>
                         <span>
-                          Views
-                  
+                          Xem chi tiết
                         </span>
                         </button>
                         <div class="dropdown-menu py-0">
-                        
-                        <a class="dropdown-item" href="{{ route('edit_subject', ['id' => $subjects->id])}}"><span class="fas fa-edit me-2"></span>Edit</a>
-                        <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_subject', ['id' => $subjects->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
+                          <a class="dropdown-item" href="{{ route('subject.teachers', ['id' => $subjects->id])}}"><span class="fas fa-edit me-2"></span>Danh sách giáo viên dạy</a>
+                        <a class="dropdown-item" href="{{ route('edit_subject', ['id' => $subjects->id])}}"><span class="fas fa-edit me-2"></span>Sửa môn học</a>
+                        <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_subject', ['id' => $subjects->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Xóa môn học</a>
                         </div>
                     </div>
                 </td>

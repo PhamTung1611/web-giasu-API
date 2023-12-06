@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use phpseclib3\File\ASN1\Maps\UserNotice;
-
+use App\Models\Education;
 class UsersController extends Controller
 {
     /**
@@ -40,12 +40,15 @@ class UsersController extends Controller
             // dd($request);
             // try {
             // dd(123);
-            if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-                // dd(123);
+            if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'role'=> [1,4] ])) {
+//                 dd(123);
+                $user = User::where('email',$request->email)->first();
+                Session::put('email', $user->email);
+                Session::put('role', $user->role);
                 //  return view('dashboard');
                 return redirect()->route('dashboard');
             } else {
-                // dd(432);
+//                 dd(432);
                 Session::flash('error', 'Sai thông tin đăng nhập');
                 return redirect()->route('login');
             }
@@ -151,7 +154,7 @@ class UsersController extends Controller
     public function index()
     {
         try {
-            $users = User::where('role', 'user')->get();
+            $users = User::where('role', 2)->get();
             $users = $users->map(function ($user) {
                 if ($user->avatar) {
                     $user->avatar = 'http://127.0.0.1:8000/storage/' . $user->avatar;
@@ -185,7 +188,7 @@ class UsersController extends Controller
             if (!$role) {
                 return response()->json('Sai quyền', 400);
             }
-            $user->role = $role->name;
+            $user->role = $request->role;
             $user->gender = $request->gender;
             $user->date_of_birth = $request->date_of_birth;
             $user->name = $request->name;
@@ -199,13 +202,13 @@ class UsersController extends Controller
             $user->address = $request->address;
             $user->latitude = $request->latitude;
             $user->longitude = $request->longitude;
-            $user->DistrictID = $request->DistrictID;
+            $user->District_ID = $request->DistrictID;
             $user->phone = $request->phone;
             if ($request->role == 3) {
                 $user->exp = $request->exp;
                 $user->current_role = $request->current_role;
                 $user->school_id = $request->school_id;
-                $user->Citizen_card = $request->citizen_card;
+//                $user->Citizen_card = $request->citizen_card;
                 $user->education_level = $request->education_level;
                 $user->class_id = $request->class_id;
                 $user->subject = $request->subject;
@@ -245,7 +248,7 @@ public function updatestatusSendMail(Request $request){
            $user->status=2;
            $user->save();
 
-    return redirect()->away('http://localhost3000/auth/user');
+    return redirect()->away('http://localhost:3000/auth/teacher');
 }
     /**
      * Display the specified resource.
@@ -266,7 +269,17 @@ public function updatestatusSendMail(Request $request){
                     }
                 }
             }
-
+        $newArrayEducation = [];
+        if ($records->education_level != null) {
+            $makeEducation = explode(',', $records->education_level);
+            foreach ($makeEducation as $item) {
+                $educationNew = Education::find($item);
+                // Kiểm tra xem $subjectNew có tồn tại không
+                if ($educationNew) {
+                    array_push($newArrayEducation, ['id' => $educationNew->id, 'name' => $educationNew->name]);
+                }
+            }
+        }
             $newArrayClass = [];
             if ($records->class_id != null) {
                 $makeClass = explode(',', $records->class_id);
@@ -303,7 +316,12 @@ public function updatestatusSendMail(Request $request){
         } else {
             $Certificate = [];
         }
-        $renter = DB::table('jobs')->where('idTeacher',$id)->count();
+        if ($records->Certificate_public != null) {
+            $Certificate_public = json_decode($records->Certificate_public);
+        } else {
+            $Certificate_public = [];
+        }
+        $renter = DB::table('jobs')->where('id_teacher',$id)->count();
         // dd($renter);
         return  response()->json([
             'role' => $records->role,
@@ -315,8 +333,8 @@ public function updatestatusSendMail(Request $request){
             'phone' => $records->phone,
             'address' => $records->address,
             'school_id' => $newSchool,
-            'Citizen_card' => $records->Citizen_card,
-            'education_level' => $records->education_level,
+//            'Citizen_card' => $records->Citizen_card,
+            'education_level' => $newArrayEducation,
             'class_id' => $newArrayClass,
             'subject' => $newArraySubject,
             'salary_id' => $newSalary,
@@ -325,12 +343,13 @@ public function updatestatusSendMail(Request $request){
             'status' => $records->status,
             'longitude'=>$records->longitude,
             'latitude'=>$records->latitude,
-            'district'=>$records->DistrictID,
+            'district'=>$records->District_ID,
             'Certificate' => $Certificate,
             'exp' => $records->exp,
             'current_role' => $records->current_role,
             'coin'=>$records->coin,
             'renter'=>$renter,
+            'Certificate_public'=>$Certificate_public,
             'created_date'=>$records->created_at
         ], 200);
     }
@@ -340,15 +359,18 @@ public function updatestatusSendMail(Request $request){
     {
         try {
             $user = User::find($id);
-            $role = Role::where('name',$request->role);
+            $role = Role::find($request->role);
             if (!$role) {
                 return response()->json('Sai quyền', 400);
             }
-            $user->role = $role->name;
+            $user->role = $request->role;
             $user->gender = $request->gender;
             $user->date_of_birth = $request->date_of_birth;
             $user->name = $request->name;
-            $user->email = $request->email;
+            if ( $user->email != $request->email){
+                $user->email = $request->email;
+            }
+
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                 $deleteImage = Storage::delete('/public/' . $user->avatar);
                 if ($deleteImage) {
@@ -357,16 +379,17 @@ public function updatestatusSendMail(Request $request){
             }
             $user->password = Hash::make($request->password);
             $user->address = $request->address;
-            $user->DistrictID = $request->districtID;
+            $user->District_ID = $request->districtID;
             $user->phone = $request->phone;
             $user->longitude = $request->longitude;
             $user->latitude = $request->latitude;
             if ($request->role == 3) {
                 $user->school_id = $request->school_id;
-                $user->Citizen_card = $request->citizen_card;
-                $user->education_level = $request->education_level;
+//                $user->Citizen_card = $request->citizen_card;
+                $education = implode(",", $request->education_level);
+                $user->education_level = $education;
                 $class = implode(",", $request->class_id);
-                $user->class_id = $request->$class;
+                $user->class_id = $class;
                 $subject = implode(",", $request->subject);
                 $user->subject = $subject;
                 $user->salary_id = $request->salary_id;
@@ -378,7 +401,6 @@ public function updatestatusSendMail(Request $request){
                 $user->status = 1;
                 if ($request->hasFile('Certificate')) {
                     $certificates = [];
-
                     foreach ($request->file('Certificate') as $file) {
                         if ($file->isValid()) {
                             $certificates = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
@@ -389,7 +411,7 @@ public function updatestatusSendMail(Request $request){
                     $user->Certificate = $request->Certificate;
                 }
             }
-            $user->save();
+            $user->update();
 
             return response()->json("success", 201);
         } catch (\Exception $e) {
@@ -418,12 +440,12 @@ public function updatestatusSendMail(Request $request){
     public function getAllUser(Request $request)
     {
         $title = 'Danh sách người dùng';
-        $users = User::where('role', 'user')->get();
+        $users = User::where('role', '2')->get();
         if ($request->post() && $request->search) {
             $users = DB::table('users')
                 ->where('id', 'like', '%'.$request->search.'%')->get();
         }
-        
+
         return view('backend.users.index', compact('users', 'title'));
     }
     public function addNewUser(UserRequest $request)
@@ -461,6 +483,41 @@ public function updatestatusSendMail(Request $request){
         }
         return view('backend.users.add', compact('title'));
     }
+    public function addNewCtv(UserRequest $request)
+    {
+        $title = 'Thêm mới cộng tác viên';
+        if ($request->isMethod('post')) {
+            // dd($request);
+            // $params = $request->post();
+            $params = $request->except('_token');
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                $params['avatar'] = uploadFile('hinh', $request->file('avatar'));
+            } else {
+                $params['avatar'] = "hinh/1699622845_avatar.jpg";
+            }
+            // dd($params);
+            // unset($params['_token']);
+            $user = new User();
+            $user->role = 4;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = $request->password;
+            $user->avatar = $request->avatar;
+            $user->phone = $request->phone;
+            $user->address = $request->address;
+            $user->latitude = $request->latitude;
+            $user->longitude = $request->longitude;
+            $user->fill($params);
+            $user->save();
+            if ($user->save()) {
+                Session::flash('success', 'Thêm thành công!');
+                return redirect()->route('allctv');
+            } else {
+                Session::flash('error', 'Thêm không thành công!');
+            }
+        }
+        return view('backend.ctv.add', compact('title'));
+    }
     public function updateUser(UserRequest $request, $id)
     {
         $title = 'Sửa người dùng';
@@ -471,7 +528,7 @@ public function updatestatusSendMail(Request $request){
             if (!$role) {
                 return response()->json('Sai quyền', 400);
             }
-            $user->role = $role->name;
+            $user->role = 2;
             $user->gender = $request->gender;
             $user->date_of_birth = $request->date_of_birth;
             $user->name = $request->name;
@@ -484,7 +541,7 @@ public function updatestatusSendMail(Request $request){
             }
             $user->password = Hash::make($request->password);
             $user->address = $request->address;
-            $user->DistrictID = $request->districtID;
+            $user->District_ID = $request->districtID;
             $user->phone = $request->phone;
 
             if ($user->save()) {
@@ -495,6 +552,41 @@ public function updatestatusSendMail(Request $request){
             }
         }
         return view('backend.users.edit', compact('title', 'user'));
+    }
+    public function updateCtv(UserRequest $request, $id)
+    {
+        $title = 'Sửa cộng tác viên';
+        $user = User::findOrFail($id);
+        if ($request->isMethod('post')) {
+            $user = User::find($id);
+            $role = Role::find(2);
+            if (!$role) {
+                return response()->json('Sai quyền', 400);
+            }
+            $user->role = 4;
+            $user->gender = $request->gender;
+            $user->date_of_birth = $request->date_of_birth;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                $deleteImage = Storage::delete('/public/' . $user->avatar);
+                if ($deleteImage) {
+                    $user->avatar = uploadFile('hinh', $request->file('avatar'));
+                }
+            }
+            $user->password = Hash::make($request->password);
+            $user->address = $request->address;
+            $user->District_ID = $request->districtID;
+            $user->phone = $request->phone;
+
+            if ($user->save()) {
+                Session::flash('success', 'Edit user success');
+                return redirect()->route('allctv');
+            } else {
+                Session::flash('error', 'Edit subject error');
+            }
+        }
+        return view('backend.ctv.edit', compact('title', 'user'));
     }
     public function delete($id)
     {
@@ -509,21 +601,24 @@ public function updatestatusSendMail(Request $request){
             }
         }
     }
-    public function searchDistrict (Request $request){
-        $user = User::where('DistrictID', 'LIKE', '%' . $request->DistrictID . '%')->get();
-        if($user){
-            return response()->json([
-                'data'=>$user
-            ]);
-        }else{
-            return response()->json("không tồn tại");
+    public function delete_ctv($id)
+    {
+        if ($id) {
+            $user = User::find($id);
+            $deleted = $user->delete();
+            if ($deleted) {
+                Session::flash('success', 'Xóa thành công');
+                return redirect()->route('allctv');
+            } else {
+                Session::flash('error', 'xoa that bai');
+            }
         }
     }
+
     public function getAllTeacher()
     {
         $teachers = DB::table('users')
-            ->where('role', 'teacher')
-            ->where('status', '2')
+            ->where('status', 2)
             ->whereNull('deleted_at')
             ->get();
         if ($teachers) {
@@ -537,7 +632,11 @@ public function updatestatusSendMail(Request $request){
         $user = User::find($request->id);
         if ($user) {
             Session::flash('success', 'success');
-            $user->update(['status' => '1']);
+            $email = Session::get('email');
+            $user->status =1;
+            $user->assign_user = $email;
+            $user->save();
+
             return redirect()->route('waiting');
         } else {
             Session::flash('error', 'error');
@@ -554,6 +653,14 @@ public function updatestatusSendMail(Request $request){
             foreach ($makeSubject as $item) {
                 $subjectNew = Subject::find($item);
                 array_push($newArraySubject, $subjectNew->name);
+            }
+        }
+        $newArrayEduaction = [];
+        if ($records->education_level != null) {
+            $makeEducation = explode(',', $records->education_level);
+            foreach ($makeEducation as $item) {
+                $educationNew = Subject::find($item);
+                array_push($newArrayEduaction, $educationNew->name);
             }
         }
         $newArrayClass = [];
@@ -604,15 +711,15 @@ public function updatestatusSendMail(Request $request){
             'phone' => $records->phone,
             'address' => $records->address,
             'school' => $newSchool,
-            'Citizen_card' => $records->Citizen_card,
-            'education_level' => $records->education_level,
+//            'Citizen_card' => $records->Citizen_card,
+            'education_level' => $newArrayEduaction,
             'class_id' => $newArrayClass,
             'subject' => $newArraySubject,
             'salary_id' => $newSalary,
             'description' => $records->description,
             'time_tutor_id' => $newArrayTime,
             'status' => $records->status,
-            'DistrictID'=>$records->DistrictID,
+            'DistrictID'=>$records->District_ID,
             'longitude'=>$records->longitude,
             'latitude'=>$records->latitude,
             'Certificate' => $records->Certificate,
@@ -623,5 +730,37 @@ public function updatestatusSendMail(Request $request){
 //        return $data;
             $title = "show Detail Teacher";
             return view('backend.teacher.show',compact('title','data'));
+    }
+    public function updatestatus(Request $request,$id){
+        $user = User::find($id);
+        if($user){
+            $user->status = $request->status;
+            $user->save();
+            return response()->json("success");
+        }
+        else{
+            return response()->json('error',400);
+        }
+    }
+    public function getAllCtv(Request $request){
+        $users = User::where('role',4)->get();
+        $view =3;
+        $title ="Danh sách cộng tác viên";
+        if ($request->post() && $request->search) {
+            $users = DB::table('users')
+                ->where('name', 'like', '%'.$request->search.'%')
+                ->where('role',4)
+                ->get();
+        }
+        return view('backend.ctv.index',compact('users','view','title'));
+    }
+    public function certificate_public(Request $request,$id){
+        $user = User::find($id);
+        if($user){
+            $user->Certificate_public = $request->Certificate_public;
+            $user->save();
+            return response()->json("success");
+        }
+        return response()->json("Không tồn tại user",400);
     }
 }

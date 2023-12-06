@@ -33,7 +33,12 @@ return [
     'google' => [
         'client_id'     => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect'      => env('GOOGLE_REDIRECT')
+        'redirect'      => env('GOOGLE_REDIRECT'),
+        'scopes' => [
+            // ... (các phạm vi khác)
+            "https://www.googleapis.com/auth/contacts.readonly",
+            'https://www.googleapis.com/auth/user.addresses.read', // Phạm vi đọc địa chỉ người dùng
+        ],
     ],
 
 ];
