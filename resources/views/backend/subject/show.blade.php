@@ -37,12 +37,12 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <a class="dropdown-item text-danger rounded-bottom"
-                        href="{{ route('delete_teacher', ['id' => $data['id'], 'view' => '2']) }}"
-                        onclick="return confirm('Are you sure you want to refuse?');"><span
-                            class="fas fa-trash-alt me-2"></span>Kích hoạt</a>
                     <a class="dropdown-item text-danger rounded-bottom" href="{{ route('waiting') }}"><span
-                            class="fas fa-trash-alt me-2">Tắt kích hoạt</span></a>
+                        class="fas fa-trash-alt me-2">Kích hoạt</span></a>
+                        <a class="dropdown-item text-danger rounded-bottom"
+                            href="{{ route('delete_teacher', ['id' => $data['id'], 'view' => '2']) }}"
+                            onclick="return confirm('Are you sure you want to refuse?');"><span
+                                class="fas fa-trash-alt me-2"></span>Tắt kích hoạt</a>
                 </div>
             </div>
             <div class="row">

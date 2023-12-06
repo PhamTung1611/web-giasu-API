@@ -20,7 +20,7 @@ return new class extends Migration
             $table->String('description');
             $table->String('time_tutor');
             $table->integer('status');
-            // $table->integer('DistrictID');
+            $table->integer('DistrictID');
             $table->String('Certificate');
             $table->softDeletes();
         });

@@ -198,6 +198,7 @@ class TeachersController extends Controller
         $timeTutor = TimeSlot::all();
         $teacher = User::findOrFail($id);
 
+        // dd(json_decode($teacher['Certificate']));
         // dd($teacher);
         if ($request->isMethod('post')) {
             $params = $request->except('_token');
@@ -241,6 +242,7 @@ class TeachersController extends Controller
             // $update = User::where('id', $id)->update($request->except('_token'));
             $update = User::where('id', $id)->update($data);
             if ($update) {
+                // dd($data['Certificate']);
                 Session::flash('success', 'Sửa thông tin giáo viên thành công');
                 return redirect()->route('search_teacher');
             } else {

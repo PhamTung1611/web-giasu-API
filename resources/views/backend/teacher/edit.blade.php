@@ -127,16 +127,20 @@
               @endforeach
             </select>
             <label>Ảnh bằng cấp</label><br>
+            {{-- @if($teacher->Certificate) --}}
+            @foreach(json_decode($teacher->Certificate) as $certificate)
+                {{-- <img src="{{$certificate}}" alt="Certificate" width="100"> --}}
+                <img src="{{$certificate}}" alt="Certificate" id="image_preview" width="100" value="{{$teacher->Certificate}}">
+            @endforeach
+            {{-- @endif --}}
+        <input type="file" placeholder="" name="Certificate[]" accept="image/*" class="form-control @error('Certificate') is-invalid @enderror" multiple>
+
             <input type="hidden" placeholder="Ảnh bằng cấp" class="form-control" value="{{$teacher->Certificate}}" name="Certificatelast">
-              <input type="file" name="Certificate[]" class="form-control" multiple>
-              <div>
-                <img src="{{$teacher->Certificate ? ''.Storage::url($teacher->Certificate) : ''}}" alt="" id="image_preview" width="100" value="{{$teacher->avatar}}">
-              </div>
             <label>Nhập mô tả về gia sư</label><br>
             <textarea type="text" class="form-control" value="{{$teacher->description}}" placeholder="Nhập mô tả về gia sư" name="description"></textarea>
               <label for="">Giới tính</label><br>
-              Nam: <input type="radio" @if($teacher->gender == 1) checked @endif name="gender" id="" value="1">
-              Nữ: <input type="radio" name="gender" @if($teacher->gender == 0) checked @endif id="" value="0"><br>
+              Nam: <input type="radio" {{ $teacher->gender === 'Nam' ? 'checked' : '' }} name="gender" id="" value="1">
+              Nữ: <input type="radio" name="gender"  {{ $teacher->gender === 'Nữ' ? 'checked' : '' }} id="" value="0"><br>
               <label for="" class="mt-2">Ngày sinh</label><br>
               <input type="date" class="form-control" value="{{$teacher->date_of_birth}}" name="date_of_birth">
             <label class="mt-2">Trạng thái</label><br>
