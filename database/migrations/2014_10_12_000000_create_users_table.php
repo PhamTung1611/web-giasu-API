@@ -41,7 +41,8 @@ return new class extends Migration
             $table->string('google_id')->nullable();
             $table->String('Certificate',1000)->nullable();
             $table->string('assign_user')->nullable();
-            $table->string('Certificate_public')->nullable();
+            $table->string('Certificate_public',1000)->nullable();
+            $table->integer('status_certificate')->default(0);
             $table->rememberToken()->nullable();
             $table->timestamps();
             $table->softDeletes();
