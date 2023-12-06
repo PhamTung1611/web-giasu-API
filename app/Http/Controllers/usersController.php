@@ -379,23 +379,18 @@ public function updatestatusSendMail(Request $request){
             }
             $user->password = Hash::make($request->password);
             $user->address = $request->address;
-            $user->District_ID = $request->districtID;
+            $user->District_ID = $request->DistrictID;
             $user->phone = $request->phone;
             $user->longitude = $request->longitude;
             $user->latitude = $request->latitude;
             if ($request->role == 3) {
                 $user->school_id = $request->school_id;
-//                $user->Citizen_card = $request->citizen_card;
-                $education = implode(",", $request->education_level);
-                $user->education_level = $education;
-                $class = implode(",", $request->class_id);
-                $user->class_id = $class;
-                $subject = implode(",", $request->subject);
-                $user->subject = $subject;
+                $user->education_level = $request->education_level;
+                $user->class_id = $request->class_id;
+                $user->subject = $request->subject;
                 $user->salary_id = $request->salary_id;
                 $user->description = $request->description;
-                $time_tutor = implode(",", $request->time_tutor_id);
-                $user->time_tutor_id = $request->$time_tutor;
+                $user->time_tutor_id = $request->time_tutor_id;
                 $user->current_role = $request->current_role;
                 $user->exp = $request->exp;
                 $user->status = 1;

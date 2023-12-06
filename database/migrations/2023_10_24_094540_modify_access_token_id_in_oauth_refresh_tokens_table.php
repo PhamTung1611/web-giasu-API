@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('oauth_refresh_tokens', function (Blueprint $table) {
-            $table->string('access_token_id', 500)->change();
+            $table->string('access_token_id', 1000)->change();
         });
     }
 
