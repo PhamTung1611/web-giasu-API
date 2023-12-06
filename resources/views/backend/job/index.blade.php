@@ -63,22 +63,22 @@
       </tr>
     </thead>
     <tbody>
-      @foreach($results as $item)
+      @foreach($jobs as $item)
       <tr>
         <td>
           <a href="" class="fw-bold">{{$item->id}}</a>
         </td>
         <td>
-          <span class="fw-normal">{{$item->id_user}}</span>
+          <span class="fw-normal"><a href="{{ route('detail_teacher', ['id' => $item->user_id])}}"></a>{{$item->user_name}}</span>
         </td>
         <td>
-          <span class="fw-normal">{{$item->id_teacher}}</span>
+          <span class="fw-normal"><a href="{{ route('detail_teacher', ['id' => $item->teacher_id])}}"></a>{{$item->teacher_name}}</span>
         </td>
         <td>
-          <span class="fw-normal">{{$item->subject}}</span>
+          <span class="fw-normal">{{$item->subject_name}}</span>
         </td>
         <td>
-          <span class="fw-normal">{{$item->class}}</span>
+          <span class="fw-normal">{{$item->class_name}}</span>
         </td>
         <td>
         <span class="fw-normal">{{$item->description}}</span>
