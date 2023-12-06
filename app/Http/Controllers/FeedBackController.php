@@ -19,10 +19,13 @@ class FeedBackController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,HistoryController $historyController)
     {
         //
         $data = FeedBack::create($request->all());
+        if($data->point == 5){
+            $historyController->addCoin($data->id_teacher);
+        }
         if ($data) {
             return response()->json(['message' => 'Success'], 200);
         } else {
