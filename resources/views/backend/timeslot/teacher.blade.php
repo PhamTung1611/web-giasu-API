@@ -1,3 +1,4 @@
+
 @extends('template.layout')
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -5,7 +6,7 @@
       <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
         <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
           <li class="breadcrumb-item">
-            <a href="#">
+            <a href="{{route('dashboard')}}">
               <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -14,28 +15,27 @@
               </svg>
             </a>
           </li>
-          {{-- <li class="breadcrumb-item"><a href="#">Tables</a></li> --}}
         </ol>
       </nav>
       <h2 class="h4">{{$title}}</h2>
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
-      <a href="{{route('salary.add')}}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
+      <a href="{{route('add_subject')}}" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
         <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
         </svg>
-        Thêm mới mức lương
+        Thêm mới môn học
       </a>
     </div>
   </div>
   <div class="table-settings mb-4">
     <div class="row align-items-center justify-content-between">
       <div class="col col-md-6 col-lg-3 col-xl-4">
-        <form class="input-group me-2 me-lg-3 fmxw-400" action="{{route('search_salary')}}" method="POST">
+        <form class="input-group me-2 me-lg-3 fmxw-400" action="{{route('search_subject')}}" method="POST">
           @csrf
-          <input type="text" class="form-control" name="search" placeholder="Tìm kiếm...">
-          <input type="submit" value="Lọc" class="btn btn-secondary">
+          <input type="text" class="form-control" name="search" placeholder="Tìm kiếm ...">
+            <input type="submit" value="Lọc" class="btn btn-secondary">  
         </form>
       </div>
       <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
@@ -69,37 +69,49 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Tên</th>
+                <th>Tên giáo viên</th>
+                <th>Địa chỉ email</th>
+                <th>Ảnh đại diện</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
                 <th>Hành động</th>
             </tr>
         </thead>
         <tbody>
         <!-- Item -->
-        @foreach($salaries as $item)
+        @foreach($teachers as $teacher)
             <tr>
                 <td>
-                    <a href="" class="fw-bold">{{$item->id}}</a>
+                    <a href="" class="fw-bold">{{$teacher->id}}</a>
                 </td>
                 <td>
-                    <span class="fw-normal">{{$item->name}}</span>
+                    <span class="fw-normal">{{$teacher->name}}</span>
                 </td>
+                <td>
+                  <span class="fw-normal">{{$teacher->email}}</span>
+              </td>
+              <td>
+                <img src="{{$teacher->avatar?''.Storage::url($teacher->avatar):''}}" alt="" style="width: 70px; height: auto;">
+                {{-- <span class="fw-normal">{{$teacher->avatar}}</span> --}}
+            </td>
+            <td>
+              <span class="fw-normal">{{$teacher->phone}}</span>
+          </td>
+          <td>
+            <span class="fw-normal">{{$teacher->address}}</span>
+        </td>
                 <td>
                     <div class="btn-group">
-                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="icon icon-sm">
-                            <span>
-                              Xem chi tiết
-                            </span>
+                            <span class="fas fa-ellipsis-h icon-dark"></span>
                         </span>
-                        
+                        <span>
+                          Xem chi tiết
+                        </span>
                         </button>
                         <div class="dropdown-menu py-0">
-                        
-                        <a class="dropdown-item" href="{{ route('salary.teachers', ['id' => $item->id])}}"><span class="fas fa-edit me-2"></span>Danh sách giáo viên</a>
-                        <a class="dropdown-item" href="{{ route('salary.edit', ['id' => $item->id])}}"><span class="fas fa-edit me-2"></span>Sửa</a>
-                        <a class="dropdown-item text-danger rounded-bottom" href="{{ route('salary.delete', ['id' => $item->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span
-                            class="fas fa-trash-alt me-2"></span>Xóa</a>
+                          <a class="dropdown-item ~text-gray-800 rounded-bottom" href="{{ route('detail_teacher', ['id' => $teacher->id])}}" ><span class="fas fa-trash-alt me-2"></span>show</a>
                         </div>
                     </div>
                 </td>
@@ -146,3 +158,4 @@
     </div>
 </div>
 @endsection
+

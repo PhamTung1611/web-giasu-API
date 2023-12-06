@@ -12,71 +12,68 @@ use Illuminate\Support\Facades\Session;
 
 class JobController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $title = 'Danh sách công việc';
-        $tests = Job::orderBy('id', 'desc')->get();
-        if ($request->post() && $request->search) {
-            $tests = DB::table('jobs')
-                ->where('id', 'like', '%'.$request->search.'%')->get();
+        $jobs = DB::table('jobs')
+            ->select(
+                'jobs.id',
+                'users_user.id as user_id',
+                'users_user.name as user_name',
+                'users_teacher.id as teacher_id',
+                'users_teacher.name as teacher_name',
+                'subjects.name as subject_name',
+                'class_levels.class as class_name',
+                'jobs.description',
+                'jobs.status'
+            )
+            ->leftJoin('users as users_user', 'jobs.id_user', '=', 'users_user.id')
+            ->leftJoin('users as users_teacher', 'jobs.id_teacher', '=', 'users_teacher.id')
+            ->leftJoin('subjects', 'jobs.subject', '=', 'subjects.id')
+            ->leftJoin('class_levels', 'jobs.class', '=', 'class_levels.id')
+            ->get();
+
+        foreach ($jobs as $job) {
+            $job->user_id;
+            $job->user_name;
+            $job->teacher_id;
+            $job->teacher_name;
+            $job->subject_name;
+            $job->class_name;
+            $job->description;
+            $job->status;
         }
-        $results = [];
-
-        foreach ($tests as $test) {
-            $dataArray = json_decode($test->subject, true);
-
-            $subjectNames = [];
-            foreach ($dataArray as $id) {
-                $subject = DB::table('subjects')->where('id', $id)->value('name');
-                if ($subject) {
-                    $subjectNames[] = $subject;
-                }
-            }
-            
-            $classNames = [];
-            foreach ($dataArray as $id) {
-                $class = DB::table('class_levels')->where('id', $id)->value('class');
-                if ($class) {
-                    $classNames[] = $class;
-                }
-            }
-
-            $idUser = DB::table('users')->where('id', $test->id_user)->value('name');
-            $idTeacher = DB::table('users')->where('id', $test->id_teacher)->value('name');
-
-            $test->id_user = $idUser;
-            $test->id_teacher = $idTeacher;
-            $test->subject = implode(', ', $subjectNames); // Chuyển mảng thành chuỗi bằng hàm implode
-            $test->class = implode(', ', $classNames); // Chuyển mảng thành chuỗi bằng hàm implode
-            $results[] = $test;
-        }
-        // dd($results);
-        return view('backend.job.index', compact('results','title'));
+        // dd($jobs);
+        return view('backend.job.index', compact('jobs', 'title'));
     }
-    public function update(JobRequest $request, $id){
+
+    public function update(JobRequest $request, $id)
+    {
         $title = 'Sửa công việc';
         $salary = RankSalary::all();
         $date = TimeSlot::all();
         $job = Job::findOrFail($id);
-        if($request->isMethod('post')){
+        if ($request->isMethod('post')) {
             $update = Job::where('id', $id)->update($request->except('_token'));
-            if($update){
+            if ($update) {
                 Session::flash('success', 'Sửa thành công');
                 return redirect()->route('search_job');
-            }else{
+            } else {
                 Session::flash('error', 'Edit job error');
             }
         }
-            return view('backend.job.edit', compact('title','job', 'salary', 'date'));
+        return view('backend.job.edit', compact('title', 'job', 'salary', 'date'));
     }
-    public function delete($id){
-        if($id){
+    public function delete($id)
+    {
+        if ($id) {
             $job = Job::find($id);
             $deleted = $job->delete();
-            if($deleted){
-                Session::flash('success','Xoá thành công!');
+            if ($deleted) {
+                Session::flash('success', 'Xoá thành công!');
                 return redirect()->route('search_job');
-            }else{
-                Session::flash('error','xoa that bai');
+            } else {
+                Session::flash('error', 'xoa that bai');
             }
         }
     }

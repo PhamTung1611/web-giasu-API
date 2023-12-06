@@ -14,8 +14,30 @@ class ConnectController extends Controller
      */
     public function index()
     {
-        $title = 'Liên hệ';
-        $connect = Connect::all();
+        $title = 'Kết nối ';
+        $connect = Connect::select(
+            'connect.*',
+            'user1.id as id_user',
+            'user1.name as userName',
+            'user2.id as id_teacher',
+            'user2.name as teacherName'
+        )
+            ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
+            ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
+            ->get();
+
+        if ($connect->isEmpty()) {
+            return response()->json(['message' => 'Connect not found'], 404);
+        }
+
+        foreach ($connect as $item) {
+            $item->id_job = $item->id_job;
+            $item->id_user = $item->id_user;
+            $item->id_teacher = $item->id_teacher;
+            $item->userName = $item->userName;
+            $item->teacherName = $item->teacherName;
+        }
+        // dd($connect);
         return view('backend.connect.index', compact('connect', 'title'));
     }
 
@@ -52,8 +74,8 @@ class ConnectController extends Controller
         }
 
         foreach ($connect as $item) {
-            $item->idUser = $item->idUser;
-            $item->idTeacher = $item->idTeacher;
+            $item->id_user = $item->id_user;
+            $item->id_teacher = $item->id_teacher;
             $item->userName = $item->userName;
             $item->teacherName = $item->teacherName;
         }
@@ -146,7 +168,7 @@ class ConnectController extends Controller
                     $connect->save();
                     $nameTeacher = $this->findNameByID($connect->id_teacher);
                     $nameUser = $this->findNameByID($connect->id_user);
-                    $user = User::find($connect->id_user); 
+                    $user = User::find($connect->id_user);
                     $teacher = User::find($connect->id_teacher);
                     if ($user && $teacher) {
                         $refundMoney = $historyController->refundMoneyUserTeacher($connect->id_user, $connect->id_teacher, 40000);
@@ -162,7 +184,7 @@ class ConnectController extends Controller
                     } else {
                         return response()->json(['message' => 'Error'], 404);
                     }
-                } else if ($checkPoint == $confirmTeacher ) {
+                } else if ($checkPoint == $confirmTeacher) {
                     $connect->update($request->all());
                     return response()->json(['message' => 'Success'], 200);
                 }
@@ -190,7 +212,7 @@ class ConnectController extends Controller
                     } else {
                         return response()->json(['message' => 'Error'], 404);
                     }
-                }else if ($checkPoint == $confirmUser ) {
+                } else if ($checkPoint == $confirmUser) {
                     $connect->update($request->all());
                     return response()->json(['message' => 'Success'], 200);
                 }
@@ -229,15 +251,16 @@ class ConnectController extends Controller
     {
         //
     }
-    public function delete($id){
-        if($id){
+    public function delete($id)
+    {
+        if ($id) {
             $class_levels = Connect::find($id);
             $deleted = $class_levels->delete();
-            if($deleted){
-                Session::flash('success','Xóa thành công');
+            if ($deleted) {
+                Session::flash('success', 'Xóa thành công');
                 return redirect()->route('search_connect');
-            }else{
-                Session::flash('error','xoa that bai');
+            } else {
+                Session::flash('error', 'xoa that bai');
             }
         }
     }
@@ -249,5 +272,63 @@ class ConnectController extends Controller
         $connect->id_teacher = $idTeacher;
         $connect->save();
         return true;
+    }
+    public function connectStatus($id)
+    {
+        $title = 'Kết nối';
+        $connect = Connect::select(
+            'connect.*',
+            'user1.id as id_user',
+            'user1.name as userName',
+            'user2.id as id_teacher',
+            'user2.name as teacherName'
+        )
+            ->where('connect.status', $id)
+            ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
+            ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
+            ->get();
+
+        foreach ($connect as $item) {
+            $item->id_job = $item->id_job;
+            $item->id_user = $item->id_user;
+            $item->id_teacher = $item->id_teacher;
+            $item->userName = $item->userName;
+            $item->teacherName = $item->teacherName;
+        }
+        // dd($connect);
+        return view('backend.connect.index', compact('connect', 'title'));
+    }
+
+    public function showConnect($id)
+    {
+        $title = 'Chi tiết kết nối';
+        $connect = Connect::select(
+            'connect.*',
+            'user1.id as id_user',
+            'user1.name as userName',
+            'user2.id as id_teacher',
+            'user2.name as teacherName',
+            'class_levels.class as className',
+            'subjects.name as subjectName'
+        )
+            ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
+            ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
+            ->leftJoin('jobs', 'connect.id_job', '=', 'jobs.id')
+            ->leftJoin('class_levels', 'jobs.class', '=', 'class_levels.id') // Thêm join với bảng 'class'
+            ->leftJoin('subjects', 'jobs.subject', '=', 'subjects.id') // Thêm join với bảng 'subject'
+            ->where('connect.id', $id)
+            ->get();
+
+        foreach ($connect as $item) {
+            // Truy cập thông tin từ các bảng 'class' và 'subject'
+            $item->className = $item->className;
+            $item->subjectName = $item->subjectName;
+            $item->id_user = $item->id_user;
+            $item->id_teacher = $item->id_teacher;
+            $item->userName = $item->userName;
+            $item->teacherName = $item->teacherName;
+        }
+        // dd($connect);
+        return view('backend.connect.show', compact('connect', 'title'));
     }
 }
