@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FeedBack;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class FeedBackController extends Controller
@@ -39,13 +40,13 @@ class FeedBackController extends Controller
     public function show(string $id)
     {
         $data = FeedBack::select(
-                'feedback.*',
-                'users.name as id_sender',
-                'users.avatar as sender_avatar' // Thêm cột avatar cho id_sender
-            )
-            ->leftJoin('users', 'feedback.id_sender', '=', 'users.id')
-            ->where('feedback.id_teacher', $id)
-            ->get();
+            'feedback.*',
+            'users.name as id_sender',
+            DB::raw("CONCAT('http://127.0.0.1:8000/storage/', users.avatar) as sender_avatar")
+        )
+        ->leftJoin('users', 'feedback.id_sender', '=', 'users.id')
+        ->where('feedback.id_teacher', $id)
+        ->get();
     
         if ($data->isEmpty()) {
             return response()->json(['message' => 'Not Found'], 404);
@@ -60,6 +61,7 @@ class FeedBackController extends Controller
     
         return response()->json($data, 200);
     }
+    
     
 
     public function averagePoint(string $id)

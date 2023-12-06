@@ -147,19 +147,15 @@ class ApiJobController extends Controller
             }
             $job->class = $classNames;
     
-            // Lấy thông tin từ bảng users
             $user = DB::table('users')->where('id', $job->id_user)->first();
             $teacher = DB::table('users')->where('id', $job->id_teacher)->first();
     
-            // Thêm id cho idUser và idTeacher
             $job->id_user = $user->id;
             $job->id_teacher = $teacher->id;
     
-            // Thêm tên cho idUser và idTeacher
             $job->userName = $user->name;
             $job->teacherName = $teacher->name;
     
-            // Thêm đoạn text trước userAvatar và teacherAvatar
             $job->userAvatar = 'http://127.0.0.1:8000/storage/' . $user->avatar;
             $job->teacherAvatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
     
