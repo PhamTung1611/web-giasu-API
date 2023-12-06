@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img">
-                        <img src="{{ $data['avatar'] }}" alt="" />
+                        <img src="{{ $data['avatar'] }}" style="width: 100px;" alt="" />
 
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>Address</label>
+                                    <label>Địa chỉ</label>
                                 </div>
                                 <div class="col-md-6">
                                     <p>{{ $data['address'] }}</p>
@@ -93,7 +93,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>Description</label>
+                                    <label>Mô tả về gia sư</label>
                                 </div>
                                 <div class="col-md-6">
                                     <p>{{ $data['description'] }}</p>

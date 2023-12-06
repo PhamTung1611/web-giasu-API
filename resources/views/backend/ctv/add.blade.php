@@ -81,6 +81,7 @@
               Nữ: <input type="radio" name="gender" id="" value="0"><br>
               <label for="" class="mt-2">Ngày sinh</label><br>
               <input type="date" class="form-control" name="date_of_birth">
+            
             @error('class')
             <span class="text-danger">{{$message}}</span>
             @enderror
