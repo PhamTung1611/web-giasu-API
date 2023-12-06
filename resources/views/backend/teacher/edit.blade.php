@@ -130,7 +130,7 @@
             {{-- @if($teacher->Certificate) --}}
             @foreach(json_decode($teacher->Certificate) as $certificate)
                 {{-- <img src="{{$certificate}}" alt="Certificate" width="100"> --}}
-                <img src="{{$certificate}}" alt="Certificate" id="image_preview" width="100" value="{{$teacher->Certificate}}">
+                <img src="{{$certificate ? ''.Storage::url($certificate) : ''}}" alt="Certificate" id="image_preview" width="100" value="{{$teacher->Certificate}}">
             @endforeach
             {{-- @endif --}}
         <input type="file" placeholder="" name="Certificate[]" accept="image/*" class="form-control @error('Certificate') is-invalid @enderror" multiple>
