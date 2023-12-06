@@ -104,21 +104,21 @@ class ApiJobController extends Controller
     public function show($id)
     {
         $jobs = Job::select(
-                'jobs.*',
-                'user1.id as id_user',
-                'user1.name as userName',
-                'user1.avatar as userAvatar', // Thêm cột avatar cho user
-                'user2.id as id_teacher',
-                'user2.name as teacherName',
-                'user2.avatar as teacherAvatar' // Thêm cột avatar cho teacher
-            )
-            ->leftJoin('users as user1', 'jobs.id_user', '=', 'user1.id')
-            ->leftJoin('users as user2', 'jobs.id_teacher', '=', 'user2.id')
-            ->where(function ($query) use ($id) {
-                $query->where('jobs.id_user', $id)
-                    ->orWhere('jobs.id_teacher', $id);
-            })
-            ->get();
+            'jobs.*',
+            'user1.id as id_user',
+            'user1.name as userName',
+            DB::raw("CONCAT('http://127.0.0.1:8000/storage/', user1.avatar) as userAvatar"),
+            'user2.id as id_teacher',
+            'user2.name as teacherName',
+            DB::raw("CONCAT('http://127.0.0.1:8000/storage/', user2.avatar) as teacherAvatar")
+        )
+        ->leftJoin('users as user1', 'jobs.id_user', '=', 'user1.id')
+        ->leftJoin('users as user2', 'jobs.id_teacher', '=', 'user2.id')
+        ->where(function ($query) use ($id) {
+            $query->where('jobs.id_user', $id)
+                ->orWhere('jobs.id_teacher', $id);
+        })
+        ->get();
     
         if ($jobs->isEmpty()) {
             return response()->json(['message' => 'Jobs not found'], 404);
@@ -159,15 +159,16 @@ class ApiJobController extends Controller
             $job->userName = $user->name;
             $job->teacherName = $teacher->name;
     
-            // Thêm avatar cho user và teacher
-            $job->userAvatar = $user->avatar;
-            $job->teacherAvatar = $teacher->avatar;
+            // Thêm đoạn text trước userAvatar và teacherAvatar
+            $job->userAvatar = 'http://127.0.0.1:8000/storage/' . $user->avatar;
+            $job->teacherAvatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
     
             $result[] = $job;
         }
     
         return response()->json($result, 200);
     }
+    
     
 
 
