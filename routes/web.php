@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function() {
         Route::get('salary/{id}/teachers', [RankSalaryController::class, 'ListTeacher'])->name('salary.teachers');
         Route::get('timeslot/{id}/teachers', [TimeSlotController::class, 'ListTeacher'])->name('timeslot.teachers');
         Route::get('detail/{id}', [SubjectController::class, 'DetailTeacher'])->name('detail_teacher');
+        Route::get('detailUser/{id}', [SubjectController::class, 'DetailTeacher'])->name('detail_user');
         //class
         Route::match(['get','post'],'classLevel/add',[ClassLevelController::class,'add'])->name('add_class');
         Route::match(['get','post'],'classLevel/edit/{id}',[ClassLevelController::class,'edit'])->name('edit_class');

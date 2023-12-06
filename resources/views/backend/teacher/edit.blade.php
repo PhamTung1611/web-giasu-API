@@ -129,11 +129,16 @@
 
              @if($teacher->Certificate)
               <label>Ảnh bằng cấp</label><br>
+            <label>Ảnh bằng cấp</label><br>
+            @if($teacher->Certificate)
             @foreach(json_decode($teacher->Certificate) as $certificate)
-                {{-- <img src="{{$certificate}}" alt="Certificate" width="100"> --}}
-                <img src="{{$certificate}}" alt="Certificate" id="image_preview" width="100" value="{{$teacher->Certificate}}">
+                <img src="{{$certificate}}" alt="Certificate" width="100">
+                {{-- <img src="{{$certificate ? ''.Storage::url($certificate) : ''}}" alt="Certificate" id="image_preview" width="100" value="{{$teacher->Certificate}}"> --}}
             @endforeach
              @endif
+            @else
+              <p>Không có ảnh bằng cấp.</p>
+            @endif
         <input type="file" placeholder="" name="Certificate[]" accept="image/*" class="form-control @error('Certificate') is-invalid @enderror" multiple>
 
             <input type="hidden" placeholder="Ảnh bằng cấp" class="form-control" value="{{$teacher->Certificate}}" name="Certificatelast">
