@@ -84,9 +84,7 @@
         <span class="fw-normal">{{$item->description}}</span>
         </td>
         <td>
-          <span class="fw-normal">
-            {{$item->status == "1" ? 'Thành công' : ($item->status == "2" ? 'Từ chối dạy' : 'Chờ xác nhận')}}
-          </span>
+        <span class="fw-normal" style="color: {{ $item->status === 1 ? 'green' : ($item->status == "2" ? 'red' : 'brown') }}">{{$item->status == "1" ? 'Thành công' : ($item->status == "2" ? 'Từ chối dạy' : 'Chờ xác nhận')}}</span>
         </td>
         <td>
           <div class="btn-group">
