@@ -55,12 +55,14 @@ class ConnectController extends Controller
     public function show(string $id)
     {
         $connect = Connect::select(
-            'connect.*',
-            'user1.id as id_user',
-            'user1.name as userName',
-            'user2.id as id_teacher',
-            'user2.name as teacherName'
-        )
+                'connect.*',
+                'user1.id as id_user',
+                'user1.name as userName',
+                'user1.avatar as userAvatar', // Thêm cột avatar cho user
+                'user2.id as id_teacher',
+                'user2.name as teacherName',
+                'user2.avatar as teacherAvatar' // Thêm cột avatar cho teacher
+            )
             ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
             ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
             ->where(function ($query) use ($id) {
@@ -68,20 +70,23 @@ class ConnectController extends Controller
                     ->orWhere('connect.id_teacher', $id);
             })
             ->get();
-
+    
         if ($connect->isEmpty()) {
             return response()->json(['message' => 'Connect not found'], 404);
         }
-
+    
         foreach ($connect as $item) {
+            // Có thể xử lý các thông tin khác ở đây nếu cần
+    
             $item->id_user = $item->id_user;
             $item->id_teacher = $item->id_teacher;
             $item->userName = $item->userName;
             $item->teacherName = $item->teacherName;
         }
-
+    
         return response()->json($connect, 200);
     }
+    
 
 
     /**

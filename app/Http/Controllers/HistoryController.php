@@ -71,6 +71,30 @@ class HistoryController extends Controller
             return false;
         }
     }
+    public function addCoin($id){
+        $sender = User::find(1);
+        $receiver = User::find($id);
+        if ($sender && $receiver) {
+            $balanceOfSender = floatval($sender->coin);
+            $balanceOfReceiver = floatval($receiver->coin);
+            $sender->coin = strval($balanceOfSender - 100);
+            $receiver->coin = strval($balanceOfReceiver + 100);
+            // dd($sender->coin);
+            if (floatval($sender->coin) < 0) {
+                return false;
+            } else {
+                $sender->save();
+                $receiver->save();
+                $title = 'Feedback gia sư '.$receiver->name.' 5 sao';
+                $titleUser = 'Thưởng 100 xu có người dùng đánh giá 5 sao';
+                $this->createHistory($sender->id, -100, $title);
+                $this->createHistory($receiver->id, +100, $titleUser);
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
     public function refundMoney($receiver,$coin){
         $sender = User::find(1);
         $receiver = User::find($receiver);
