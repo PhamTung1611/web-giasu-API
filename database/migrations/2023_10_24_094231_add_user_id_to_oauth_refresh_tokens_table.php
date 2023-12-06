@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('oauth_refresh_tokens', function (Blueprint $table) {
-            $table->integer('user_id');
+            $table->integer('user_id')->nullable();
         });
     }
 

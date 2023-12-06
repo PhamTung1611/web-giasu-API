@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Mail\HTMLMail;
+use App\Models\Education;
 use App\Models\Province;
 use App\Models\Role;
 use App\Models\Subject;
@@ -53,10 +54,15 @@ class AuthController extends Controller
             'access_token_id'=> $tokenResult->accessToken
         ]);
         if($user->school_id){
-            $school = Schools::find($user->school_id);
-            $schoolName = $school->name;
+            $educationArray = explode(',',$user->school_id);
+            $newSchool =new Collection();
+            foreach ($educationArray as $item) {
+                $time = Schools::find($item);
+                $newSchool->push(["id"=>$time->id,
+                    "name"=>$time->name]);
+            }
         }else{
-            $schoolName = "";
+            $newSchool =[];
         }
 
 
@@ -65,7 +71,10 @@ class AuthController extends Controller
             $newClassArray =new Collection();
             foreach ($classArray as $item) {
                 $class = ClassLevel::find($item);
-                $newClassArray->push($class->class);
+                $newClassArray->push([
+                    'id'=>$class->id,
+                    'name'=>$class->class
+                ]);
             }
         }else{
             $newClassArray= [];
@@ -74,7 +83,11 @@ class AuthController extends Controller
            $subjectArray = explode(',',$user->subject);
            $newSubjectArray =new Collection();
            foreach ($subjectArray as $item) {
-               $newSubjectArray->push($item);
+               $sb= Subject::find($item);
+               $newSubjectArray->push([
+                   'id'=>$sb->id,
+                   'name'=>$sb->name
+               ]);
            }
        }else{
            $newSubjectArray=[];
@@ -84,11 +97,13 @@ class AuthController extends Controller
             $newTimetutor =new Collection();
             foreach ($timetutorArray as $item) {
                 $time = TimeSlot::find($item);
-                $newTimetutor->push($time->name);
+                $newTimetutor->push(["id"=>$time->id,
+                "name"=>$time->name]);
             }
         }else{
             $newTimetutor =[];
         }
+
        if($user->salary_id){
            $rank = RankSalary::find($user->salary_id);
            $rankName = $rank->name;
@@ -103,7 +118,7 @@ class AuthController extends Controller
                 'gender'=>$user->gender,
                 'date_of_birth'=>$user->date_of_birth,
                 'address'=>$user->address,
-                'school' => $schoolName,
+                'school' => $newSchool,
                 'citizen_card'=>$user->Citizen_card,
                 'education_level'=>$user->education_level,
                 'class'=> $newClassArray,
@@ -141,6 +156,7 @@ class AuthController extends Controller
             ->first();
         // Kiểm tra nếu có dữ liệu và trả về refresh token nếu có
         if ($refreshTokenData) {
+//
             DB::table('oauth_refresh_tokens')
                 ->where('id', $request->input('refresh_token_id'))
                 ->update(['revoked' => true]);
@@ -149,6 +165,7 @@ class AuthController extends Controller
                 $tokenResult = $user->createToken('MyAppToken');
                 $accessToken = $tokenResult->accessToken;
                 $refreshToken = $tokenResult->token->id;
+
                 $tokennew =Passport::refreshToken()->create([
                     'id' => $refreshToken,
                     'revoked' => false, // Refresh token chưa bị thu hồi (revoke)
@@ -157,18 +174,27 @@ class AuthController extends Controller
                     'access_token_id'=> $tokenResult->accessToken
                 ]);
                 if($user->school_id){
-                    $school = Schools::find($user->school_id);
-                    $schoolName = $school->name;
+                    $educationArray = explode(',',$user->school_id);
+                    $newSchool =new Collection();
+                    foreach ($educationArray as $item) {
+                        $time = Schools::find($item);
+                        $newSchool->push(["id"=>$time->id,
+                            "name"=>$time->name]);
+                    }
                 }else{
-                    $schoolName = "";
+                    $newSchool =[];
                 }
+
 
                 if ($user->class_id){
                     $classArray = explode(',',$user->class_id);
                     $newClassArray =new Collection();
                     foreach ($classArray as $item) {
                         $class = ClassLevel::find($item);
-                        $newClassArray->push($class->class);
+                        $newClassArray->push([
+                            'id'=>$class->id,
+                            'name'=>$class->class
+                        ]);
                     }
                 }else{
                     $newClassArray= [];
@@ -177,8 +203,11 @@ class AuthController extends Controller
                     $subjectArray = explode(',',$user->subject);
                     $newSubjectArray =new Collection();
                     foreach ($subjectArray as $item) {
-                        $sub = Subject::find($item);
-                        $newSubjectArray->push($sub->name);
+                        $sb= Subject::find($item);
+                        $newSubjectArray->push([
+                            'id'=>$sb->id,
+                            'name'=>$sb->name
+                        ]);
                     }
                 }else{
                     $newSubjectArray=[];
@@ -188,11 +217,13 @@ class AuthController extends Controller
                     $newTimetutor =new Collection();
                     foreach ($timetutorArray as $item) {
                         $time = TimeSlot::find($item);
-                        $newTimetutor->push($time->name);
+                        $newTimetutor->push(["id"=>$time->id,
+                            "name"=>$time->name]);
                     }
                 }else{
                     $newTimetutor =[];
                 }
+
                 if($user->salary_id){
                     $rank = RankSalary::find($user->salary_id);
                     $rankName = $rank->name;
@@ -206,8 +237,7 @@ class AuthController extends Controller
                         'gender'=>$user->gender,
                         'date_of_birth'=>$user->date_of_birth,
                         'address'=>$user->address,
-                        'school' => $schoolName,
-                        'citizen_card'=>$user->Citizen_card,
+                        'school' => $newSchool,
                         'education_level'=>$user->education_level,
                         'class'=> $newClassArray,
                         'subject'=>$newSubjectArray,

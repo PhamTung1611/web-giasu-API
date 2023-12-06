@@ -62,7 +62,7 @@
       <div class="row">
         <div class="col-md-12 mb-3">
           <div>
-            <input type="text" name="role" value="user" hidden>
+            <input type="text" name="role" value="4" hidden>
             <label>Họ và Tên</label><br>
             <input type="text" class="form-control" placeholder="Nhập tên user" name="name">
             <label>Email</label><br>
