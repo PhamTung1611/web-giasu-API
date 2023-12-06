@@ -354,6 +354,7 @@ public function updatestatusSendMail(Request $request){
             'coin'=>$records->coin,
             'renter'=>$renter,
             'Certificate_public'=>$Certificate_public,
+            'status_public'=>$records->status_certificate,
             'created_date'=>$records->created_at
         ], 200);
     }
@@ -868,8 +869,17 @@ public function updatestatusSendMail(Request $request){
     public function certificate_public(Request $request,$id){
         $user = User::find($id);
         if($user){
-            $user->Certificate_public = $request->Certificate_public;
-            $user->save();
+            $user->Certificate_public = json_encode($request->Certificate_public);
+            $user->update();
+            return response()->json("success");
+        }
+        return response()->json("Không tồn tại user",400);
+    }
+    public function status_certificate(Request $request,$id){
+        $user = User::find($id);
+        if($user){
+            $user->status_certificate = $request->status_certificate;
+            $user->update();
             return response()->json("success");
         }
         return response()->json("Không tồn tại user",400);
