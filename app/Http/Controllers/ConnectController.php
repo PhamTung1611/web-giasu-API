@@ -380,7 +380,8 @@ class ConnectController extends Controller
             'user1.name as userName',
             DB::raw("CONCAT('http://127.0.0.1:8000/storage/', user1.avatar) as userAvatar"), // Thêm đoạn text và avatar của user
             'user2.id as id_teacher',
-            'user2.name as teacherName'
+            'user2.name as teacherName',
+            DB::raw("CONCAT('http://127.0.0.1:8000/storage/', user2.avatar) as teacherAvatar"),
         )
             ->where('connect.status', 1)
             ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
