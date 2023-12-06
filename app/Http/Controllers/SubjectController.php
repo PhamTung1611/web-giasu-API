@@ -140,23 +140,16 @@ class SubjectController extends Controller
 
             $result[] = $job;
         }
-<<<<<<< HEAD
-    $dataFeedback = FeedBack::select('feedback.*', 'users.name as id_sender')
-=======
 
         $dataFeedback = FeedBack::select('feedback.*', 'users.name as id_sender')
->>>>>>> fee65b6972b7aa2af1e227176aee0509494ee568
             // where('idTeacher',$id)
             ->leftJoin('users', 'feedback.id_sender', '=', 'users.id')
             ->where('feedback.id_teacher', $id)
             ->get();
-<<<<<<< HEAD
             // dd($result);
         return view('backend.subject.show', compact('title', 'data','history','result','dataFeedback'));
-=======
         dd($result);
         return view('backend.subject.show', compact('title', 'data', 'history', 'result', 'dataFeedback'));
->>>>>>> fee65b6972b7aa2af1e227176aee0509494ee568
     }
 
     private function getArrayValues($field, $modelClass)
