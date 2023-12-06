@@ -31,15 +31,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    {{-- <form action="{{ route('waiting_teacher')}}" method="post">
-                        @csrf
-                        <input type="hidden" value="{{$data['id']}}" name="id">
-                        <button class="dropdown-item text-success rounded-bottom">Phê duyệt</button>
-                    </form> --}}
                     <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_teacher', ['id' => $data['id'],'view'=>'2'])}}" onclick="return confirm('Are you sure you want to refuse?');"><span class="fas fa-trash-alt me-2"></span>Từ chối</a>
-                    <!-- <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Duyệt" />
-                    <input type="submit" class="profile-edit-btn2" name="btnAddMore" value="Từ chối duyệt" /> -->
-
                     <a class="dropdown-item text-danger rounded-bottom" href="{{ route('waiting')}}" ><span class="fas fa-trash-alt me-2">Back</span></a>
                 </div>
             </div>
@@ -83,7 +75,14 @@
                                     <p>{{$data['phone']}}</p>
                                 </div>
                             </div>
-
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Certificate</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{$data['Certificate']}}</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <div class="row">
