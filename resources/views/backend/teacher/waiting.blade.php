@@ -41,7 +41,6 @@
         <th>Số điện thoại</th>
         <th>Địa chỉ</th>
         <th>Trạng thái</th>
-        <th>Assign</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -73,9 +72,6 @@
           @else
           <span class="fw-normal">wating</span>
           @endif
-        </td>
-        <td>
-          <span class="fw-normal">{{$u->assign_user}}</span>
         </td>
         <td>
           <div class="btn-group">
