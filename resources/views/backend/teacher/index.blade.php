@@ -120,7 +120,7 @@
           <span class="fw-normal">{{$u->phone}}</span>
         </td>
         <td>
-          <span class="fw-normal">{{$u->address}}</span>
+          <span class="fw-normal">{{$u->District_ID}}</span>
         </td>
         <td>
           @if($view!=2)

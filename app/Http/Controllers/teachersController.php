@@ -130,7 +130,7 @@ class TeachersController extends Controller
                 ->where('status', '1')
                 ->when($request->filled('DistrictID'), function ($query) use ($request) {
                     $query->where(function ($query) use ($request) {
-                        $query->where('DistrictID', 'like', '%' . $request->input('DistrictID') . '%');
+                        $query->where('District_ID', 'like', '%' . $request->input('DistrictID') . '%');
                     });
                 })
                 ->when($request->filled('subject'), function ($query) use ($request) {
@@ -145,19 +145,19 @@ class TeachersController extends Controller
                 })
                 ->get();
             $teachers = $results;
-                // dd($results);
-            $teachers = $results->map(function ($record) {
-                return [
-                    'id' => $record->id, 
-                    'name' => $record->name,
-                    'email'=>$record->email,
-                    'avatar' => 'http://127.0.0.1:8000/storage/' . $record->avatar,
-                    'phone' => $record->phone,
-                    'address' => $record->address,
-                    'status'=>$record->status,
-                    'assign_user'=>$record->assign_user
-                ];
-            });
+//                 dd($results);
+//            $teachers = $results->map(function ($record) {
+//                return [
+//                    'id' => $record->id,
+//                    'name' => $record->name,
+//                    'email'=>$record->email,
+//                    'avatar' => 'http://127.0.0.1:8000/storage/' . $record->avatar,
+//                    'phone' => $record->phone,
+//                    'address' => $record->address,
+//                    'status'=>$record->status,
+//                    'assign_user'=>$record->assign_user
+//                ];
+//            });
             // dd($teachers);
         }
         // dd($teachers);
