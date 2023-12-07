@@ -30,7 +30,33 @@
     <div class="col col-md-6 col-lg-3 col-xl-4">
       <form class="input-group me-2 me-lg-3 fmxw-400" action="{{route('search_teacher')}}" method="POST">
         @csrf
-        <input type="text" class="form-control" placeholder="Nhập..." name="search">
+        Môn Học:<select name="class" id="">
+        <option value="">Tất cả</option>
+          @foreach($subject as $u)
+          <option value="{{$u->id}}">{{$u->name}}</option>
+          @endforeach
+        </select>
+        Lớp Học:<select name="subject" id="">
+        <option value="">Tất cả</option>
+          @foreach($class as $u)
+          <option value="{{$u->id}}">{{$u->class}}</option>
+          @endforeach
+        </select>
+        Quận Dạy:<select name="DistrictID">
+          <option value="">Tất cả</option>
+          <option value="Ba Đình">Ba Đình</option>
+          <option value="Hoàn Kiếm">Hoàn Kiếm</option>
+          <option value="Hai Bà Trưng">Hai Bà Trưng</option>
+          <option value="Đống Đa">Đống Đa</option>
+          <option value="Tây Hồ">Tây Hồ</option>
+          <option value="Cầu Giấy">Cầu Giấy</option>
+          <option value="Thanh Xuân">Thanh Xuân</option>
+          <option value="Hoàng Mai">Hoàng Mai</option>
+          <option value="Long Biên">Long Biên</option>
+          <option value="Nam Từ Liêm">Nam Từ Liêm</option>
+          <option value="Bắc Từ Liêm">Bắc Từ Liêm</option>
+          <option value="Hà Đông" >Hà Đông</option>
+        </select>
         <input type="submit" value="Lọc" class="btn btn-secondary">
       </form>
     </div>
@@ -55,11 +81,11 @@
   </div>
 </div>
 <div class="card card-body border-0 shadow table-wrapper table-responsive">
-@if ($errors->any())
-    @foreach ($errors->all() as $error)
-    <p style="color: red;">{{ $error }}</p>
-    @endforeach
-    @endif
+  @if ($errors->any())
+  @foreach ($errors->all() as $error)
+  <p style="color: red;">{{ $error }}</p>
+  @endforeach
+  @endif
   <table class="table table-hover">
     <thead>
       <tr>
@@ -70,7 +96,7 @@
         <th>Số điện thoại</th>
         <th>Địa chỉ</th>
         <th>Trạng thái</th>
-          <th>Assign</th>
+        <th>Assign</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -97,15 +123,15 @@
           <span class="fw-normal">{{$u->address}}</span>
         </td>
         <td>
-            @if($view!=2)
-            <span class="fw-normal" style="color: {{ $u->status == 1 ? 'green' : 'red' }}">{{$u->status == "1" ? 'Hoạt động' : 'Không hoạt động' }}</span>
-            @else
-            <span class="fw-normal">wating</span>
-            @endif
+          @if($view!=2)
+          <span class="fw-normal" style="color: {{ $u->status == 1 ? 'green' : 'red' }}">{{$u->status == "1" ? 'Hoạt động' : 'Không hoạt động' }}</span>
+          @else
+          <span class="fw-normal">wating</span>
+          @endif
         </td>
-          <td>
-              <span class="fw-normal">{{$u->assign_user}}</span>
-          </td>
+        <td>
+          <span class="fw-normal">{{$u->assign_user}}</span>
+        </td>
         <td>
           <div class="btn-group">
             <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -117,19 +143,19 @@
               </span>
             </button>
             <div class="dropdown-menu py-0">
-            @if($view!=2)
-            <a class="dropdown-item ~text-gray-800 rounded-bottom" href="{{ route('detail_teacher', ['id' => $u->id])}}" ><span class="fas fa-trash-alt me-2"></span>show</a>
+              @if($view!=2)
+              <a class="dropdown-item ~text-gray-800 rounded-bottom" href="{{ route('detail_teacher', ['id' => $u->id])}}"><span class="fas fa-trash-alt me-2"></span>show</a>
               <a class="dropdown-item" href="{{ route('edit_teacher', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Sửa</a>
               <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_teacher', ['id' => $u->id,'view'=>'1'])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Xóa</a>
-            @else
-                    <form action="{{ route('waiting_teacher')}}" method="post">
-                        @csrf
-                        <input type="hidden" value="{{$u->id}}" name="id">
-                        <button class="dropdown-item text-success rounded-bottom">Phê duyệt</button>
-                    </form>
-            <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_teacher', ['id' => $u->id,'view'=>'2'])}}" onclick="return confirm('Are you sure you want to refuse?');"><span class="fas fa-trash-alt me-2"></span>Từ chối</a>
-            <a class="dropdown-item ~text-gray-800 rounded-bottom" href="{{ route('deatailWaitingTeacher', ['id' => $u->id])}}" ><span class="fas fa-trash-alt me-2"></span>show</a>
-            @endif
+              @else
+              <form action="{{ route('waiting_teacher')}}" method="post">
+                @csrf
+                <input type="hidden" value="{{$u->id}}" name="id">
+                <button class="dropdown-item text-success rounded-bottom">Phê duyệt</button>
+              </form>
+              <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_teacher', ['id' => $u->id,'view'=>'2'])}}" onclick="return confirm('Are you sure you want to refuse?');"><span class="fas fa-trash-alt me-2"></span>Từ chối</a>
+              <a class="dropdown-item ~text-gray-800 rounded-bottom" href="{{ route('deatailWaitingTeacher', ['id' => $u->id])}}"><span class="fas fa-trash-alt me-2"></span>show</a>
+              @endif
             </div>
           </div>
         </td>

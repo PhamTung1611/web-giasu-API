@@ -121,8 +121,47 @@ class TeachersController extends Controller
     {
         $title = "Danh sách giáo viên";
         $view = 1;
+        $subject = Subject::get();
         $teachers = User::where('role', 3)->whereIn('status', [0, 1])->get();
-        return view('backend.teacher.index', compact('teachers', 'title', 'view'));
+        $class = ClassLevel::get();
+        if ($request->post()) {
+            $results = User::with('subject:id,name', 'school:id,name', 'class_levels:id,class')
+                ->where('role', 3)
+                ->where('status', '1')
+                ->when($request->filled('DistrictID'), function ($query) use ($request) {
+                    $query->where(function ($query) use ($request) {
+                        $query->where('DistrictID', 'like', '%' . $request->input('DistrictID') . '%');
+                    });
+                })
+                ->when($request->filled('subject'), function ($query) use ($request) {
+                    $query->where(function ($query) use ($request) {
+                        $query->where('subject', 'like', '%' . $request->input('subject') . '%');
+                    });
+                })
+                ->when($request->filled('class'), function ($query) use ($request) {
+                    $query->where(function ($query) use ($request) {
+                        $query->where('class_id', 'like', '%' . $request->input('class') . '%');
+                    });
+                })
+                ->get();
+            $teachers = $results;
+                // dd($results);
+            $teachers = $results->map(function ($record) {
+                return [
+                    'id' => $record->id, 
+                    'name' => $record->name,
+                    'email'=>$record->email,
+                    'avatar' => 'http://127.0.0.1:8000/storage/' . $record->avatar,
+                    'phone' => $record->phone,
+                    'address' => $record->address,
+                    'status'=>$record->status,
+                    'assign_user'=>$record->assign_user
+                ];
+            });
+            // dd($teachers);
+        }
+        // dd($teachers);
+        return view('backend.teacher.index', compact('teachers', 'title', 'view', 'subject', 'class'));
     }
 
     public function addNewTeacher(TeacherRequest $request)
@@ -254,7 +293,7 @@ class TeachersController extends Controller
 
     public function getTeacherByFilter(Request $request)
     {
-        $results = User::with( 'subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
+        $results = User::with('subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
             ->where('role', 3)
             ->where('status', '1')
             ->when($request->filled('DistrictID'), function ($query) use ($request) {
@@ -310,7 +349,7 @@ class TeachersController extends Controller
                 'avatar' => 'http://127.0.0.1:8000/storage/' . $record->avatar,
                 'class_id' => $newArrayClass,
                 'subject' => $newArraySubject,
-                'district'=>$record->DistrictID
+                'district' => $record->DistrictID
                 // 'DistrictID' => $record->DistrictID ? District::find($record->DistrictID)->name : null,
             ];
         });
