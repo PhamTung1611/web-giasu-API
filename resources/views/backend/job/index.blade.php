@@ -69,10 +69,10 @@
           <a href="" class="fw-bold">{{$item->id}}</a>
         </td>
         <td>
-          <span class="fw-normal"><a href="{{ route('detail_teacher', ['id' => $item->user_id])}}"></a>{{$item->user_name}}</span>
+          <span class="fw-normal"><a href="{{ route('detail_user', ['id' => $item->user_id])}}">{{$item->user_name}}</a></span>
         </td>
         <td>
-          <span class="fw-normal"><a href="{{ route('detail_teacher', ['id' => $item->teacher_id])}}"></a>{{$item->teacher_name}}</span>
+          <span class="fw-normal"><a href="{{ route('detail_teacher', ['id' => $item->teacher_id])}}">{{$item->teacher_name}}</a></span>
         </td>
         <td>
           <span class="fw-normal">{{$item->subject_name}}</span>

@@ -127,7 +127,6 @@
                         <input type="hidden" value="{{$u->id}}" name="id">
                         <button class="dropdown-item text-success rounded-bottom">Phê duyệt</button>
                     </form>
-
             <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_teacher', ['id' => $u->id,'view'=>'2'])}}" onclick="return confirm('Are you sure you want to refuse?');"><span class="fas fa-trash-alt me-2"></span>Từ chối</a>
             <a class="dropdown-item ~text-gray-800 rounded-bottom" href="{{ route('deatailWaitingTeacher', ['id' => $u->id])}}" ><span class="fas fa-trash-alt me-2"></span>show</a>
             @endif
