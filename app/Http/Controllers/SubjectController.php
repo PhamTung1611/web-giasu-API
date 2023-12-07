@@ -147,9 +147,8 @@ class SubjectController extends Controller
             ->where('feedback.id_teacher', $id)
             ->get();
             // dd($result);
+        // dd($result);
         return view('backend.subject.show', compact('title', 'data','history','result','dataFeedback'));
-        dd($result);
-        return view('backend.subject.show', compact('title', 'data', 'history', 'result', 'dataFeedback'));
     }
 
     private function getArrayValues($field, $modelClass)

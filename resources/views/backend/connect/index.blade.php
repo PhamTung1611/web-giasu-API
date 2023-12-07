@@ -69,10 +69,10 @@
           <span class="fw-normal">{{$item->id_job}}</span>
         </td>
         <td>
-          <span class="fw-normal">{{$item->userName}}</span>
+          <span class="fw-normal"><a href="{{ route('detail_user', ['id' => $item->id_user])}}">{{$item->userName}}</a></span>
         </td>
         <td>
-          <span class="fw-normal">{{$item->teacherName}}</span>
+          <span class="fw-normal"><a href="{{ route('detail_teacher', ['id' => $item->id_teacher])}}" >{{$item->teacherName}}</a></span>
         </td>
         <td>
           <span class="fw-normal" style="color: {{ $item->status === 1 ? 'green' : ($item->status == "2" ? 'red' : 'brown') }}">{{$item->status == "1" ? 'Thành công' : ($item->status == "2" ? 'Thất bại' : 'Chờ xác nhận') }}</span>

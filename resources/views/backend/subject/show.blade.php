@@ -118,14 +118,16 @@
                                         <label>Người Thuê</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{{ $item->id_user }}</p>
+                                        <p>
+                                          <a href="{{ route('detail_user', ['id' => $item->id_user])}}"> {{ $item->userName }}</a> 
+                                        </p>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Người Dạy</label>
                                     </div>
                                     {{-- @foreach ($result as $item) --}}
                                     <div class="col-md-6">
-                                        <p>{{ $item->id_teacher }}</p>
+                                        <p><a href="{{ route('detail_teacher', ['id' => $item->id_teacher])}}"> {{ $item->teacherName }}</a> </p>
                                     </div>
                                     {{-- @endforeach --}}
                                     <div class="col-md-6">

@@ -55,8 +55,8 @@
         <tbody>
             @foreach($feedbacks as $u)
             <tr>
-            <td><a href="">{{$u->sender_name}}</a></td>
-            <td><a href="">{{$u->teacher_name}}</a></td>
+            <td><a href="{{ route('detail_user', ['id' => $u->id])}}">{{$u->sender_name}}</a></td>
+            <td><a href="{{ route('detail_teacher', ['id' => $u->id])}}" >{{$u->teacher_name}}</a></td>
             <td>{{$u->point}} Sao</td>
             <td>{{$u->description}}</td>
             </tr>
