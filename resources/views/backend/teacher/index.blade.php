@@ -42,7 +42,7 @@
           <option value="{{$u->id}}">{{$u->class}}</option>
           @endforeach
         </select>
-        Quận Dạy:<select name="DistrictID">
+      Khu Vực Quận Dạy:<select name="District_ID">
           <option value="">Tất cả</option>
           <option value="Ba Đình">Ba Đình</option>
           <option value="Hoàn Kiếm">Hoàn Kiếm</option>

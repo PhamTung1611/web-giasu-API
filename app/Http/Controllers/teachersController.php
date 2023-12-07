@@ -128,9 +128,9 @@ class TeachersController extends Controller
             $results = User::with('subject:id,name', 'school:id,name', 'class_levels:id,class')
                 ->where('role', 3)
                 ->where('status', '1')
-                ->when($request->filled('DistrictID'), function ($query) use ($request) {
+                ->when($request->filled('District_ID'), function ($query) use ($request) {
                     $query->where(function ($query) use ($request) {
-                        $query->where('DistrictID', 'like', '%' . $request->input('DistrictID') . '%');
+                        $query->where('District_ID', 'like', '%' . $request->input('District_ID') . '%');
                     });
                 })
                 ->when($request->filled('subject'), function ($query) use ($request) {
@@ -158,7 +158,7 @@ class TeachersController extends Controller
                     'assign_user'=>$record->assign_user
                 ];
             });
-            // dd($teachers);
+            dd($teachers);
         }
         // dd($teachers);
         return view('backend.teacher.index', compact('teachers', 'title', 'view', 'subject', 'class'));
