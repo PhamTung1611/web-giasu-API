@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClassLevelController;
 use App\Http\Controllers\ConnectController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\DashBoradController;
 use App\Http\Controllers\FeedBackController;
@@ -34,6 +35,7 @@ Route::post('deposit', [UsersController::class, 'deposit']);
 Route::match(['get', 'post'], '/register', [UsersController::class, 'register'])->name('register');
 Route::middleware('auth')->group(function () {
     Route::middleware('check.role')->group(function () {
+        Route::get('contact', [ContactController::class, 'index'])->name('search_contact');
         Route::get('/', [DashBoradController::class, 'Statistical'])->name('dashboard');
         Route::get('connect', [ConnectController::class, 'index'])->name('search_connect');
         Route::get('connect/{id}', [ConnectController::class, 'connectStatus'])->name('connect_status');
@@ -83,11 +85,13 @@ Route::middleware('auth')->group(function () {
         Route::get('salary/{id}/teachers', [RankSalaryController::class, 'ListTeacher'])->name('salary.teachers');
         Route::get('timeslot/{id}/teachers', [TimeSlotController::class, 'ListTeacher'])->name('timeslot.teachers');
         Route::get('detail/{id}', [SubjectController::class, 'DetailTeacher'])->name('detail_teacher');
-        Route::get('detailUser/{id}', [SubjectController::class, 'DetailTeacher'])->name('detail_user');
+        Route::get('detailUser/{id}', [SubjectController::class, 'DetailUser'])->name('detail_user');
         //class
         Route::match(['get', 'post'], 'classLevel/add', [ClassLevelController::class, 'add'])->name('add_class');
         Route::match(['get', 'post'], 'classLevel/edit/{id}', [ClassLevelController::class, 'edit'])->name('edit_class');
         Route::get('classLevel/delete/{id}', [ClassLevelController::class, 'delete'])->name('delete_class');
+        Route::get('/delete_teacher/{id}', [SubjectController::class, 'deleteTeacher'])->name('delete.teacher');
+        Route::get('/delete_user/{id}', [SubjectController::class, 'deleteUser'])->name('delete.user');
         //users
         Route::match(['get', 'post'], 'user/addNew', [UsersController::class, 'addNewUser'])->name('add_user');
         Route::match(['get', 'post'], 'user/edit/{id}', [UsersController::class, 'updateUser'])->name('edit_user');

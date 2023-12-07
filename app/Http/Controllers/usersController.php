@@ -448,118 +448,6 @@ public function updatestatusSendMail(Request $request){
 
         return view('backend.users.index', compact('users', 'title'));
     }
-    public function DetailUser($id)
-    {
-        $records = User::where('id', $id)->first();
-
-        $newArraySubject = $this->getArrayValues($records->subject, Subject::class);
-        $newArrayEducation = $this->getArrayValues($records->education_level, Schools::class);
-        $newArrayClass = $this->getArrayValues($records->class_id, ClassLevel::class);
-        $newArrayTime = $this->getArrayValues($records->time_tutor_id, TimeSlot::class);
-
-        $newSchool = "";
-        $newSalary = "";
-
-        if ($records->school_id != null) {
-            $school = Schools::find($records->school_id);
-            $newSchool = $school ? $school->name : "";
-        }
-
-        if ($records->salary_id != null) {
-            $salary = RankSalary::find($records->salary_id);
-            $newSalary = $salary ? $salary->name : "";
-        }
-
-        if (!$records->Certificate) {
-            $records->Certificate = [];
-        } else {
-            $records->Certificate = json_decode($records->Certificate);
-        }
-
-        $data = [
-            'id' => $id,
-            'role' => $records->role,
-            'gender' => $records->gender,
-            'date_of_birth' => $records->date_of_birth,
-            'name' => $records->name,
-            'email' => $records->email,
-            'avatar' => asset('storage/' . $records->avatar),
-            'phone' => $records->phone,
-            'address' => $records->address,
-            'school' => $newSchool,
-            'Citizen_card' => $records->Citizen_card,
-            'education_level' => $newArrayEducation,
-            'class_id' => $newArrayClass,
-            'subject' => $newArraySubject,
-            'salary_id' => $newSalary,
-            'description' => $records->description,
-            'time_tutor_id' => $newArrayTime,
-            'status' => $records->status,
-            'DistrictID' => $records->District_ID,
-            'Certificate' => $records->Certificate,
-            'current_role' => $records->current_role,
-            'exp' => $records->exp
-        ];
-        // dd($data);
-        $title = "Hiển thị chi tiết Giáo viên";
-        $history = History::where('id_client', $id)->get();
-        $jobs = Job::select('jobs.*', 'user1.id as id_user', 'user1.name as userName', 'user2.id as id_teacher', 'user2.name as teacherName')
-            ->leftJoin('users as user1', 'jobs.id_user', '=', 'user1.id')
-            ->leftJoin('users as user2', 'jobs.id_teacher', '=', 'user2.id')
-            ->where(function ($query) use ($id) {
-                $query->where('jobs.id_user', $id)
-                    ->orWhere('jobs.id_teacher', $id);
-            })
-            ->get();
-
-        $result = [];
-        foreach ($jobs as $job) {
-            // Xử lý subjects
-            $dataSubject = explode(',', $job->subject);
-            $subjectNames = [];
-            foreach ($dataSubject as $subjectId) {
-                $subject = DB::table('subjects')->where('id', $subjectId)->value('name');
-                if ($subject) {
-                    $subjectNames[] = $subject;
-                }
-            }
-            $job->subject = $subjectNames;
-
-            // Xử lý classes
-            $dataClass = explode(',', $job->class);
-            $classNames = [];
-            foreach ($dataClass as $classId) {
-                $class = DB::table('class_levels')->where('id', $classId)->value('class');
-                if ($class) {
-                    $classNames[] = $class;
-                }
-            }
-            $job->class = $classNames;
-
-            $user = DB::table('users')->where('id', $job->id_user)->first();
-            $teacher = DB::table('users')->where('id', $job->id_teacher)->first();
-
-            $job->id_user = $user->id;
-            $job->id_teacher = $teacher->id;
-
-            $job->userName = $user->name;
-            $job->teacherName = $teacher->name;
-            $job->subject = implode(', ', $subjectNames);
-            $job->class = implode(', ', $classNames);
-
-            $result[] = $job;
-        }
-
-        $dataFeedback = FeedBack::select('feedback.*', 'users.name as id_sender')
-            // where('idTeacher',$id)
-            ->leftJoin('users', 'feedback.id_sender', '=', 'users.id')
-            ->where('feedback.id_teacher', $id)
-            ->get();
-            // dd($result);
-        return view('backend.subject.show', compact('title', 'data','history','result','dataFeedback'));
-        dd($result);
-        return view('backend.subject.show', compact('title', 'data', 'history', 'result', 'dataFeedback'));
-    }
     public function addNewUser(UserRequest $request)
     {
         $title = 'Thêm mới người dùng';
@@ -856,12 +744,12 @@ public function updatestatusSendMail(Request $request){
         }
     }
     public function getAllCtv(Request $request){
-        $users = User::where('role',4)->get();
+        $users = User::orderBy('id', 'desc')->where('role',4)->get();
         $view =3;
         $title ="Danh sách cộng tác viên";
         if ($request->post() && $request->search) {
             $users = DB::table('users')
-                ->where('name', 'like', '%'.$request->search.'%')
+                ->where('email', 'like', '%'.$request->search.'%')
                 ->where('role',4)
                 ->get();
         }

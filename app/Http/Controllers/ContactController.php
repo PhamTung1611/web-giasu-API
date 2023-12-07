@@ -12,7 +12,9 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        $title = 'Liên hệ';
+        $params = Contact::all();
+        return view('backend.contact.index', compact('params', 'title'));
     }
 
     /**

@@ -37,12 +37,12 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <a class="dropdown-item text-danger rounded-bottom" href="{{ route('waiting') }}"><span
-                        class="fas fa-trash-alt me-2">Kích hoạt</span></a>
-                        <a class="dropdown-item text-danger rounded-bottom"
-                            href="{{ route('delete_teacher', ['id' => $data['id'], 'view' => '2']) }}"
-                            onclick="return confirm('Are you sure you want to refuse?');"><span
-                                class="fas fa-trash-alt me-2"></span>Tắt kích hoạt</a>
+                    <a class="dropdown-item text-danger rounded-bottom"
+                            href="{{ route('delete.user', ['id' => $data['id']]) }}"
+                                    onclick="return confirm('Are you sure you want to deactivate?');">
+                                <span class="fas fa-trash-alt me-2"></span>Tắt kích hoạt
+                        </a>
+                </div>
                 </div>
             </div>
             <div class="row">
@@ -99,7 +99,7 @@
                                     <p>{{ $data['description'] }}</p>
                                 </div>
                             </div>
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-6">
                                     <label>Certificate</label>
                                 </div>
@@ -108,7 +108,7 @@
                                         <img src="{{$cert}}" alt="" width="100">
                                     @endforeach
                                 </div>
-                            </div>
+                            </div> --}}
 
                         </div>
                         <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
