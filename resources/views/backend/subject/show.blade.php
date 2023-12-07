@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img">
-                        <img src="{{ $data['avatar'] }}" alt="" />
+                        <img src="{{ $data['avatar'] }}" style="width: 100px;" alt="" />
 
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link " id="history-tab" data-toggle="tab" href="#history" role="tab"
-                                    aria-controls="history" aria-selected="true">Lịch sử thuê</a>
+                                    aria-controls="history" aria-selected="true">Lịch sử thuê ({{$countJobs}})</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="trutien-tab" data-toggle="tab" href="#trutien" role="tab"
@@ -33,16 +33,20 @@
                                 <a class="nav-link" id="feedback-tab" data-toggle="tab" href="#feedback" role="tab"
                                     aria-controls="feedback" aria-selected="false">Đánh giá</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+                                    aria-controls="contact" aria-selected="false">Kết nối ({{$countConnect}})</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <a class="dropdown-item text-danger rounded-bottom" href="{{ route('waiting') }}"><span
-                        class="fas fa-trash-alt me-2">Kích hoạt</span></a>
+                    
                         <a class="dropdown-item text-danger rounded-bottom"
-                            href="{{ route('delete_teacher', ['id' => $data['id'], 'view' => '2']) }}"
-                            onclick="return confirm('Are you sure you want to refuse?');"><span
-                                class="fas fa-trash-alt me-2"></span>Tắt kích hoạt</a>
+                            href="{{ route('delete.teacher', ['id' => $data['id']]) }}"
+                                    onclick="return confirm('Are you sure you want to deactivate?');">
+                                <span class="fas fa-trash-alt me-2"></span>Tắt kích hoạt
+                        </a>
                 </div>
             </div>
             <div class="row">
@@ -85,7 +89,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>Address</label>
+                                    <label>Địa chỉ</label>
                                 </div>
                                 <div class="col-md-6">
                                     <p>{{ $data['address'] }}</p>
@@ -93,22 +97,22 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>Description</label>
+                                    <label>Mô tả về gia sư</label>
                                 </div>
                                 <div class="col-md-6">
                                     <p>{{ $data['description'] }}</p>
                                 </div>
                             </div>
-                            {{-- <div class="row">
+                            <div class="row">
                                 <div class="col-md-6">
-                                    <label>Certificate</label>
+                                    <label>Bằng cấp</label>
                                 </div>
                                 <div class="col-md-6">
                                     @foreach ($data['Certificate'] as $cert)
                                         <img src="{{$cert}}" alt="" width="100">
                                     @endforeach
                                 </div>
-                            </div> --}}
+                            </div>
 
                         </div>
                         <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
@@ -118,14 +122,16 @@
                                         <label>Người Thuê</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{{ $item->id_user }}</p>
+                                        <p>
+                                          <a href="{{ route('detail_user', ['id' => $item->id_user])}}"> {{ $item->userName }}</a> 
+                                        </p>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Người Dạy</label>
                                     </div>
                                     {{-- @foreach ($result as $item) --}}
                                     <div class="col-md-6">
-                                        <p>{{ $item->id_teacher }}</p>
+                                        <p><a href="{{ route('detail_teacher', ['id' => $item->id_teacher])}}"> {{ $item->teacherName }}</a> </p>
                                     </div>
                                     {{-- @endforeach --}}
                                     <div class="col-md-6">
@@ -225,6 +231,42 @@
                                     </div>
                                 @endforeach
                             </div>
+                        </div>
+                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                            @foreach ($connect as $item)
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Người thuê</label>
+                                </div>
+                                    <div class="col-md-6">
+                                        <p>{{ $item->id_user }}</p>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Người dạy</label>
+                                </div>
+                                    <div class="col-md-6">
+                                        <p>{{ $item->id_teacher}}</p>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Trạng thái</label>
+                                </div>
+                                    <div class="col-md-6">
+                                        <p>{{ $item->status}}</p>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Xem chi tiết</label>
+                                </div>
+                                    <div class="col-md-6">
+                                        <p>Chi tiết</p>
+                                    </div>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

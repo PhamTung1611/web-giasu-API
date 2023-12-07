@@ -54,29 +54,29 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>ID JOB</th>
-        <th>Username</th>
-        <th>TeacherName</th>
-        <th>Status</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Note</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
       <!-- Item -->
-      @foreach($connect as $item)
+      @foreach($params as $item)
       <tr>
         <td>
-          <span class="fw-normal">{{$item->id_job}}</span>
+          <span class="fw-bold">{{$item->id}}</span>
         </td>
         <td>
-          <span class="fw-normal"><a href="{{ route('detail_user', ['id' => $item->id_user])}}">{{$item->userName}}</a></span>
-        </td>
-        <td>
-          <span class="fw-normal"><a href="{{ route('detail_teacher', ['id' => $item->id_teacher])}}" >{{$item->teacherName}}</a></span>
-        </td>
-        <td>
-          <span class="fw-normal" style="color: {{ $item->status === 1 ? 'green' : ($item->status == "2" ? 'red' : 'brown') }}">{{$item->status == "1" ? 'Thành công' : ($item->status == "2" ? 'Thất bại' : 'Chờ xác nhận') }}</span>
-        </td>
+          <span class="fw-normal">{{$item->name}}</span>
+      </td>
+      <td>
+          <span class="fw-normal">{{$item->phone}}</span>
+      </td>
+      <td>
+        <span class="fw-normal">{{$item->note}}</span>
+    </td>
         <td>
           <div class="btn-group">
             <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -84,15 +84,15 @@
                 <span class="fas fa-ellipsis-h icon-dark"></span>
               </span>
               <span>
-                views
+                View
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.005 11.995v.01m0-4.01v.01m0 7.99v.01" />
                 </svg>
               </span>
             </button>
             <div class="dropdown-menu py-0">
-              <a class="dropdown-item" href="{{ route('connect_show', ['id' => $item->id])}}"><span class="fas fa-edit me-2"></span>Xem chi tiết</a>
-              <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_connect', ['id' => $item->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
+              {{-- <a class="dropdown-item" href=""><span class="fas fa-edit me-2"></span>Xem chi tiết</a> --}}
+              <a class="dropdown-item text-danger rounded-bottom" href="" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
             </div>
           </div>
         </td>

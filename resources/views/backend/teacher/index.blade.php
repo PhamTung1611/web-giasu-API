@@ -98,7 +98,7 @@
         </td>
         <td>
             @if($view!=2)
-          <span class="fw-normal">{{ $u->status == "1" ? 'active':'non-active' }}</span>
+            <span class="fw-normal" style="color: {{ $u->status == 1 ? 'green' : 'red' }}">{{$u->status == "1" ? 'Hoạt động' : 'Không hoạt động' }}</span>
             @else
             <span class="fw-normal">wating</span>
             @endif
@@ -118,6 +118,7 @@
             </button>
             <div class="dropdown-menu py-0">
             @if($view!=2)
+            <a class="dropdown-item ~text-gray-800 rounded-bottom" href="{{ route('detail_teacher', ['id' => $u->id])}}" ><span class="fas fa-trash-alt me-2"></span>show</a>
               <a class="dropdown-item" href="{{ route('edit_teacher', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Sửa</a>
               <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_teacher', ['id' => $u->id,'view'=>'1'])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Xóa</a>
             @else
@@ -126,7 +127,6 @@
                         <input type="hidden" value="{{$u->id}}" name="id">
                         <button class="dropdown-item text-success rounded-bottom">Phê duyệt</button>
                     </form>
-
             <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_teacher', ['id' => $u->id,'view'=>'2'])}}" onclick="return confirm('Are you sure you want to refuse?');"><span class="fas fa-trash-alt me-2"></span>Từ chối</a>
             <a class="dropdown-item ~text-gray-800 rounded-bottom" href="{{ route('deatailWaitingTeacher', ['id' => $u->id])}}" ><span class="fas fa-trash-alt me-2"></span>show</a>
             @endif

@@ -64,6 +64,7 @@
         <th>Ảnh đại diện</th>
         <th>Số điện thoại</th>
         <th>Địa chỉ</th>
+        <th>Trạng thái</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -88,6 +89,9 @@
         </td>
         <td>
           <span class="fw-normal">{{$u->address}}</span>
+        </td>
+        <td>          
+        <span class="fw-normal" style="color: {{ $u->status == 1 ? 'green' : 'red' }}">{{$u->status == "1" ? 'Hoạt động' : 'Không hoạt động' }}</span>
         </td>
         <td>
           <div class="btn-group">

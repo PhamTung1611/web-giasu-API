@@ -158,6 +158,7 @@ Route::post('contact',[ContactController::class,'store']);
 Route::prefix('connect')->group(function () {
     // lấy ra danh sách
     Route::get('/{id}', [ConnectController::class, 'show']);
+    Route::get('/top/{id}', [ConnectController::class, 'connectTop4Success']);
     Route::put('/{id}', [ConnectController::class, 'update']);
 
 });

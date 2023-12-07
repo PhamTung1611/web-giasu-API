@@ -63,7 +63,7 @@ class DashBoradController extends Controller
     {
         $title = 'Biến động doanh thu';
         $history = History::where('id_client', '1')->orderBy('created_at', 'desc')->get();
-        // dd($history);
+        dd($history);
         return view('backend.listHIstory.listforadmin', compact('history', 'title'));
     }
     public function feedbackTeacher()

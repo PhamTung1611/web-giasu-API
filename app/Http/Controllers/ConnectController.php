@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Connect;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class ConnectController extends Controller
@@ -55,14 +56,14 @@ class ConnectController extends Controller
     public function show(string $id)
     {
         $connect = Connect::select(
-                'connect.*',
-                'user1.id as id_user',
-                'user1.name as userName',
-                'user1.avatar as userAvatar', // Thêm cột avatar cho user
-                'user2.id as id_teacher',
-                'user2.name as teacherName',
-                'user2.avatar as teacherAvatar' // Thêm cột avatar cho teacher
-            )
+            'connect.*',
+            'user1.id as id_user',
+            'user1.name as userName',
+            'user1.avatar as userAvatar', // Thêm cột avatar cho user
+            'user2.id as id_teacher',
+            'user2.name as teacherName',
+            'user2.avatar as teacherAvatar' // Thêm cột avatar cho teacher
+        )
             ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
             ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
             ->where(function ($query) use ($id) {
@@ -70,23 +71,23 @@ class ConnectController extends Controller
                     ->orWhere('connect.id_teacher', $id);
             })
             ->get();
-    
+
         if ($connect->isEmpty()) {
             return response()->json(['message' => 'Connect not found'], 404);
         }
-    
+
         foreach ($connect as $item) {
             // Có thể xử lý các thông tin khác ở đây nếu cần
-    
+
             $item->id_user = $item->id_user;
             $item->id_teacher = $item->id_teacher;
             $item->userName = $item->userName;
             $item->teacherName = $item->teacherName;
         }
-    
+
         return response()->json($connect, 200);
     }
-    
+
 
 
     /**
@@ -300,7 +301,7 @@ class ConnectController extends Controller
             $item->userName = $item->userName;
             $item->teacherName = $item->teacherName;
         }
-        // dd($connect);
+        dd($connect);
         return view('backend.connect.index', compact('connect', 'title'));
     }
 
@@ -335,5 +336,77 @@ class ConnectController extends Controller
         }
         // dd($connect);
         return view('backend.connect.show', compact('connect', 'title'));
+    }
+
+    // public function connectStatusAPI($id)
+    // {
+    //     $title = 'Kết nối';
+    //     $connect = Connect::select(
+    //         'connect.*',
+    //         'user1.id as id_user',
+    //         'user1.name as userName',
+    //         DB::raw("CONCAT('http://127.0.0.1:8000/storage/', user1.avatar) as userAvatar"), // Thêm đoạn text và avatar của user
+    //         'user2.id as id_teacher',
+    //         'user2.name as teacherName'
+    //     )
+    //         ->where('connect.status', $id)
+    //         ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
+    //         ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
+    //         ->orderBy('connect.created_at', 'desc') // Sắp xếp theo thời gian tạo giảm dần
+    //         ->where(function ($query) use ($id) {
+    //             $query->where('connect.id_user', $id)
+    //                 ->orWhere('connect.id_teacher', $id);
+    //         })
+    //         ->get();
+
+    //     foreach ($connect as $item) {
+    //         $item->id_job = $item->id_job;
+    //         $item->id_user = $item->id_user;
+    //         $item->id_teacher = $item->id_teacher;
+    //         $item->userName = $item->userName;
+    //         $item->userAvatar = $item->userAvatar;
+    //         $item->teacherName = $item->teacherName;
+    //     }
+
+    //     dd($connect);
+    //     return view('backend.connect.index', compact('connect', 'title'));
+    // }
+
+    public function connectTop4Success($id)
+    {
+        $connect = Connect::select(
+            'connect.*',
+            'user1.id as id_user',
+            'user1.name as userName',
+            DB::raw("CONCAT('http://127.0.0.1:8000/storage/', user1.avatar) as userAvatar"), // Thêm đoạn text và avatar của user
+            'user2.id as id_teacher',
+            'user2.name as teacherName',
+            DB::raw("CONCAT('http://127.0.0.1:8000/storage/', user2.avatar) as teacherAvatar"),
+        )
+            ->where('connect.status', 1)
+            ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
+            ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
+            ->orderBy('connect.created_at', 'desc')
+            ->where(function ($query) use ($id) {
+                $query->where('connect.id_user', $id)
+                    ->orWhere('connect.id_teacher', $id);
+            })
+            ->limit(4) // Giới hạn trả về 4 bản ghi mới nhất
+            ->get();
+
+        foreach ($connect as $item) {
+            $item->id_user = $item->id_user;
+            $item->id_teacher = $item->id_teacher;
+            $item->userName = $item->userName;
+            $item->userAvatar = $item->userAvatar;
+            $item->teacherName = $item->teacherName;
+        }
+
+        // dd($connect);
+        if($connect){
+            return response()->json($connect, 200);
+        }else{
+            return response()->json(['message' => 'Not found'], 404);
+        }
     }
 }

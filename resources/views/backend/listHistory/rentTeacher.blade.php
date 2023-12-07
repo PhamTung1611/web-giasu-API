@@ -51,7 +51,7 @@
         <tbody>
             @foreach($topTeachersInfo as $u)
             <tr>
-            <td><a href="">{{$u->user_name}}</a></td>
+            <td><a href="{{ route('detail_teacher', ['id' => $u->user_id])}}" >{{$u->user_name}}</a></td>
             <td><a href=""><img src="{{$u->user_avatar ? '' .Storage::url($u->user_avatar):''}}" style="width: 90px;" alt=""></a></td>
             <td>{{$u->user_email}}</td>
             <td>{{$u->teacher_count}}</td>

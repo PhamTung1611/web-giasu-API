@@ -64,7 +64,7 @@
         <div class="col-12 col-sm-6 col-xl-4 mb-4">
             <div class="card border-0 shadow">
                 <div class="card-body">
-                    <a href="http://127.0.0.1:8000/teacher">
+                    <a href="http://127.0.0.1:8000/ctv">
                         <div class="row d-block d-xl-flex align-items-center">
                             <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
                                 <div class="icon-shape icon-shape-primary rounded me-4 me-sm-0">
@@ -202,13 +202,13 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <!-- Avatar -->
-                                            <a href="#" class="avatar">
+                                            <a href="{{ route('detail_teacher', ['id' => $item->id])}}"  class="avatar">
                                                 <img class="rounded" alt="Image placeholder" src="{{$item->avatar?''.Storage::url($item->avatar):''}}">
                                             </a>
                                         </div>
                                         <div class="col-auto ms--2">
                                             <h4 class="h6 mb-0">
-                                                <a href="#">{{$item->name}}</a>
+                                                <a href="{{ route('detail_teacher', ['id' => $item->id])}}">{{$item->name}}</a>
                                             </h4>
                                         </div>
                                         <div class="col text-end">
@@ -239,13 +239,13 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <!-- Avatar -->
-                                            <a href="#" class="avatar">
+                                            <a href="{{ route('detail_teacher', ['id' => $item->user_id])}}" class="avatar">
                                                 <img class="rounded" alt="Image placeholder" src="{{$item->user_avatar ? '' .Storage::url($item->user_avatar):''}}">
                                             </a>
                                         </div>
                                         <div class="col-auto ms--2">
                                             <h4 class="h6 mb-0">
-                                                <a href="#">{{$item->user_name}}</a>
+                                                <a href="{{ route('detail_teacher', ['id' => $item->user_id])}}">{{$item->user_name}}</a>
                                             </h4>
                                         </div>
                                         <div class="col text-end">
