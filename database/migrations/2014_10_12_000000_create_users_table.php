@@ -43,6 +43,7 @@ return new class extends Migration
             $table->string('assign_user')->nullable();
             $table->string('Certificate_public',1000)->nullable();
             $table->integer('status_certificate')->default(0);
+            $table->string('code')->nullable();
             $table->rememberToken()->nullable();
             $table->timestamps();
             $table->softDeletes();
