@@ -233,16 +233,40 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                            {{-- <div class="row">
+                            @foreach ($connect as $item)
+                            <div class="row">
                                 <div class="col-md-6">
-                                    <label>Người dùng</label>
+                                    <label>Người thuê</label>
                                 </div>
-                                @foreach ($connect as $item)
                                     <div class="col-md-6">
-                                        <p>{{ $item->idSender }}</p>
+                                        <p>{{ $item->id_user }}</p>
                                     </div>
-                                @endforeach
-                            </div> --}}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Người dạy</label>
+                                </div>
+                                    <div class="col-md-6">
+                                        <p>{{ $item->id_teacher}}</p>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Trạng thái</label>
+                                </div>
+                                    <div class="col-md-6">
+                                        <p>{{ $item->status}}</p>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Xem chi tiết</label>
+                                </div>
+                                    <div class="col-md-6">
+                                        <p>Chi tiết</p>
+                                    </div>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>

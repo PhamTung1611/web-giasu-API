@@ -33,6 +33,10 @@
                                 <a class="nav-link" id="feedback-tab" data-toggle="tab" href="#feedback" role="tab"
                                     aria-controls="feedback" aria-selected="false">Đánh giá</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+                                    aria-controls="contact" aria-selected="false">Kết nối</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -225,6 +229,42 @@
                                     </div>
                                 @endforeach
                             </div>
+                        </div>
+                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                            @foreach ($connect as $item)
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Người thuê</label>
+                                </div>
+                                    <div class="col-md-6">
+                                        <p>{{ $item->id_user }}</p>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Người dạy</label>
+                                </div>
+                                    <div class="col-md-6">
+                                        <p>{{ $item->id_teacher}}</p>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Trạng thái</label>
+                                </div>
+                                    <div class="col-md-6">
+                                        <p>{{ $item->status}}</p>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Xem chi tiết</label>
+                                </div>
+                                    <div class="col-md-6">
+                                        <p>Chi tiết</p>
+                                    </div>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
