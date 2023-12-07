@@ -625,7 +625,7 @@ public function updatestatusSendMail(Request $request){
         if ($teachers) {
             $title = "Danh sách gia sư chờ phê duyệt";
             $view = 2;
-            return view('backend.teacher.index', compact('teachers', 'title', 'view'));
+            return view('backend.teacher.waiting', compact('teachers', 'title', 'view'));
         }
     }
     public function agree(Request $request)

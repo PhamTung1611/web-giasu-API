@@ -128,9 +128,9 @@ class TeachersController extends Controller
             $results = User::with('subject:id,name', 'school:id,name', 'class_levels:id,class')
                 ->where('role', 3)
                 ->where('status', '1')
-                ->when($request->filled('DistrictID'), function ($query) use ($request) {
+                ->when($request->filled('District_ID'), function ($query) use ($request) {
                     $query->where(function ($query) use ($request) {
-                        $query->where('District_ID', 'like', '%' . $request->input('DistrictID') . '%');
+                        $query->where('District_ID', 'like', '%' . $request->input('District_ID') . '%');
                     });
                 })
                 ->when($request->filled('subject'), function ($query) use ($request) {
@@ -145,20 +145,7 @@ class TeachersController extends Controller
                 })
                 ->get();
             $teachers = $results;
-//                 dd($results);
-//            $teachers = $results->map(function ($record) {
-//                return [
-//                    'id' => $record->id,
-//                    'name' => $record->name,
-//                    'email'=>$record->email,
-//                    'avatar' => 'http://127.0.0.1:8000/storage/' . $record->avatar,
-//                    'phone' => $record->phone,
-//                    'address' => $record->address,
-//                    'status'=>$record->status,
-//                    'assign_user'=>$record->assign_user
-//                ];
-//            });
-            // dd($teachers);
+
         }
         // dd($teachers);
         return view('backend.teacher.index', compact('teachers', 'title', 'view', 'subject', 'class'));
