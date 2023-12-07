@@ -123,7 +123,7 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/refresh', [AuthController::class, 'RefreshToken']);
     Route::post('/reset-password', [ResetPasswordController::class, 'sendMail']);
-    Route::put('/reset-password/{token}', [ResetPasswordController::class, 'reset']);
+    Route::put('/reset-password', [ResetPasswordController::class, 'reset']);
 });
 Route::prefix('timeslot')->group(function () {
     // lấy ra danh sách
