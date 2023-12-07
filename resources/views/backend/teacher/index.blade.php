@@ -27,22 +27,25 @@
 </div>
 <div class="table-settings mb-4">
   <div class="row align-items-center justify-content-between">
-    <div class="col col-md-6 col-lg-3 col-xl-4">
-      <form class="input-group me-2 me-lg-3 fmxw-400" action="{{route('search_teacher')}}" method="POST">
+    <div class="col col-lg-8 col-xl-8 text-right">
+      <form class="input-group w-full h-10" action="{{route('search_teacher')}}" method="POST">
         @csrf
-        Môn Học:<select name="class" id="">
-        <option value="">Tất cả</option>
+        <label for="class" class="form-label">Lớp Học</label>
+        <select name="class" id="" class="form-select form-select-sm mb-3">
+          <option value="">Tất cả</option>
           @foreach($subject as $u)
           <option value="{{$u->id}}">{{$u->name}}</option>
           @endforeach
         </select>
-        Lớp Học:<select name="subject" id="">
-        <option value="">Tất cả</option>
+        <label for="class" class="form-label">Môn Học</label>
+        <select name="subject" ip="" class="form-select form-select-sm mb-3">
+          <option value="">Tất cả</option>
           @foreach($class as $u)
-          <option value="{{$u->id}}">{{$u->class}}</option>
+          <option value="{{$u->ip}}">{{$u->class}}</option>
           @endforeach
         </select>
-      Khu Vực Quận Dạy:<select name="District_ID">
+        <label for="class" class="form-label">Khu vực dạy:</label>
+        <select name="District_ID" class="form-select form-select-sm mb-3">
           <option value="">Tất cả</option>
           <option value="Ba Đình">Ba Đình</option>
           <option value="Hoàn Kiếm">Hoàn Kiếm</option>
@@ -55,9 +58,9 @@
           <option value="Long Biên">Long Biên</option>
           <option value="Nam Từ Liêm">Nam Từ Liêm</option>
           <option value="Bắc Từ Liêm">Bắc Từ Liêm</option>
-          <option value="Hà Đông" >Hà Đông</option>
+          <option value="Hà Đông">Hà Đông</option>
         </select>
-        <input type="submit" value="Lọc" class="btn btn-secondary">
+        <button type="submit" class="btn btn-secondary  mb-3">Lọc</button>
       </form>
     </div>
     <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
