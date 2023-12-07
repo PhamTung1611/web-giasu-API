@@ -23,11 +23,11 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link " id="history-tab" data-toggle="tab" href="#history" role="tab"
-                                    aria-controls="history" aria-selected="true">Lịch sử thuê</a>
+                                    aria-controls="history" aria-selected="true">Lịch sử thuê ({{$countJobs}})</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="trutien-tab" data-toggle="tab" href="#trutien" role="tab"
-                                    aria-controls="trutien" aria-selected="false">Lịch sử trừ tiền</a>
+                                    aria-controls="trutien" aria-selected="false">Lịch sử trừ tiền </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="feedback-tab" data-toggle="tab" href="#feedback" role="tab"
@@ -35,7 +35,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                                    aria-controls="contact" aria-selected="false">Kết nối</a>
+                                    aria-controls="contact" aria-selected="false">Kết nối ({{$countConnect}})</a>
                             </li>
                         </ul>
                     </div>

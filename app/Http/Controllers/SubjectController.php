@@ -163,7 +163,10 @@ public function DetailUser($id)
         ->get();
         // dd($result);
     $connect = Connect::all();
-    return view('backend.users.show', compact('title', 'data','history','result','dataFeedback', 'connect'));
+    $countJobs = Job::where('id_user',$id)->count();
+    $countConnect = Connect::where('id_user',$id)->count();
+
+    return view('backend.users.show', compact('title', 'data','history','result','dataFeedback', 'connect','countConnect','countJobs'));
 }
     public function DetailTeacher($id)
     {
@@ -273,7 +276,9 @@ public function DetailUser($id)
             ->where('feedback.id_teacher', $id)
             ->get();
         $connect = Connect::all();
-        return view('backend.subject.show', compact('title', 'data','history','result','dataFeedback', 'connect'));
+        $countJobs = Job::where('id_teacher',$id)->count();
+        $countConnect = Connect::where('id_teacher',$id)->count();
+        return view('backend.subject.show', compact('title', 'data','history','result','dataFeedback', 'connect','countJobs','countConnect'));
     }
 
     private function getArrayValues($field, $modelClass)
