@@ -643,6 +643,21 @@ public function updatestatusSendMail(Request $request){
             Session::flash('error', 'error');
         }
     }
+    public function activateCtv($id)
+{
+    $user = User::find($id);
+    $user->status = 1;
+    $user->save();
+    return redirect()->route('allctv');
+}
+
+public function deactivateCtv($id)
+{
+    $user = User::find($id);
+    $user->status = 2;
+    $user->save();
+    return redirect()->route('allctv');
+}
     public function getOneTeacherWaiting(Request $request,$id)
     {
         $records = User::where('id', $id)

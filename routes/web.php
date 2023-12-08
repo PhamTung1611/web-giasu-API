@@ -105,5 +105,7 @@ Route::middleware('auth')->group(function () {
         Route::get('ctv/delete/{id}', [UsersController::class, 'delete_ctv'])->name('delete_ctv');
         Route::match(['get', 'post'], 'ctv', [UsersController::class, 'getAllCtv'])->name('allctv');
         Route::match(['get', 'post'], 'ctv/addNew', [UsersController::class, 'addNewCtv'])->name('add_ctv');
+        Route::get('/activate_ctv/{id}', [UsersController::class, 'activateCtv'])->name('activate_ctv');
+        Route::get('/deactivate_ctv/{id}', [UsersController::class, 'deactivateCtv'])->name('deactivate_ctv');
     });
 });

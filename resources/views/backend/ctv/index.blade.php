@@ -100,14 +100,22 @@
                 <span class="fas fa-ellipsis-h icon-dark"></span>
               </span>
               <span>
-                views
+                Xem chi tiết
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.005 11.995v.01m0-4.01v.01m0 7.99v.01" />
                 </svg>
               </span>
             </button>
             <div class="dropdown-menu py-0">
-
+              @if ($u->status == 1)
+                  <a href="{{ route('deactivate_ctv', ['id' => $u->id]) }}" class="btn btn-link text-warning" onclick="return confirm('Are you sure you want to deactivate?');">
+                      <span class="fas fa-toggle-off me-2"></span>Tắt kích hoạt
+                  </a>
+              @else
+                  <a href="{{ route('activate_ctv', ['id' => $u->id]) }}" class="btn btn-link text-success" onclick="return confirm('Are you sure you want to activate?');">
+                      <span class="fas fa-toggle-on me-2"></span>Kích hoạt
+                  </a>
+              @endif
               <a class="dropdown-item" href="{{ route('edit_ctv', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Edit</a>
               <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_ctv', ['id' => $u->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
             </div>
