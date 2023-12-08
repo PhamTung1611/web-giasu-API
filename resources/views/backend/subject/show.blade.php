@@ -159,36 +159,34 @@
                             @endforeach
                         </div>
                         <div class="tab-pane fade" id="trutien" role="tabpanel" aria-labelledby="trutien-tab">
+
+                        @foreach ($history as $item)
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Số tiền</label>
                                 </div>
-                                @foreach ($history as $item)
                                     <div class="col-md-6">
                                         <p>{{ $item->coin }}</p>
                                     </div>
-                                @endforeach
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Lý do</label>
                                 </div>
-                                @foreach ($history as $item)
                                     <div class="col-md-6">
                                         <p>{{ $item->type }}</p>
                                     </div>
-                                @endforeach
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Ngày</label>
                                 </div>
-                                @foreach ($history as $item)
-                                    <div class="col-md-6">
-                                        <p>{{ $item->created_at }}</p>
-                                    </div>
-                                @endforeach
+                                <div class="col-md-6">
+                                    <p>{{ $item->created_at }}</p>
+                                </div>
                             </div>
+                            <hr>
+                            @endforeach
                         </div>
                         <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
                             <div class="row">
@@ -266,6 +264,7 @@
                                         <p>Chi tiết</p>
                                     </div>
                             </div>
+                            <hr>
                             @endforeach
                         </div>
                     </div>
