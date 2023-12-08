@@ -251,11 +251,6 @@ class TeachersController extends Controller
 
             unset($params['Certificatelast']);
             $data = $params;
-            if ($data['gender'] == 1) {
-                $data['gender'] = 'Nam';
-            } else {
-                $data['gender'] = 'Nữ';
-            }
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                 $deleteImage = Storage::delete('/public/' . $teacher->avatar);
                 if ($deleteImage) {
