@@ -40,8 +40,10 @@ class AuthController extends Controller
             return response()->json(['message' => 'Email hoặc password không tồn tại'], 401);
         }
         $users = DB::table('users')->where('email', $request->email)->first();
-        if ($users->status == 0){
+        if ($users->status == 0) {
             return response()->json(['message' => 'Tài khoản bị vô hiệu hóa'], 401);
+        }elseif ($users->status == 3){
+            return response()->json(['message' => 'Bạn cần phải xác nhận mail'], 401);
         }
         $user = $request->user();
         // Create an access token and a refresh token

@@ -779,7 +779,22 @@ public function deactivateCtv($id)
     public function certificate_public(Request $request,$id){
         $user = User::find($id);
         if($user){
-            $user->Certificate_public = json_encode($request->Certificate_public);
+            $currentCertificate = json_decode($user->Certificate_public);
+            // Thêm giá trị mới vào giá trị hiện tại
+            if($currentCertificate){
+
+                $newCertificate = json_decode($request->Certificate_public);
+                foreach ($newCertificate as $v){
+                    $currentCertificate[]=$v;
+                }
+
+
+                // Cập nhật trường Certificate_public với giá trị mới
+                $user->Certificate_public = json_encode($currentCertificate);
+            }else{
+                $user->Certificate_public=$request->Certificate_public;
+            }
+
             $user->update();
             return response()->json("success");
         }
