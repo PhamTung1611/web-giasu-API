@@ -301,7 +301,7 @@ class ConnectController extends Controller
             $item->userName = $item->userName;
             $item->teacherName = $item->teacherName;
         }
-        dd($connect);
+        // dd($connect);
         return view('backend.connect.index', compact('connect', 'title'));
     }
 

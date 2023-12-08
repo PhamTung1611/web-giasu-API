@@ -45,9 +45,9 @@
         <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end pb-0">
           <span class="small ps-3 fw-bold text-dark">Show</span>
           <a class="dropdown-item d-flex align-items-center fw-bold" href="{{route('allctv')}}">Tất cả</a>
-          
+
           <a class="dropdown-item fw-bold" href="{{ route('ctv_by_status', ['status' => 1]) }}">Hoạt động</a>
-          <a class="dropdown-item fw-bold rounded-bottom" href="{{ route('ctv_by_status', ['status' => 2]) }}">Chờ xác nhận</a>
+          <a class="dropdown-item fw-bold rounded-bottom" href="{{ route('ctv_by_status', ['status' => 2]) }}">Không hoạt động</a>
         </div>
       </div>
     </div>

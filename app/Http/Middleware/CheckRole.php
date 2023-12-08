@@ -17,7 +17,7 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role === "user" || Auth::user()->role === "teacher") {
+        if (Auth::user()->role === "user" || Auth::user()->role === "teacher" || Auth::user()->status == 0 || Auth::user()->status == 2) {
             Session::flash('error', 'Không đủ thẩm quyền');
             return redirect()->route('login');
         }
