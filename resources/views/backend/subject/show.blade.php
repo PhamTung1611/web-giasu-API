@@ -158,7 +158,7 @@
                                 <hr>
                             @endforeach
                         </div>
-                        <div class="tab-pane fade" id="trutien" role="tabpanel" aria-labelledby="trutien-tab">
+                        < class="tab-pane fade" id="trutien" role="tabpanel" aria-labelledby="trutien-tab">
 
                         @foreach ($history as $item)
                             <div class="row">
@@ -169,22 +169,18 @@
                                         <p>{{ $item->coin }}</p>
                                     </div>
                             </div>
-                            <div class="row">
                                 <div class="col-md-6">
                                     <label>Lý do</label>
                                 </div>
                                     <div class="col-md-6">
                                         <p>{{ $item->type }}</p>
                                     </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-6">
                                     <label>Ngày</label>
                                 </div>
                                 <div class="col-md-6">
                                     <p>{{ $item->created_at }}</p>
                                 </div>
-                            </div>
                             <hr>
                             @endforeach
                         </div>
