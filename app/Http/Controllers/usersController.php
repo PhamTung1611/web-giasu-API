@@ -654,7 +654,7 @@ public function updatestatusSendMail(Request $request){
 public function deactivateCtv($id)
 {
     $user = User::find($id);
-    $user->status = 2;
+    $user->status = 0;
     $user->save();
     return redirect()->route('allctv');
 }
