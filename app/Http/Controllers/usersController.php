@@ -759,7 +759,7 @@ public function deactivateCtv($id)
         }
     }
     public function getAllCtv(Request $request){
-        $users = User::orderBy('id', 'desc')->where('role',4)->get();
+        $users = User::where('role',4)->get();
         $view =3;
         $title ="Danh sách cộng tác viên";
         if ($request->post() && $request->search) {
@@ -770,6 +770,12 @@ public function deactivateCtv($id)
         }
         return view('backend.ctv.index',compact('users','view','title'));
     }
+    public function showCtvByStatus($status)
+{
+    $title = 'Danh sach';
+    $users = User::where('status', $status)->where('role', 4)->get();
+    return view('backend.ctv.index', compact('users', 'title'));
+}
     public function certificate_public(Request $request,$id){
         $user = User::find($id);
         if($user){

@@ -107,5 +107,6 @@ Route::middleware('auth')->group(function () {
         Route::match(['get', 'post'], 'ctv/addNew', [UsersController::class, 'addNewCtv'])->name('add_ctv');
         Route::get('/activate_ctv/{id}', [UsersController::class, 'activateCtv'])->name('activate_ctv');
         Route::get('/deactivate_ctv/{id}', [UsersController::class, 'deactivateCtv'])->name('deactivate_ctv');
+        Route::get('/ctv/status/{status}', [UsersController::class,'showCtvByStatus'])->name('ctv_by_status');
     });
 });
