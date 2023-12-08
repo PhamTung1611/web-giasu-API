@@ -60,7 +60,7 @@
           <option value="Bắc Từ Liêm">Bắc Từ Liêm</option>
           <option value="Hà Đông">Hà Đông</option>
         </select>
-        <button type="submit" class="btn btn-secondary  mb-3">Lọc</button>
+        <button type="submit" class="btn btn-secondary mb-3">Lọc</button>
       </form>
     </div>
     <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
