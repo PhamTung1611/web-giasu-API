@@ -140,7 +140,8 @@ class AuthController extends Controller
                 "time_tutor_id"=>$user->time_tutor_id,
                 'status'=>$user->status,
                 'assign_user'=>$user->assign_user,
-                'Certificate_public'=>$user->Certificate_public
+                'Certificate_public'=>$user->Certificate_public,
+                'status_certificate'=>$user->status_certificate
             ],
             'access_token' => $tokenResult->accessToken,
             'refresh_token' => $refreshToken->id,
@@ -258,7 +259,8 @@ class AuthController extends Controller
                         "time_tutor_id"=>$user->time_tutor_id,
                         'status'=>$user->status,
                         'assign_user'=>$user->assign_user,
-                        'Certificate_public'=>$user->Certificate_public
+                        'Certificate_public'=>$user->Certificate_public,
+                        'status_certificate'=>$user->status_certificate
                     ],
                     'access_token' => $tokenResult->accessToken,
                     'refresh_token' => $tokennew->id,
