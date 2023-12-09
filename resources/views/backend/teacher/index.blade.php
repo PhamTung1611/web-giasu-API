@@ -99,7 +99,8 @@
         <th>Số điện thoại</th>
         <th>Địa chỉ</th>
         <th>Trạng thái</th>
-        <th>Assign</th>
+        <th>Người duyệt</th>
+          <th>Ngày duyệt</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -135,6 +136,9 @@
         <td>
           <span class="fw-normal">{{$u->assign_user}}</span>
         </td>
+          <td>
+              <span class="fw-normal">{{$u->time_accept}}</span>
+          </td>
         <td>
           <div class="btn-group">
             <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

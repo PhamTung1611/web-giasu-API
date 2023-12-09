@@ -44,6 +44,7 @@ return new class extends Migration
             $table->string('Certificate_public',1000)->nullable();
             $table->integer('status_certificate')->default(0);
             $table->string('code')->nullable();
+            $table->dateTime('time_accept')->nullable();
             $table->rememberToken()->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -27,7 +27,7 @@ class HTMLMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Xác nhận Email',
+            subject: 'GS7 thông báo',
         );
     }
 //

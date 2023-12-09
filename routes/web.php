@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () {
         Route::post('user', [UsersController::class, 'getAllUser'])->name('search_user');
         Route::get('user', [UsersController::class, 'getAllUser']);
         Route::get('teacher/waiting', [UsersController::class, 'getAllTeacher'])->name('waiting');
-        Route::post('waiting_teacher', [UsersController::class, 'agree'])->name('waiting_teacher');
+        Route::get('waiting_teacher/{id}', [UsersController::class, 'agree'])->name('waiting_teacher');
         //salary rank
         Route::match(['get', 'post'], 'salary/add', [RankSalaryController::class, 'add'])->name('salary.add');
         Route::match(['get', 'post'], 'salary/edit/{id}', [RankSalaryController::class, 'update'])->name('salary.edit');
