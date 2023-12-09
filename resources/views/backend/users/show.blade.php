@@ -27,7 +27,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="trutien-tab" data-toggle="tab" href="#trutien" role="tab"
-                                    aria-controls="trutien" aria-selected="false">Lịch sử trừ tiền </a>
+                                    aria-controls="trutien" aria-selected="false">Biến động số dư </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="feedback-tab" data-toggle="tab" href="#feedback" role="tab"
@@ -234,7 +234,7 @@
                                     <label>Người thuê</label>
                                 </div>
                                     <div class="col-md-6">
-                                        <p>{{ $item->id_user }}</p>
+                                        <p>{{ $item->userName }}</p>
                                     </div>
                             </div>
                             <div class="row">
@@ -242,7 +242,7 @@
                                     <label>Người dạy</label>
                                 </div>
                                     <div class="col-md-6">
-                                        <p>{{ $item->id_teacher}}</p>
+                                        <p>{{ $item->teacherName}}</p>
                                     </div>
                             </div>
                             <div class="row">
@@ -250,7 +250,7 @@
                                     <label>Trạng thái</label>
                                 </div>
                                     <div class="col-md-6">
-                                        <p>{{ $item->status}}</p>
+                                        <p style="color: {{ $item->status === 1 ? 'green' : ($item->status == "2" ? 'red' : 'brown') }}">{{$item->status == "1" ? 'Thành công' : ($item->status == "2" ? 'Thất bại' : 'Chờ xác nhận') }}</p>
                                     </div>
                             </div>
                             <div class="row">
@@ -258,7 +258,7 @@
                                     <label>Xem chi tiết</label>
                                 </div>
                                     <div class="col-md-6">
-                                        <p>Chi tiết</p>
+                                        <p><a href="{{ route('connect_show', ['id' => $item->id])}}">Chi tiết</a></p>
                                     </div>
                             </div>
                             <hr>

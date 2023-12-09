@@ -27,7 +27,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="trutien-tab" data-toggle="tab" href="#trutien" role="tab"
-                                    aria-controls="trutien" aria-selected="false">Lịch sử trừ tiền</a>
+                                    aria-controls="trutien" aria-selected="false">Biến động số dư</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="feedback-tab" data-toggle="tab" href="#feedback" role="tab"
@@ -188,46 +188,42 @@
                             @endforeach
                         </div>
                         <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+                        @foreach ($dataFeedback as $item)
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Người gửi</label>
                                 </div>
-                                @foreach ($dataFeedback as $item)
                                     <div class="col-md-6">
-                                        <p>{{ $item->idSender }}</p>
+                                        <p>{{ $item->sender_name }}</p>
                                     </div>
-                                @endforeach
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Giáo viên</label>
                                 </div>
-                                @foreach ($dataFeedback as $item)
                                     <div class="col-md-6">
-                                        <p>{{ $item->idTeacher }}</p>
+                                        <p>{{ $item->teacher_name }}</p>
                                     </div>
-                                @endforeach
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Điểm</label>
                                 </div>
-                                @foreach ($dataFeedback as $item)
                                     <div class="col-md-6">
                                         <p>{{ $item->point }}</p>
                                     </div>
-                                @endforeach
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Nhận xét</label>
                                 </div>
-                                @foreach ($dataFeedback as $item)
                                     <div class="col-md-6">
                                         <p>{{ $item->description }}</p>
                                     </div>
-                                @endforeach
                             </div>
+                            <hr>
+                            @endforeach
+
                         </div>
                         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                             @foreach ($connect as $item)
@@ -236,7 +232,7 @@
                                     <label>Người thuê</label>
                                 </div>
                                     <div class="col-md-6">
-                                        <p>{{ $item->id_user }}</p>
+                                        <p>{{ $item->userName }}</p>
                                     </div>
                             </div>
                             <div class="row">
@@ -244,7 +240,7 @@
                                     <label>Người dạy</label>
                                 </div>
                                     <div class="col-md-6">
-                                        <p>{{ $item->id_teacher}}</p>
+                                        <p>{{ $item->teacherName}}</p>
                                     </div>
                             </div>
                             <div class="row">
@@ -252,7 +248,7 @@
                                     <label>Trạng thái</label>
                                 </div>
                                     <div class="col-md-6">
-                                        <p>{{ $item->status}}</p>
+                                        <p style="color: {{ $item->status === 1 ? 'green' : ($item->status == "2" ? 'red' : 'brown') }}">{{$item->status == "1" ? 'Thành công' : ($item->status == "2" ? 'Thất bại' : 'Chờ xác nhận') }}</p>
                                     </div>
                             </div>
                             <div class="row">
@@ -260,7 +256,7 @@
                                     <label>Xem chi tiết</label>
                                 </div>
                                     <div class="col-md-6">
-                                        <p>Chi tiêt</p>
+                                        <p> <a href="{{ route('connect_show', ['id' => $item->id])}}">Chi tiêt</a></p>
                                     </div>
                             </div>
                             <hr>
