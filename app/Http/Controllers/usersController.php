@@ -234,7 +234,7 @@ class UsersController extends Controller
             }
                 $user->status = 3;
             $user->save();
-            $htmlContent = "<form action='http://localhost:8000/api/users/status' method='post'>
+            $htmlContent = "<form action='http://localhost:8000/api/users/status' method='get'>
         <input type='hidden' name='email' value='$request->email'>
         <button type='submit'>Xác nhận tài khoản</button>
         </form>";
@@ -251,8 +251,7 @@ public function updatestatusSendMail(Request $request){
 
            $user->status=2;
            $user->save();
-
-    return redirect()->away('http://localhost:3000/auth/teacher');
+           return redirect()->away('http://localhost:3000/auth/teacher');
 }
     /**
      * Display the specified resource.
