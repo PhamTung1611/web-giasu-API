@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Connect;
+use App\Models\FeedBack as ModelsFeedBack;
 use App\Models\History;
 use App\Models\Job;
 use App\Models\Subject;
@@ -32,10 +33,10 @@ class DashBoradController extends Controller
         $results = $query->get();
         // dd($results);
         $topTeachersInfo = DB::table('jobs')
-            ->select('users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar','users.email as user_email', DB::raw('COUNT(jobs.id_teacher) as teacher_count'))
+            ->select('users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar', 'users.email as user_email', DB::raw('COUNT(jobs.id_teacher) as teacher_count'))
             ->join('users', 'jobs.id_teacher', '=', 'users.id')
             ->where('jobs.status', 1)  // Chỉ rõ cột 'status' thuộc bảng 'jobs'
-            ->groupBy('users.id', 'users.name', 'users.avatar','users.email')
+            ->groupBy('users.id', 'users.name', 'users.avatar', 'users.email')
             ->orderByDesc('teacher_count')
             ->limit(4)
             ->get();
@@ -52,11 +53,11 @@ class DashBoradController extends Controller
             ->orderByDesc('hire_count')
             ->get();
 
-            $countConnect = Connect::where('status', 1)->count();
+        $countConnect = Connect::where('status', 1)->count();
 
-        
+
         // dd($topTeachersInfo);
-        return view('dashboard', compact('money', 'countTeacher', 'title', 'countTeacherWait', 'countUser', 'results', 'topTeachersInfo','mostHiredSubjects','countCollaborators','countConnect'));
+        return view('dashboard', compact('money', 'countTeacher', 'title', 'countTeacherWait', 'countUser', 'results', 'topTeachersInfo', 'mostHiredSubjects', 'countCollaborators', 'countConnect'));
     }
 
     public function listHistoryAdmin()
@@ -66,7 +67,7 @@ class DashBoradController extends Controller
         // dd($history);
         return view('backend.listHIstory.listforadmin', compact('history', 'title'));
     }
-    public function feedbackTeacher()
+    public function feedbackTeacher(Request $request)
     {
         $title = 'FeedBack Gia Sư';
         $feedbacks = DB::table('feedback')
@@ -82,7 +83,13 @@ class DashBoradController extends Controller
                 'feedback.description'
             )
             ->get();
-        // dd($feedbacks);
+        if ($request->post()) {
+            $startDate = '2023-12-01';
+            $endDate = '2023-12-09';
+            dd($request);
+
+            $records = FeedBack::whereBetween('created_at', [$startDate, $endDate])->get();
+        }
         return view('backend.listHIstory.topstarteacher', compact('title', 'feedbacks'));
     }
 
@@ -109,16 +116,17 @@ class DashBoradController extends Controller
     {
         $title = 'Những gia sư được thuê';
         $topTeachersInfo = DB::table('jobs')
-            ->select('users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar','users.email as user_email', DB::raw('COUNT(jobs.id_teacher) as teacher_count'))
+            ->select('users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar', 'users.email as user_email', DB::raw('COUNT(jobs.id_teacher) as teacher_count'))
             ->join('users', 'jobs.id_teacher', '=', 'users.id')
             ->where('jobs.status', 1)  // Chỉ rõ cột 'status' thuộc bảng 'jobs'
-            ->groupBy('users.id', 'users.name', 'users.avatar','users.email')
+            ->groupBy('users.id', 'users.name', 'users.avatar', 'users.email')
             ->orderByDesc('teacher_count')
             ->get();
-            // dd($topTeachersInfo);
+        // dd($topTeachersInfo);
         return view('backend.listHIstory.rentTeacher', compact('title', 'topTeachersInfo'));
     }
-    public function rentID(){
+    public function rentID()
+    {
 
         $title = 'Những gia sư được thuê';
         $topTeachersInfo = DB::table('jobs')
@@ -129,6 +137,5 @@ class DashBoradController extends Controller
             ->orderBy('teacher_count') // Sắp xếp theo thứ tự tăng dần
             ->get();
         return view('backend.listHIstory.rentTeacher', compact('title', 'topTeachersInfo'));
-
     }
 }
