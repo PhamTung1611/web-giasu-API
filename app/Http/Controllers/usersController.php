@@ -316,12 +316,20 @@ public function updatestatusSendMail(Request $request){
         }
 
         if ($records->Certificate != null) {
-            $Certificate = json_decode($records->Certificate);
+            $Certificate = [];
+            foreach (json_decode($records->Certificate) as $key =>$u)
+            {
+                array_push($Certificate,['id'=>$key+1,'path'=>$u]);
+            }
         } else {
             $Certificate = [];
         }
         if ($records->Certificate_public != null) {
-            $Certificate_public = json_decode($records->Certificate_public);
+            $Certificate_public = [];
+            foreach (json_decode($records->Certificate_public) as $key =>$u)
+            {
+                array_push($Certificate_public,['id'=>$key+1,'path'=>$u]);
+            }
         } else {
             $Certificate_public = [];
         }
@@ -782,7 +790,6 @@ public function deactivateCtv($id)
             $currentCertificate = json_decode($user->Certificate_public);
             // Thêm giá trị mới vào giá trị hiện tại
             if($currentCertificate){
-
                 $newCertificate = json_decode($request->Certificate_public);
                 foreach ($newCertificate as $v){
                     $currentCertificate[]=$v;
