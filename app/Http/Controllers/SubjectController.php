@@ -171,11 +171,9 @@ public function DetailUser($id)
         )
             ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
             ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
+            ->where('connect.id_teacher',$id)
             ->get();
 
-        if ($connect->isEmpty()) {
-            return response()->json(['message' => 'Connect not found'], 404);
-        }
 
         foreach ($connect as $item) {
             $item->id_job = $item->id_job;
@@ -314,11 +312,8 @@ public function DetailUser($id)
             )
                 ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
                 ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
+            ->where('connect.id_teacher',$id)
                 ->get();
-    
-            if ($connect->isEmpty()) {
-                return response()->json(['message' => 'Connect not found'], 404);
-            }
     
             foreach ($connect as $item) {
                 $item->id_job = $item->id_job;

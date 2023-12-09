@@ -186,46 +186,41 @@
                             @endforeach
                         </div>
                         <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+                        @foreach ($dataFeedback as $item)
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Người gửi</label>
                                 </div>
-                                @foreach ($dataFeedback as $item)
                                     <div class="col-md-6">
-                                        <p>{{ $item->idSender }}</p>
+                                        <p>{{ $item->sender_name }}</p>
                                     </div>
-                                @endforeach
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Giáo viên</label>
                                 </div>
-                                @foreach ($dataFeedback as $item)
                                     <div class="col-md-6">
-                                        <p>{{ $item->idTeacher }}</p>
+                                        <p>{{ $item->teacher_name }}</p>
                                     </div>
-                                @endforeach
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Điểm</label>
                                 </div>
-                                @foreach ($dataFeedback as $item)
                                     <div class="col-md-6">
                                         <p>{{ $item->point }}</p>
                                     </div>
-                                @endforeach
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Nhận xét</label>
                                 </div>
-                                @foreach ($dataFeedback as $item)
                                     <div class="col-md-6">
                                         <p>{{ $item->description }}</p>
                                     </div>
-                                @endforeach
                             </div>
+                            <hr>
+                            @endforeach
                         </div>
                         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                             @foreach ($connect as $item)
