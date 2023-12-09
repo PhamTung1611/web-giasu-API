@@ -678,14 +678,7 @@ public function deactivateCtv($id)
                 array_push($newArraySubject, $subjectNew->name);
             }
         }
-        $newArrayEduaction = [];
-        if ($records->education_level != null) {
-            $makeEducation = explode(',', $records->education_level);
-            foreach ($makeEducation as $item) {
-                $educationNew = Subject::find($item);
-                array_push($newArrayEduaction, $educationNew->name);
-            }
-        }
+
         $newArrayClass = [];
         if ($records->class_id != null) {
             $makeClass = explode(',', $records->class_id);
@@ -719,7 +712,7 @@ public function deactivateCtv($id)
 //        }
 
         if (!$records->Certificate) {
-            $records->Certificate = [];
+            $records->Certificate = "";
         }else{
             $records->Certificate= json_decode($records->Certificate);
         }
@@ -735,7 +728,7 @@ public function deactivateCtv($id)
             'address' => $records->address,
             'school' => $newSchool,
 //            'Citizen_card' => $records->Citizen_card,
-            'education_level' => $newArrayEduaction,
+            'education_level' => $records->education_level,
             'class_id' => $newArrayClass,
             'subject' => $newArraySubject,
             'salary_id' => $newSalary,

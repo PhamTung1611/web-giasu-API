@@ -176,13 +176,14 @@
                                     <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                                 </ol>
                                 <div class="carousel-inner" >
-
+                                    @if($data['Certificate'])
                                     @foreach($data['Certificate'] as $value)
 
                                     <div class="carousel-item active">
                                         <img class="d-block w-100" style="height: 500px;  width: 500px;" src="{{$value}}" alt="First slide">
                                     </div>
                                     @endforeach
+                                    @endif
                                 </div>
                                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
