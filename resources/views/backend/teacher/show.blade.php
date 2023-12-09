@@ -1,7 +1,7 @@
 @extends('template.layout')
 @section('content')
     <div class="container emp-profile">
-        <form method="post">
+{{--        <form method="get">--}}
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img">
@@ -31,7 +31,14 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_teacher', ['id' => $data['id'],'view'=>'2'])}}" onclick="return confirm('Are you sure you want to refuse?');"><span class="fas fa-trash-alt me-2"></span>Từ chối</a>
+
+                    <a class="dropdown-item text-success rounded-bottom" href="{{ route('waiting_teacher',['id'=>$data['id']])}}"><span class="fas fa-trash-alt me-2"></span>Phê duyệt</a>
+                    <form action="{{ route('delete_teacher', ['id' => $data['id'],'view' => '2']) }}" method="get">
+                        <input type="text" value="" name="reason"placeholder="Nhập lý do từ chối">
+                        <button type="submit" class="dropdown-item text-danger rounded-bottom">Từ chối</button>
+                    </form>
+
+                    {{--                    <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_teacher', ['id' => $data['id'],'view'=>'2'])}}" onclick="return confirm('Are you sure you want to refuse?');"><span class="fas fa-trash-alt me-2"></span>Từ chối</a>--}}
                     <a class="dropdown-item text-danger rounded-bottom" href="{{ route('waiting')}}" ><span class="fas fa-trash-alt me-2">Back</span></a>
                 </div>
             </div>
@@ -200,6 +207,6 @@
                     </div>
                 </div>
             </div>
-        </form>
+{{--        </form>--}}
     </div>
 @endsection

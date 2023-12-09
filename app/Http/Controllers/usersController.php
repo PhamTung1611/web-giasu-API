@@ -234,7 +234,8 @@ class UsersController extends Controller
             }
                 $user->status = 3;
             $user->save();
-            $htmlContent = "<form action='http://localhost:8000/api/users/status' method='get'>
+            $htmlContent = "<h3>CLick để kích hoạt tài khoản :</h3> <br>
+<form action='http://localhost:8000/api/users/status' method='get'>
         <input type='hidden' name='email' value='$request->email'>
         <button type='submit'>Xác nhận tài khoản</button>
         </form>";
@@ -643,6 +644,7 @@ public function updatestatusSendMail(Request $request){
             $email = Session::get('email');
             $user->status =1;
             $user->assign_user = $email;
+            $user->time_accept= now();
             $user->save();
 
             return redirect()->route('waiting');

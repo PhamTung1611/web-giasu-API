@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\HTMLMail;
 use Illuminate\Http\Request;
 use App\Models\Teachers;
 use App\Http\Requests\TeacherRequest;
@@ -13,6 +14,7 @@ use App\Models\Schools;
 use App\Models\Subject;
 use App\Models\TimeSlot;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -338,7 +340,7 @@ class TeachersController extends Controller
 
         return response()->json($processedRecords, 200);
     }
-    public function delete($id, $view)
+    public function delete(Request $request,$id, $view)
     {
 
         if ($id) {
@@ -350,6 +352,9 @@ class TeachersController extends Controller
                     Session::flash('success', 'success');
                     return redirect()->route('search_teacher');
                 } else {
+                    $htmlContent="<h3>Tài khoản của bạn bị từ chối vì lý do:</h3> <br>
+                        <span>$request->reason</span>";
+                    Mail::to($user->email)->send(new HTMLMail($htmlContent));
                     Session::flash('success', 'success');
                     return redirect()->route('waiting');
                 }
