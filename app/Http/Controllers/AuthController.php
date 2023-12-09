@@ -246,7 +246,7 @@ class AuthController extends Controller
                         'subject'=>$newSubjectArray,
                         'salary'=>$rankName,
                         'description'=>$user->description,
-                        'District'=>$user->DistrictID,
+                        'District'=>$user->District_ID,
                         'longitude'=>$user->longitude,
                         'latitude'=>$user->latitude,
                         'Certificate'=>$user->Certificate,

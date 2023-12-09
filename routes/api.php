@@ -150,7 +150,7 @@ Route::prefix('feedback')->group(function () {
         Route::get('/avgPoint/{id}', [FeedBackController::class, 'averagePoint']);
     });
  Route::prefix('users')->group(function () {
-        Route::post('status',[UsersController::class,'updatestatusSendMail']);
+        Route::get('status',[UsersController::class,'updatestatusSendMail']);
         Route::get('/', [UsersController::class, 'index']);
         Route::get('/{id}', [UsersController::class, 'show']);
     });
