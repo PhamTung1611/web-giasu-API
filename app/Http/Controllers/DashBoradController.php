@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Connect;
-use App\Models\FeedBack as ModelsFeedBack;
+use App\Models\FeedBack;
 use App\Models\History;
 use App\Models\Job;
 use App\Models\Subject;
 use App\Models\User;
-use Google\Service\Forms\Feedback;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -60,17 +59,24 @@ class DashBoradController extends Controller
         return view('dashboard', compact('money', 'countTeacher', 'title', 'countTeacherWait', 'countUser', 'results', 'topTeachersInfo', 'mostHiredSubjects', 'countCollaborators', 'countConnect'));
     }
 
-    public function listHistoryAdmin()
+    public function listHistoryAdmin(Request $request)
     {
         $title = 'Biến động doanh thu';
-        $history = History::where('id_client', '1')->orderBy('created_at', 'desc')->get();
-        // dd($history);
+        $query = History::where('id_client', '1')->orderBy('created_at', 'desc');
+    
+        $query->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
+            $query->whereBetween('created_at', [$request->dateStart, $request->dateEnd]);
+        });
+    
+        $history = $query->get();
+    
         return view('backend.listHIstory.listforadmin', compact('history', 'title'));
     }
+    
     public function feedbackTeacher(Request $request)
     {
         $title = 'FeedBack Gia Sư';
-        $feedbacks = DB::table('feedback')
+        $query = DB::table('feedback')
             ->join('users as sender', 'feedback.id_sender', '=', 'sender.id')
             ->join('users as teacher', 'feedback.id_teacher', '=', 'teacher.id')
             ->select(
@@ -81,17 +87,18 @@ class DashBoradController extends Controller
                 'teacher.name as teacher_name',
                 'feedback.point',
                 'feedback.description'
-            )
-            ->get();
-        if ($request->post()) {
-            $startDate = '2023-12-01';
-            $endDate = '2023-12-09';
-            dd($request);
+            );
 
-            $records = FeedBack::whereBetween('created_at', [$startDate, $endDate])->get();
-        }
+        $query->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
+            $query->whereBetween('feedback.created_at', [$request->dateStart, $request->dateEnd])
+                ->whereNull('feedback.deleted_at');
+        });
+
+        $feedbacks = $query->get();
+
         return view('backend.listHIstory.topstarteacher', compact('title', 'feedbacks'));
     }
+
 
     public function starTeacher($id)
     {
@@ -112,19 +119,26 @@ class DashBoradController extends Controller
         // dd($feedbacks);
         return view('backend.listHIstory.topstarteacher', compact('title', 'feedbacks'));
     }
-    public function rent()
+    public function rent(Request $request)
     {
         $title = 'Những gia sư được thuê';
-        $topTeachersInfo = DB::table('jobs')
+        $query = DB::table('jobs')
             ->select('users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar', 'users.email as user_email', DB::raw('COUNT(jobs.id_teacher) as teacher_count'))
             ->join('users', 'jobs.id_teacher', '=', 'users.id')
-            ->where('jobs.status', 1)  // Chỉ rõ cột 'status' thuộc bảng 'jobs'
+            ->where('jobs.status', 1)
             ->groupBy('users.id', 'users.name', 'users.avatar', 'users.email')
-            ->orderByDesc('teacher_count')
-            ->get();
-        // dd($topTeachersInfo);
+            ->orderByDesc('teacher_count');
+
+        $query->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
+            // Điều kiện lọc theo khoảng thời gian
+            $query->whereBetween('jobs.created_at', [$request->dateStart, $request->dateEnd]);
+        });
+
+        $topTeachersInfo = $query->get();
+
         return view('backend.listHIstory.rentTeacher', compact('title', 'topTeachersInfo'));
     }
+
     public function rentID()
     {
 

@@ -42,10 +42,12 @@ Route::middleware('auth')->group(function () {
         Route::get('connect/show/{id}', [ConnectController::class, 'showConnect'])->name('connect_show');
         Route::get('deleteConnect/{id}', [ConnectController::class, 'delete'])->name('delete_connect');
         Route::get('/history-admin', [DashBoradController::class, 'listHistoryAdmin']);
+        Route::post('/history-admin/date', [DashBoradController::class, 'listHistoryAdmin'])->name('history_date');
         Route::get('/feedback', [DashBoradController::class, 'feedbackTeacher']);
-        Route::get('/feedback/date', [DashBoradController::class, 'feedbackTeacher'])->name('feedback_date');
+        Route::post('/feedback/date', [DashBoradController::class, 'feedbackTeacher'])->name('feedback_date');
         Route::get('feedback/{id}', [DashBoradController::class, 'starTeacher'])->name('starTeacher');
         Route::get('/rent', [DashBoradController::class, 'rent'])->name('rent');
+        Route::post('/rent/date', [DashBoradController::class, 'rent'])->name('rent_date');
         Route::get('/rentID', [DashBoradController::class, 'rentID'])->name('rentID');
         Route::get('salary', [RankSalaryController::class, 'index']);
         Route::get('payment', [TransactionController::class, 'index'])->name('vnpay');
