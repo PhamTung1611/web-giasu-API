@@ -23,7 +23,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link " id="history-tab" data-toggle="tab" href="#history" role="tab"
-                                    aria-controls="history" aria-selected="true">Lịch sử thuê ({{$countJobs}})</a>
+                                    aria-controls="history" aria-selected="true">Lịch sử thuê (3)</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="trutien-tab" data-toggle="tab" href="#trutien" role="tab"
@@ -35,7 +35,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                                    aria-controls="contact" aria-selected="false">Kết nối ({{$countConnect}})</a>
+                                    aria-controls="contact" aria-selected="false">Kết nối (3)</a>
                             </li>
                         </ul>
                     </div>
@@ -159,8 +159,7 @@
                             @endforeach
                         </div>
                         <div class="tab-pane fade" id="trutien" role="tabpanel" aria-labelledby="trutien-tab">
-
-                        @foreach ($history as $item)
+                            @foreach ($history as $item)
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Số tiền</label>
@@ -181,9 +180,9 @@
                                 <div class="col-md-6">
                                     <label>Ngày</label>
                                 </div>
-                                <div class="col-md-6">
-                                    <p>{{ $item->created_at }}</p>
-                                </div>
+                                    <div class="col-md-6">
+                                        <p>{{ $item->created_at }}</p>
+                                    </div>
                             </div>
                             <hr>
                             @endforeach
@@ -261,7 +260,7 @@
                                     <label>Xem chi tiết</label>
                                 </div>
                                     <div class="col-md-6">
-                                        <p>Chi tiết</p>
+                                        <p>Chi tiêt</p>
                                     </div>
                             </div>
                             <hr>

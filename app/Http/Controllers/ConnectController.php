@@ -393,7 +393,7 @@ class ConnectController extends Controller
             })
             ->limit(4) // Giới hạn trả về 4 bản ghi mới nhất
             ->get();
-
+    
         foreach ($connect as $item) {
             $item->id_user = $item->id_user;
             $item->id_teacher = $item->id_teacher;
@@ -401,12 +401,12 @@ class ConnectController extends Controller
             $item->userAvatar = $item->userAvatar;
             $item->teacherName = $item->teacherName;
         }
-
-        // dd($connect);
-        if($connect){
-            return response()->json($connect, 200);
-        }else{
+    
+        if ($connect->isEmpty()) {
             return response()->json(['message' => 'Not found'], 404);
+        } else {
+            return response()->json($connect, 200);
         }
     }
+    
 }
