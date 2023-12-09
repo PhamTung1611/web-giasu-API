@@ -162,7 +162,28 @@ public function DetailUser($id)
         ->where('feedback.id_teacher', $id)
         ->get();
         // dd($result);
-    $connect = Connect::all();
+        $connect = Connect::select(
+            'connect.*',
+            'user1.id as id_user',
+            'user1.name as userName',
+            'user2.id as id_teacher',
+            'user2.name as teacherName'
+        )
+            ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
+            ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
+            ->get();
+
+        if ($connect->isEmpty()) {
+            return response()->json(['message' => 'Connect not found'], 404);
+        }
+
+        foreach ($connect as $item) {
+            $item->id_job = $item->id_job;
+            $item->id_user = $item->id_user;
+            $item->id_teacher = $item->id_teacher;
+            $item->userName = $item->userName;
+            $item->teacherName = $item->teacherName;
+        }
     $countJobs = Job::where('id_user',$id)->count();
     $countConnect = Connect::where('id_user',$id)->count();
 
@@ -270,14 +291,45 @@ public function DetailUser($id)
             $result[] = $job;
         }
 
-        $dataFeedback = FeedBack::select('feedback.*', 'users.name as id_sender')
-            // where('idTeacher',$id)
-            ->leftJoin('users', 'feedback.id_sender', '=', 'users.id')
-            ->where('feedback.id_teacher', $id)
+        $dataFeedback = DB::table('feedback')
+            ->join('users as sender', 'feedback.id_sender', '=', 'sender.id')
+            ->join('users as teacher', 'feedback.id_teacher', '=', 'teacher.id')
+            ->select(
+                'feedback.id',
+                'feedback.id_sender',
+                'sender.name as sender_name',
+                'feedback.id_teacher',
+                'teacher.name as teacher_name',
+                'feedback.point',
+                'feedback.description'
+            )
+            ->where('feedback.id_teacher',$id)
             ->get();
-        $connect = Connect::all();
+            $connect = Connect::select(
+                'connect.*',
+                'user1.id as id_user',
+                'user1.name as userName',
+                'user2.id as id_teacher',
+                'user2.name as teacherName'
+            )
+                ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
+                ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
+                ->get();
+    
+            if ($connect->isEmpty()) {
+                return response()->json(['message' => 'Connect not found'], 404);
+            }
+    
+            foreach ($connect as $item) {
+                $item->id_job = $item->id_job;
+                $item->id_user = $item->id_user;
+                $item->id_teacher = $item->id_teacher;
+                $item->userName = $item->userName;
+                $item->teacherName = $item->teacherName;
+            }
         $countJobs = Job::where('id_teacher',$id)->count();
         $countConnect = Connect::where('id_teacher',$id)->count();
+        // dd($dataFeedback);
         return view('backend.subject.show', compact('title', 'data','history','result','dataFeedback', 'connect','countJobs','countConnect'));
     }
 
