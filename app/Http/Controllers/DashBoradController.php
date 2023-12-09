@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClassLevel;
 use App\Models\Connect;
 use App\Models\FeedBack;
 use App\Models\History;
@@ -52,27 +53,73 @@ class DashBoradController extends Controller
             ->orderByDesc('hire_count')
             ->get();
 
+        $mostHiredClass = ClassLevel::select('class_levels.id', 'class_levels.class', DB::raw('COALESCE(COUNT(jobs.id), 0) as hire_count'))
+            ->leftJoin('jobs', function ($join) {
+                $join->on('jobs.class', 'like', DB::raw("CONCAT('%,',class_levels.id, ',%')"))
+                    ->orWhere('jobs.class', 'like', DB::raw("CONCAT(class_levels.id, ',%')"))
+                    ->orWhere('jobs.class', 'like', DB::raw("CONCAT('%,', class_levels.id)"))
+                    ->orWhere('jobs.class', 'like', DB::raw("CONCAT(class_levels.id)"))
+                    ->orWhereRaw("jobs.class = CAST(class_levels.id AS CHAR)");
+            })
+            ->groupBy('class_levels.id', 'class_levels.class')
+            ->orderByDesc('hire_count')
+            ->get();
         $countConnect = Connect::where('status', 1)->count();
 
+        $totalRecords = DB::table('connect')->count();
 
-        // dd($topTeachersInfo);
-        return view('dashboard', compact('money', 'countTeacher', 'title', 'countTeacherWait', 'countUser', 'results', 'topTeachersInfo', 'mostHiredSubjects', 'countCollaborators', 'countConnect'));
+        // Lấy số lượng bản ghi cho mỗi trạng thái
+        $statusCounts = DB::table('connect')
+            ->select('status', DB::raw('COUNT(*) as count'))
+            ->groupBy('status')
+            ->get();
+
+        // Tạo mảng để lưu trữ thông tin cho mỗi trạng thái
+        $statusData = [];
+
+        // Tính toán phần trăm và lưu vào mảng
+        foreach ($statusCounts as $statusCount) {
+            $statusName = $this->getStatusName($statusCount->status); // Hàm này để lấy tên trạng thái dựa trên giá trị status
+
+            $percentage = ($statusCount->count / $totalRecords) * 100;
+
+            // Lưu thông tin cho mỗi trạng thái
+            $statusData[] = [
+                'status' => $statusName,
+                'count' => $statusCount->count,
+                'percentage' => $percentage,
+            ];
+        }
+        // dd($statusData);
+        return view('dashboard', compact('money', 'countTeacher', 'title', 'countTeacherWait', 'countUser', 'results', 'topTeachersInfo', 'mostHiredSubjects', 'countCollaborators', 'countConnect', 'mostHiredClass', 'statusData'));
     }
-
+    function getStatusName($status)
+    {
+        switch ($status) {
+            case 0:
+                return 'Chờ xác nhận';
+            case 1:
+                return 'Thành công';
+            case 2:
+                return 'Thất bại';
+            default:
+                return 'Không xác định';
+        }
+    }
     public function listHistoryAdmin(Request $request)
     {
         $title = 'Biến động doanh thu';
         $query = History::where('id_client', '1')->orderBy('created_at', 'desc');
-    
+
         $query->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
             $query->whereBetween('created_at', [$request->dateStart, $request->dateEnd]);
         });
-    
+
         $history = $query->get();
-    
+
         return view('backend.listHIstory.listforadmin', compact('history', 'title'));
     }
-    
+
     public function feedbackTeacher(Request $request)
     {
         $title = 'FeedBack Gia Sư';
@@ -151,5 +198,29 @@ class DashBoradController extends Controller
             ->orderBy('teacher_count') // Sắp xếp theo thứ tự tăng dần
             ->get();
         return view('backend.listHIstory.rentTeacher', compact('title', 'topTeachersInfo'));
+    }
+
+    public function getStatusPercentage()
+    {
+        // Lấy tổng số lượng bản ghi
+        $totalRecords = DB::table('connect')->count();
+
+        // Lấy số lượng bản ghi cho mỗi trạng thái
+        $statusCounts = DB::table('connect')
+            ->select('status', DB::raw('COUNT(*) as count'))
+            ->groupBy('status')
+            ->get();
+
+        // Tạo mảng để lưu trữ phần trăm cho mỗi trạng thái
+        $statusPercentages = [];
+
+        // Tính toán phần trăm và lưu vào mảng
+        foreach ($statusCounts as $statusCount) {
+            $percentage = ($statusCount->count / $totalRecords) * 100;
+            $statusPercentages[$statusCount->status] = $percentage;
+        }
+
+        // Kết quả là mảng $statusPercentages, nơi bạn có phần trăm cho mỗi trạng thái
+        return $statusPercentages;
     }
 }
