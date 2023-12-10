@@ -263,7 +263,7 @@
                 <div class="col-12 col-xxl-9 mb-4">
                     <div class="card border-0 shadow">
                         <div class="card-header border-bottom d-flex align-items-center justify-content-between">
-                            <h2 class="fs-5 fw-bold mb-0">Tỉ lệ giới thiệu việc làm cho gia sư</h2>
+                            <h2 class="fs-5 fw-bold mb-0">Tỉ lệ kết nối người dùng với gia sư</h2>
                             <a href="{{ route('search_connect') }}" class="btn btn-sm btn-primary">Xem tất cả</a>
                         </div>
                         <div class="card-body">

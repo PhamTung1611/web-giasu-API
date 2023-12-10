@@ -15,7 +15,7 @@ class JobController extends Controller
     public function index(Request $request)
     {
         $title = 'Danh sách công việc';
-        $jobs = DB::table('jobs')
+        $query = DB::table('jobs')
             ->select(
                 'jobs.id',
                 'users_user.id as user_id',
@@ -30,10 +30,15 @@ class JobController extends Controller
             ->leftJoin('users as users_user', 'jobs.id_user', '=', 'users_user.id')
             ->leftJoin('users as users_teacher', 'jobs.id_teacher', '=', 'users_teacher.id')
             ->leftJoin('subjects', 'jobs.subject', '=', 'subjects.id')
-            ->leftJoin('class_levels', 'jobs.class', '=', 'class_levels.id')
-            ->orderBy('jobs.created_at', 'desc')
-            ->get();
+            ->leftJoin('class_levels', 'jobs.class', '=', 'class_levels.id');
 
+        // Thêm điều kiện tìm kiếm theo ngày tháng
+        $query->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
+            $query->whereBetween('jobs.created_at', [$request->dateStart, $request->dateEnd]);
+        });
+
+        $jobs = $query->orderBy('jobs.created_at', 'desc')->get();
+            // dd($jobs);
         foreach ($jobs as $job) {
             $job->user_id;
             $job->user_name;
@@ -44,9 +49,10 @@ class JobController extends Controller
             $job->description;
             $job->status;
         }
-        // dd($jobs);
+
         return view('backend.job.index', compact('jobs', 'title'));
     }
+
 
     public function update(JobRequest $request, $id)
     {
@@ -78,7 +84,8 @@ class JobController extends Controller
             }
         }
     }
-    public function getJobStatus($id){
+    public function getJobStatus($id)
+    {
         $title = 'Danh sách công việc';
         $jobs = DB::table('jobs')
             ->select(
@@ -91,7 +98,7 @@ class JobController extends Controller
                 'class_levels.class as class_name',
                 'jobs.description',
                 'jobs.status'
-            )->where('jobs.status',$id)
+            )->where('jobs.status', $id)
             ->leftJoin('users as users_user', 'jobs.id_user', '=', 'users_user.id')
             ->leftJoin('users as users_teacher', 'jobs.id_teacher', '=', 'users_teacher.id')
             ->leftJoin('subjects', 'jobs.subject', '=', 'subjects.id')

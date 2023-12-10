@@ -22,10 +22,13 @@
 <div class="table-settings mb-4">
   <div class="row align-items-center justify-content-between">
     <div class="col col-md-6 col-lg-3 col-xl-4">
-      <form class="input-group me-2 me-lg-3 fmxw-400" action="{{route('search_job')}}" method="POST">
+    <form class="input-group w-full h-10" action="{{route('search_job')}}" method="POST">
         @csrf
-        <input type="text" class="form-control" placeholder="Tìm kiếm..." name="search">
-        <input type="submit" value="Lọc" class="btn btn-secondary">
+        <label for="class" class="form-label">Ngày bắt đầu</label>
+        <input type="date" name="dateStart">
+        <label for="class" class="form-label">Ngày kết thúc</label>
+        <input type="date" name="dateEnd">
+        <button type="submit" class="btn btn-secondary mb-3">Lọc</button>
       </form>
     </div>
     <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">

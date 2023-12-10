@@ -130,24 +130,23 @@
                                         <label>Người Thuê</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>{{ $item->id_user }}</p>
+                                        <p> {{ $item->userName}}</p>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Người Dạy</label>
                                     </div>
-                                    {{-- @foreach ($result as $item) --}}
+
                                     <div class="col-md-6">
-                                        <p>{{ $item->id_teacher }}</p>
+                                        <p><a href="{{route('detail_teacher', ['id' => $item->id_teacher])}}">{{ $item->teacherName }}</a></p>
                                     </div>
-                                    {{-- @endforeach --}}
                                     <div class="col-md-6">
                                         <label>Môn học</label>
                                     </div>
-                                    {{-- @foreach ($result as $item) --}}
+
                                     <div class="col-md-6">
                                         <p>{{ $item->subject }}</p>
                                     </div>
-                                    {{-- @endforeach --}}
+
                                     <div class="col-md-6">
                                         <label>Lớp học</label>
                                     </div>
@@ -159,6 +158,12 @@
                                     </div>
                                     <div class="col-md-6">
                                         <p>{{ $item->description }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Trạng thái</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p style="color: {{ $item->status === 1 ? 'green' : ($item->status == "2" ? 'red' : 'brown') }}">{{$item->status == "1" ? 'Thành công' : ($item->status == "2" ? 'Thất bại' : 'Chờ xác nhận') }}</p>
                                     </div>
                                 </div>
                                 <hr>

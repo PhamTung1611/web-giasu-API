@@ -117,7 +117,11 @@ class DashBoradController extends Controller
 
         $history = $query->get();
 
-        return view('backend.listHIstory.listforadmin', compact('history', 'title'));
+        $totalCoins = 0;
+        foreach ($history as $record) {
+            $totalCoins += $record->coin; // Giả sử tên cột chứa số coin là 'coin'
+        }
+        return view('backend.listHIstory.listforadmin', compact('history', 'title','totalCoins'));
     }
 
     public function feedbackTeacher(Request $request)

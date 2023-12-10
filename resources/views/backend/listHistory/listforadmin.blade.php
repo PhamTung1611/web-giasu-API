@@ -33,6 +33,7 @@
   </div>
 </div>
 <div class="card card-body border-0 shadow table-wrapper table-responsive">
+  Tổng doanh thu : {{$totalCoins}} vnđ
   <table class="table table-hover">
     <thead>
       <tr>

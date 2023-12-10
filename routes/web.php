@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [DashBoradController::class, 'Statistical'])->name('dashboard');
         Route::get('connect', [ConnectController::class, 'index'])->name('search_connect');
         Route::get('connect/{id}', [ConnectController::class, 'connectStatus'])->name('connect_status');
+        Route::post('connect/date', [ConnectController::class, 'index'])->name('connect_date');
         Route::get('connect/show/{id}', [ConnectController::class, 'showConnect'])->name('connect_show');
         Route::get('deleteConnect/{id}', [ConnectController::class, 'delete'])->name('delete_connect');
         Route::get('/history-admin', [DashBoradController::class, 'listHistoryAdmin']);
