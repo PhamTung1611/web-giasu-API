@@ -31,16 +31,35 @@
                     </div>
                 </div>
                 <div class="col-md-2">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Thao tác
+                        </button>
+                        <div class="dropdown-menu w-75 custom-dropdown" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item text-success" href="{{ route('waiting_teacher',['id'=>$data['id']])}}"><span class="fas fa-check me-2"></span>Phê duyệt</a>
+                            
+                            <form class="dropdown-item" action="{{ route('delete_teacher', ['id' => $data['id'],'view' => '2']) }}" method="get">
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" name="reason" placeholder="Nhập lý do từ chối">
+                                </div>
+                                <button type="submit" class="btn btn-danger">Từ chối</button>
+                            </form>
+                            
+                            <a class="dropdown-item text-danger" href="{{ route('waiting')}}"><span class="fas fa-times me-2"></span>Back</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                {{-- <div class="col-md-2">
 
                     <a class="dropdown-item text-success rounded-bottom" href="{{ route('waiting_teacher',['id'=>$data['id']])}}"><span class="fas fa-trash-alt me-2"></span>Phê duyệt</a>
                     <form action="{{ route('delete_teacher', ['id' => $data['id'],'view' => '2']) }}" method="get">
                         <input type="text" value="" name="reason"placeholder="Nhập lý do từ chối">
                         <button type="submit" class="dropdown-item text-danger rounded-bottom">Từ chối</button>
                     </form>
-
-                    {{--                    <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_teacher', ['id' => $data['id'],'view'=>'2'])}}" onclick="return confirm('Are you sure you want to refuse?');"><span class="fas fa-trash-alt me-2"></span>Từ chối</a>--}}
                     <a class="dropdown-item text-danger rounded-bottom" href="{{ route('waiting')}}" ><span class="fas fa-trash-alt me-2">Back</span></a>
-                </div>
+                </div> --}}
             </div>
             <div class="row">
                 <div class="col-md-4">
