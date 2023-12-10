@@ -263,8 +263,8 @@
                 <div class="col-12 col-xxl-9 mb-4">
                     <div class="card border-0 shadow">
                         <div class="card-header border-bottom d-flex align-items-center justify-content-between">
-                            <h2 class="fs-5 fw-bold mb-0">Tỉ lệ kết nối người dùng với gia sư</h2>
-                            <a href="{{ route('search_connect') }}" class="btn btn-sm btn-primary">Xem tất cả</a>
+                            <h2 class="fs-5 fw-bold mb-0">Tỉ lệ kết nối người dùng với gia sư hiện tại</h2>
+                            <a href="{{ route('list_history_connect') }}" class="btn btn-sm btn-primary">Xem tất cả</a>
                         </div>
                         <div class="card-body">
                             <div id="myChart" data-data-from-php="{{ json_encode($statusData) }}" style="width:100%; max-width:600px; height:500px;"></div>

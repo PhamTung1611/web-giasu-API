@@ -121,7 +121,7 @@ class DashBoradController extends Controller
         foreach ($history as $record) {
             $totalCoins += $record->coin; // Giả sử tên cột chứa số coin là 'coin'
         }
-        return view('backend.listHIstory.listforadmin', compact('history', 'title','totalCoins'));
+        return view('backend.listHIstory.listforadmin', compact('history', 'title', 'totalCoins'));
     }
 
     public function feedbackTeacher(Request $request)
@@ -227,7 +227,8 @@ class DashBoradController extends Controller
         // Kết quả là mảng $statusPercentages, nơi bạn có phần trăm cho mỗi trạng thái
         return $statusPercentages;
     }
-    public function listHistorySubject(Request $request){
+    public function listHistorySubject(Request $request)
+    {
         $title = 'Thống kê lượt thuê môn học';
         $mostHiredSubjects = Subject::select('subjects.id', 'subjects.name', DB::raw('COALESCE(COUNT(jobs.id), 0) as hire_count'))
             ->leftJoin('jobs', function ($join) {
@@ -239,15 +240,15 @@ class DashBoradController extends Controller
             })
             ->groupBy('subjects.id', 'subjects.name')
             ->orderByDesc('hire_count');
-    
+
         $mostHiredSubjects->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
             $query->whereHas('jobs', function ($subQuery) use ($request) {
                 $subQuery->whereBetween('created_at', [$request->dateStart, $request->dateEnd]);
             });
         });
-    
+
         $mostHiredSubjects = $mostHiredSubjects->get();
-    
+
         return view('backend.listHIstory.listSubject', compact('title', 'mostHiredSubjects'));
     }
 
@@ -264,17 +265,54 @@ class DashBoradController extends Controller
             })
             ->groupBy('class_levels.id', 'class_levels.class')
             ->orderByDesc('hire_count');
-    
+
         $query->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
             $query->whereHas('jobs', function ($subQuery) use ($request) {
                 $subQuery->whereBetween('created_at', [$request->dateStart, $request->dateEnd]);
             });
         });
-    
+
         $mostHiredClass = $query->get();
-    
+
         return view('backend.listHIstory.listClass', compact('title', 'mostHiredClass'));
     }
-    
-    
+
+    public function listHistoryConnect(Request $request)
+    {
+        $title = 'Thống kê lượt thuê lớp học';
+
+        $query = DB::table('connect')->orderBy('created_at', 'desc');
+
+        // Thêm điều kiện tìm kiếm theo ngày tháng
+        $query->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
+            $query->whereBetween('created_at', [$request->dateStart, $request->dateEnd]);
+        });
+
+        $totalRecords = $query->count();
+
+        // Lấy số lượng bản ghi cho mỗi trạng thái
+        $statusCounts = $query
+            ->select('status', DB::raw('COUNT(*) as count'))
+            ->groupBy('status')
+            ->get();
+
+        // Tạo mảng để lưu trữ thông tin cho mỗi trạng thái
+        $statusData = [];
+
+        // Tính toán phần trăm và lưu vào mảng
+        foreach ($statusCounts as $statusCount) {
+            $statusName = $this->getStatusName($statusCount->status); // Hàm này để lấy tên trạng thái dựa trên giá trị status
+
+            $percentage = ($statusCount->count / $totalRecords) * 100;
+
+            // Lưu thông tin cho mỗi trạng thái
+            $statusData[] = [
+                'status' => $statusName,
+                'count' => $statusCount->count,
+                'percentage' => $percentage,
+            ];
+        }
+
+        return view('backend.listHIstory.listConnect', compact('title', 'statusData'));
+    }
 }

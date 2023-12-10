@@ -13,11 +13,10 @@ class ConnectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
         $title = 'Kết nối ';
-    
-        $query = Connect::select(
+        $connect = Connect::select(
             'connect.*',
             'user1.id as id_user',
             'user1.name as userName',
@@ -25,19 +24,13 @@ class ConnectController extends Controller
             'user2.name as teacherName'
         )
             ->leftJoin('users as user1', 'connect.id_user', '=', 'user1.id')
-            ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id');
-    
-        // Thêm điều kiện tìm kiếm theo ngày tháng
-        $query->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
-            $query->whereBetween('connect.created_at', [$request->dateStart, $request->dateEnd]);
-        });
-    
-        $connect = $query->get();
-    
+            ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
+            ->get();
+
         if ($connect->isEmpty()) {
             return response()->json(['message' => 'Connect not found'], 404);
         }
-    
+
         foreach ($connect as $item) {
             $item->id_job = $item->id_job;
             $item->id_user = $item->id_user;
@@ -45,10 +38,9 @@ class ConnectController extends Controller
             $item->userName = $item->userName;
             $item->teacherName = $item->teacherName;
         }
-    
+        // dd($connect);
         return view('backend.connect.index', compact('connect', 'title'));
     }
-    
 
     /**
      * Store a newly created resource in storage.
