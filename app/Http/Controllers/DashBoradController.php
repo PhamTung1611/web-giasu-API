@@ -227,4 +227,54 @@ class DashBoradController extends Controller
         // Kết quả là mảng $statusPercentages, nơi bạn có phần trăm cho mỗi trạng thái
         return $statusPercentages;
     }
+    public function listHistorySubject(Request $request){
+        $title = 'Thống kê lượt thuê môn học';
+        $mostHiredSubjects = Subject::select('subjects.id', 'subjects.name', DB::raw('COALESCE(COUNT(jobs.id), 0) as hire_count'))
+            ->leftJoin('jobs', function ($join) {
+                $join->on('jobs.subject', 'like', DB::raw("CONCAT('%,', subjects.id, ',%')"))
+                    ->orWhere('jobs.subject', 'like', DB::raw("CONCAT(subjects.id, ',%')"))
+                    ->orWhere('jobs.subject', 'like', DB::raw("CONCAT('%,', subjects.id)"))
+                    ->orWhere('jobs.subject', 'like', DB::raw("CONCAT(subjects.id)"))
+                    ->orWhereRaw("jobs.subject = CAST(subjects.id AS CHAR)");
+            })
+            ->groupBy('subjects.id', 'subjects.name')
+            ->orderByDesc('hire_count');
+    
+        $mostHiredSubjects->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
+            $query->whereHas('jobs', function ($subQuery) use ($request) {
+                $subQuery->whereBetween('created_at', [$request->dateStart, $request->dateEnd]);
+            });
+        });
+    
+        $mostHiredSubjects = $mostHiredSubjects->get();
+    
+        return view('backend.listHIstory.listSubject', compact('title', 'mostHiredSubjects'));
+    }
+
+    public function listHistoryClass(Request $request)
+    {
+        $title = 'Thống kê lượt thuê lớp học';
+        $query = ClassLevel::select('class_levels.id', 'class_levels.class', DB::raw('COALESCE(COUNT(jobs.id), 0) as hire_count'))
+            ->leftJoin('jobs', function ($join) {
+                $join->on('jobs.class', 'like', DB::raw("CONCAT('%,',class_levels.id, ',%')"))
+                    ->orWhere('jobs.class', 'like', DB::raw("CONCAT(class_levels.id, ',%')"))
+                    ->orWhere('jobs.class', 'like', DB::raw("CONCAT('%,', class_levels.id)"))
+                    ->orWhere('jobs.class', 'like', DB::raw("CONCAT(class_levels.id)"))
+                    ->orWhereRaw("jobs.class = CAST(class_levels.id AS CHAR)");
+            })
+            ->groupBy('class_levels.id', 'class_levels.class')
+            ->orderByDesc('hire_count');
+    
+        $query->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
+            $query->whereHas('jobs', function ($subQuery) use ($request) {
+                $subQuery->whereBetween('created_at', [$request->dateStart, $request->dateEnd]);
+            });
+        });
+    
+        $mostHiredClass = $query->get();
+    
+        return view('backend.listHIstory.listClass', compact('title', 'mostHiredClass'));
+    }
+    
+    
 }

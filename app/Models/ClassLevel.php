@@ -17,4 +17,8 @@ class ClassLevel extends Model
     {
         return $this->hasMany(User::class, 'class_id');
     }
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'class');
+    }
 }

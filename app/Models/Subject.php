@@ -17,4 +17,9 @@ class Subject extends Model
     {
         return $this->hasMany(User::class, 'subject');
     }
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'subject');
+    }
 }

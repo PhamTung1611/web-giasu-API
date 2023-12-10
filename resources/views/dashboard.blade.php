@@ -329,6 +329,9 @@
         <div class="col-12 col-xl-4">
             <div class="col-12 px-0 mb-4">
                 <div class="card border-0 shadow">
+                    <div class="card-header border-bottom d-flex align-items-center justify-content-between">
+                        <a href="{{route('list_history_subject')}}" class="btn btn-sm btn-primary">Xem chi tiết</a>
+                    </div>
                     <div class="card-header d-flex flex-row align-items-center flex-0 border-bottom">
                         <div class="d-block ms-auto" id="myChartSubjects" style="width:100%; max-width:10000px; height:500px;"></div>
                         <div id="myElementSubjects" data-data-from-php="{{ json_encode($mostHiredSubjects) }}"></div>
@@ -389,6 +392,9 @@
             </div>
             <div class="col-12 px-0 mb-4">
                 <div class="card border-0 shadow">
+                <div class="card-header border-bottom d-flex align-items-center justify-content-between">
+                        <a href="{{route('list_history_class')}}" class="btn btn-sm btn-primary">Xem chi tiết</a>
+                    </div>
                     <div class="card-header d-flex flex-row align-items-center flex-0 border-bottom">
                         <div class="d-block ms-auto" id="myChartClasses" style="width:100%; max-width:10000px; height:500px;"></div>
                         <div id="myElementClasses" data-data-from-php="{{ json_encode($mostHiredClass) }}"></div>

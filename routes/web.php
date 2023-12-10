@@ -72,7 +72,9 @@ Route::middleware('auth')->group(function () {
         Route::match(['get', 'post'], 'salary/add', [RankSalaryController::class, 'add'])->name('salary.add');
         Route::match(['get', 'post'], 'salary/edit/{id}', [RankSalaryController::class, 'update'])->name('salary.edit');
         Route::get('salary/delete/{id}', [RankSalaryController::class, 'delete'])->name('salary.delete');
-        //timeslot
+        Route::match(['get', 'post'], 'listHistorySubject', [DashBoradController::class, 'listHistorySubject'])->name('list_history_subject');
+        Route::match(['get', 'post'], 'listHistoryClass', [DashBoradController::class, 'listHistoryClass'])->name('list_history_class');
+        
         Route::match(['get', 'post'], 'timelsot/add', [TimeSlotController::class, 'add'])->name('timeslot.add');
         Route::match(['get', 'post'], 'timeslot/edit/{id}', [TimeSlotController::class, 'update'])->name('timeslot.edit');
         Route::get('timeslot/delete/{id}', [TimeSlotController::class, 'delete'])->name('timeslot.delete');
