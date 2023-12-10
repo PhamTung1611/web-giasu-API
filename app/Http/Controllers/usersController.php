@@ -646,7 +646,8 @@ public function updatestatusSendMail(Request $request){
             $user->assign_user = $email;
             $user->time_accept= now();
             $user->save();
-
+            $htmlContent="<h3>Tài khoản của bạn đã được duyệt, Hãy truy cập website để trải nghiệm nhé</h3>";
+            Mail::to($user->email)->send(new HTMLMail($htmlContent));
             return redirect()->route('waiting');
         } else {
             Session::flash('error', 'error');

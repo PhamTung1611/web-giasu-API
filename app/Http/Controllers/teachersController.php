@@ -345,13 +345,18 @@ class TeachersController extends Controller
 
         if ($id) {
             $user = User::find($id);
-            $deleted = $user->delete();
-            if ($deleted) {
+
+            if ($user) {
 
                 if ($view == 1) {
                     Session::flash('success', 'success');
                     return redirect()->route('search_teacher');
                 } else {
+                    if(!$request->reason){
+                        Session::flash('error', 'Vui lòng nhập lý do từ chối');
+                        return redirect()->route('deatailWaitingTeacher',['id'=>$id]);
+                    }
+                    $deleted = $user->delete();
                     $htmlContent="<h3>Tài khoản của bạn bị từ chối vì lý do:</h3> <br>
                         <span>$request->reason</span>";
                     Mail::to($user->email)->send(new HTMLMail($htmlContent));
