@@ -61,6 +61,31 @@ class FeedBackController extends Controller
     
         return response()->json($data, 200);
     }
+
+    public function showUser(string $id)
+    {
+        $data = FeedBack::select(
+            'feedback.*',
+            'users.name as id_teacher',
+            DB::raw("CONCAT('http://127.0.0.1:8000/storage/', users.avatar) as sender_avatar")
+        )
+        ->leftJoin('users', 'feedback.id_teacher', '=', 'users.id')
+        ->where('feedback.id_sender', $id)
+        ->get();
+    
+        if ($data->isEmpty()) {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+    
+        foreach ($data as $item) {
+            // Có thể xử lý các thông tin khác ở đây nếu cần
+    
+            $item->id_teacher = $item->id_teacher;
+            $item->sender_avatar = $item->sender_avatar;
+        }
+    
+        return response()->json($data, 200);
+    }
     
     
 

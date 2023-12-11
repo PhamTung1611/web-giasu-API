@@ -147,6 +147,7 @@ Route::prefix('vnpay')->group(function () {
 Route::prefix('feedback')->group(function () {
     Route::post('/', [FeedBackController::class, 'store']);
         Route::get('/{id}', [FeedBackController::class, 'show']);
+        Route::get('/user/{id}', [FeedBackController::class, 'showUser']);
         Route::get('/avgPoint/{id}', [FeedBackController::class, 'averagePoint']);
     });
  Route::prefix('users')->group(function () {
