@@ -276,70 +276,73 @@ class TeachersController extends Controller
     }
 
     public function getTeacherByFilter(Request $request)
-    {
-        $results = User::with('subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
-            ->where('role', 3)
-            ->where('status', '1')
-            ->when($request->filled('DistrictID'), function ($query) use ($request) {
-                $query->where(function ($query) use ($request) {
-                    $query->where('DistrictID', 'like', '%' . $request->input('DistrictID') . '%');
-                });
-            })
-            ->when($request->filled('subject'), function ($query) use ($request) {
-                $query->where(function ($query) use ($request) {
-                    $query->where('subject', 'like', '%' . $request->input('subject') . '%');
-                });
-            })
-            ->when($request->filled('class'), function ($query) use ($request) {
-                $query->where(function ($query) use ($request) {
-                    $query->where('class_id', 'like', '%' . $request->input('class') . '%');
-                });
-            })
-            ->get();
-        // dd($results);
-        $records = $results;
+{
+    $results = User::with('subject:id,name', 'school:id,name', 'class_levels:id,class', 'timeSlot:id,name')
+        ->where('role', 3)
+        ->where('status', '1')
+        ->when($request->filled('District_ID'), function ($query) use ($request) {
+            $query->where(function ($query) use ($request) {
+                $query->where('District_ID', 'like', '%' . $request->input('District_ID') . '%');
+            });
+        })
+        ->when($request->filled('subject'), function ($query) use ($request) {
+            $query->where(function ($query) use ($request) {
+                $query->where('subject', 'like', '%' . $request->input('subject') . '%');
+            });
+        })
+        ->when($request->filled('class'), function ($query) use ($request) {
+            $query->where(function ($query) use ($request) {
+                $query->where('class_id', 'like', '%' . $request->input('class') . '%');
+            });
+        })
+        ->get();
 
-        $processedRecords = $records->map(function ($record) {
-            $newArraySubject = [];
-            if ($record->subject != null) {
-                $makeSubject = explode(',', $record->subject);
-                foreach ($makeSubject as $item) {
-                    $subjectNew = Subject::find($item);
-                    if ($subjectNew) {
-                        array_push($newArraySubject, $subjectNew->name);
-                    }
+    $processedRecords = $results->map(function ($record) {
+        $newArraySubject = [];
+        if ($record->subject != null) {
+            $makeSubject = explode(',', $record->subject);
+            foreach ($makeSubject as $item) {
+                $subjectNew = Subject::find($item);
+                if ($subjectNew) {
+                    array_push($newArraySubject, [
+                        'id' => $subjectNew->id,
+                        'name' => $subjectNew->name,
+                    ]);
                 }
             }
+        }
 
-            $newArrayClass = [];
-            if ($record->class_id != null) {
-                $makeClass = explode(',', $record->class_id);
-                foreach ($makeClass as $item) {
-                    $classNew = ClassLevel::find($item);
-                    if ($classNew) {
-                        array_push($newArrayClass, $classNew->class);
-                    }
+        $newArrayClass = [];
+        if ($record->class_id != null) {
+            $makeClass = explode(',', $record->class_id);
+            foreach ($makeClass as $item) {
+                $classNew = ClassLevel::find($item);
+                if ($classNew) {
+                    array_push($newArrayClass, [
+                        'id' => $classNew->id,
+                        'class' => $classNew->class,
+                    ]);
                 }
             }
-            if ($record->Certificate) {
-                $record->Certificate = json_decode($record->Certificate);
-            }
+        }
 
-            // Thêm các xử lý khác cho các trường dữ liệu khác
+        if ($record->Certificate) {
+            $record->Certificate = json_decode($record->Certificate);
+        }
 
-            return [
-                'id' => $record->id, // Thêm id của bản ghi vào mảng
-                'name' => $record->name,
-                'avatar' => 'http://127.0.0.1:8000/storage/' . $record->avatar,
-                'class_id' => $newArrayClass,
-                'subject' => $newArraySubject,
-                'district' => $record->District_ID
-                // 'DistrictID' => $record->DistrictID ? District::find($record->DistrictID)->name : null,
-            ];
-        });
+        return [
+            'id' => $record->id,
+            'name' => $record->name,
+            'avatar' => 'http://127.0.0.1:8000/storage/' . $record->avatar,
+            'class_id' => $newArrayClass,
+            'subject' => $newArraySubject,
+            'district' => $record->District_ID,
+        ];
+    });
 
-        return response()->json($processedRecords, 200);
-    }
+    return response()->json($processedRecords, 200);
+}
+
     public function delete(Request $request,$id, $view)
     {
 
@@ -407,5 +410,74 @@ class TeachersController extends Controller
             // Trả về một phản hồi nếu không tìm thấy người dùng với ID tương ứng
             return response()->json(['error' => 'User not found'], 404);
         }
+    } 
+
+    public function getTeacherByStar(){
+        $query = DB::table('feedback')
+            ->select(
+                'users.id',
+                'users.name',
+                'users.avatar',
+                'users.District_ID',
+                'subjects.id as subject_id', // Add subject ID
+                'subjects.name as subject_name', // Alias for subjects.name
+                'class_levels.id as class_id', // Add class ID
+                'class_levels.class as class_name', // Alias for class_levels.name
+                'users.class_id',
+                DB::raw('AVG(feedback.point) AS avg_point')
+            )
+            ->join('users', 'feedback.id_teacher', '=', 'users.id')
+            ->join('subjects', 'users.subject', '=', 'subjects.id') // Join with subjects table
+            ->join('class_levels', 'users.class_id', '=', 'class_levels.id') // Join with class_levels table
+            ->groupBy(
+                'users.id',
+                'users.name',
+                'users.avatar',
+                'users.District_ID',
+                'subjects.id', // Group by subject ID
+                'subjects.name', // Group by subject name
+                'class_levels.id', // Group by class ID
+                'class_levels.class', // Group by class level name
+                'users.class_id'
+            )
+            ->orderBy('avg_point', 'desc')
+            ->limit(4);
+        
+        $results = $query->get();
+    
+        $processedRecords = $results->map(function ($record) {
+            $newArrayClass = [];
+            if ($record->class_id != null) {
+                $makeClass = explode(',', $record->class_id);
+                foreach ($makeClass as $item) {
+                    $classNew = ClassLevel::find($item);
+                    if ($classNew) {
+                        array_push($newArrayClass, [
+                            'id' => $classNew->id,
+                            'class' => $classNew->class,
+                        ]);
+                    }
+                }
+            }
+    
+            return [
+                'id' => $record->id,
+                'name' => $record->name,
+                'avatar' => 'http://127.0.0.1:8000/storage/' . $record->avatar,
+                'class_id' => $newArrayClass,
+                'subject' => [
+                    'id' => $record->subject_id,
+                    'name' => $record->subject_name,
+                ],
+                'district' => $record->District_ID,
+                'avg_point' => $record->avg_point,
+            ];
+        });
+    
+        return response()->json($processedRecords, 200);
     }
+    
+    
+    
+    
 }

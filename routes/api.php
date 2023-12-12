@@ -100,6 +100,8 @@ Route::prefix('teachers')->group(function () {
     Route::get('/subjectAndClass/{id}', [TeachersController::class, 'getSubjectAndClass']);
 });
 Route::get('filter', [TeachersController::class, 'getTeacherByFilter']);
+Route::get('teacherStar', [TeachersController::class, 'getTeacherByStar']);
+
 Route::prefix('ranksalary')->group(function () {
     // lấy ra danh sách
     Route::get('/', [ApiRankSalaryController::class, 'index']);
