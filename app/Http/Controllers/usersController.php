@@ -217,7 +217,7 @@ class UsersController extends Controller
                 $user->education_level = $request->education_level;
                 $user->class_id = $request->class_id;
                 $user->subject = $request->subject;
-                $user->salary_id = json_encode($request->salary_id);
+                $user->salary_id = $request->salary_id;
                 $user->description = $request->description;
                 $time_tutor = $request->time_tutor_id;
                 $user->time_tutor_id = $time_tutor;
@@ -246,7 +246,7 @@ class UsersController extends Controller
             Mail::to($request->email)->send(new HTMLMail($htmlContent));
             return response()->json('success', 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Thêm không thành công,$e'], 400);
+            return response()->json(['error' => $e], 400);
         }
     }
 
