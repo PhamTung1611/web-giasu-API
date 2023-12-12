@@ -70,8 +70,8 @@ class ApiJobController extends Controller
                 return response()->json(['message' => 'Not enough coin'], 404);
             } else {
                 Job::create($request->all());
-                $titleForUser = 'Bạn đã thuê thành công gia sư.';
-                $titleForTeacher = 'Bạn có người muốn thuê hãy truy cập vào ngay trang web để biết thông tin chi tiết';
+                $titleForUser = 'Bạn đã thuê gia sư thành công vui lòng đợi phản hồi của gia sư ';
+                $titleForTeacher = 'Bạn đang có người muốn thuê ';
                 $sendUser = $mailController->sendMail($emailUser, $titleForUser);
                 $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
                 if ($sendUser && $sendTeacher) {

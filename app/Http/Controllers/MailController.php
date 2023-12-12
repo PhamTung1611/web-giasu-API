@@ -12,7 +12,7 @@ class MailController extends Controller
     public function sendMail($email,$title)
     {
         $content = [
-            'title' => 'Web GS7',
+            'title' => 'Website gia sư GS7 thông báo',
             'body' => $title
         ];
 

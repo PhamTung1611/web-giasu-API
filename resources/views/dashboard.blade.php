@@ -1,5 +1,19 @@
 @extends('template.layout')
 @section('content')
+<div class="table-settings mb-4">
+    <div class="row align-items-center justify-content-between">
+        <div class="col col-lg-8 col-xl-8 text-right">
+            <form class="input-group w-full h-10" action="{{route('dashboard')}}" method="POST">
+                @csrf
+                <label for="class" class="form-label">Ngày bắt đầu</label>
+                <input type="date" name="dateStart" class="form-select form-select-sm mb-3">
+                <label for="class" class="form-label">Ngày kết thúc</label>
+                <input type="date" name="dateEnd" class="form-select form-select-sm mb-3">
+                <button type="submit" class="btn btn-secondary mb-3">Lọc</button>
+            </form>
+        </div>
+    </div>
+</div>
 <main class="">
     <div class="row">
         <div class="col-12 col-sm-6 col-xl-4 mb-4">
