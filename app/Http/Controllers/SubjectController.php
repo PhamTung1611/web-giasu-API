@@ -194,17 +194,22 @@ class SubjectController extends Controller
 
         $newArraySubject = $this->getArrayValues($records->subject, Subject::class);
         $newArrayEducation = $this->getArrayValues($records->education_level, Schools::class);
-        $newArrayClass = $this->getArrayValues($records->class_id, ClassLevel::class);
+        $newArrayClass = $this->getArrayValue($records->class_id, ClassLevel::class);
         $newArrayTime = $this->getArrayValues($records->time_tutor_id, TimeSlot::class);
-
         $newSchool = "";
         $newSalary = "";
+        $newClass = "";
+
+        if ($records->class_id != null) {
+            $class = ClassLevel::find($records->class_id);
+            $newClass = $class ? $class->class : "";
+        }
+        // dd($newClass);
 
         if ($records->school_id != null) {
             $school = Schools::find($records->school_id);
             $newSchool = $school ? $school->name : "";
         }
-
         if ($records->salary_id != null) {
             $salary = RankSalary::find($records->salary_id);
             $newSalary = $salary ? $salary->name : "";
@@ -215,7 +220,7 @@ class SubjectController extends Controller
         } else {
             $records->Certificate = json_decode($records->Certificate);
         }
-
+        // dd($newClass);
         $data = [
             'id' => $id,
             'role' => $records->role,
@@ -327,7 +332,7 @@ class SubjectController extends Controller
         }
         $countJobs = Job::where('id_teacher', $id)->count();
         $countConnect = Connect::where('id_teacher', $id)->count();
-        // dd($countConnect);
+        dd($data);
         return view('backend.subject.show', compact('title', 'data', 'history', 'result', 'dataFeedback', 'connect', 'countJobs', 'countConnect'));
     }
 
@@ -343,6 +348,25 @@ class SubjectController extends Controller
 
                 if ($model) {
                     array_push($newArray, $model->name);
+                }
+            }
+        }
+
+        return $newArray;
+    }
+
+    private function getArrayValue($field, $modelClass)
+    {
+        $newArray = [];
+
+        if ($field != null) {
+            $makeArray = explode(',', $field);
+
+            foreach ($makeArray as $item) {
+                $model = $modelClass::find($item);
+
+                if ($model) {
+                    array_push($newArray, $model->class);
                 }
             }
         }
