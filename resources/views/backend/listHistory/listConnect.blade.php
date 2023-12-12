@@ -24,9 +24,9 @@
             <form class="input-group w-full h-10" action="{{route('list_history_connect')}}" method="POST">
                 @csrf
                 <label for="class" class="form-label">Ngày bắt đầu</label>
-                <input type="date" name="dateStart">
+                <input type="date" name="dateStart" class="form-select form-select-sm mb-3">
                 <label for="class" class="form-label">Ngày kết thúc</label>
-                <input type="date" name="dateEnd">
+                <input type="date" name="dateEnd" class="form-select form-select-sm mb-3">
                 <button type="submit" class="btn btn-secondary mb-3">Lọc</button>
             </form>
         </div>
