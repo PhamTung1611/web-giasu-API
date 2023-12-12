@@ -451,7 +451,7 @@ public function updatestatusSendMail(Request $request){
         $users = User::where('role', '2')->get();
         if ($request->post() && $request->search) {
             $users = DB::table('users')
-                ->where('id', 'like', '%'.$request->search.'%')->get();
+                ->where('email', 'like', '%'.$request->search.'%')->get();
         }
 
         return view('backend.users.index', compact('users', 'title'));
