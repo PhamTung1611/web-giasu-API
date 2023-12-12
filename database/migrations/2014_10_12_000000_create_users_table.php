@@ -29,7 +29,7 @@ return new class extends Migration
             $table->String('education_level')->nullable();
             $table->string('class_id')->nullable();
             $table->string('subject')->nullable();
-            $table->integer('salary_id')->nullable();
+            $table->string('salary_id')->nullable();
             $table->String('exp')->nullable();
             $table->String('current_role')->nullable();
             $table->String('description')->nullable();
