@@ -15,84 +15,150 @@ use Illuminate\Support\Facades\DB;
 class DashBoradController extends Controller
 {
     //
-    public function Statistical()
+    public function Statistical(Request $request)
     {
         $title = 'Thống kê';
-        $countTeacher = DB::table('users')->where('role', '3')->where('status', '1')->count();
-        $countCollaborators = DB::table('users')->where('role', '4')->where('status', '1')->count();
-        $countTeacherWait = DB::table('users')->where('role', '3')->where('status', '2')->count();
-        $countUser = DB::table('users')->where('role', '2')->count();
-        $user =  User::find(1);
+        $user = User::find(1);
         $money = $user->coin;
-        $query = DB::table('feedback')
+
+        // Count users based on role and status
+        $countTeacher = $this->countUsersByRoleAndStatus('3', '1', $request);
+        $countCollaborators = $this->countUsersByRoleAndStatus('4', '1', $request);
+        $countTeacherWait = $this->countUsersByRoleAndStatus('3', '2', $request);
+        $countUser = $this->countUsersByRole('2', $request);
+
+        // Get top teachers based on feedback
+        $results = DB::table('feedback')
             ->select('users.id', 'users.name', 'users.avatar', DB::raw('AVG(feedback.point) AS avg_point'))
             ->join('users', 'feedback.id_teacher', '=', 'users.id')
-            ->groupBy('users.id', 'users.name', 'users.avatar') // Group by the id, name, and image columns
+            ->groupBy('users.id', 'users.name', 'users.avatar')
             ->orderBy('avg_point', 'desc')
-            ->limit(4);
-        $results = $query->get();
-        // dd($results);
+            ->limit(4)
+            ->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
+                $query->whereBetween('feedback.created_at', [$request->dateStart, $request->dateEnd]);
+            })
+            ->get();
+
+        // Get information about top teachers based on job count
         $topTeachersInfo = DB::table('jobs')
             ->select('users.id as user_id', 'users.name as user_name', 'users.avatar as user_avatar', 'users.email as user_email', DB::raw('COUNT(jobs.id_teacher) as teacher_count'))
             ->join('users', 'jobs.id_teacher', '=', 'users.id')
-            ->where('jobs.status', 1)  // Chỉ rõ cột 'status' thuộc bảng 'jobs'
+            ->where('jobs.status', 1)
             ->groupBy('users.id', 'users.name', 'users.avatar', 'users.email')
             ->orderByDesc('teacher_count')
             ->limit(4)
+            ->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
+                $query->whereBetween('jobs.created_at', [$request->dateStart, $request->dateEnd]);
+            })
             ->get();
 
+        // Get most hired subjects
         $mostHiredSubjects = Subject::select('subjects.id', 'subjects.name', DB::raw('COALESCE(COUNT(jobs.id), 0) as hire_count'))
-            ->leftJoin('jobs', function ($join) {
+            ->leftJoin('jobs', function ($join) use ($request) {
+                $join->on('jobs.subject', 'like', DB::raw("CONCAT('%,', subjects.id, ',%')"))
+                    ->orWhere('jobs.subject', 'like', DB::raw("CONCAT(subjects.id, ',%')"))
+                    ->orWhere('jobs.subject', 'like', DB::raw("CONCAT('%,', subjects.id)"))
+                    ->orWhere('jobs.subject', 'like', DB::raw("CONCAT(subjects.id)"))
+                    ->orWhereRaw("jobs.subject = CAST(subjects.id AS CHAR)");
+                if ($request->filled(['dateStart', 'dateEnd'])) {
+                    $join->whereBetween('jobs.created_at', [$request->dateStart, $request->dateEnd]);
+                }
+            })
+            ->groupBy('subjects.id', 'subjects.name')
+            ->orderByDesc('hire_count')
+            ->get();
+
+        // Get most hired subjects
+        $mostHiredSubjects = Subject::select('subjects.id', 'subjects.name', DB::raw('COALESCE(COUNT(jobs.id), 0) as hire_count'))
+            ->leftJoin('jobs', function ($join) use ($request) {
                 $join->on('jobs.subject', 'like', DB::raw("CONCAT('%,', subjects.id, ',%')"))
                     ->orWhere('jobs.subject', 'like', DB::raw("CONCAT(subjects.id, ',%')"))
                     ->orWhere('jobs.subject', 'like', DB::raw("CONCAT('%,', subjects.id)"))
                     ->orWhere('jobs.subject', 'like', DB::raw("CONCAT(subjects.id)"))
                     ->orWhereRaw("jobs.subject = CAST(subjects.id AS CHAR)");
             })
+            ->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
+                $query->whereBetween('jobs.created_at', [$request->dateStart, $request->dateEnd]);
+            })
             ->groupBy('subjects.id', 'subjects.name')
             ->orderByDesc('hire_count')
             ->get();
 
+        // Get most hired class levels
         $mostHiredClass = ClassLevel::select('class_levels.id', 'class_levels.class', DB::raw('COALESCE(COUNT(jobs.id), 0) as hire_count'))
-            ->leftJoin('jobs', function ($join) {
+            ->leftJoin('jobs', function ($join) use ($request) {
                 $join->on('jobs.class', 'like', DB::raw("CONCAT('%,',class_levels.id, ',%')"))
                     ->orWhere('jobs.class', 'like', DB::raw("CONCAT(class_levels.id, ',%')"))
                     ->orWhere('jobs.class', 'like', DB::raw("CONCAT('%,', class_levels.id)"))
                     ->orWhere('jobs.class', 'like', DB::raw("CONCAT(class_levels.id)"))
                     ->orWhereRaw("jobs.class = CAST(class_levels.id AS CHAR)");
             })
+            ->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
+                $query->whereBetween('jobs.created_at', [$request->dateStart, $request->dateEnd]);
+            })
             ->groupBy('class_levels.id', 'class_levels.class')
             ->orderByDesc('hire_count')
             ->get();
-        $countConnect = Connect::where('status', 1)->count();
 
-        $totalRecords = DB::table('connect')->count();
+        // Count connections based on status
+        $countConnect = Connect::where('status', 1);
+        if ($request->filled(['dateStart', 'dateEnd'])) {
+            $countConnect->whereBetween('created_at', [$request->dateStart, $request->dateEnd]);
+        }
+        $countConnect = $countConnect->count();
 
-        // Lấy số lượng bản ghi cho mỗi trạng thái
+        // Count total records in the connections table
+        $totalRecords = Connect::count();
+
+        // Get status counts and percentages
         $statusCounts = DB::table('connect')
             ->select('status', DB::raw('COUNT(*) as count'))
+            ->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
+                $query->whereBetween('created_at', [$request->dateStart, $request->dateEnd]);
+            })
             ->groupBy('status')
             ->get();
 
-        // Tạo mảng để lưu trữ thông tin cho mỗi trạng thái
         $statusData = [];
-
-        // Tính toán phần trăm và lưu vào mảng
         foreach ($statusCounts as $statusCount) {
-            $statusName = $this->getStatusName($statusCount->status); // Hàm này để lấy tên trạng thái dựa trên giá trị status
-
+            $statusName = $this->getStatusName($statusCount->status);
             $percentage = ($statusCount->count / $totalRecords) * 100;
 
-            // Lưu thông tin cho mỗi trạng thái
             $statusData[] = [
                 'status' => $statusName,
                 'count' => $statusCount->count,
                 'percentage' => $percentage,
             ];
         }
-        // dd($statusData);
+
         return view('dashboard', compact('money', 'countTeacher', 'title', 'countTeacherWait', 'countUser', 'results', 'topTeachersInfo', 'mostHiredSubjects', 'countCollaborators', 'countConnect', 'mostHiredClass', 'statusData'));
     }
+
+    private function countUsersByRole($role, Request $request)
+    {
+        $query = DB::table('users')->where('role', $role);
+
+        if ($request->filled(['dateStart', 'dateEnd'])) {
+            $query->whereBetween('created_at', [$request->dateStart, $request->dateEnd]);
+        }
+
+        return $query->count();
+    }
+
+    private function countUsersByRoleAndStatus($role, $status, Request $request)
+    {
+        $query = DB::table('users')->where('role', $role)->where('status', $status);
+
+        if ($request->filled(['dateStart', 'dateEnd'])) {
+            $query->whereBetween('created_at', [$request->dateStart, $request->dateEnd]);
+        }
+
+        return $query->count();
+    }
+
+
+
+
     function getStatusName($status)
     {
         switch ($status) {

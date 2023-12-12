@@ -36,7 +36,7 @@ Route::match(['get', 'post'], '/register', [UsersController::class, 'register'])
 Route::middleware('auth')->group(function () {
     Route::middleware('check.role')->group(function () {
         Route::get('contact', [ContactController::class, 'index'])->name('search_contact');
-        Route::get('/', [DashBoradController::class, 'Statistical'])->name('dashboard');
+        Route::match(['get', 'post'], '/', [DashBoradController::class, 'Statistical'])->name('dashboard');
         Route::get('connect', [ConnectController::class, 'index'])->name('search_connect');
         Route::get('connect/{id}', [ConnectController::class, 'connectStatus'])->name('connect_status');
         Route::post('connect/date', [ConnectController::class, 'index'])->name('connect_date');
