@@ -210,24 +210,14 @@ class UsersController extends Controller
             $user->District_ID = $request->DistrictID;
             $user->phone = $request->phone;
             if ($request->role == 3) {
-                $user->exp = $request->exp;
+                // $user->exp = $request->exp;
                 $user->current_role = $request->current_role;
                 $user->school_id = $request->school_id;
                 //                $user->Citizen_card = $request->citizen_card;
                 $user->education_level = $request->education_level;
                 $user->class_id = $request->class_id;
                 $user->subject = $request->subject;
-                $user->salary_id = $request->salary_id;
-                if ($request->hasFile('Certificate')) {
-                    $certificates = [];
-                    foreach ($request->file('Certificate') as $file) {
-                        $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
-                    }
-                    $user->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
-                } else {
-                    $user->Certificate = null;
-                }
-
+                $user->salary_id = json_encode($request->salary_id);
                 $user->description = $request->description;
                 $time_tutor = $request->time_tutor_id;
                 $user->time_tutor_id = $time_tutor;
@@ -260,6 +250,17 @@ class UsersController extends Controller
         }
     }
 
+    public function uploadCertificate(Request $request){
+        $user = User::find($request->id);
+       
+            $certificates = [];
+            foreach ($request->file('Certificate') as $file) {
+                $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
+            }
+            $user->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
+        $user->update();
+        return response()->json('success');
+    }
     public function updatestatusSendMail(Request $request)
     {
 
