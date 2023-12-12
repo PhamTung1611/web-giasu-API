@@ -316,6 +316,7 @@ class SubjectController extends Controller
             ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
             ->where('connect.id_teacher', $id)
             ->get();
+        // dd($connect);
 
         foreach ($connect as $item) {
             $item->id_job = $item->id_job;
@@ -326,7 +327,7 @@ class SubjectController extends Controller
         }
         $countJobs = Job::where('id_teacher', $id)->count();
         $countConnect = Connect::where('id_teacher', $id)->count();
-        // dd($dataFeedback);
+        // dd($countConnect);
         return view('backend.subject.show', compact('title', 'data', 'history', 'result', 'dataFeedback', 'connect', 'countJobs', 'countConnect'));
     }
 

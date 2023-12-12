@@ -97,7 +97,7 @@
         <th>Địa chỉ email</th>
         <th>Ảnh đại diện</th>
         <th>Số điện thoại</th>
-        <th>Địa chỉ</th>
+        <th>Khu vực dạy</th>
         <th>Trạng thái</th>
         <th>Người duyệt</th>
           <th>Ngày duyệt</th>
