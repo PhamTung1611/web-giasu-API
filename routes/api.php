@@ -198,3 +198,4 @@ Route::put('update-status-teacher/{id}',[UsersController::class,'updatestatus'])
 Route::get('education-level',[EducationLevel::class,'index']);
 Route::put('certificate-public/{id}',[UsersController::class,'certificate_public']);
 Route::put('status-certificate/{id}',[UsersController::class,'status_certificate']);
+Route::post('upload-certificate',[UsersController::class,'uploadCertificate']);
