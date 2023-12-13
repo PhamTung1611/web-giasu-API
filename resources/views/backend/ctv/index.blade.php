@@ -104,15 +104,15 @@
             </button>
             <div class="dropdown-menu py-0">
               @if ($u->status == 1)
-                  <a href="{{ route('deactivate_ctv', ['id' => $u->id]) }}" class="btn btn-link text-warning" onclick="return confirm('Are you sure you want to deactivate?');">
+                  <a href="{{ route('deactivate_ctv', ['id' => $u->id]) }}" class="btn btn-link text-warning" onclick="return confirm('Bạn có chắc chắn muốn tắt kích hoạt?');">
                       <span class="fas fa-toggle-off me-2"></span>Tắt kích hoạt
                   </a>
               @else
-                  <a href="{{ route('activate_ctv', ['id' => $u->id]) }}" class="btn btn-link text-success" onclick="return confirm('Are you sure you want to activate?');">
+                  <a href="{{ route('activate_ctv', ['id' => $u->id]) }}" class="btn btn-link text-success" onclick="return confirm('Bạn có chắc chắn muốn kích hoạt?');">
                       <span class="fas fa-toggle-on me-2"></span>Kích hoạt
                   </a>
               @endif
-              <a class="dropdown-item" href="{{ route('edit_ctv', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Edit</a>
+              <a class="dropdown-item" href="{{ route('edit_ctv', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Sửa</a>
               <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_ctv', ['id' => $u->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
             </div>
           </div>

@@ -57,7 +57,7 @@
         <th>ID JOB</th>
         <th>Username</th>
         <th>TeacherName</th>
-        <th>Status</th>
+        <th>Trạng thái</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -91,8 +91,8 @@
               </span>
             </button>
             <div class="dropdown-menu py-0">
-              <a class="dropdown-item" href="{{ route('connect_show', ['id' => $item->id])}}"><span class="fas fa-edit me-2"></span>Xem chi tiết</a>
-              <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_connect', ['id' => $item->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
+              <a class="dropdown-item" href="{{ route('connect_show', ['id' => $item->id])}}"><span class="fas fa-edit me-2"></span>Thao tác</a>
+              <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_connect', ['id' => $item->id])}}" onclick="return confirm('Bạn có chắc muốn xóa?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
             </div>
           </div>
         </td>

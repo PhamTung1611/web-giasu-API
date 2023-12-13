@@ -80,12 +80,12 @@
                 <span class="fas fa-ellipsis-h icon-dark"></span>
               </span>
               <span>
-                Views
+                Thao tác
               </span>
             </button>
             <div class="dropdown-menu py-0">
               @if($view!=2)
-              <a class="dropdown-item ~text-gray-800 rounded-bottom" href="{{ route('detail_teacher', ['id' => $u->id])}}"><span class="fas fa-trash-alt me-2"></span>show</a>
+              <a class="dropdown-item ~text-gray-800 rounded-bottom" href="{{ route('detail_teacher', ['id' => $u->id])}}"><span class="fas fa-trash-alt me-2"></span>Xem chi tiết</a>
               <a class="dropdown-item" href="{{ route('edit_teacher', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Sửa</a>
               <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_teacher', ['id' => $u->id,'view'=>'1'])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Xóa</a>
               @else

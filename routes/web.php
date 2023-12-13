@@ -31,7 +31,6 @@ Route::match(['get', 'post'], '/login', [UsersController::class, 'signin'])->nam
 Route::get('/logout', [UsersController::class, 'logout'])->name('logout');
 Route::get('vnpay', [UsersController::class, 'showvnpay']);
 Route::post('deposit', [UsersController::class, 'deposit']);
-// Route::post('/login',[UsersController::class, 'signin'])->name('post-login');
 Route::match(['get', 'post'], '/register', [UsersController::class, 'register'])->name('register');
 Route::middleware('auth')->group(function () {
     Route::middleware('check.role')->group(function () {
@@ -50,7 +49,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/rent', [DashBoradController::class, 'rent'])->name('rent');
         Route::post('/rent/date', [DashBoradController::class, 'rent'])->name('rent_date');
         Route::get('/rentID', [DashBoradController::class, 'rentID'])->name('rentID');
-        Route::get('salary', [RankSalaryController::class, 'index']);
         Route::get('payment', [TransactionController::class, 'index'])->name('vnpay');
         Route::post('salary', [RankSalaryController::class, 'index'])->name('search_salary');
         Route::get('timeslot', [TimeSlotController::class, 'index']);
@@ -68,10 +66,6 @@ Route::middleware('auth')->group(function () {
         Route::get('user', [UsersController::class, 'getAllUser']);
         Route::get('teacher/waiting', [UsersController::class, 'getAllTeacher'])->name('waiting');
         Route::get('waiting_teacher/{id}', [UsersController::class, 'agree'])->name('waiting_teacher');
-        //salary rank
-        Route::match(['get', 'post'], 'salary/add', [RankSalaryController::class, 'add'])->name('salary.add');
-        Route::match(['get', 'post'], 'salary/edit/{id}', [RankSalaryController::class, 'update'])->name('salary.edit');
-        Route::get('salary/delete/{id}', [RankSalaryController::class, 'delete'])->name('salary.delete');
         Route::match(['get', 'post'], 'listHistorySubject', [DashBoradController::class, 'listHistorySubject'])->name('list_history_subject');
         Route::match(['get', 'post'], 'listHistoryClass', [DashBoradController::class, 'listHistoryClass'])->name('list_history_class');
         Route::match(['get', 'post'], 'listHistoryConnect', [DashBoradController::class, 'listHistoryConnect'])->name('list_history_connect');

@@ -206,15 +206,6 @@
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                       <ul class="flex-column nav">
                           <li class="nav-item">
-                              <a class="nav-link" href="{{route('search_salary')}}">
-                                  <span class="sidebar-text">Mức lương</span>
-                              </a>
-                          </li>
-                      </ul>
-                  </div>
-                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
-                      <ul class="flex-column nav">
-                          <li class="nav-item">
                               <a class="nav-link" href="{{route('search_job')}}">
                                   <span class="sidebar-text">Công việc</span>
                               </a>
@@ -243,7 +234,16 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_user')}}">
-                                    <span class="sidebar-text">Người dùng</span>
+                                    <span class="sidebar-text">Quản lý phụ huynh</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('search_teacher')}}">
+                                    <span class="sidebar-text">Quản lý giáo viên</span>
                                 </a>
                             </li>
                         </ul>
@@ -253,15 +253,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_connect')}}">
                                     <span class="sidebar-text">Kết nối</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
-                        <ul class="flex-column nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{route('search_teacher')}}">
-                                    <span class="sidebar-text">Giáo viên</span>
                                 </a>
                             </li>
                         </ul>
@@ -305,15 +296,6 @@
                             </ul>
                         </div>
                     @endif
-                    {{-- <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
-                        <ul class="flex-column nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{route('vnpay')}}">
-                                    <span class="sidebar-text">Thanh toán vnpay</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div> --}}
                 </li>
                 <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
             </ul>

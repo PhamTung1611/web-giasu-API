@@ -96,11 +96,11 @@
                 <span class="fas fa-ellipsis-h icon-dark"></span>
               </span>
               <span>
-                Xem chi tiết
+                Thao tác
               </span>
             </button>
             <div class="dropdown-menu py-0">
-              <a class="dropdown-item" href="{{ route('detail_user', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Chi tiết nguoi dung</a>
+              <a class="dropdown-item" href="{{ route('detail_user', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Chi tiết người dùng</a>
               <a class="dropdown-item" href="{{ route('edit_user', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Sửa</a>
               <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_user', ['id' => $u->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Xóa</a>
             </div>

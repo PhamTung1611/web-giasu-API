@@ -34,7 +34,7 @@
       <div class="col col-md-6 col-lg-3 col-xl-4">
         <form class="input-group me-2 me-lg-3 fmxw-400" action="{{route('search_subject')}}" method="POST">
           @csrf
-          <input type="text" class="form-control" name="search" placeholder="Tìm kiếm ...">
+          <input type="text" class="form-control" name="search" placeholder="Nhập tên môn học...">
             <input type="submit" value="Lọc" class="btn btn-secondary">  
         </form>
       </div>
@@ -90,7 +90,7 @@
                             <span class="fas fa-ellipsis-h icon-dark"></span>
                         </span>
                         <span>
-                          Xem chi tiết
+                          Thao tác
                         </span>
                         </button>
                         <div class="dropdown-menu py-0">
