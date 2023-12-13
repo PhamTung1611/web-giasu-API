@@ -168,6 +168,8 @@ class TeachersController extends Controller
             $params = $request->except('_token');
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                 $params['avatar'] = uploadFile('hinh', $request->file('avatar'));
+            }else {
+                $params['avatar']= 'hinh/anhdefault.png';
             }
             $teacher = new User();
             $teacher->role = $request->role;
