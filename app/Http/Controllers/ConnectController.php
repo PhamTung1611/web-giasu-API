@@ -27,9 +27,6 @@ class ConnectController extends Controller
             ->leftJoin('users as user2', 'connect.id_teacher', '=', 'user2.id')
             ->get();
 
-        if ($connect->isEmpty()) {
-            return response()->json(['message' => 'Connect not found'], 404);
-        }
 
         foreach ($connect as $item) {
             $item->id_job = $item->id_job;
