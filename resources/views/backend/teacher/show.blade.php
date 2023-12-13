@@ -45,7 +45,7 @@
                                 <button type="submit" class="btn btn-danger">Từ chối</button>
                             </form>
                             
-                            <button class="btn btn-danger m-3" onclick="window.location.href='{{ route('waiting')}}'"><span class="fas fa-times me-2"></span>Back</button>
+                            <button class="btn btn-danger m-3" onclick="window.location.href='{{ route('waiting')}}'"><span class="fas fa-times me-2"></span>Quay lại</button>
                         </div>
                     </div>
                 </div>

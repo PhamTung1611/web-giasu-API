@@ -332,7 +332,7 @@ class SubjectController extends Controller
         }
         $countJobs = Job::where('id_teacher', $id)->count();
         $countConnect = Connect::where('id_teacher', $id)->count();
-        dd($data);
+        // dd($data);
         return view('backend.subject.show', compact('title', 'data', 'history', 'result', 'dataFeedback', 'connect', 'countJobs', 'countConnect'));
     }
 

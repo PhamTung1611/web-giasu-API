@@ -65,6 +65,30 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
+                                    <label>Lớp dạy</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                    @foreach ($data['class_id'] as $item)
+                                        {{$item}}, 
+                                    @endforeach
+                                </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Môn dạy</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                    @foreach ($data['subject'] as $item)
+                                    {{$item}}, 
+                                    @endforeach
+                                </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
                                     <label>Số dư</label>
                                 </div>
                                 <div class="col-md-6">

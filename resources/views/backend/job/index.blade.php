@@ -22,6 +22,23 @@
 <div class="table-settings mb-4">
   <div class="row align-items-center justify-content-between">
     <div class="col col-md-6 col-lg-3 col-xl-4">
+      {{-- <form class="input-group mb-3" action="{{route('search_job')}}" method="POST">
+        @csrf
+        <div class="row">
+            <div class="col-md-6">
+                <label for="dateStart" class="form-label">Ngày bắt đầu</label>
+                <input type="date" name="dateStart" class="form-control" id="dateStart">
+            </div>
+            <div class="col-md-6">
+                <label for="dateEnd" class="form-label">Ngày kết thúc</label>
+                <input type="date" name="dateEnd" class="form-control" id="dateEnd">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-secondary mt-5 mb-3">Lọc</button>
+            </div>
+        </div>
+    </form> --}}
+    
     <form class="input-group w-full h-10" action="{{route('search_job')}}" method="POST">
         @csrf
         <label for="class" class="form-label">Ngày bắt đầu</label>
@@ -96,7 +113,7 @@
                 <span class="fas fa-ellipsis-h icon-dark"></span>
               </span>
               <span>
-                Xem chi tiết
+              Thao tác  
               </span>
             </button>
             <div class="dropdown-menu py-0">

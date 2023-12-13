@@ -90,7 +90,7 @@
                             <span class="fas fa-ellipsis-h icon-dark"></span>
                         </span>
                         <span>
-                          Xem chi tiết
+                          Thao tác
                         </span>
                         </button>
                         <div class="dropdown-menu py-0">
