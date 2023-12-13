@@ -44,7 +44,7 @@
           <option value="{{$u->ip}}">{{$u->class}}</option>
           @endforeach
         </select>
-        <label for="class" class="form-label">Khu vực dạy:</label>
+        <label for="class" class="form-label">Khu vực dạy:</label> 
         <select name="District_ID" class="form-select form-select-sm mb-3">
           <option value="">Tất cả</option>
           <option value="Ba Đình">Ba Đình</option>

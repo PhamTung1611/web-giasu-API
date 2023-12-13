@@ -151,7 +151,7 @@
                                     <label>Mức lương mong muốn</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>{{$data['salary_id']}}</p>
+                                    <p>{{$data['salary_id'][0]}} - {{$data['salary_id'][1]}}</p>
                                 </div>
                             </div>
                             <div class="row">

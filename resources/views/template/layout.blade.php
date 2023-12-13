@@ -198,7 +198,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_subject')}}">
-                                    <span class="sidebar-text">Môn học</span>
+                                    <span class="sidebar-text">Quản lý môn học</span>
                                 </a>
                             </li>
                         </ul>
@@ -207,7 +207,7 @@
                       <ul class="flex-column nav">
                           <li class="nav-item">
                               <a class="nav-link" href="{{route('search_job')}}">
-                                  <span class="sidebar-text">Công việc</span>
+                                  <span class="sidebar-text">Quản lý công việc</span>
                               </a>
                           </li>
                       </ul>
@@ -216,7 +216,7 @@
                       <ul class="flex-column nav">
                           <li class="nav-item">
                               <a class="nav-link" href="{{route('search_class')}}">
-                                  <span class="sidebar-text">Lớp học</span>
+                                  <span class="sidebar-text">Quản lý lớp học</span>
                               </a>
                           </li>
                       </ul>
@@ -225,7 +225,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_timeslot')}}">
-                                    <span class="sidebar-text">Ca học</span>
+                                    <span class="sidebar-text">Quản lý ca học</span>
                                 </a>
                             </li>
                         </ul>
@@ -252,7 +252,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_connect')}}">
-                                    <span class="sidebar-text">Kết nối</span>
+                                    <span class="sidebar-text">Quản lý kết nối</span>
                                 </a>
                             </li>
                         </ul>
@@ -261,7 +261,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_contact')}}">
-                                    <span class="sidebar-text">Liên hệ</span>
+                                    <span class="sidebar-text">Quản lý liên hệ</span>
                                 </a>
                             </li>
                         </ul>
@@ -270,7 +270,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('waiting')}}">
-                                    <span class="sidebar-text">Phê duyệt</span>
+                                    <span class="sidebar-text">Quản lý phê duyệt</span>
                                 </a>
                             </li>
                         </ul>
@@ -280,7 +280,7 @@
                             <ul class="flex-column nav">
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{route('allctv')}}">
-                                        <span class="sidebar-text">Cộng tác viên</span>
+                                        <span class="sidebar-text">Quản lý cộng tác viên</span>
                                     </a>
                                 </li>
                             </ul>
@@ -290,7 +290,7 @@
                             <ul class="flex-column nav">
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{route('waiting')}}">
-                                        <span class="sidebar-text">Phê duyệt</span>
+                                        <span class="sidebar-text">Quản lý phê duyệt</span>
                                     </a>
                                 </li>
                             </ul>
