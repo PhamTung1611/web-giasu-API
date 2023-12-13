@@ -79,7 +79,7 @@
                                     <label>Giới tính</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>{{$data['gender']}}</p>
+                                    <p>{{$data['gender'] == 1 ? 'Nam' : 'Nữ'}}</p>
                                 </div>
                             </div>
                             <div class="row">

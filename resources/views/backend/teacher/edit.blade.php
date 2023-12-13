@@ -128,7 +128,7 @@
             </select>
 
              @if($teacher->Certificate)
-              <label>Ảnh bằng cấp</label><br>
+              {{-- <label>Ảnh bằng cấp</label><br> --}}
             <label>Ảnh bằng cấp</label><br>
             @if($teacher->Certificate)
             @foreach(json_decode($teacher->Certificate) as $certificate)
@@ -145,8 +145,8 @@
             <label>Nhập mô tả về gia sư</label><br>
             <textarea type="text" class="form-control" value="{{$teacher->description}}" placeholder="Nhập mô tả về gia sư" name="description"></textarea>
               <label for="">Giới tính</label><br>
-              Nam: <input type="radio" {{ $teacher->gender === 'Nam' ? 'checked' : '' }} name="gender" id="" value="1">
-              Nữ: <input type="radio" name="gender"  {{ $teacher->gender === 'Nữ' ? 'checked' : '' }} id="" value="0"><br>
+              Nam: <input type="radio" {{ $teacher->gender == 1 ? 'checked' : '' }} name="gender" id="" value="1">
+              Nữ: <input type="radio" name="gender"  {{ $teacher->gender ==0 ? 'checked' : '' }} id="" value="0"><br>
               <label for="" class="mt-2">Ngày sinh</label><br>
               <input type="date" class="form-control" value="{{$teacher->date_of_birth}}" name="date_of_birth">
             <label class="mt-2">Trạng thái</label><br>

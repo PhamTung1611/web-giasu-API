@@ -30,7 +30,7 @@
     <div class="col col-md-6 col-lg-3 col-xl-4">
       <form class="input-group me-2 me-lg-3 fmxw-400" action="{{route('allctv')}}" method="POST">
         @csrf
-        <input type="text" class="form-control" placeholder="Tìm kiếm..." name="search">
+        <input type="text" class="form-control" placeholder="Nhập email..." name="search">
         <input type="submit" value="Lọc" class="btn btn-secondary">
       </form>
     </div>
@@ -99,7 +99,7 @@
                 <span class="fas fa-ellipsis-h icon-dark"></span>
               </span>
               <span>
-                Xem chi tiết
+                Thao tác
               </span>
             </button>
             <div class="dropdown-menu py-0">
@@ -113,7 +113,7 @@
                   </a>
               @endif
               <a class="dropdown-item" href="{{ route('edit_ctv', ['id' => $u->id])}}"><span class="fas fa-edit me-2"></span>Sửa</a>
-              <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_ctv', ['id' => $u->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Remove</a>
+              <a class="dropdown-item text-danger rounded-bottom" href="{{ route('delete_ctv', ['id' => $u->id])}}" onclick="return confirm('Are you sure you want to delete?');"><span class="fas fa-trash-alt me-2"></span>Xóa</a>
             </div>
           </div>
         </td>

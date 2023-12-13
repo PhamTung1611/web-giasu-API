@@ -180,7 +180,6 @@ class TeachersController extends Controller
             $teacher->phone = $request->phone;
             $teacher->address = $request->address;
             $teacher->school_id = $request->school_id;
-            // $teacher->Citizen_card = $request->Citizen_card;
             $teacher->education_level = $request->education_level;
             $teacher->class_id = $request->class;
             $teacher->subject = $request->subject;

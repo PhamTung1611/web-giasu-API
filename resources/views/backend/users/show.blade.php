@@ -84,7 +84,7 @@
                                     <label>Giới tính</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>{{ $data['gender'] }}</p>
+                                    <p>{{ $data['gender'] == 1 ? 'Nam' : 'Nữ' }}</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -111,17 +111,6 @@
                                     <p>{{ $data['description'] }}</p>
                                 </div>
                             </div>
-                            {{-- <div class="row">
-                                <div class="col-md-6">
-                                    <label>Certificate</label>
-                                </div>
-                                <div class="col-md-6">
-                                    @foreach ($data['Certificate'] as $cert)
-                                        <img src="{{$cert}}" alt="" width="100">
-                                    @endforeach
-                                </div>
-                            </div> --}}
-
                         </div>
                         <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
                             @foreach ($result as $item)
