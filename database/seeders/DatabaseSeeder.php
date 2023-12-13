@@ -22,10 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             JobSeeder::class,
             TimeSlotSeeder::class,
-<<<<<<< HEAD
-            // RankSalarySeeder::class,
-=======
->>>>>>> f6e7d00c2d3ae3c39b6c497efa0df5299e3baaec
             UserSeeder::class,
             ClassLevelSeeder::class,
             SubjectSeeder::class,
