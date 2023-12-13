@@ -21,7 +21,7 @@
       <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
       </svg>
-      Thêm mới người dùng
+      Thêm mới phụ huynh
     </a>
   </div>
 </div>
@@ -30,7 +30,7 @@
     <div class="col col-md-6 col-lg-3 col-xl-4">
       <form class="input-group me-2 me-lg-3 fmxw-400" action="{{route('search_user')}}" method="POST">
         @csrf
-        <input type="text" class="form-control" placeholder="Tìm kiếm..." name="search">
+        <input type="text" class="form-control" placeholder="Nhập email..." name="search">
         <input type="submit" value="Lọc" class="btn btn-secondary">
       </form>
     </div>

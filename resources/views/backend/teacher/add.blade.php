@@ -64,7 +64,7 @@
           <div>
             <input type="text" name="role" value="3" hidden>
             <label>Họ và Tên</label><br>
-            <input type="text" class="form-control" placeholder="Nhập tên user" name="name">
+            <input type="text" class="form-control" placeholder="Nhập tên giáo viên" name="name">
             <label>Email</label><br>
             <input type="email" class="form-control" placeholder="Nhập email" name="email">
             <label>Mật khẩu</label><br>
