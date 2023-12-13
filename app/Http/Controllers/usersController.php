@@ -460,7 +460,7 @@ class UsersController extends Controller
     }
     public function getAllUser(Request $request)
     {
-        $title = 'Danh sách người dùng';
+        $title = 'Danh sách phụ huynh';
         $users = User::where('role', '2')->get();
         if ($request->post() && $request->search) {
             $users = DB::table('users')
@@ -471,7 +471,7 @@ class UsersController extends Controller
     }
     public function addNewUser(UserRequest $request)
     {
-        $title = 'Thêm mới người dùng';
+        $title = 'Thêm mới phụ huynh';
         if ($request->isMethod('post')) {
             // dd($request);
             // $params = $request->post();
@@ -541,7 +541,7 @@ class UsersController extends Controller
     }
     public function updateUser(UserRequest $request, $id)
     {
-        $title = 'Sửa người dùng';
+        $title = 'Sửa thông tin phụ huynh';
         $user = User::findOrFail($id);
         if ($request->isMethod('post')) {
             $user = User::find($id);

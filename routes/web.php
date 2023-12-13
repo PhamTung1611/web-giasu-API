@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/rent/date', [DashBoradController::class, 'rent'])->name('rent_date');
         Route::get('/rentID', [DashBoradController::class, 'rentID'])->name('rentID');
         Route::get('payment', [TransactionController::class, 'index'])->name('vnpay');
-        Route::post('salary', [RankSalaryController::class, 'index'])->name('search_salary');
+        // Route::post('salary', [RankSalaryController::class, 'index'])->name('search_salary');
         Route::get('timeslot', [TimeSlotController::class, 'index']);
         Route::post('timeslot', [TimeSlotController::class, 'index'])->name('search_timeslot');
         Route::get('job', [JobController::class, 'index']);
@@ -83,7 +83,7 @@ Route::middleware('auth')->group(function () {
         Route::get('subject/delete/{id}', [SubjectController::class, 'delete'])->name('delete_subject');
         Route::get('subject/{id}/teachers', [SubjectController::class, 'ListTeacher'])->name('subject.teachers');
         Route::get('class/{id}/teachers', [ClassLevelController::class, 'ListTeacher'])->name('class.teachers');
-        Route::get('salary/{id}/teachers', [RankSalaryController::class, 'ListTeacher'])->name('salary.teachers');
+        // Route::get('salary/{id}/teachers', [RankSalaryController::class, 'ListTeacher'])->name('salary.teachers');
         Route::get('timeslot/{id}/teachers', [TimeSlotController::class, 'ListTeacher'])->name('timeslot.teachers');
         Route::get('detail/{id}', [SubjectController::class, 'DetailTeacher'])->name('detail_teacher');
         Route::get('detailUser/{id}', [SubjectController::class, 'DetailUser'])->name('detail_user');
