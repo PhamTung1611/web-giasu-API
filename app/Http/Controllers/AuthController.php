@@ -106,12 +106,12 @@ class AuthController extends Controller
             $newTimetutor =[];
         }
 
-       if($user->salary_id){
-           $rank = RankSalary::find($user->salary_id);
-           $rankName = $rank->name;
-       }else{
-           $rankName ="";
-       }
+    //    if($user->salary_id){
+    //        $rank = RankSalary::find($user->salary_id);
+    //        $rankName = $rank->name;
+    //    }else{
+    //        $rankName ="";
+    //    }
 
         return response()->json([
             'user'=>[
@@ -125,7 +125,7 @@ class AuthController extends Controller
                 'education_level'=>$user->education_level,
                 'class'=> $newClassArray,
                 'subject'=>$newSubjectArray,
-                'salary'=>$rankName,
+                'salary'=>explode(',',$user->salary_id),
                 'description'=>$user->description,
                 'District'=>$user->DistrictID,
                 'longitude'=>$user->longitude,
@@ -227,12 +227,12 @@ class AuthController extends Controller
                     $newTimetutor =[];
                 }
 
-                if($user->salary_id){
-                    $rank = RankSalary::find($user->salary_id);
-                    $rankName = $rank->name;
-                }else{
-                    $rankName ="";
-                }
+                // if($user->salary_id){
+                //     $rank = RankSalary::find($user->salary_id);
+                //     $rankName = $rank->name;
+                // }else{
+                //     $rankName ="";
+                // }
                 return response()->json([
                     'user'=>[
                         'id'=>$user->id,
@@ -244,7 +244,7 @@ class AuthController extends Controller
                         'education_level'=>$user->education_level,
                         'class'=> $newClassArray,
                         'subject'=>$newSubjectArray,
-                        'salary'=>$rankName,
+                        'salary'=>explode(',',$user->salary_id),
                         'description'=>$user->description,
                         'District'=>$user->District_ID,
                         'longitude'=>$user->longitude,
