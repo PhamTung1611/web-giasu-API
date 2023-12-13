@@ -22,14 +22,20 @@
 <div class="table-settings mb-4">
   <div class="row align-items-center justify-content-between">
     <div class="col col-md-6 col-lg-3 col-xl-4">
-      <form class="input-group w-full h-10" action="{{route('connect_date')}}" method="POST">
+      <form class="d-flex align-items-center" action="{{ route('connect_date') }}" method="POST">
         @csrf
-        <label for="class" class="form-label">Ngày bắt đầu</label>
-        <input type="date" name="dateStart" class="form-select form-select-sm mb-3">
-        <label for="class" class="form-label" >Ngày kết thúc</label>
+        <div class="form-group mr-2 mb-0">
+          <label for="class" class="form-label">Ngày bắt đầu</label>
+          <input type="date" name="dateStart" class="form-select form-select-sm mb-3">
+        </div>
+
+        <div class="form-group mr-2 mb-0">
+          <label for="class" class="form-label" >Ngày kết thúc</label>
         <input type="date" name="dateEnd" class="form-select form-select-sm mb-3">
-        <button type="submit" class="btn btn-secondary mb-3">Lọc</button>
-      </form>
+        </div>
+
+        <button type="submit" class="btn btn-secondary btn-sm">Lọc</button>
+    </form>
     </div>
     <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
       <div class="dropdown">

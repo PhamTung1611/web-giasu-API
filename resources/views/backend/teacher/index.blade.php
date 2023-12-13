@@ -28,7 +28,52 @@
 <div class="table-settings mb-4">
   <div class="row align-items-center justify-content-between">
     <div class="col col-lg-8 col-xl-8 text-right">
-      <form class="input-group w-full h-10" action="{{route('search_teacher')}}" method="POST">
+      <form class="form-inline" action="{{ route('search_teacher') }}" method="POST">
+        @csrf
+    
+        <div class="form-group mr-3">
+            <label for="class" class="form-label">Môn học</label>
+            <select name="class" id="" class="form-select form-select-sm">
+                <option value="">Tất cả</option>
+                @foreach($subject as $u)
+                    <option value="{{$u->id}}">{{$u->name}}</option>
+                @endforeach
+            </select>
+        </div>
+    
+        <div class="form-group mr-3">
+            <label for="subject" class="form-label">Lớp học</label>
+            <select name="subject" id="" class="form-select form-select-sm">
+                <option value="">Tất cả</option>
+                @foreach($class as $u)
+                    <option value="{{$u->ip}}">{{$u->class}}</option>
+                @endforeach
+            </select>
+        </div>
+    
+        <div class="form-group mr-3">
+            <label for="District_ID" class="form-label">Khu vực dạy:</label> 
+            <select name="District_ID" class="form-select form-select-sm">
+                <option value="">Tất cả</option>
+                <option value="Ba Đình">Ba Đình</option>
+                <option value="Hoàn Kiếm">Hoàn Kiếm</option>
+                <option value="Hai Bà Trưng">Hai Bà Trưng</option>
+          <option value="Đống Đa">Đống Đa</option>
+          <option value="Tây Hồ">Tây Hồ</option>
+          <option value="Cầu Giấy">Cầu Giấy</option>
+          <option value="Thanh Xuân">Thanh Xuân</option>
+          <option value="Hoàng Mai">Hoàng Mai</option>
+          <option value="Long Biên">Long Biên</option>
+          <option value="Nam Từ Liêm">Nam Từ Liêm</option>
+          <option value="Bắc Từ Liêm">Bắc Từ Liêm</option>
+                <option value="Hà Đông">Hà Đông</option>
+            </select>
+        </div>
+    
+        <button type="submit" class="btn btn-secondary">Lọc</button>
+    </form>
+    
+      {{-- <form class="input-group w-full h-10" action="{{route('search_teacher')}}" method="POST">
         @csrf
         <label for="class" class="form-label">Lớp Học</label>
         <select name="class" id="" class="form-select form-select-sm mb-3">
@@ -49,19 +94,11 @@
           <option value="">Tất cả</option>
           <option value="Ba Đình">Ba Đình</option>
           <option value="Hoàn Kiếm">Hoàn Kiếm</option>
-          <option value="Hai Bà Trưng">Hai Bà Trưng</option>
-          <option value="Đống Đa">Đống Đa</option>
-          <option value="Tây Hồ">Tây Hồ</option>
-          <option value="Cầu Giấy">Cầu Giấy</option>
-          <option value="Thanh Xuân">Thanh Xuân</option>
-          <option value="Hoàng Mai">Hoàng Mai</option>
-          <option value="Long Biên">Long Biên</option>
-          <option value="Nam Từ Liêm">Nam Từ Liêm</option>
-          <option value="Bắc Từ Liêm">Bắc Từ Liêm</option>
+          
           <option value="Hà Đông">Hà Đông</option>
         </select>
         <button type="submit" class="btn btn-secondary mb-3">Lọc</button>
-      </form>
+      </form> --}}
     </div>
     <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
       <div class="dropdown">
