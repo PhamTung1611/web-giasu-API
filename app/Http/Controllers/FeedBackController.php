@@ -63,28 +63,35 @@ class FeedBackController extends Controller
     }
 
     public function showUser(string $id)
-    {
-        $data = FeedBack::select(
-            'feedback.*',
-            'users.name as id_teacher',
-            DB::raw("CONCAT('http://127.0.0.1:8000/storage/', users.avatar) as sender_avatar")
-        )
-        ->leftJoin('users', 'feedback.id_teacher', '=', 'users.id')
-        ->where('feedback.id_sender', $id)
-        ->get();
-    
-        if ($data->isEmpty()) {
-            return response()->json(['message' => 'Not Found'], 404);
-        }
-    
-        foreach ($data as $item) {
-            // Có thể xử lý các thông tin khác ở đây nếu cần
-    
-            $item->id_teacher = $item->id_teacher;
-            $item->sender_avatar = $item->sender_avatar;
-        }
-        return response()->json($data, 200);
+{
+    $data = FeedBack::select(
+        'feedback.*',
+        'teacher.name as id_teacher',
+        'sender.name as id_sender',
+        DB::raw("CONCAT('http://127.0.0.1:8000/storage/', sender.avatar) as sender_avatar")
+    )
+    ->leftJoin('users as teacher', 'feedback.id_teacher', '=', 'teacher.id')
+    ->leftJoin('users as sender', 'feedback.id_sender', '=', 'sender.id')
+    ->where('feedback.id_sender', $id)
+    ->get();
+
+    if ($data->isEmpty()) {
+        return response()->json(['message' => 'Not Found'], 404);
     }
+
+    foreach ($data as $item) {
+        // Có thể xử lý các thông tin khác ở đây nếu cần
+
+        $item->id_teacher = $item->id_teacher;
+        $item->id_sender = $item->id_sender;
+        $item->sender_avatar = $item->sender_avatar;
+    }
+
+    return response()->json($data, 200);
+}
+
+    
+    
     
     
 
