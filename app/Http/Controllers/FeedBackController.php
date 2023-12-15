@@ -83,7 +83,6 @@ class FeedBackController extends Controller
             $item->id_teacher = $item->id_teacher;
             $item->sender_avatar = $item->sender_avatar;
         }
-    
         return response()->json($data, 200);
     }
     
