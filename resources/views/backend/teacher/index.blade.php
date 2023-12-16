@@ -33,7 +33,7 @@
     
         <div class="form-group mr-3">
             <label for="class" class="form-label">Môn học</label>
-            <select name="class" id="" class="form-select form-select-sm">
+            <select name="subject" id="" class="form-select form-select-sm">
                 <option value="">Tất cả</option>
                 @foreach($subject as $u)
                     <option value="{{$u->id}}">{{$u->name}}</option>
@@ -43,7 +43,7 @@
     
         <div class="form-group mr-3">
             <label for="subject" class="form-label">Lớp học</label>
-            <select name="subject" id="" class="form-select form-select-sm">
+            <select name="class" id="" class="form-select form-select-sm">
                 <option value="">Tất cả</option>
                 @foreach($class as $u)
                     <option value="{{$u->id}}">{{$u->class}}</option>
