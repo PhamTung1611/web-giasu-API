@@ -11,6 +11,7 @@ use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use NumberFormatter;
 
 class DashBoradController extends Controller
 {
@@ -19,18 +20,16 @@ class DashBoradController extends Controller
     {
         $title = 'Thống kê';
         $money = History::where('id_client', '1')->orderBy('created_at', 'desc');
-
         $money->when($request->filled(['dateStart', 'dateEnd']), function ($query) use ($request) {
             $query->whereBetween('created_at', [$request->dateStart, $request->dateEnd]);
         });
-
         $history = $money->get();
 
         $totalCoins = 0;
         foreach ($history as $record) {
-            $totalCoins += $record->coin; // Giả sử tên cột chứa số coin là 'coin'
+            $totalCoins += $record->coin;
         }
-
+        $totalCoinsFormatted = number_format($totalCoins);
         // Count users based on role and status
         $countTeacher = $this->countUsersByRoleAndStatus('3', '1', $request);
         $countCollaborators = $this->countUsersByRoleAndStatus('4', '1', $request);
@@ -141,7 +140,7 @@ class DashBoradController extends Controller
             ];
         }
 
-        return view('dashboard', compact('totalCoins', 'countTeacher', 'title', 'countTeacherWait', 'countUser', 'results', 'topTeachersInfo', 'mostHiredSubjects', 'countCollaborators', 'countConnect', 'mostHiredClass', 'statusData'));
+        return view('dashboard', compact('totalCoinsFormatted', 'countTeacher', 'title', 'countTeacherWait', 'countUser', 'results', 'topTeachersInfo', 'mostHiredSubjects', 'countCollaborators', 'countConnect', 'mostHiredClass', 'statusData'));
     }
 
     private function countUsersByRole($role, Request $request)
