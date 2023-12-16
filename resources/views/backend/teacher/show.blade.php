@@ -37,7 +37,13 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <button class="btn btn-success m-3" onclick="window.location.href='{{ route('waiting_teacher',['id'=>$data['id']])}}'"><span class="fas fa-check me-2"></span>Phê duyệt</button>
-                            
+                           <p style="color: red">
+                            @if(Session::has('success'))
+                            {{Session::get('success')}}
+                            @endif
+                            @if(Session::has('error'))
+                            {{Session::get('error')}}
+                            @endif</p>
                             <form class="dropdown-item me-10" action="{{ route('delete_teacher', ['id' => $data['id'],'view' => '2']) }}" method="get">
                                 <div class="mb-3">
                                     <input type="text" class="form-control" name="reason" placeholder="Nhập lý do từ chối">
