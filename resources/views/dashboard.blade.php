@@ -158,7 +158,7 @@
                             <div class="col-12 col-xl-7 px-xl-0">
                                 <div class="d-none d-sm-block">
                                     <h2 class="h6 text-gray-400 mb-0">Doanh thu hiện tại</h2>
-                                    <h3 class="fw-extrabold mb-2">{{$totalCoins}} VNĐ</h3>
+                                    <h3 class="fw-extrabold mb-2">{{$totalCoinsFormatted}} VNĐ</h3>
                                 </div>
                             </div>
                         </div>
