@@ -6,9 +6,9 @@
             <form class="input-group w-full h-10" action="{{route('dashboard')}}" method="POST">
                 @csrf
                 <label for="class" class="form-label">Ngày bắt đầu</label>
-                <input type="date" name="dateStart" class="form-select form-select-sm mb-3">
+                <input type="date" name="dateStart"  class="form-select form-select-sm mb-2">
                 <label for="class" class="form-label">Ngày kết thúc</label>
-                <input type="date" name="dateEnd" class="form-select form-select-sm mb-3">
+                <input type="date" name="dateEnd"  class="form-select form-select-sm mb-2">
                 <button type="submit" class="btn btn-secondary mb-3">Lọc</button>
             </form>
         </div>
