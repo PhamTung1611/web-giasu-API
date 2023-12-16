@@ -112,6 +112,7 @@ class TeachersController extends Controller
     {
         try {
             $teacher = Teachers::findOrFail($id);
+            dd($teacher);
             $teacher->delete();
             return response()->json("Delete success", 204);
         } catch (\Exception $e) {
@@ -351,8 +352,8 @@ class TeachersController extends Controller
             $user = User::find($id);
 
             if ($user) {
-
                 if ($view == 1) {
+                    $user->delete();
                     Session::flash('success', 'success');
                     return redirect()->route('search_teacher');
                 } else {

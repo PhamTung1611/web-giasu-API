@@ -32,8 +32,8 @@
         @csrf
     
         <div class="form-group mr-3">
-            <label for="class" class="form-label">Môn học</label>
-            <select name="class" id="" class="form-select form-select-sm">
+            <label for="class_id" class="form-label">Môn học</label>
+            <select name="class_id" id="" class="form-select form-select-sm">
                 <option value="">Tất cả</option>
                 @foreach($subject as $u)
                     <option value="{{$u->id}}">{{$u->name}}</option>
@@ -42,8 +42,8 @@
         </div>
     
         <div class="form-group mr-3">
-            <label for="subject" class="form-label">Lớp học</label>
-            <select name="subject" id="" class="form-select form-select-sm">
+            <label for="subject_id" class="form-label">Lớp học</label>
+            <select name="subject_id" id="" class="form-select form-select-sm">
                 <option value="">Tất cả</option>
                 @foreach($class as $u)
                     <option value="{{$u->ip}}">{{$u->class}}</option>
