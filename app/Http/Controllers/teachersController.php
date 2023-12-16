@@ -112,6 +112,7 @@ class TeachersController extends Controller
     {
         try {
             $teacher = Teachers::findOrFail($id);
+            dd($teacher);
             $teacher->delete();
             return response()->json("Delete success", 204);
         } catch (\Exception $e) {
@@ -127,6 +128,8 @@ class TeachersController extends Controller
         $teachers = User::where('role', 3)->whereIn('status', [0, 1])->get();
         $class = ClassLevel::get();
         if ($request->post()) {
+        // dd($request->post());
+
             $results = User::with('subject:id,name', 'school:id,name', 'class_levels:id,class')
                 ->where('role', 3)
                 ->where('status', '1')
@@ -149,7 +152,7 @@ class TeachersController extends Controller
             $teachers = $results;
 
         }
-        // dd($teachers);
+        // dd($subject);
         return view('backend.teacher.index', compact('teachers', 'title', 'view', 'subject', 'class'));
     }
 
@@ -351,8 +354,8 @@ class TeachersController extends Controller
             $user = User::find($id);
 
             if ($user) {
-
                 if ($view == 1) {
+                    $user->delete();
                     Session::flash('success', 'success');
                     return redirect()->route('search_teacher');
                 } else {
