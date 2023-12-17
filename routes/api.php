@@ -192,10 +192,11 @@ Route::prefix('history')->group(function () {
     Route::get('/{id}', [HistoryController::class, 'show']);
 
 });
-Route::post('users/editpassword',[AuthController::class,'updatePassword']);
+// Route::post('users/editpassword',[AuthController::class,'updatePassword']);
 Route::post('add-info',[AuthController::class,'addInfo']);
 Route::put('update-status-teacher/{id}',[UsersController::class,'updatestatus']);
 Route::get('education-level',[EducationLevel::class,'index']);
 Route::put('certificate-public/{id}',[UsersController::class,'certificate_public']);
 Route::put('status-certificate/{id}',[UsersController::class,'status_certificate']);
 Route::post('upload-certificate',[UsersController::class,'uploadCertificate']);
+Route::post('userss/editpassword',[AuthController::class,'updatePassword']);
