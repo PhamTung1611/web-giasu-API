@@ -83,11 +83,10 @@
         </button>
         <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end pb-0">
           <span class="small ps-3 fw-bold text-dark">Show</span>
-          <a class="dropdown-item d-flex align-items-center fw-bold" href="#">10 <svg class="icon icon-xxs ms-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-            </svg></a>
-          <a class="dropdown-item fw-bold" href="#">20</a>
-          <a class="dropdown-item fw-bold rounded-bottom" href="#">30</a>
+          <a class="dropdown-item d-flex align-items-center fw-bold" href="{{route('search_teacher')}}">Tất cả</a>
+
+          <a class="dropdown-item fw-bold" href="{{ route('teacher_by_status', ['status' => 1]) }}">Hoạt động</a>
+          <a class="dropdown-item fw-bold rounded-bottom" href="{{ route('teacher_by_status', ['status' => 0]) }}">Không hoạt động</a>
         </div>
       </div>
     </div>

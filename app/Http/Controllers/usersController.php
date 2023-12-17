@@ -793,6 +793,16 @@ class UsersController extends Controller
         $users = User::where('status', $status)->where('role', 4)->get();
         return view('backend.ctv.index', compact('users', 'title'));
     }
+    public function showTeacherByStatus($status)
+    {
+        $view = 1;
+
+        $title = 'Danh sách giáo viên';
+        $subject = Subject::get();
+        $class = ClassLevel::get();
+        $teachers = User::where('status', $status)->where('role', 3)->get();
+        return view('backend.teacher.index', compact('teachers', 'title', 'subject', 'class', 'view'));
+    }
     public function certificate_public(Request $request, $id)
     {
         $user = User::find($id);

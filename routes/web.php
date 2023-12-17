@@ -109,5 +109,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/activate_ctv/{id}', [UsersController::class, 'activateCtv'])->name('activate_ctv');
         Route::get('/deactivate_ctv/{id}', [UsersController::class, 'deactivateCtv'])->name('deactivate_ctv');
         Route::get('/ctv/status/{status}', [UsersController::class,'showCtvByStatus'])->name('ctv_by_status');
+        Route::get('/teacher/status/{status}', [UsersController::class,'showTeacherByStatus'])->name('teacher_by_status');
     });
 });
