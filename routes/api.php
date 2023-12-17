@@ -200,3 +200,4 @@ Route::put('certificate-public/{id}',[UsersController::class,'certificate_public
 Route::put('status-certificate/{id}',[UsersController::class,'status_certificate']);
 Route::post('upload-certificate',[UsersController::class,'uploadCertificate']);
 Route::post('userss/editpassword',[AuthController::class,'updatePassword']);
+Route::delete('delete-certificate/{id}',[UsersController::class,'delete_certificate']);
