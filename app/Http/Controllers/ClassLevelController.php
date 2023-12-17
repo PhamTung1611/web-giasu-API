@@ -28,7 +28,7 @@ class ClassLevelController extends Controller
         if (!$class) {
             abort(404);
         }
-        $teachers = User::where('class_id', $id)->where('role','3')->where('status','1')->get();
+        $teachers = User::where('class_id','like','%'. $id.'%')->where('role','3')->where('status','1')->get();
         // dd($teachers);
         return view('backend.subject.teacher',compact('title', 'class', 'teachers'));
     }
