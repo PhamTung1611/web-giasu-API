@@ -24,6 +24,10 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <title>{{ $title }}</title>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+
+<!-- Thêm SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .emp-profile {
             padding: 3%;

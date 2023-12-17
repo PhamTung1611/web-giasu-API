@@ -16,7 +16,7 @@ class TimeSlotController extends Controller
         $timeslots = TimeSlot::all();
         if ($request->post() && $request->search) {
             $timeslots = DB::table('time_slots')
-                ->where('id', 'like', '%'.$request->search.'%')->get();
+                ->where('name', 'like', '%'.$request->search.'%')->get();
         }
         return view('backend.timeslot.index', compact('title', 'timeslots'));
     }

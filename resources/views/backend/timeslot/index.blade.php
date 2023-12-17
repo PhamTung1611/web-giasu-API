@@ -33,7 +33,7 @@
       <div class="col col-md-6 col-lg-3 col-xl-4">
         <form class="input-group me-2 me-lg-3 fmxw-400" action="{{route('search_timeslot')}}" method="POST">
           @csrf
-          <input type="text" class="form-control" placeholder="Tìm kiếm..." name="search">
+          <input type="text" class="form-control" placeholder="Nhập ca học..." name="search">
           <input type="submit" value="Lọc" class="btn btn-secondary">
         </form>
       </div>

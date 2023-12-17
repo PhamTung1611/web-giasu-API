@@ -44,11 +44,12 @@
                             @if(Session::has('error'))
                             {{Session::get('error')}}
                             @endif</p>
-                            <form class="dropdown-item me-10" action="{{ route('delete_teacher', ['id' => $data['id'],'view' => '2']) }}" method="get">
+                            <form id="rejectForm" class="dropdown-item me-10" action="{{ route('delete_teacher', ['id' => $data['id'],'view' => '2']) }}" method="get">
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" name="reason" placeholder="Nhập lý do từ chối">
+                                    <input type="text" class="form-control" name="reason" id="rejectReason" placeholder="Nhập lý do từ chối">
+                                    <div id="rejectReasonError" class="text-danger"></div>
                                 </div>
-                                <button type="submit" class="btn btn-danger">Từ chối</button>
+                                <button type="button" class="btn btn-danger" onclick="submitForm()">Từ chối</button>
                             </form>
                             
                             <button class="btn btn-danger m-3" onclick="window.location.href='{{ route('waiting')}}'"><span class="fas fa-times me-2"></span>Quay lại</button>
@@ -223,4 +224,48 @@
             </div>
 {{--        </form>--}}
     </div>
+    <script>
+        function submitForm() {
+            var reason = document.getElementById('rejectReason').value;
+    
+            if (reason.trim() === '') {
+                document.getElementById('rejectReasonError').innerHTML = 'Vui lòng nhập lý do từ chối';
+            } else {
+                document.getElementById('rejectReasonError').innerHTML = '';
+                Swal.fire({
+                    title: 'Xác nhận từ chối',
+                    text: 'Bạn có chắc muốn từ chối?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Từ chối',
+                    cancelButtonText: 'Hủy bỏ'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('rejectForm').submit();
+                    }
+                });
+            }
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(Session::has('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: '{{ Session::get("success") }}',
+                });
+            @endif
+    
+            @if(Session::has('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: '{{ Session::get("error") }}',
+                });
+            @endif
+        });
+    </script>
 @endsection
