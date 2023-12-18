@@ -285,7 +285,12 @@ class UsersController extends Controller
         $user = User::where('email', $request->email)->first();
         $user->status = 2;
         $user->save();
-        return redirect()->away('http://localhost:3000/auth/teacher');
+        if ($user->role == 3){
+            return redirect()->away('http://localhost:3000/auth/teacher');
+        }else{
+            return redirect()->away('http://localhost:3000/auth/user');
+        }
+       
     }
     /**
      * Display the specified resource.
