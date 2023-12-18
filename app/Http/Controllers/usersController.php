@@ -210,7 +210,7 @@ class UsersController extends Controller
             $user->District_ID = $request->DistrictID;
             $user->phone = $request->phone;
             if ($request->role == 3) {
-                // $user->exp = $request->exp;
+                $user->exp = $request->exp;
                 $user->current_role = $request->current_role;
                 $user->school_id = $request->school_id;
                 //                $user->Citizen_card = $request->citizen_card;
