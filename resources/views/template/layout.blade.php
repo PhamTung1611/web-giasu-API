@@ -26,8 +26,8 @@
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 
-<!-- Thêm SweetAlert2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Thêm SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .emp-profile {
             padding: 3%;
@@ -81,7 +81,8 @@
             cursor: pointer;
             text-align: center;
         }
-        .profile-edit-btn2{
+
+        .profile-edit-btn2 {
             margin-top: 10px;
             border: none;
             border-radius: 1.5rem;
@@ -165,8 +166,7 @@
                 <li class="nav-item ">
                     <a href="http://127.0.0.1:8000" class="nav-link">
                         <span class="sidebar-icon">
-                            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
+                            <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                                 <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                             </svg>
@@ -175,25 +175,18 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <span class="nav-link  d-flex justify-content-between align-items-center"
-                        data-bs-toggle="collapse" data-bs-target="#submenu-app">
+                    <span class="nav-link  d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#submenu-app">
                         <span>
                             <span class="sidebar-icon">
-                                <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
-                                        clip-rule="evenodd"></path>
+                                <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd"></path>
                                 </svg>
                             </span>
                             <span class="sidebar-text">Quản lý</span>
                         </span>
                         <span class="link-arrow">
-                            <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                    clip-rule="evenodd"></path>
+                            <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
                             </svg>
                         </span>
                     </span>
@@ -208,23 +201,23 @@
                         </ul>
                     </div>
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
-                      <ul class="flex-column nav">
-                          <li class="nav-item">
-                              <a class="nav-link" href="{{route('search_job')}}">
-                                  <span class="sidebar-text">Quản lý công việc</span>
-                              </a>
-                          </li>
-                      </ul>
-                  </div>
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('search_job')}}">
+                                    <span class="sidebar-text">Quản lý công việc</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
-                      <ul class="flex-column nav">
-                          <li class="nav-item">
-                              <a class="nav-link" href="{{route('search_class')}}">
-                                  <span class="sidebar-text">Quản lý lớp học</span>
-                              </a>
-                          </li>
-                      </ul>
-                  </div>
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('search_class')}}">
+                                    <span class="sidebar-text">Quản lý lớp học</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
@@ -279,26 +272,34 @@
                             </li>
                         </ul>
                     </div>
-
-                        <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
-                            <ul class="flex-column nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route('allctv')}}">
-                                        <span class="sidebar-text">Quản lý cộng tác viên</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('allctv')}}">
+                                    <span class="sidebar-text">Quản lý cộng tác viên</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('vnpay')}}">
+                                    <span class="sidebar-text">Quản lý nạp tiền</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     @else
-                        <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
-                            <ul class="flex-column nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{route('waiting')}}">
-                                        <span class="sidebar-text">Quản lý phê duyệt</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('waiting')}}">
+                                    <span class="sidebar-text">Quản lý phê duyệt</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                     @endif
                 </li>
                 <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
@@ -312,16 +313,14 @@
             <div class="container-fluid px-0">
                 <div class="d-flex justify-content-between w-100" id="navbarSupportedContent">
                     <div class="d-flex align-items-center">
-                        
+
                     </div>
                     <!-- Navbar links -->
                     <ul class="navbar-nav align-items-center">
                         <li class="nav-item dropdown ms-lg-3">
-                            <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="media d-flex align-items-center">
-                                    <img class="avatar rounded-circle" alt="Image placeholder"
-                                        src="{{Auth::user()->avatar}}">
+                                    <img class="avatar rounded-circle" alt="Image placeholder" src="{{Auth::user()->avatar}}">
                                     <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
                                         <span class="mb-0 font-small fw-bold text-gray-900">{{Auth::user()->name}}</span>
                                     </div>
@@ -330,10 +329,8 @@
                             <div class="dropdown-menu dashboard-dropdown dropdown-menu-end mt-2 py-1">
                                 <div role="separator" class="dropdown-divider my-1"></div>
                                 <a class="dropdown-item d-flex align-items-center" href="{{route('logout')}}">
-                                    <svg class="dropdown-icon text-danger me-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                                    <svg class="dropdown-icon text-danger me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
                                         </path>
                                     </svg>
                                     Đăng xuất
@@ -393,19 +390,19 @@
     <script src="{{ asset('upload_file/input-mask/jquery.inputmask.js') }}"></script>
     <script src="{{ asset('upload_file/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
     <script>
-        $(function(){
+        $(function() {
             function readURL(input, selector) {
                 if (input.files && input.files[0]) {
                     let reader = new FileReader();
 
-                    reader.onload = function (e) {
+                    reader.onload = function(e) {
                         $(selector).attr('src', e.target.result);
                     };
 
                     reader.readAsDataURL(input.files[0]);
                 }
             }
-            $("#image").change(function () {
+            $("#image").change(function() {
                 readURL(this, '#image_preview');
             });
 
@@ -414,4 +411,3 @@
 </body>
 
 </html>
-

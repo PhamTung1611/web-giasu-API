@@ -15,10 +15,16 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $title = 'Thanh toán';
-        $params = Transaction::all();
+        $title = 'Nạp tiền vào hệ thống';
+        $params = Transaction::join('users', 'transaction.user_id', '=', 'users.id')
+                              ->select('transaction.*', 'users.name as userName')
+                              ->orderBy('transaction.created_at', 'desc')
+                              ->get();
+    
         return view('backend.payment.index', compact('params', 'title'));
     }
+    
+    
 
     /**
      * Store a newly created resource in storage.
@@ -26,6 +32,7 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         //
+
         $userId = $request->input('userId');
         $coin = $request->input('coin');
         $bank = $request->input('bank');
@@ -43,6 +50,7 @@ class TransactionController extends Controller
                     'bank' => $bank,
                     'code' => $code,
                     'status' => $status,
+                    'created_at'=> now()
                 ]);
                 $history = new History();
                 $history->id_client = $userId;
