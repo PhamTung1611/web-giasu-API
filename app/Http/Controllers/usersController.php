@@ -253,13 +253,26 @@ class UsersController extends Controller
     public function uploadCertificate(Request $request){
         $user = User::find($request->id);
        
-            $certificates = [];
-            foreach ($request->file('Certificate') as $file) {
-                $certificates[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
+        if ($user) {
+            $currentCertificate = json_decode($user->Certificate);
+            // Thêm giá trị mới vào giá trị hiện tại
+            if ($currentCertificate) {
+                $newCertificate = json_decode($request->Certificate);
+                foreach ($newCertificate as $v) {
+                    $currentCertificate[] = $v;
+                }
+
+
+                // Cập nhật trường Certificate_public với giá trị mới
+                $user->Certificate = json_encode($currentCertificate);
+            } else {
+                $user->Certificate = $request->Certificate;
             }
-            $user->Certificate = json_encode($certificates); // Lưu đường dẫn của các ảnh trong một mảng JSON
-        $user->update();
-        return response()->json('success');
+
+            $user->update();
+            return response()->json('success');
+        }
+        return response()->json('Không tồn tại user', 400);
     }
     public function updatestatusSendMail(Request $request)
     {
@@ -836,5 +849,25 @@ class UsersController extends Controller
             return response()->json('success');
         }
         return response()->json('Không tồn tại user', 400);
+    }
+    public function delete_certificate(Request $request, $id)
+    {
+        $user = User::find($id);
+        $currentCertificate = json_decode($user->Certificate_public);
+        $certificatesToDelete = $request->delete_certificate;
+        // dd($request->delete_certificate);
+        // Tạo một mảng mới chứa các phần tử không bị xóa
+        $updatedCertificates = array_filter($currentCertificate, function ($item) use ($certificatesToDelete) {
+            return !in_array($item, $certificatesToDelete);
+        });
+        if($updatedCertificates!=[]){
+            $user->Certificate_public = json_encode(array_values($updatedCertificates));
+        }else{
+            $user->Certificate_public=null;
+        }
+        // Cập nhật lại trường Certificate_public trong cơ sở dữ liệu
+        
+        $user->save();
+        return response()->json('success');
     }
 }
