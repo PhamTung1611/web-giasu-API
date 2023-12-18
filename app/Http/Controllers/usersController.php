@@ -659,6 +659,7 @@ class UsersController extends Controller
     {
         $teachers = DB::table('users')
             ->where('status', 2)
+            ->where('role',3)
             ->whereNull('deleted_at')
             ->get();
         if ($teachers) {
