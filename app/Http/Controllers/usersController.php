@@ -257,16 +257,21 @@ class UsersController extends Controller
             $currentCertificate = json_decode($user->Certificate);
             // Thêm giá trị mới vào giá trị hiện tại
             if ($currentCertificate) {
-                $newCertificate = json_decode($request->Certificate);
-                foreach ($newCertificate as $v) {
-                    $currentCertificate[] = $v;
+                 foreach ($request->file('Certificate') as $file) {
+                    $currentCertificate[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
                 }
 
+                $user->Certificate = json_encode($currentCertificate);
 
                 // Cập nhật trường Certificate_public với giá trị mới
                 $user->Certificate = json_encode($currentCertificate);
             } else {
-                $user->Certificate = $request->Certificate;
+                $certificatenew=[];
+                foreach ($request->file('Certificate') as $file) {
+                    $certificatenew[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
+                }
+
+                $user->Certificate = json_encode($certificatenew);
             }
 
             $user->update();
