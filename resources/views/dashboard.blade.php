@@ -206,7 +206,7 @@
                 <div class="col-12 col-xxl-9 mb-4">
                     <div class="card border-0 shadow">
                         <div class="card-header border-bottom d-flex align-items-center justify-content-between">
-                            <h2 class="fs-5 fw-bold mb-0">Top 4 gia sư được đánh giá cao hiện tại</h2>
+                            <h2 class="fs-5 fw-bold mb-0">Top 4 gia sư được đánh giá cao </h2>
                             <a href="http://127.0.0.1:8000/feedback" class="btn btn-sm btn-primary">Xem tất cả</a>
                         </div>
                         <div class="card-body">
@@ -243,7 +243,7 @@
                 <div class="col-12 col-xxl-9 mb-4">
                     <div class="card border-0 shadow">
                         <div class="card-header border-bottom d-flex align-items-center justify-content-between">
-                            <h2 class="fs-5 fw-bold mb-0">Top 4 gia sư được thuê nhiều hiện tại</h2>
+                            <h2 class="fs-5 fw-bold mb-0">Top 4 gia sư được thuê nhiều </h2>
                             <a href="{{route('rent')}}" class="btn btn-sm btn-primary">Xem tất cả</a>
                         </div>
                         <div class="card-body">
@@ -277,7 +277,7 @@
                 <div class="col-12 col-xxl-9 mb-4">
                     <div class="card border-0 shadow">
                         <div class="card-header border-bottom d-flex align-items-center justify-content-between">
-                            <h2 class="fs-5 fw-bold mb-0">Tỉ lệ kết nối người dùng với gia sư hiện tại</h2>
+                            <h2 class="fs-5 fw-bold mb-0">Tỉ lệ kết nối người dùng với gia sư </h2>
                             <a href="{{ route('list_history_connect') }}" class="btn btn-sm btn-primary">Xem tất cả</a>
                         </div>
                         <div class="card-body">
@@ -393,7 +393,7 @@
 
                                 // Set Options
                                 const options = {
-                                    title: 'Số môn học được thuê nhiều hiện tại'
+                                    title: 'Số môn học được thuê nhiều '
                                 };
 
                                 // Draw
@@ -455,7 +455,7 @@
 
                                 // Set Options
                                 const options = {
-                                    title: 'Lớp học được thuê nhiều hiện tại'
+                                    title: 'Lớp học được thuê nhiều '
                                 };
 
                                 // Draw
