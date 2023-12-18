@@ -834,7 +834,7 @@ class UsersController extends Controller
             $currentCertificate = json_decode($user->Certificate_public);
             // Thêm giá trị mới vào giá trị hiện tại
             if ($currentCertificate) {
-                $newCertificate = json_decode($request->Certificate_public);
+                $newCertificate = $request->Certificate_public;
                 foreach ($newCertificate as $v) {
                     $currentCertificate[] = $v;
                 }
