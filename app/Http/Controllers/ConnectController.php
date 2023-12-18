@@ -70,7 +70,7 @@ class ConnectController extends Controller
             ->get();
 
         if ($connect->isEmpty()) {
-            return response()->json(['message' => 'Not found'], 200);
+            return response()->json(['message' => 'Not found'], 404);
         }
 
         foreach ($connect as $item) {
