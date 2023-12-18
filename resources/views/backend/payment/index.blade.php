@@ -48,6 +48,7 @@
                 <th>Ngân hàng</th>
                 <th>Mã giao dịch</th>
                 <th>Trạng thái</th>
+                <th>Ngày nạp</th>
             </tr>
         </thead>
         <tbody>
@@ -70,6 +71,9 @@
                 </td>
                 <td>
                     <span class="fw-normal">{{$item->status}}</span>
+                </td>
+                <td>
+                    <span class="fw-normal">{{$item->created_at}}</span>
                 </td>
             </tr>
             @endforeach
