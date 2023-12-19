@@ -28,7 +28,7 @@
 <div class="table-settings mb-4">
   <div class="row align-items-center justify-content-between">
     <div class="col col-lg-8 col-xl-8 text-right">
-      <form class="form-inline" action="{{ route('search_teacher') }}" method="POST">
+      <form class="form-inline " action="{{ route('search_teacher') }}" method="POST">
         @csrf
     
         <div class="form-group mr-3">
@@ -70,7 +70,7 @@
             </select>
         </div>
     
-        <button type="submit" class="btn btn-secondary">Lọc</button>
+        <button type="submit" class="btn btn-secondary align-self-end">Lọc</button>
     </form>
     </div>
     <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
