@@ -218,7 +218,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                    <!-- <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_timeslot')}}">
@@ -226,7 +226,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
