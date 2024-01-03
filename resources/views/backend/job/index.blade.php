@@ -21,8 +21,8 @@
 </div>
 <div class="table-settings mb-4">
   <div class="row align-items-center justify-content-between">
-      <div class="col-md-10 col-lg-3 col-xl-4">
-        <form class="d-flex align-items-center" action="{{ route('search_job') }}" method="POST">
+    <div class="col-md-10 col-lg-3 col-xl-4">
+      <form class="d-flex align-items-end" action="{{ route('search_job') }}" method="POST">
           @csrf
           <div class="form-group mr-2 mb-0">
               <label for="dateStart" class="form-label">Ngày bắt đầu</label>
@@ -34,9 +34,11 @@
               <input type="date" name="dateEnd" class="form-control" id="dateEnd">
           </div>
 
-          <button type="submit" class="btn btn-secondary btn-sm">Lọc</button>
+          <div class="form-group mb-0">
+              <button type="submit" class="btn btn-secondary btn-sm align-self-end">Lọc</button>
+          </div>
       </form>
-      </div>
+  </div>
       <div class="col-md-2 col-xl-1 ps-md-0 text-end">
           <div class="dropdown">
               <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

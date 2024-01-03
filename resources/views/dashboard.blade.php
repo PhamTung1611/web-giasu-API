@@ -2,7 +2,24 @@
 @section('content')
 <div class="table-settings mb-4">
     <div class="row align-items-center justify-content-between">
-        <div class="col col-lg-8 col-xl-8 text-right">
+        <div class="col-md-10 col-lg-3 col-xl-4">
+            <form class="d-flex align-items-end" action="{{ route('dashboard') }}" method="POST">
+                @csrf
+                <div class="form-group mr-2 mb-0">
+                    <label for="class" class="form-label">Ngày bắt đầu</label>
+                    <input type="date" name="dateStart" class="form-control" id="class">
+                </div>
+                <div class="form-group mr-2 mb-0">
+                    <label for="dateEnd" class="form-label">Ngày kết thúc</label>
+                    <input type="date" name="dateEnd" class="form-control" id="dateEnd">
+                </div>
+      
+                <div class="form-group mb-0">
+                    <button type="submit" class="btn btn-secondary btn-sm align-self-end">Lọc</button>
+                </div>
+            </form>
+        </div>
+        {{-- <div class="col col-lg-8 col-xl-8 text-right">
             <form class="input-group w-full h-10" action="{{route('dashboard')}}" method="POST">
                 @csrf
                 <label for="class" class="form-label">Ngày bắt đầu</label>
@@ -11,7 +28,7 @@
                 <input type="date" name="dateEnd"  class="form-select form-select-sm mb-2">
                 <button type="submit" class="btn btn-secondary mb-3">Lọc</button>
             </form>
-        </div>
+        </div> --}}
     </div>
 </div>
 <main class="">
