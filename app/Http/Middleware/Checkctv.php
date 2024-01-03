@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckRole
+class Checkctv
 {
     /**
      * Handle an incoming request.
@@ -17,9 +17,9 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role == "2" || Auth::user()->role == "3" || Auth::user()->status == 0 || Auth::user()->status == 2) {
-            Session::flash('error', 'Không đủ thẩm quyền');
-            return redirect()->route('login');
+        if (Auth::user()->role == 4) {
+            // Session::flash('error', 'Không đủ thẩm quyền');
+            return redirect()->route('waiting');
         }
         return $next($request);
     }

@@ -154,6 +154,7 @@
     <nav id="sidebarMenu" class="sidebar d-lg-block bg-gray-800 text-white collapse" data-simplebar>
         <div class="sidebar-inner px-4 pt-3">
             <ul class="nav flex-column pt-3 pt-md-0">
+                @if(Session::get('role')==1)
                 <li class="nav-item">
                     <a href="../../" class="nav-link d-flex align-items-center">
                         <span class="sidebar-icon">
@@ -162,7 +163,7 @@
                         <span class="mt-1 ms-1 sidebar-text">GS7</span>
                     </a>
                 </li>
-
+                
                 <li class="nav-item ">
                     <a href="http://127.0.0.1:8000" class="nav-link">
                         <span class="sidebar-icon">
@@ -190,12 +191,12 @@
                             </svg>
                         </span>
                     </span>
-                    @if(Session::get('role')==1)
+                    
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_subject')}}">
-                                    <span class="sidebar-text">Quản lý môn học</span>
+                                    <span class="sidebar-text">Môn học</span>
                                 </a>
                             </li>
                         </ul>
@@ -204,7 +205,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_job')}}">
-                                    <span class="sidebar-text">Quản lý công việc</span>
+                                    <span class="sidebar-text">Công việc</span>
                                 </a>
                             </li>
                         </ul>
@@ -213,7 +214,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_class')}}">
-                                    <span class="sidebar-text">Quản lý lớp học</span>
+                                    <span class="sidebar-text">Lớp học</span>
                                 </a>
                             </li>
                         </ul>
@@ -222,7 +223,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_timeslot')}}">
-                                    <span class="sidebar-text">Quản lý ca học</span>
+                                    <span class="sidebar-text">Ca học</span>
                                 </a>
                             </li>
                         </ul>
@@ -231,7 +232,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_user')}}">
-                                    <span class="sidebar-text">Quản lý phụ huynh</span>
+                                    <span class="sidebar-text">Phụ huynh</span>
                                 </a>
                             </li>
                         </ul>
@@ -240,7 +241,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_teacher')}}">
-                                    <span class="sidebar-text">Quản lý giáo viên</span>
+                                    <span class="sidebar-text">Giáo viên</span>
                                 </a>
                             </li>
                         </ul>
@@ -249,7 +250,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_connect')}}">
-                                    <span class="sidebar-text">Quản lý kết nối</span>
+                                    <span class="sidebar-text">Kết nối</span>
                                 </a>
                             </li>
                         </ul>
@@ -258,7 +259,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_contact')}}">
-                                    <span class="sidebar-text">Quản lý liên hệ</span>
+                                    <span class="sidebar-text">Liên hệ</span>
                                 </a>
                             </li>
                         </ul>
@@ -267,7 +268,16 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('waiting')}}">
-                                    <span class="sidebar-text">Quản lý phê duyệt</span>
+                                    <span class="sidebar-text">Phê duyệt gia sư</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('allcertificate')}}">
+                                    <span class="sidebar-text">Phê duyệt chứng chỉ</span>
                                 </a>
                             </li>
                         </ul>
@@ -276,7 +286,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('allctv')}}">
-                                    <span class="sidebar-text">Quản lý cộng tác viên</span>
+                                    <span class="sidebar-text">Cộng tác viên</span>
                                 </a>
                             </li>
                         </ul>
@@ -285,17 +295,27 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('vnpay')}}">
-                                    <span class="sidebar-text">Quản lý nạp tiền</span>
+                                    <span class="sidebar-text">Nạp tiền</span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     @else
+                    <ul class="nav flex-column pt-3 pt-md-0">
+                        <li class="nav-item">
+                            <a href="{{route('waiting')}}" class="nav-link d-flex align-items-center">
+                                <span class="sidebar-icon">
+                                    <img src="../../assets/img/brand/light.svg" height="20" width="20" alt="Volt Logo">
+                                </span>
+                                <span class="mt-1 ms-1 sidebar-text">GS7</span>
+                            </a>
+                        </li>
+                    </ul>
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('waiting')}}">
-                                    <span class="sidebar-text">Quản lý phê duyệt</span>
+                                    <span class="sidebar-text">Phê duyệt gia sư</span>
                                 </a>
                             </li>
                         </ul>

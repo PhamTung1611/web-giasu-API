@@ -35,7 +35,9 @@ Route::match(['get', 'post'], '/register', [UsersController::class, 'register'])
 Route::middleware('auth')->group(function () {
     Route::middleware('check.role')->group(function () {
         Route::get('contact', [ContactController::class, 'index'])->name('search_contact');
+        Route::middleware('check.ctv')->group(function () {
         Route::match(['get', 'post'], '/', [DashBoradController::class, 'Statistical'])->name('dashboard');
+        });
         Route::get('connect', [ConnectController::class, 'index'])->name('search_connect');
         Route::get('connect/{id}', [ConnectController::class, 'connectStatus'])->name('connect_status');
         Route::post('connect/date', [ConnectController::class, 'index'])->name('connect_date');
@@ -110,5 +112,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/deactivate_ctv/{id}', [UsersController::class, 'deactivateCtv'])->name('deactivate_ctv');
         Route::get('/ctv/status/{status}', [UsersController::class,'showCtvByStatus'])->name('ctv_by_status');
         Route::get('/teacher/status/{status}', [UsersController::class,'showTeacherByStatus'])->name('teacher_by_status');
+        //certificate
+        Route::match(['GET','POST'],'/certificate', [UsersController::class,'getallcertificate'])->name('allcertificate');
+        Route::get('/show-certificate/{id}', [UsersController::class,'getdetailcertificate'])->name('show-certificate');
     });
 });

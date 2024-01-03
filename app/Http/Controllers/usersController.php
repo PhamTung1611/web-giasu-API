@@ -50,7 +50,12 @@ class UsersController extends Controller
                 Session::put('email', $user->email);
                 Session::put('role', $user->role);
                 //  return view('dashboard');
-                return redirect()->route('dashboard');
+                if($user->role ==1){
+                    return redirect()->route('dashboard');
+                }else{
+                    return redirect()->route('waiting');
+                };
+                
             } else {
                 //                 dd(432);
                 Session::flash('error', 'Sai thông tin đăng nhập');
@@ -249,29 +254,81 @@ class UsersController extends Controller
             return response()->json(['error' => $e], 400);
         }
     }
-
+    public function acceptcertificate($id){
+        $user = User::find($id);
+        $user->Certificate = $user->add_certificate;
+        $user->add_certificate = null;
+        $user->update();
+        $htmlContent = "
+        <!DOCTYPE html>
+<html>
+<head>
+<title>GS7 thông báo </title>
+</head>
+<body style='text-align:center'>
+<h2>GS7 Thông báo ảnh chứng chỉ.</h2>
+<h3>Ảnh chứng chỉ của bạn đã được duyêt hãy truy cập hệ thống để kiểm tra nhé.</h3>
+</body>
+</html>
+";
+        Mail::to($user->email)->send(new HTMLMail($htmlContent));
+    }
+    public function getallcertificate(Request $request){
+        $user= User::whereNotNull('add_certificate')->get();
+        $title = 'Danh sách ảnh chứng chỉ cần phê duyệt ';
+        if ($request->email != '') {
+            $search = User::where('email', 'LIKE', '%' . $request->get('email') . '%')
+                ->whereNotNull('add_certificate')
+                ->get();
+            $user= $search;
+        };
+        return view('backend.certificate.index',compact('title','user'));
+    }
+    public function refusecertificate(Request $request,$id){
+        $user = User::find($id);
+        $user->add_certificate = null;
+        $user->update();
+        $htmlContent = "
+        <!DOCTYPE html>
+<html>
+<head>
+<title>GS7 thông báo </title>
+</head>
+<body style='text-align:center'>
+<h2>GS7 Thông báo ảnh chứng chỉ.</h2>
+<h3>Ảnh chứng chỉ của bạn đã bị từ chối vì vì lý do $request->lido.</h3>
+</body>
+</html>
+";
+        Mail::to($user->email)->send(new HTMLMail($htmlContent));
+    }
+    public function getdetailcertificate($id){
+        $title = 'Chi tiết chứng chỉ ';
+        $user = User::find($id);
+        $certificate =json_decode($user->add_certificate); 
+        return view('backend.certificate.detail',compact('title','certificate'));
+    }
     public function uploadCertificate(Request $request){
         $user = User::find($request->id);
        
         if ($user) {
-            $currentCertificate = json_decode($user->Certificate);
+            $currentCertificate = json_decode($user->add_certificate);
             // Thêm giá trị mới vào giá trị hiện tại
             if ($currentCertificate) {
                  foreach ($request->file('Certificate') as $file) {
                     $currentCertificate[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
                 }
 
-                $user->Certificate = json_encode($currentCertificate);
-
+                $user->add_certificate = json_encode($currentCertificate);
                 // Cập nhật trường Certificate_public với giá trị mới
-                $user->Certificate = json_encode($currentCertificate);
+                
             } else {
                 $certificatenew=[];
                 foreach ($request->file('Certificate') as $file) {
                     $certificatenew[] = 'http://127.0.0.1:8000/storage/' . uploadFile('hinh', $file);
                 }
 
-                $user->Certificate = json_encode($certificatenew);
+                $user->add_certificate = json_encode($certificatenew);
             }
 
             $user->update();
