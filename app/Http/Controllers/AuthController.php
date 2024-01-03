@@ -112,7 +112,14 @@ class AuthController extends Controller
     //    }else{
     //        $rankName ="";
     //    }
-
+    if ($user->add_certificate != null) {
+        $Certificate_add = [];
+        foreach (json_decode($user->add_certificate) as $key => $u) {
+            array_push($Certificate_add, ['id' => $key + 1, 'path' => $u]);
+        }
+    } else {
+        $Certificate_add = [];
+    }
         return response()->json([
             'user'=>[
                 'id'=>$user->id,
@@ -140,6 +147,7 @@ class AuthController extends Controller
                 'exp'=>$user->exp,
                 'current_role'=>$user->current_role,
                 "time_tutor_id"=>$user->time_tutor_id,
+                'add_certificate'=>$Certificate_add,
                 'status'=>$user->status,
                 'assign_user'=>$user->assign_user,
                 'Certificate_public'=>$user->Certificate_public,
@@ -233,6 +241,14 @@ class AuthController extends Controller
                 // }else{
                 //     $rankName ="";
                 // }
+                if ($user->add_certificate != null) {
+                    $Certificate_add = [];
+                    foreach (json_decode($user->add_certificate) as $key => $u) {
+                        array_push($Certificate_add, ['id' => $key + 1, 'path' => $u]);
+                    }
+                } else {
+                    $Certificate_add = [];
+                }
                 return response()->json([
                     'user'=>[
                         'id'=>$user->id,
@@ -260,6 +276,7 @@ class AuthController extends Controller
                         'current_role'=>$user->current_role,
                         "time_tutor_id"=>$user->time_tutor_id,
                         'status'=>$user->status,
+                        'add_certificate'=>$Certificate_add,
                         'assign_user'=>$user->assign_user,
                         'Certificate_public'=>$user->Certificate_public,
                         'status_certificate'=>$user->status_certificate

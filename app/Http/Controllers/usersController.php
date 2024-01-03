@@ -426,6 +426,14 @@ class UsersController extends Controller
         } else {
             $Certificate_public = [];
         }
+        if ($records->add_certificate != null) {
+            $Certificate_add = [];
+            foreach (json_decode($records->add_certificate) as $key => $u) {
+                array_push($Certificate_add, ['id' => $key + 1, 'path' => $u]);
+            }
+        } else {
+            $Certificate_add = [];
+        }
         $renter = DB::table('jobs')->where('id_teacher', $id)->count();
         // dd($renter);
         return  response()->json([
@@ -455,6 +463,7 @@ class UsersController extends Controller
             'coin' => $records->coin,
             'renter' => $renter,
             'Certificate_public' => $Certificate_public,
+            'add_certificate'=>$Certificate_add,
             'status_public' => $records->status_certificate,
             'created_date' => $records->created_at
         ], 200);
