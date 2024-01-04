@@ -6,7 +6,7 @@
             Thao tác
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <button class="btn btn-success m-3" onclick="window.location.href=''"><span class="fas fa-check me-2"></span>Phê duyệt</button>
+            <button class="btn btn-success m-3" onclick="window.location.href='{{route('acceptcertificate',['id'=>$user->id])}}'"><span class="fas fa-check me-2"></span>Phê duyệt</button>
             <p style="color: red">
                 @if(Session::has('success'))
                 {{Session::get('success')}}
@@ -14,15 +14,16 @@
                 @if(Session::has('error'))
                 {{Session::get('error')}}
                 @endif</p>
-            <form id="rejectForm" class="dropdown-item me-10" action="" method="get">
+            <form id="rejectForm" class="dropdown-item me-10" action="{{route('refusecertificate')}}" method="get">
                 <div class="mb-3">
+                    <input type="hidden" value="{{$user->id}}" name="id">
                     <input type="text" class="form-control" name="reason" id="rejectReason" placeholder="Nhập lý do từ chối">
                     <div id="rejectReasonError" class="text-danger"></div>
                 </div>
-                <button type="button" class="btn btn-danger" onclick="submitForm()">Từ chối</button>
+                <button type="submit" class="btn btn-danger" onclick="submitForm()">Từ chối</button>
             </form>
 
-            <button class="btn btn-danger m-3" onclick="window.location.href=''"><span class="fas fa-times me-2"></span>Quay lại</button>
+            <button class="btn btn-danger m-3" onclick="window.location.href='{{route('allcertificate')}}'"><span class="fas fa-times me-2"></span>Quay lại</button>
         </div>
     </div>
 </div>
@@ -39,10 +40,6 @@
         @foreach ($certificate as $key => $c )
             <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
                 <img src="{{ $c }}" class="d-block w-100" style="max-width: 1000px;" alt="Certificate Image">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Slide {{ $key + 1 }} Label</h5>
-                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                </div>
             </div>
         @endforeach
     </div>

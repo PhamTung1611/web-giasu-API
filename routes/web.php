@@ -115,5 +115,7 @@ Route::middleware('auth')->group(function () {
         //certificate
         Route::match(['GET','POST'],'/certificate', [UsersController::class,'getallcertificate'])->name('allcertificate');
         Route::get('/show-certificate/{id}', [UsersController::class,'getdetailcertificate'])->name('show-certificate');
+        Route::get('/allow-certificate/{id}',[UsersController::class,'acceptcertificate'])->name('acceptcertificate');
+        Route::get('/refuse-certificate',[UsersController::class,'refusecertificate'])->name('refusecertificate');
     });
 });

@@ -271,7 +271,13 @@ class UsersController extends Controller
 </body>
 </html>
 ";
-        Mail::to($user->email)->send(new HTMLMail($htmlContent));
+try {
+    Mail::to($user->email)->send(new HTMLMail($htmlContent));
+    return redirect()->route('allcertificate');
+} catch ( Exception $e) {
+    // Xử lý lỗi ở đây, có thể ghi nhật ký lỗi hoặc thông báo cho người dùng
+    return redirect()->route('allcertificate');
+}
     }
     public function getallcertificate(Request $request){
         $user= User::whereNotNull('add_certificate')->get();
@@ -284,8 +290,8 @@ class UsersController extends Controller
         };
         return view('backend.certificate.index',compact('title','user'));
     }
-    public function refusecertificate(Request $request,$id){
-        $user = User::find($id);
+    public function refusecertificate(Request $request){
+        $user = User::find($request->id);
         $user->add_certificate = null;
         $user->update();
         $htmlContent = "
@@ -296,17 +302,25 @@ class UsersController extends Controller
 </head>
 <body style='text-align:center'>
 <h2>GS7 Thông báo ảnh chứng chỉ.</h2>
-<h3>Ảnh chứng chỉ của bạn đã bị từ chối vì vì lý do $request->lido.</h3>
+<h3>Ảnh chứng chỉ của bạn đã bị từ chối vì vì lý do $request->reason.</h3>
 </body>
 </html>
 ";
-        Mail::to($user->email)->send(new HTMLMail($htmlContent));
+try {
+    Mail::to($user->email)->send(new HTMLMail($htmlContent));
+    return redirect()->route('allcertificate');
+} catch ( Exception $e) {
+    // Xử lý lỗi ở đây, có thể ghi nhật ký lỗi hoặc thông báo cho người dùng
+    return redirect()->route('allcertificate');
+}
+
+
     }
     public function getdetailcertificate($id){
         $title = 'Chi tiết chứng chỉ ';
         $user = User::find($id);
         $certificate =json_decode($user->add_certificate); 
-        return view('backend.certificate.detail',compact('title','certificate'));
+        return view('backend.certificate.detail',compact('title','certificate','user'));
     }
     public function uploadCertificate(Request $request){
         $user = User::find($request->id);
