@@ -258,6 +258,15 @@
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
+                                <a class="nav-link" href="{{route('sendMail')}}">
+                                    <span class="sidebar-text">Gui Mail</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_contact')}}">
                                     <span class="sidebar-text">Liên hệ</span>
                                 </a>
