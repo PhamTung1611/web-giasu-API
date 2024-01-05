@@ -320,6 +320,7 @@ try {
         $title = 'Chi tiết chứng chỉ ';
         $user = User::find($id);
         $certificate =json_decode($user->add_certificate); 
+        // dd($certificate);
         return view('backend.certificate.detail',compact('title','certificate','user'));
     }
     public function uploadCertificate(Request $request){
@@ -344,7 +345,6 @@ try {
 
                 $user->add_certificate = json_encode($certificatenew);
             }
-
             $user->update();
             return response()->json('success');
         }
