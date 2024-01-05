@@ -57,7 +57,7 @@ class ApiJobController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, MailController $mailController, HistoryController $historyController)
+    public function store(Request $request, MailController $mailController, HistoryController $historyController, HistorySendMailController $sendMail)
     {
         $idUser = $request->input('id_user');
         $idTeacher = $request->input('id_teacher');
@@ -74,6 +74,8 @@ class ApiJobController extends Controller
                 $titleForTeacher = 'Bạn đang có người muốn thuê ';
                 $sendUser = $mailController->sendMail($emailUser, $titleForUser);
                 $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
+                $sendMail->create($idUser, $emailUser, 'Gửi yêu cầu thuê', $titleForUser);
+                $sendMail->create($idTeacher, $emailTeacher, 'Nhận yêu cầu thuê', $titleForTeacher);
                 if ($sendUser && $sendTeacher) {
                     return response()->json(['message' => 'Success'], 200);
                 } else {
@@ -112,23 +114,23 @@ class ApiJobController extends Controller
             'user2.name as teacherName',
             DB::raw("CONCAT('http://127.0.0.1:8000/storage/', user2.avatar) as teacherAvatar")
         )
-        ->leftJoin('users as user1', 'jobs.id_user', '=', 'user1.id')
-        ->leftJoin('users as user2', 'jobs.id_teacher', '=', 'user2.id')
-        ->where(function ($query) use ($id) {
-            $query->where('jobs.id_user', $id)
-                ->orWhere('jobs.id_teacher', $id);
-        })
-        ->get();
-    
+            ->leftJoin('users as user1', 'jobs.id_user', '=', 'user1.id')
+            ->leftJoin('users as user2', 'jobs.id_teacher', '=', 'user2.id')
+            ->where(function ($query) use ($id) {
+                $query->where('jobs.id_user', $id)
+                    ->orWhere('jobs.id_teacher', $id);
+            })
+            ->get();
+
         if ($jobs->isEmpty()) {
             return response()->json(['message' => 'Jobs not found'], 404);
         }
-    
+
         $result = [];
         foreach ($jobs as $job) {
             $dataSubject = explode(',', $job->subject);
             $subjectNames = [];
-    
+
             foreach ($dataSubject as $subjectId) {
                 $subject = DB::table('subjects')->where('id', $subjectId)->value('name');
                 if ($subject) {
@@ -136,7 +138,7 @@ class ApiJobController extends Controller
                 }
             }
             $job->subject = $subjectNames;
-    
+
             $dataClass = explode(',', $job->class);
             $classNames = [];
             foreach ($dataClass as $classId) {
@@ -146,26 +148,26 @@ class ApiJobController extends Controller
                 }
             }
             $job->class = $classNames;
-    
+
             $user = DB::table('users')->where('id', $job->id_user)->first();
             $teacher = DB::table('users')->where('id', $job->id_teacher)->first();
-    
+
             $job->id_user = $user->id;
             $job->id_teacher = $teacher->id;
-    
+
             $job->userName = $user->name;
             $job->teacherName = $teacher->name;
-    
+
             $job->userAvatar = 'http://127.0.0.1:8000/storage/' . $user->avatar;
             $job->teacherAvatar = 'http://127.0.0.1:8000/storage/' . $teacher->avatar;
-    
+
             $result[] = $job;
         }
-    
+
         return response()->json($result, 200);
     }
-    
-    
+
+
 
 
     /**
@@ -175,7 +177,7 @@ class ApiJobController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id, MailController $mailController, HistoryController $historyController, ConnectController $connectController)
+    public function update(Request $request, $id, MailController $mailController, HistoryController $historyController, ConnectController $connectController, HistorySendMailController $sendMail)
     {
         $job = Job::find($id);
         $idUser = $job->id_user;
@@ -198,6 +200,8 @@ class ApiJobController extends Controller
                         $nameTeacher = $this->findNameByID($idTeacher);
                         $titleForUser = 'Gia sư ' . $nameTeacher . ' đã đồng ý dạy. Vui lòng truy cập vào website để lấy thông tin liên lạc';
                         $titleForTeacher = 'Bạn vừa xác nhận một lịch dạy';
+                        $sendMail->create($idUser, $emailUser, 'Xác nhận dạy từ gia sư', $titleForUser);
+                        $sendMail->create($idTeacher, $emailTeacher, 'Xác nhận dạy', $titleForTeacher);
                         $sendUser = $mailController->sendMail($emailUser, $titleForUser);
                         $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
                         if ($sendUser && $sendTeacher) {
@@ -220,6 +224,8 @@ class ApiJobController extends Controller
                         $titleForTeacher = 'Bạn vừa từ chối một lịch dạy';
                         $sendUser = $mailController->sendMail($emailUser, $titleForUser);
                         $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
+                        $sendMail->create($idUser, $emailUser, 'Từ chối nhận dạy từ gia sư', $titleForUser);
+                        $sendMail->create($idTeacher, $emailTeacher, 'Từ chối nhận dạy', $titleForTeacher);
                         // dd(123);
                         if ($sendUser && $sendTeacher) {
                             return response()->json(['message' => 'Success'], 200);

@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\DashBoradController;
 use App\Http\Controllers\FeedBackController;
+use App\Http\Controllers\HistorySendMailController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\RankSalaryController;
@@ -76,6 +77,7 @@ Route::middleware('auth')->group(function () {
         Route::match(['get', 'post'], 'timeslot/edit/{id}', [TimeSlotController::class, 'update'])->name('timeslot.edit');
         Route::get('timeslot/delete/{id}', [TimeSlotController::class, 'delete'])->name('timeslot.delete');
         //job
+        Route::match(['get', 'post'], 'sendMail', [HistorySendMailController::class, 'index'])->name('sendMail');
         Route::match(['get', 'post'], 'job/add', [JobController::class, 'create'])->name('job.add');
         Route::match(['get', 'post'], 'job/edit/{id}', [JobController::class, 'update'])->name('job.edit');
         Route::get('job/delete/{id}', [JobController::class, 'delete'])->name('job.delete');
