@@ -39,7 +39,7 @@ return new class extends Migration
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('google_id')->nullable();
-            $table->string('Certificate', 1000)->nullable();
+            $table->text('Certificate')->nullable();
             $table->string('assign_user')->nullable();
             $table->string('Certificate_public',1000)->nullable();
             $table->integer('status_certificate')->default(0);
