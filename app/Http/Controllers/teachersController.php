@@ -6,6 +6,7 @@ use App\Mail\HTMLMail;
 use Illuminate\Http\Request;
 use App\Models\Teachers;
 use App\Http\Requests\TeacherRequest;
+use App\Models\HistorySendMail;
 use App\Http\Requests\UserRequest;
 use App\Models\ClassLevel;
 use App\Models\District;
@@ -388,10 +389,17 @@ class TeachersController extends Controller
                         Session::flash('error', 'Vui lòng nhập lý do từ chối');
                         return redirect()->route('deatailWaitingTeacher',['id'=>$id]);
                     }
-                    $deleted = $user->delete();
+                    $user->status =5;
+                    $user->save();
                     $htmlContent="<h3>Tài khoản của bạn bị từ chối vì lý do:</h3> <br>
                         <span>$request->reason</span>";
                     Mail::to($user->email)->send(new HTMLMail($htmlContent));
+                    $new_history_sendmail = new HistorySendMail;
+                    $new_history_sendmail->id_user = $id;
+                    $new_history_sendmail->email = $request->email;
+                    $new_history_sendmail->type = 'Từ chối gia sư';
+                    $new_history_sendmail->content = "Tài khoản của bạn bị từ chối vì lý do $request->reason";
+                    $new_history_sendmail->save();
                     Session::flash('success', 'success');
                     return redirect()->route('waiting');
                 }

@@ -276,6 +276,15 @@
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
+                                <a class="nav-link" href="{{route('giasutuchoi')}}">
+                                    <span class="sidebar-text">Gia sư không đạt</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{route('allcertificate')}}">
                                     <span class="sidebar-text">Phê duyệt chứng chỉ</span>
                                 </a>

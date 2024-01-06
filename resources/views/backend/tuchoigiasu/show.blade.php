@@ -33,23 +33,9 @@
                             Thao tác
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <button class="btn btn-success m-3" onclick="window.location.href='{{ route('waiting_teacher',['id'=>$data['id'],'agree'=>'false'])}}'"><span class="fas fa-check me-2"></span>Phê duyệt</button>
+                            <button class="btn btn-success m-3" onclick="window.location.href='{{ route('waiting_teacher',['id'=>$data['id'],'agree'=>'true'])}}'"><span class="fas fa-check me-2"></span>Phê duyệt lại</button>
                            <p style="color: red">
-                            @if(Session::has('success'))
-                            {{Session::get('success')}}
-                            @endif
-                            @if(Session::has('error'))
-                            {{Session::get('error')}}
-                            @endif</p>
-                            <form id="rejectForm" class="dropdown-item me-10" action="{{ route('delete_teacher', ['id' => $data['id'],'view' => '2']) }}" method="get">
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" name="reason" id="rejectReason" placeholder="Nhập lý do từ chối">
-                                    <div id="rejectReasonError" class="text-danger"></div>
-                                </div>
-                                <button type="button" class="btn btn-danger" onclick="submitForm()">Từ chối</button>
-                            </form>
-                            
-                            <button class="btn btn-danger m-3" onclick="window.location.href='{{ route('waiting')}}'"><span class="fas fa-times me-2"></span>Quay lại</button>
+                            <button class="btn btn-danger m-3" onclick="window.location.href='{{ route('giasutuchoi')}}'"><span class="fas fa-times me-2"></span>Quay lại</button>
                         </div>
                     </div>
                 </div>
@@ -94,7 +80,6 @@
                                     <p>{{$data['phone']}}</p>
                                 </div>
                             </div>
-                            
                         </div>
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <div class="row">

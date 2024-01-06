@@ -7,6 +7,7 @@ use App\Models\ClassLevel;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\RankSalary;
+use App\Models\HistorySendMail;
 use App\Models\Role;
 use App\Models\Schools;
 use App\Models\Subject;
@@ -190,11 +191,11 @@ class UsersController extends Controller
     public function store(UserRequest $request, MailController $mailController)
     {
         try {
-
-            $user = new User;
+            $user = User::where('email',$request->email)->first();
+            if(!$user){
+                $user = new User;
+            }
             $role = Role::find($request->role);
-            //            dd($role->name);
-
             if (!$role) {
                 return response()->json('Sai quyền', 400);
             }
@@ -249,6 +250,13 @@ class UsersController extends Controller
 </html>
 ";
             Mail::to($request->email)->send(new HTMLMail($htmlContent));
+            $user_new = User::where('email',$request->email)->first();
+            $new_history_sendmail = new HistorySendMail;
+            $new_history_sendmail->id_user = $user_new->id;
+            $new_history_sendmail->email = $request->email;
+            $new_history_sendmail->type = 'Xác nhận đăng ký';
+            $new_history_sendmail->content = "GS7 Thông báo kích hoạt tài khoản";
+            $new_history_sendmail->save();
             return response()->json('success', 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e], 400);
@@ -273,6 +281,12 @@ class UsersController extends Controller
 ";
 try {
     Mail::to($user->email)->send(new HTMLMail($htmlContent));
+    $new_history_sendmail = new HistorySendMail;
+    $new_history_sendmail->id_user = $id;
+    $new_history_sendmail->email = $user->email;
+    $new_history_sendmail->type = 'Thông báo ảnh chứng chỉ';
+    $new_history_sendmail->content = "Ảnh chứng chỉ của bạn đã được duyêt hãy truy cập hệ thống để kiểm tra nhé";
+    $new_history_sendmail->save();
     return redirect()->route('allcertificate');
 } catch ( Exception $e) {
     // Xử lý lỗi ở đây, có thể ghi nhật ký lỗi hoặc thông báo cho người dùng
@@ -308,6 +322,12 @@ try {
 ";
 try {
     Mail::to($user->email)->send(new HTMLMail($htmlContent));
+    $new_history_sendmail = new HistorySendMail;
+    $new_history_sendmail->id_user = $request->id;
+    $new_history_sendmail->email = $user->email;
+    $new_history_sendmail->type = 'Thông báo ảnh chứng chỉ';
+    $new_history_sendmail->content = "Ảnh chứng chỉ của bạn đã bị từ chối vì vì lý do $request->reason";
+    $new_history_sendmail->save();
     return redirect()->route('allcertificate');
 } catch ( Exception $e) {
     // Xử lý lỗi ở đây, có thể ghi nhật ký lỗi hoặc thông báo cho người dùng
@@ -765,6 +785,15 @@ try {
             $user->save();
             $htmlContent = '<h3>Tài khoản của bạn đã được duyệt, Hãy truy cập website để trải nghiệm nhé</h3>';
             Mail::to($user->email)->send(new HTMLMail($htmlContent));
+            $new_history_sendmail = new HistorySendMail;
+            $new_history_sendmail->id_user = $request->id;
+            $new_history_sendmail->email = $user->email;
+            $new_history_sendmail->type = 'Phê duyệt tài khoản';
+            $new_history_sendmail->content = "Tài khoản của bạn đã được duyệt, Hãy truy cập website để trải nghiệm nhé";
+            $new_history_sendmail->save();
+            if($request->agree == 'true'){
+                return redirect()->route('giasutuchoi');
+            }
             return redirect()->route('waiting');
         } else {
             Session::flash('error', 'error');
@@ -865,6 +894,9 @@ try {
         ];
         //        return $data;
         $title = 'show Detail Teacher';
+        if($records->status== 5){
+            return view('backend.tuchoigiasu.show', compact('title', 'data'));
+        }
         return view('backend.teacher.show', compact('title', 'data'));
     }
     public function updatestatus(Request $request, $id)
@@ -960,5 +992,16 @@ try {
         
         $user->save();
         return response()->json('success');
+    }
+    public function getallteacherwaiting(){
+        $teachers = DB::table('users')
+        ->where('status', 5)
+        ->whereNull('deleted_at')
+        ->get();
+    if ($teachers) {
+        $title = 'Danh sách gia sư không được duyệt';
+        return view('backend.tuchoigiasu.waiting', compact('teachers', 'title'));
+    }
+        
     }
 }

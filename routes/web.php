@@ -68,7 +68,7 @@ Route::middleware('auth')->group(function () {
         Route::post('user', [UsersController::class, 'getAllUser'])->name('search_user');
         Route::get('user', [UsersController::class, 'getAllUser']);
         Route::get('teacher/waiting', [UsersController::class, 'getAllTeacher'])->name('waiting');
-        Route::get('waiting_teacher/{id}', [UsersController::class, 'agree'])->name('waiting_teacher');
+        Route::get('waiting_teacher/{id}/{agree}', [UsersController::class, 'agree'])->name('waiting_teacher');
         Route::match(['get', 'post'], 'listHistorySubject', [DashBoradController::class, 'listHistorySubject'])->name('list_history_subject');
         Route::match(['get', 'post'], 'listHistoryClass', [DashBoradController::class, 'listHistoryClass'])->name('list_history_class');
         Route::match(['get', 'post'], 'listHistoryConnect', [DashBoradController::class, 'listHistoryConnect'])->name('list_history_connect');
@@ -119,5 +119,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/show-certificate/{id}', [UsersController::class,'getdetailcertificate'])->name('show-certificate');
         Route::get('/allow-certificate/{id}',[UsersController::class,'acceptcertificate'])->name('acceptcertificate');
         Route::get('/refuse-certificate',[UsersController::class,'refusecertificate'])->name('refusecertificate');
+        Route::get('/teacher-refuse',[UsersController::class,'getallteacherwaiting'])->name('giasutuchoi');
     });
 });
