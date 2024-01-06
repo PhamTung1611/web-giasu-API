@@ -25,8 +25,6 @@
     <title>{{ $title }}</title>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
-
-    <!-- Thêm SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .emp-profile {
@@ -251,6 +249,15 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search_connect')}}">
                                     <span class="sidebar-text">Kết nối</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
+                        <ul class="flex-column nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('sendMail')}}">
+                                    <span class="sidebar-text">Gui Mail</span>
                                 </a>
                             </li>
                         </ul>

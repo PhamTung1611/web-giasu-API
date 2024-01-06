@@ -39,13 +39,13 @@ return new class extends Migration
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('google_id')->nullable();
-            $table->String('Certificate',1000)->nullable();
+            $table->string('Certificate', 1000)->nullable();
             $table->string('assign_user')->nullable();
             $table->string('Certificate_public',1000)->nullable();
             $table->integer('status_certificate')->default(0);
             $table->string('code')->nullable();
             $table->dateTime('time_accept')->nullable();
-            $table->string('add_certificate')->nullable();
+            $table->text('add_certificate')->nullable();
             $table->rememberToken()->nullable();
             $table->timestamps();
             $table->softDeletes();
