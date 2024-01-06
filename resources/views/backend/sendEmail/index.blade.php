@@ -50,7 +50,7 @@
         <th>Tên người nhận</th>
         <th>Email nhận</th>
         <th>Kiểu</th>
-        <th>Mô tả</th>
+        <th>Nội dung</th>
         <th>Ngày gửi</th>
       </tr>
     </thead>

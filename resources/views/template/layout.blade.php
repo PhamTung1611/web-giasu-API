@@ -257,7 +257,7 @@
                         <ul class="flex-column nav">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('sendMail')}}">
-                                    <span class="sidebar-text">Gui Mail</span>
+                                    <span class="sidebar-text">Lịch sử mail</span>
                                 </a>
                             </li>
                         </ul>
