@@ -26,6 +26,7 @@
     <script src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link type="text/css" href="{{ asset('css/index.css') }}" rel="stylesheet">
     <style>
         .emp-profile {
             padding: 3%;
@@ -161,7 +162,7 @@
                         <span class="mt-1 ms-1 sidebar-text">GS7</span>
                     </a>
                 </li>
-                
+
                 <li class="nav-item ">
                     <a href="http://127.0.0.1:8000" class="nav-link">
                         <span class="sidebar-icon">
@@ -189,7 +190,7 @@
                             </svg>
                         </span>
                     </span>
-                    
+
                     <div class="multi-level collapse  show " role="list" id="submenu-app" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item">
@@ -343,7 +344,7 @@
         </div>
     </nav>
 
-    <main class="content">
+    <main class="content overflow-auto">
 
         <nav class="navbar navbar-top navbar-expand navbar-dashboard navbar-dark ps-0 pe-2 pb-0">
             <div class="container-fluid px-0">

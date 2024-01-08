@@ -23,34 +23,26 @@
               </svg>
             </a>
           </li>
-          {{-- <li class="breadcrumb-item"><a href="#">Bảng</a></li> --}}
         </ol>
       </nav>
       <h2 class="h4">{{$title}}</h2>
     </div>
-    
+
   </div>
 </div>
 <div class="row mt-4">
-    <div id="carouselExampleControls" class="carousel slide col-md-9" data-ride="carousel">
-        <div class="carousel-inner">
+    <div>
+        <div class="d-flex flex-row gap-4">
             @foreach ($certificate as $key => $c )
-            <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                <img src="{{ $c }}" class="d-block w-100" alt="Slide {{ $key + 1 }}">
-          </div>
+                <div class="d-flex flex-column align-content-center gap-2">
+                    <img src="{{ $c }}" class="d-block img-certificate" alt="Slide {{ $key + 1 }}">
+                    <input type="checkbox"  name="Certificate_public" value="{{$c}}"/>
+                </div>
           @endforeach
         </div>
-        <div id="carouselButtons">
-            <!-- Nút chuyển Slide trước và sau -->
-            <button class="carousel-control-prev" type="button" data-target="#carouselExampleControls" data-slide="prev">
-                <span aria-hidden="true" class="carousel-control-prev-icon"></span>
-            </button>
-            <button class="carousel-control-next" type="button" data-target="#carouselExampleControls" data-slide="next">
-                <span aria-hidden="true" class="carousel-control-next-icon"></span>
-            </button>
-        </div>
+
       </div>
-    <div class="col-md-3">
+    <div class="col-md-3 mt-4">
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Thao tác
