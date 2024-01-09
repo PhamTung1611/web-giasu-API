@@ -47,7 +47,7 @@
                   </svg>
                   <span class="visually-hidden">Toggle Dropdown</span>
               </button>
-              <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end pb-0">
+              <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end pb-0">
                   <span class="small ps-3 fw-bold text-dark">Show</span>
                   <a class="dropdown-item d-flex align-items-center fw-bold" href="http://127.0.0.1:8000/sendMail">Tất cả</a>
                   <a class="dropdown-item fw-bold" href="{{ route('search_mail',1) }}">Mail thuê</a>
