@@ -72,7 +72,7 @@ Route::middleware('auth')->group(function () {
         Route::match(['get', 'post'], 'listHistorySubject', [DashBoradController::class, 'listHistorySubject'])->name('list_history_subject');
         Route::match(['get', 'post'], 'listHistoryClass', [DashBoradController::class, 'listHistoryClass'])->name('list_history_class');
         Route::match(['get', 'post'], 'listHistoryConnect', [DashBoradController::class, 'listHistoryConnect'])->name('list_history_connect');
-        
+        Route::get('sendMail/{id}', [HistorySendMailController::class, 'queryMail'])->name('search_mail');
         Route::match(['get', 'post'], 'timelsot/add', [TimeSlotController::class, 'add'])->name('timeslot.add');
         Route::match(['get', 'post'], 'timeslot/edit/{id}', [TimeSlotController::class, 'update'])->name('timeslot.edit');
         Route::get('timeslot/delete/{id}', [TimeSlotController::class, 'delete'])->name('timeslot.delete');

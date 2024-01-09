@@ -74,8 +74,8 @@ class ApiJobController extends Controller
                 $titleForTeacher = 'Bạn đang có người muốn thuê ';
                 $sendUser = $mailController->sendMail($emailUser, $titleForUser);
                 $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
-                $sendMail->create($idUser, $emailUser, 'Gửi yêu cầu thuê', $titleForUser);
-                $sendMail->create($idTeacher, $emailTeacher, 'Nhận yêu cầu thuê', $titleForTeacher);
+                $sendMail->create($idUser, $emailUser, '1', $titleForUser);
+                $sendMail->create($idTeacher, $emailTeacher, '2', $titleForTeacher);
                 if ($sendUser && $sendTeacher) {
                     return response()->json(['message' => 'Success'], 200);
                 } else {
@@ -200,8 +200,8 @@ class ApiJobController extends Controller
                         $nameTeacher = $this->findNameByID($idTeacher);
                         $titleForUser = 'Gia sư ' . $nameTeacher . ' đã đồng ý dạy. Vui lòng truy cập vào website để lấy thông tin liên lạc';
                         $titleForTeacher = 'Bạn vừa xác nhận một lịch dạy';
-                        $sendMail->create($idUser, $emailUser, 'Xác nhận dạy từ gia sư', $titleForUser);
-                        $sendMail->create($idTeacher, $emailTeacher, 'Xác nhận dạy', $titleForTeacher);
+                        $sendMail->create($idUser, $emailUser, '3', $titleForUser);
+                        $sendMail->create($idTeacher, $emailTeacher, '3', $titleForTeacher);
                         $sendUser = $mailController->sendMail($emailUser, $titleForUser);
                         $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
                         if ($sendUser && $sendTeacher) {
@@ -224,8 +224,8 @@ class ApiJobController extends Controller
                         $titleForTeacher = 'Bạn vừa từ chối một lịch dạy';
                         $sendUser = $mailController->sendMail($emailUser, $titleForUser);
                         $sendTeacher = $mailController->sendMail($emailTeacher, $titleForTeacher);
-                        $sendMail->create($idUser, $emailUser, 'Từ chối nhận dạy từ gia sư', $titleForUser);
-                        $sendMail->create($idTeacher, $emailTeacher, 'Từ chối nhận dạy', $titleForTeacher);
+                        $sendMail->create($idUser, $emailUser, '4', $titleForUser);
+                        $sendMail->create($idTeacher, $emailTeacher, '4', $titleForTeacher);
                         // dd(123);
                         if ($sendUser && $sendTeacher) {
                             return response()->json(['message' => 'Success'], 200);

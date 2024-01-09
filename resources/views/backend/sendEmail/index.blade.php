@@ -50,11 +50,18 @@
               <div class="dropdown-menu dropdown-menu-xs dropdown-menu-end pb-0">
                   <span class="small ps-3 fw-bold text-dark">Show</span>
                   <a class="dropdown-item d-flex align-items-center fw-bold" href="http://127.0.0.1:8000/sendMail">Tất cả</a>
-                  <a class="dropdown-item fw-bold" href="">Mail thuê</a>
-                  <a class="dropdown-item fw-bold " href="">Mail đồng ý dạy</a>
-                  <a class="dropdown-item fw-bold " href="">Mail từ chối dạy</a>
-                  <a class="dropdown-item fw-bold " href="">Mail xác nhận kết nối</a>
-                  <a class="dropdown-item fw-bold " href="">Mail từ chối kết nối</a>
+                  <a class="dropdown-item fw-bold" href="{{ route('search_mail',1) }}">Mail thuê</a>
+                  <a class="dropdown-item fw-bold" href="{{ route('search_mail',2) }}">Mail nhận yêu cầu thuê</a>
+                  <a class="dropdown-item fw-bold" href="{{ route('search_mail',3) }}">Mail đồng ý dạy</a>
+                  <a class="dropdown-item fw-bold" href="{{ route('search_mail',4) }}">Mail từ chối dạy</a>
+                  <a class="dropdown-item fw-bold" href="{{ route('search_mail',5) }}">Mail xác nhận kết nối</a>
+                  <a class="dropdown-item fw-bold" href="{{ route('search_mail',6) }}">Mail từ chối kết nối</a>
+                  <a class="dropdown-item fw-bold" href="{{ route('search_mail',7) }}">Mail đăng ký</a>
+                  <a class="dropdown-item fw-bold" href="{{ route('search_mail',8) }}">Mail đổi mật khẩu</a>
+                  <a class="dropdown-item fw-bold" href="{{ route('search_mail',9) }}">Mail phê duyệt gia sư</a>
+                  <a class="dropdown-item fw-bold" href="{{ route('search_mail',10) }}">Mail phê duyệt chứng chỉ</a>
+                  <a class="dropdown-item fw-bold" href="{{ route('search_mail',11) }}">Mail từ chối gia sư</a>
+                  <a class="dropdown-item fw-bold" href="{{ route('search_mail',12) }}">Mail từ chối chứng chỉ</a>
               </div>
           </div>
       </div>
