@@ -20,15 +20,19 @@ class HistorySendMailController extends Controller
         return true;
     }
 
-    public function index()
+    public function index(Request $request)
     { 
           $title = 'Quản lí email';
           $result = DB::table('history_send_mail')
           ->leftJoin('users', 'history_send_mail.id_user', '=', 'users.id')
           ->select('history_send_mail.*', 'users.name')
-          ->orderBy('history_send_mail.created_at', 'desc')
-          ->get();
+          ->orderBy('history_send_mail.created_at', 'desc');
+          $result->when($request->filled(['dateStart', 'dateEnd']), function ($result) use ($request) {
+            $result->whereBetween('history_send_mail.created_at', [$request->dateStart, $request->dateEnd]);
+        });
+
+        $data = $result->orderBy('history_send_mail.created_at', 'desc')->get();
         //   dd($result);
-        return view ('backend.sendEmail.index',compact('result','title'));
+        return view ('backend.sendEmail.index',compact('data','title'));
     }
 }
