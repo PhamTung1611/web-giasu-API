@@ -31,7 +31,9 @@
   </div>
 </div>
 <div class="row mt-4">
-    <div>
+    <form action="" method="post">
+      @csrf
+      <div>
         <div class="d-flex flex-row gap-4">
             @foreach ($certificate as $key => $c )
                 <div class="d-flex flex-column align-content-center gap-2">
@@ -74,5 +76,6 @@
             </div>
         </div>
     </div>
+    </form>
 </div>
 @endsection
