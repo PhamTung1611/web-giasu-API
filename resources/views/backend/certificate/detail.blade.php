@@ -31,7 +31,7 @@
   </div>
 </div>
 <div class="row mt-4">
-    <form action="" method="post">
+    <form action="" enctype="multipart/form-data" method="post">
       @csrf
       <div>
         <div class="d-flex flex-row gap-4">
