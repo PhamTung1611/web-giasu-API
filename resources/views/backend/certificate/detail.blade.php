@@ -31,14 +31,14 @@
   </div>
 </div>
 <div class="row mt-4">
-    <form action="" enctype="multipart/form-data" method="post">
+  <form action="{{ route('acceptcertificate',['id'=>$user->id]) }}" enctype="multipart/form-data" method="post">
       @csrf
       <div>
         <div class="d-flex flex-row gap-4">
             @foreach ($certificate as $key => $c )
                 <div class="d-flex flex-column align-content-center gap-2">
                     <img src="{{ $c }}" class="d-block img-certificate" alt="Slide {{ $key + 1 }}">
-                    <input type="checkbox"  name="Certificate_public" value="{{$c}}"/>
+                    <input type="checkbox"  name="Certificate_public[]" value="{{$c}}"/>
                 </div>
           @endforeach
         </div>
@@ -50,7 +50,7 @@
                 Thao tác
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <button class="btn btn-success m-3" onclick="window.location.href='{{ route('acceptcertificate',['id'=>$user->id]) }}'">
+                <button class="btn btn-success m-3" name="action" value="dongy">
                     <span class="fas fa-check me-2"></span>Phê duyệt
                 </button>
                 <p style="color: red">
@@ -61,14 +61,12 @@
                     {{Session::get('error')}}
                     @endif
                 </p>
-                <form id="rejectForm" class="dropdown-item me-10" action="{{ route('refusecertificate') }}" method="get">
                     <div class="mb-3">
-                        <input type="hidden" value="{{ $user->id }}" name="id">
                         <input type="text" class="form-control" name="reason" id="rejectReason" placeholder="Nhập lý do từ chối">
                         <div id="rejectReasonError" class="text-danger"></div>
                     </div>
-                    <button type="submit" class="btn btn-danger" onclick="submitForm()">Từ chối</button>
-                </form>
+                    <button type="submit" class="btn btn-danger" name="action" value="tuchoi">Từ chối</button>
+                
 
                 <button class="btn btn-danger m-3" onclick="window.location.href='{{ route('allcertificate') }}'">
                     <span class="fas fa-times me-2"></span>Quay lại
@@ -76,6 +74,6 @@
             </div>
         </div>
     </div>
-    </form>
+  </form>
 </div>
 @endsection

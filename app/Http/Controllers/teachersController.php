@@ -397,7 +397,7 @@ class TeachersController extends Controller
                     $new_history_sendmail = new HistorySendMail;
                     $new_history_sendmail->id_user = $id;
                     $new_history_sendmail->email = $request->email;
-                    $new_history_sendmail->type = 'Từ chối gia sư';
+                    $new_history_sendmail->type = '11';
                     $new_history_sendmail->content = "Tài khoản của bạn bị từ chối vì lý do $request->reason";
                     $new_history_sendmail->save();
                     Session::flash('success', 'success');

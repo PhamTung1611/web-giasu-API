@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\PasswordReset;
 use App\Notifications\ResetPasswordRequest;
-
+use App\Models\HistorySendMail;
 
 class ResetPasswordController extends Controller
 {
@@ -27,6 +27,12 @@ class ResetPasswordController extends Controller
             $code = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
             $user->code = $code;
             $user->notify(new ResetPasswordRequest($code));
+            $new_history_sendmail = new HistorySendMail;
+            $new_history_sendmail->id_user = $user->id;
+            $new_history_sendmail->email = $user->email;
+            $new_history_sendmail->type = '8';
+            $new_history_sendmail->content = "Tài khoản của bạn bị từ chối vì lý do $request->reason";
+            $new_history_sendmail->save();
             $user->update();
             return response()->json([
                 'success'
