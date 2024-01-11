@@ -54,5 +54,11 @@
         
         <!-- Nút "Quay lại" được đặt trên cùng một hàng -->
         <button class="btn btn-danger m-3" onclick="window.location.href='{{ route('allcertificate') }}'">
-            <span class="fas fa-times me-2"></span>Quay lại
+            <span class="fas fa-times me-2">Quay lại</span>
+        </button>
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
 @endsection
