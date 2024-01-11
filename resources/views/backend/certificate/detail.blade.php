@@ -2,12 +2,7 @@
 @section('content')
 <style>
 
-    #carouselExampleControls .carousel-inner img {
-        width: 300px;
-        max-height: 300px; /* Đặt chiều cao tối đa mong muốn */
-        object-fit: cover;
-    }
-
+   
 </style>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
     <div class="d-block mb-4 mb-md-0">
@@ -42,38 +37,22 @@
                 </div>
           @endforeach
         </div>
-
       </div>
-    <div class="col-md-3 mt-4">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Thao tác
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <button class="btn btn-success m-3" name="action" value="dongy">
-                    <span class="fas fa-check me-2"></span>Phê duyệt
-                </button>
-                <p style="color: red">
-                    @if(Session::has('success'))
-                    {{Session::get('success')}}
-                    @endif
-                    @if(Session::has('error'))
-                    {{Session::get('error')}}
-                    @endif
-                </p>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" name="reason" id="rejectReason" placeholder="Nhập lý do từ chối">
-                        <div id="rejectReasonError" class="text-danger"></div>
-                    </div>
-                    <button type="submit" class="btn btn-danger" name="action" value="tuchoi">Từ chối</button>
-                
 
-                <button class="btn btn-danger m-3" onclick="window.location.href='{{ route('allcertificate') }}'">
-                    <span class="fas fa-times me-2"></span>Quay lại
-                </button>
-            </div>
+      <div class="col-md-3 mt-4">
+        <!-- Bỏ dropdown và nút "Thao tác" -->
+        
+        <!-- Nút "Phê duyệt" và form từ chối được đặt trực tiếp sau container của col-md-3 -->
+        <button class="btn btn-success mb-3" name="action" value="dongy">
+            <span class="fas fa-check me-2"></span>Phê duyệt
+        </button>
+        <div class="mb-3">
+            <input type="text" class="form-control" name="reason" id="rejectReason" placeholder="Nhập lý do từ chối">
+            <div id="rejectReasonError" class="text-danger"></div>
         </div>
-    </div>
-  </form>
-</div>
+        <button type="submit" class="btn btn-danger" name="action" value="tuchoi">Từ chối</button>
+        
+        <!-- Nút "Quay lại" được đặt trên cùng một hàng -->
+        <button class="btn btn-danger m-3" onclick="window.location.href='{{ route('allcertificate') }}'">
+            <span class="fas fa-times me-2"></span>Quay lại
 @endsection

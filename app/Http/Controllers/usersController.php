@@ -180,13 +180,6 @@ class UsersController extends Controller
             return response()->json(['error' => $e], 500);
         }
 
-        // $users = User::select('users.*', 'district.name as district_name', 'class_levels.class as class_name')
-        //     ->leftJoin('district', 'users.districtID', '=', 'district.id')
-        //     ->leftJoin('class_levels', 'users.class', '=', 'class_levels.id')
-        //     ->where('users.role', 'user')
-        //     ->get();
-
-        // return  response()->json($users, 200);
     }
     public function store(UserRequest $request, MailController $mailController)
     {
@@ -262,54 +255,51 @@ class UsersController extends Controller
             return response()->json(['error' => $e], 400);
         }
     }
-    public function acceptcertificate(Request $request,$id){
+    public function acceptcertificate(Request $request, $id){
         $user = User::find($id);
         $new_history_sendmail = new HistorySendMail;
         if ($request->action == "dongy") {
             $currentCertificate = json_decode($user->Certificate, true);
-            $add_certificate = json_decode($user->add_certificate, true);
-        
+            $add_certificate = json_decode($user->add_certificate, true) ?? [];
             if ($currentCertificate) {
                 $newCertificate = $request->Certificate_public;
-        
                 foreach ($newCertificate as $v) {
-                    $currentCertificate[] = $v;
+                $currentCertificate[] = $v;
                 }
-        
-                // Lọc ra giá trị mới trong $add_certificate
-                $add_new = array_diff($add_certificate, $newCertificate);
-        
-                // Cập nhật lại trường add_certificate và Certificate
-                $user->add_certificate = json_encode($add_new);
-                $user->Certificate = json_encode($currentCertificate);
-                $htmlContent = "
-                <!DOCTYPE html>
-                <html>
-                <head>
-                <title>GS7 thông báo </title>
-                </head>
-                <body style='text-align:center'>
-                <h2>GS7 Thông báo ảnh chứng chỉ.</h2>
-                <h3>Ảnh chứng chỉ của bạn đã được duyêt hãy truy cập hệ thống để kiểm tra nhé.</h3>
-                </body>
-                </html>
-                ";
-            } else {
-                $user->Certificate = $request->Certificate_public;
-            }
-            
-        }else if($request->action == "tuchoi"){
-            if($request->reason ==""){
-                return redirect()->route('show-certificate', ['id' => $user->id]);
-            }
-            $new_history_sendmail->type = '12';
-            $add_certificate = json_decode($user->add_certificate);
-            $certificate_public = $request->Certificate_public;
-            // Xóa các giá trị giống nhau trong mảng $add_certificate và $certificate_public
-            $add_new = array_diff($add_certificate, $certificate_public);
-            // Cập nhật trường add_certificate với các giá trị mới
+            // Lọc ra giá trị mới trong $add_certificate
+            $add_new = array_diff($add_certificate, $newCertificate);
+            // Cập nhật lại trường add_certificate và Certificate
             $user->add_certificate = json_encode($add_new);
+            $user->Certificate = json_encode($currentCertificate);
             $htmlContent = "
+            <!DOCTYPE html>
+            <html>
+            <head>
+            <title>GS7 thông báo </title>
+            </head>
+            <body style='text-align:center'>
+            <h2>GS7 Thông báo ảnh chứng chỉ.</h2>
+            <h3>Ảnh chứng chỉ của bạn đã được duyêt hãy truy cập hệ thống để kiểm tra nhé.</h3>
+            </body>
+            </html>
+            ";
+        } else {
+            $user->Certificate = $request->Certificate_public;
+        }
+    } else if ($request->action == "tuchoi") {
+        if ($request->reason == "") {
+            return redirect()->route('show-certificate', ['id' => $user->id]);
+        }
+
+        $add_certificate = json_decode($user->add_certificate, true) ?? []; // Ensure $add_certificate is always an array
+        $certificate_public = $request->Certificate_public;
+
+        // Xóa các giá trị giống nhau trong mảng $add_certificate và $certificate_public
+        $add_new = array_diff($add_certificate, $certificate_public);
+
+        // Cập nhật trường add_certificate với các giá trị mới
+        $user->add_certificate = json_encode($add_new);
+        $htmlContent = "
         <!DOCTYPE html>
         <html>
         <head>
@@ -321,22 +311,22 @@ class UsersController extends Controller
         </body>
         </html>
         ";
-        }
-        $user->update();
-       
-try {
-    Mail::to($user->email)->send(new HTMLMail($htmlContent));
-   
-    $new_history_sendmail->id_user = $id;
-    $new_history_sendmail->email = $user->email;
-    $new_history_sendmail->content = "Ảnh chứng chỉ của bạn đã được duyêt hãy truy cập hệ thống để kiểm tra nhé";
-    $new_history_sendmail->save();
-    return redirect()->route('allcertificate');
-} catch ( Exception $e) {
-    // Xử lý lỗi ở đây, có thể ghi nhật ký lỗi hoặc thông báo cho người dùng
-    return redirect()->route('allcertificate');
-}
     }
+
+    $user->update();
+
+    try {
+        Mail::to($user->email)->send(new HTMLMail($htmlContent));
+        $new_history_sendmail->id_user = $id;
+        $new_history_sendmail->email = $user->email;
+        $new_history_sendmail->content = "Ảnh chứng chỉ của bạn đã được duyêt hãy truy cập hệ thống để kiểm tra nhé";
+        $new_history_sendmail->save();
+        return redirect()->route('show-certificate', ['id' => $user->id]);
+    } catch (Exception $e) {
+        // Xử lý lỗi ở đây, có thể ghi nhật ký lỗi hoặc thông báo cho người dùng
+        return redirect()->route('show-certificate', ['id' => $user->id]);
+    }
+}
     public function getallcertificate(Request $request){
         $user= User::whereNotNull('add_certificate')->get();
         $title = 'Danh sách ảnh chứng chỉ cần phê duyệt ';
