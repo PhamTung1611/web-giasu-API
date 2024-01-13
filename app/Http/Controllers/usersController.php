@@ -269,6 +269,7 @@ class UsersController extends Controller
                 ->with('error', 'Vui lòng chọn ảnh từ chối.');
         }
         if ($request->action == "dongy") {
+            $new_history_sendmail->type="10";
             $currentCertificate = json_decode($user->Certificate, true)?? [];
             $add_certificate = json_decode($user->add_certificate, true) ?? [];
             $newCertificate = (array)$request->Certificate_public;
@@ -296,6 +297,7 @@ class UsersController extends Controller
                 return redirect()->route('show-certificate', ['id' => $user->id])
                     ->with('error', 'Please provide a reason for rejection.');
             }
+            $new_history_sendmail->type ="12";
             $add_certificate = json_decode($user->add_certificate, true) ?? [];
             $certificate_public = (array)$request->Certificate_public;
             $add_new = array_diff($add_certificate, $certificate_public);
