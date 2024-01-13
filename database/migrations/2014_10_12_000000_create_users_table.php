@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->String('address')->nullable();
             $table->String('coin')->default(0);
-            $table->integer('school_id')->nullable();
+            $table->String('school_id')->nullable();
             $table->String('education_level')->nullable();
             $table->string('class_id')->nullable();
             $table->string('subject')->nullable();

@@ -12,6 +12,7 @@ use App\Models\Role;
 use App\Models\Schools;
 use App\Models\Subject;
 use App\Models\TimeSlot;
+use Illuminate\Support\Collection;
 use App\Models\User;
 use App\Models\Ward;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -33,6 +34,7 @@ use App\Models\Education;
 use App\Models\FeedBack;
 use App\Models\History;
 use App\Models\Job;
+use Illuminate\Support\Facades\Log;
 
 class UsersController extends Controller
 {
@@ -435,12 +437,19 @@ class UsersController extends Controller
                 array_push($newArrayTime, $timeNew->name);
             }
         }
-        $newSchool = '';
+        
         $newSalary = '';
 
-        if ($records->school_id != null) {
-            $school = Schools::find($records->school_id);
-            $newSchool = $school->name;
+        if($records->school_id){
+            $educationArray = explode(',',$records->school_id);
+            $newSchool =new Collection();
+            foreach ($educationArray as $item) {
+                $time = Schools::find($item);
+                $newSchool->push(["id"=>$time->id,
+                    "name"=>$time->name]);
+            }
+        }else{
+            $newSchool =[];
         }
         // if ($records->salary_id != null) {
         //     $salary = RankSalary::find($records->salary_id);
