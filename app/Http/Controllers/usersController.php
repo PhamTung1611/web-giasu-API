@@ -189,8 +189,14 @@ class UsersController extends Controller
             $user = User::where('email',$request->email)->first();
             if(!$user){
                 $user = new User;
+            }else {
+                if($user->status != 5){
+                    return response()->json('Email đã tồn tại ', 400) ;
+                }
             }
+            
             $role = Role::find($request->role);
+            
             if (!$role) {
                 return response()->json('Sai quyền', 400);
             }
