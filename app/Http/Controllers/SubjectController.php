@@ -43,7 +43,7 @@ class SubjectController extends Controller
     public function deleteTeacher($id)
     {
         $teacher = User::find($id);
-        $teacher->status = 3;
+        $teacher->status = 0;
         $teacher->save();
         return redirect()->route('search_teacher');
     }
