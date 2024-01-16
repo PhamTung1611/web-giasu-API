@@ -546,7 +546,6 @@ class UsersController extends Controller
                     $user->avatar = uploadFile('hinh', $request->file('avatar'));
                 }
             }
-            $user->password = Hash::make($request->password);
             $user->address = $request->address;
             $user->District_ID = $request->DistrictID;
             $user->phone = $request->phone;
