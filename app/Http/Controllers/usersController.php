@@ -561,7 +561,6 @@ class UsersController extends Controller
                 $user->time_tutor_id = $request->time_tutor_id;
                 $user->current_role = $request->current_role;
                 $user->exp = $request->exp;
-                $user->status = 1;
                 if ($request->hasFile('Certificate')) {
                     $certificates = [];
                     foreach ($request->file('Certificate') as $file) {
