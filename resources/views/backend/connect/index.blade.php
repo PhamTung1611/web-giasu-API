@@ -60,11 +60,11 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th>ID JOB</th>
-        <th>Username</th>
-        <th>TeacherName</th>
+        <th>ID Việc</th>
+        <th>Người dùng</th>
+        <th>Gia sư</th>
         <th>Trạng thái</th>
-        <th>Action</th>
+        <th>Thực hiện</th>
       </tr>
     </thead>
     <tbody>
