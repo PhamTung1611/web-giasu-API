@@ -42,11 +42,20 @@
                 </div>
                 <div class="col-md-2">
                     
-                        <a class="dropdown-item text-danger rounded-bottom"
+
+                @if($data['status'] == 1)
+                    <a class="dropdown-item text-danger rounded-bottom"
                             href="{{ route('delete.teacher', ['id' => $data['id']]) }}"
                                     onclick="return confirm('Are you sure you want to deactivate?');">
                                 <span class="fas fa-trash-alt me-2"></span>Tắt kích hoạt
                         </a>
+                    @else
+                    <a class="dropdown-item text-sucess rounded-bottom"
+                            href="{{ route('delete.teacher', ['id' => $data['id']]) }}"
+                                    onclick="return confirm('Are you sure you want to activate?');">
+                                <span class="fas fa-trash-alt me-2"></span> kích hoạt
+                        </a>
+                    @endif
                 </div>
             </div>
             <div class="row">

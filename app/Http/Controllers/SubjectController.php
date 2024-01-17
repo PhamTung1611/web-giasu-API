@@ -43,14 +43,22 @@ class SubjectController extends Controller
     public function deleteTeacher($id)
     {
         $teacher = User::find($id);
-        $teacher->status = 0;
+        if($teacher ->status ==1){
+            $teacher->status = 0;
+        }else {
+            $teacher->status = 1;
+        }
         $teacher->save();
         return redirect()->route('search_teacher');
     }
     public function deleteUser($id)
     {
         $teacher = User::find($id);
-        $teacher->status = 2;
+        if($teacher ->status ==1){
+            $teacher->status = 0;
+        }else {
+            $teacher->status = 1;
+        }
         $teacher->save();
         return redirect()->route('search_user');
     }
