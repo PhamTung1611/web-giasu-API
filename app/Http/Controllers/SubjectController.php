@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SubjectRequest;
+use App\Mail\HTMLMail;
 use App\Models\ClassLevel;
 use App\Models\Connect;
 use App\Models\FeedBack;
 use App\Models\History;
+use App\Models\HistorySendMail;
 use App\Models\Job;
 use App\Models\RankSalary;
 use App\Models\Schools;
@@ -15,6 +17,7 @@ use App\Models\TimeSlot;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class SubjectController extends Controller
@@ -40,11 +43,21 @@ class SubjectController extends Controller
         // dd($teachers);
         return view('backend.subject.teacher', compact('title', 'subject', 'teachers'));
     }
-    public function deleteTeacher($id)
+    public function deleteTeacher(Request $request, $id)
     {
         $teacher = User::find($id);
+        $new_history_sendmail = new HistorySendMail;
         $teacher->status = 0;
         $teacher->save();
+        $htmlContent="<h3>Tài khoản của bạn đã bị vô hiệu hóa vì lý do:</h3> <br>
+            <span>$request->reason</span>";
+        Mail::to($teacher->email)->send(new HTMLMail($htmlContent));
+        $new_history_sendmail->id_user = $id;
+        $new_history_sendmail->email = $teacher->email;
+        $new_history_sendmail->type = '11';
+        $new_history_sendmail->content = "Tài khoản của bạn bị từ chối vì lý do $request->reason";
+        $new_history_sendmail->save();
+        // Session::flash('success', 'success');
         return redirect()->route('search_teacher');
     }
     public function deleteUser($id)
