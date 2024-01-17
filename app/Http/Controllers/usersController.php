@@ -968,14 +968,13 @@ class UsersController extends Controller
                 foreach ($newCertificate as $v) {
                     $currentCertificate[] = $v;
                 }
-
-
                 // Cập nhật trường Certificate_public với giá trị mới
                 $user->Certificate_public = json_encode($currentCertificate);
+               
             } else {
                 $user->Certificate_public = $request->Certificate_public;
+               
             }
-
             $user->update();
             return response()->json('success');
         }

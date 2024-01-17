@@ -1,7 +1,7 @@
 @extends('template.layout')
 @section('content')
     <div class="container emp-profile">
-        <form method="post">
+       
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img">
@@ -43,12 +43,20 @@
                 <div class="col-md-2">
                     
 
+
                 @if($data['status'] == 1)
-                    <a class="dropdown-item text-danger rounded-bottom"
-                            href="{{ route('delete.teacher', ['id' => $data['id']]) }}"
-                                    onclick="return confirm('Are you sure you want to deactivate?');">
-                                <span class="fas fa-trash-alt me-2"></span>Tắt kích hoạt
-                        </a>
+                <form id="rejformectForm" class="dropdown-item me-10" action="{{ route('delete.teacher', ['id' => $data['id']]) }}" method="get">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" name="reason" id="rejectReason" placeholder="Nhập lý do tắt kích hoạt">
+                                <div style="color: red">
+                                    @if(Session::has('error'))
+                                    {{Session::get('error')}}
+                                    @endif
+                                </div>
+                                <div id="rejectReasonError" class="text-danger"></div>
+                            </div>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to deactivate?');">Tắt kích hoạt</button>
+                        </form>
                     @else
                     <a class="dropdown-item text-sucess rounded-bottom"
                             href="{{ route('delete.teacher', ['id' => $data['id']]) }}"
@@ -306,6 +314,6 @@
                     </div>
                 </div>
             </div>
-        </form>
+        
     </div>
 @endsection
